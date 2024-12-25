@@ -4,12 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ontimize</groupId>
     <artifactId>ontimize-core-parent</artifactId>
-    <version>6.3.0-SNAPSHOT</version>
+    <version>labs7.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>ontimize-core-icon</module>
         <module>ontimize-core-common</module>
         <module>ontimize-core-client</module>
+        <module>ontimize-jee-hessian</module>
+        <module>ontimize-jee-desktopclient</module>
+        <module>ontimize-jee-desktopclient-oauth</module>
+        <module>ontimize-jee-server-hessian-api</module>
     </modules>
 
     <organization>
@@ -23,36 +27,8 @@
     </description>
     <url>https://www.ontimize.com</url>
 
-    <developers>
-        <developer>
-            <name>Enrique Álvarez Pereira</name>
-            <email>enrique.alvarez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Faustino Lage Rego</name>
-            <email>faustino.lage@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Pablo Martínez Kirsten</name>
-            <email>pablo.martinez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Xoán Loureiro Santamaría</name>
-            <email>xoan.loureiro@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-    </developers>
-
     <scm>
         <connection>scm:git:git://github.com/ontimize/ontimize-core-parent.git</connection>
-        <developerConnection>scm:git:ssh://github.com:ontimize/ontimize-core-parent.git</developerConnection>
         <url>https://github.com/ontimize/ontimize-core-parent/tree/master</url>
     </scm>
 
@@ -100,7 +76,9 @@
         <mesp.version>1.0.2</mesp.version>
         <core-renderer.version>R8</core-renderer.version>
         <docx4j.version>3.2.2</docx4j.version>
-        <commons-lang.version>2.4</commons-lang.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-text.version>1.10.0</commons-text.version>
         <jooreports.version>2.0.0</jooreports.version>
         <dynclass.version>0.0.1</dynclass.version>
         <morena.version>6.4.0.12</morena.version>
@@ -115,6 +93,13 @@
         <jcommon.version>1.0.15</jcommon.version>
         <redmine-java-api.version>3.0.0</redmine-java-api.version>
         <servlet-api.version>2.5</servlet-api.version>
+        <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <spring-security-kerberos.version>1.0.1.RELEASE</spring-security-kerberos.version>
+        <spring-security-ldap.version>5.5.1</spring-security-ldap.version>
+        <spring-security.version>5.5.1</spring-security.version>
+        <spring-session-data-redis.version>2.5.0</spring-session-data-redis.version>
+        <spring-session.version>1.3.5.RELEASE</spring-session.version>
+        <spring.version>5.3.18</spring.version>
         <!--=====================================-->
         <!--        Plugins version              -->
         <!--=====================================-->
@@ -158,24 +143,6 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
                 </plugin>
-
-                <!-- Imatia javaformat plugin -->
-                <!--                <plugin>-->
-                <!--                    <groupId>com.imatia.javaformat</groupId>-->
-                <!--                    <artifactId>imatia-javaformat-maven-plugin</artifactId>-->
-                <!--                    <version>${imatia-javaformat-plugin}</version>-->
-                <!--                    <executions>-->
-                <!--                        <execution>-->
-                <!--                            <id>imatia-javaformat</id>-->
-                <!--                            <phase>validate</phase>-->
-                <!--                            <inherited>true</inherited>-->
-                <!--                            <goals>-->
-                <!--                                <goal>validate</goal>-->
-                <!--                            </goals>-->
-                <!--                        </execution>-->
-                <!--                    </executions>-->
-                <!--                </plugin>-->
-
             </plugins>
 
         </pluginManagement>
@@ -188,8 +155,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>Cp1252</encoding>
                 </configuration>
             </plugin>
@@ -213,19 +180,48 @@
                 <artifactId>ontimize-core-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.ontimize</groupId>
                 <artifactId>ontimize-core-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.ontimize</groupId>
+                <artifactId>ontimize-jee-desktopclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize</groupId>
+                <artifactId>ontimize-jee-hessian</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize</groupId>
+                <artifactId>ontimize-jee-hessian-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize</groupId>
+                <artifactId>ontimize-jee-hessian-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-api.version}</version>
             </dependency>
 
+			<dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-web</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+		    
             <dependency>
                 <groupId>jfree</groupId>
                 <artifactId>jfreechart</artifactId>
@@ -258,7 +254,6 @@
                 <artifactId>commons-jexl</artifactId>
                 <version>${commons-jexl.version}</version>
                 <optional>true</optional>
-
             </dependency>
 
             <dependency>
@@ -346,12 +341,21 @@
                 <version>${docx4j.version}</version>
                 <optional>true</optional>
             </dependency>
-
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-                <optional>true</optional>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
             </dependency>
 
             <dependency>
