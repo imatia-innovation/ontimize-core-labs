@@ -1,7 +1,7 @@
 package com.ontimize.jee.desktopclient.locator.handlers;
 
+import com.ontimize.jee.common.ols.RemoteLOk;
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;
-import com.ontimize.ols.RemoteLOk;
 
 /**
  * The Class LicenseLocatorInvocationDelegate manages License stuffs related with RemoteLocator.

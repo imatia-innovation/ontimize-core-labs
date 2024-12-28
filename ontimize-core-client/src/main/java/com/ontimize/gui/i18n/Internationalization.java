@@ -1,8 +1,8 @@
 package com.ontimize.gui.i18n;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 public interface Internationalization {
 
@@ -22,6 +22,6 @@ public interface Internationalization {
      * Returns all the texts in the element suitable for being translated.
      * @return all the texts in the element suitable for being translated.
      */
-    public Vector getTextsToTranslate();
+    public List getTextsToTranslate();
 
 }

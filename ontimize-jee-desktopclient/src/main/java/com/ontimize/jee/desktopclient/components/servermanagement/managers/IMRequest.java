@@ -3,7 +3,7 @@ package com.ontimize.jee.desktopclient.components.servermanagement.managers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import com.ontimize.annotation.FormComponent;
@@ -61,7 +61,7 @@ public class IMRequest extends BasicInteractionManager {
                 public void actionPerformed(ActionEvent e) {
                     int selectedRow = IMRequest.this.tResults.getSelectedRow();
                     if (selectedRow != -1) {
-                        Hashtable selectedRowData = IMRequest.this.tResults.getSelectedRowData();
+                        Map selectedRowData = IMRequest.this.tResults.getSelectedRowData();
                         String serviceName = ((Vector<String>) selectedRowData.get("SERVICE_NAME")).get(0);
                         String methodName = ((Vector<String>) selectedRowData.get("METHOD_NAME")).get(0);
                         IMRequest.this.tDetails

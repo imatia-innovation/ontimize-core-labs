@@ -17,46 +17,46 @@ import com.ontimize.util.rule.RuleParser.Attributes;
  */
 public class Rules implements IRules {
 
-    protected List events;
+	protected List events;
 
-    public Rules() {
-        this.events = new Vector();
-    }
+	public Rules() {
+		this.events = new Vector();
+	}
 
-    public Rules(List events) {
-        this.setEvents(events);
-    }
+	public Rules(final List events) {
+		this.setEvents(events);
+	}
 
-    /**
-     * @param events the events to set
-     */
-    public void setEvents(List events) {
-        this.events = events;
-    }
+	/**
+	 * @param events the events to set
+	 */
+	public void setEvents(final List events) {
+		this.events = events;
+	}
 
-    /**
-     * @return the events
-     */
-    @Override
-    public List getEvents() {
-        return this.events;
-    }
+	/**
+	 * @return the events
+	 */
+	@Override
+	public List getEvents() {
+		return this.events;
+	}
 
-    @Override
-    public void addEvent(IEvent event) {
-        this.events.add(event);
-    }
+	@Override
+	public void addEvent(final IEvent event) {
+		this.events.add(event);
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Attributes.XML_HEADER);
-        sb.append(RuleParser.openTag(Attributes.RULES));
-        for (int i = 0; i < this.events.size(); i++) {
-            sb.append(this.events.get(i).toString());
-        }
-        sb.append(RuleParser.closeTag(Attributes.RULES));
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(Attributes.XML_HEADER);
+		sb.append(RuleParser.openTag(Attributes.RULES));
+		for (int i = 0; i < this.events.size(); i++) {
+			sb.append(this.events.get(i).toString());
+		}
+		sb.append(RuleParser.closeTag(Attributes.RULES));
+		return sb.toString();
+	}
 
 }

@@ -37,29 +37,29 @@ import com.caucho.hessian.io.AbstractHessianInput;
  */
 public class EnumerationDeserializer extends AbstractListDeserializer {
 
-    private static EnumerationDeserializer deserializer;
+	private static EnumerationDeserializer deserializer;
 
-    public static EnumerationDeserializer create() {
-        if (EnumerationDeserializer.deserializer == null) {
-            EnumerationDeserializer.deserializer = new EnumerationDeserializer();
-        }
+	public static EnumerationDeserializer create() {
+		if (EnumerationDeserializer.deserializer == null) {
+			EnumerationDeserializer.deserializer = new EnumerationDeserializer();
+		}
 
-        return EnumerationDeserializer.deserializer;
-    }
+		return EnumerationDeserializer.deserializer;
+	}
 
-    @Override
-    public Object readList(AbstractHessianInput in, int length) throws IOException {
-        Vector<Object> list = new Vector<>();
+	@Override
+	public Object readList(final AbstractHessianInput in, final int length) throws IOException {
+		final Vector<Object> list = new Vector<>();
 
-        in.addRef(list);
+		in.addRef(list);
 
-        while (!in.isEnd()) {
-            list.add(in.readObject());
-        }
+		while (!in.isEnd()) {
+			list.add(in.readObject());
+		}
 
-        in.readEnd();
+		in.readEnd();
 
-        return list.elements();
-    }
+		return list.elements();
+	}
 
 }

@@ -9,7 +9,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
@@ -121,7 +121,7 @@ public class ColumnSelectionListener extends MouseAdapter {
                         }
                         if (obj instanceof SelectableMultipleItem) {
 
-                            Vector v = ((SelectableMultipleItem) this.reportDialog.getGroupList()
+                            List v = ((SelectableMultipleItem) this.reportDialog.getGroupList()
                                 .getModel()
                                 .getElementAt(i)).getItemList();
                             boolean bSome = false;

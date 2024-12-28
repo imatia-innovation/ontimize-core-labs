@@ -1,7 +1,5 @@
 package com.ontimize.jee.desktopclient.test;
 
-import com.ontimize.jee.common.test.AbstractOntimizeTest;
-
 public abstract class AbstractIdentifiedOntimizeTest extends AbstractOntimizeTest {
 
     @Override

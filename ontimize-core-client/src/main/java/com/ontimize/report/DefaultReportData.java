@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import com.ontimize.gui.ApplicationManager;
-import com.ontimize.report.store.ReportStore;
+import com.ontimize.jee.common.report.store.ReportStore;
 
 public abstract class DefaultReportData implements ReportData {
 

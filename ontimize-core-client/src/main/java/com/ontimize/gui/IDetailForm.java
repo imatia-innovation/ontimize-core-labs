@@ -1,49 +1,49 @@
 package com.ontimize.gui;
 
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import com.ontimize.gui.i18n.Internationalization;
 import com.ontimize.gui.table.Table;
 
 public interface IDetailForm extends Internationalization, Freeable {
 
-    public Form getForm();
+	public Form getForm();
 
-    public void showDetailForm();
+	public void showDetailForm();
 
-    public void hideDetailForm();
+	public void hideDetailForm();
 
-    public Table getTable();
+	public Table getTable();
 
-    public void setQueryInsertMode();
+	public void setQueryInsertMode();
 
-    public void setQueryMode();
+	public void setQueryMode();
 
-    public void setInsertMode();
+	public void setInsertMode();
 
-    public void setAttributeToFix(Object attribute, Object value);
+	public void setAttributeToFix(Object attribute, Object value);
 
-    public void resetParentkeys(List parentKeys);
+	public void resetParentkeys(List parentKeys);
 
-    public void setParentKeyValues(Hashtable parentKeyValues);
+	public void setParentKeyValues(Map parentKeyValues);
 
-    /**
-     * This method sets the keys in the table records.<br>
-     * This keys are used to query the record values
-     * @param tableKeys
-     * @param index
-     */
-    public void setKeys(Hashtable tableKeys, int index);
+	/**
+	 * This method sets the keys in the table records.<br>
+	 * This keys are used to query the record values
+	 * @param tableKeys
+	 * @param index
+	 */
+	public void setKeys(Map tableKeys, int index);
 
-    public void setUpdateMode();
+	public void setUpdateMode();
 
-    public String getTableFieldName(Object name);
+	public String getTableFieldName(Object name);
 
-    public String getFormFieldName(Object name);
+	public String getFormFieldName(Object name);
 
-    public Hashtable valuesToTable(Hashtable values);
+	public Map valuesToTable(Map values);
 
-    public Hashtable valuesToForm(Hashtable values);
+	public Map valuesToForm(Map values);
 
 }

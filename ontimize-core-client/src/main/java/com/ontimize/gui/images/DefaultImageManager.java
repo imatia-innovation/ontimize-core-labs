@@ -17,9 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.ApplicationManager;
-import com.ontimize.locator.EntityReferenceLocator;
-import com.ontimize.util.remote.BytesBlock;
-import com.ontimize.xml.XMLClientProvider;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.util.remote.BytesBlock;
+import com.ontimize.jee.common.xml.XMLClientProvider;
 
 public class DefaultImageManager implements IImageManager {
 

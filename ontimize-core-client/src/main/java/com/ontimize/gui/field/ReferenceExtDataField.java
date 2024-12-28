@@ -12,7 +12,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -29,11 +28,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -80,11 +81,8 @@ import com.ontimize.builder.FormBuilder;
 import com.ontimize.cache.CacheManager;
 import com.ontimize.cache.CacheManager.DataCacheId;
 import com.ontimize.cache.CachedComponent;
-import com.ontimize.db.EntityResult;
-import com.ontimize.db.NullValue;
+import com.ontimize.db.EntityResultUtils;
 import com.ontimize.gui.ApplicationManager;
-import com.ontimize.gui.BorderManager;
-import com.ontimize.gui.ConnectionManager;
 import com.ontimize.gui.CreateForms;
 import com.ontimize.gui.DataRecordEvent;
 import com.ontimize.gui.DataRecordListener;
@@ -92,7 +90,6 @@ import com.ontimize.gui.Form;
 import com.ontimize.gui.Freeable;
 import com.ontimize.gui.FreeableUtils;
 import com.ontimize.gui.OpenDialog;
-import com.ontimize.gui.SearchValue;
 import com.ontimize.gui.ValueChangeListener;
 import com.ontimize.gui.ValueEvent;
 import com.ontimize.gui.container.EJDialog;
@@ -103,10 +100,17 @@ import com.ontimize.gui.images.ImageManager;
 import com.ontimize.gui.preferences.ApplicationPreferences;
 import com.ontimize.gui.table.Table;
 import com.ontimize.gui.table.Table.QuickFieldText;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.db.NullValue;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.gui.ConnectionManager;
+import com.ontimize.jee.common.gui.SearchValue;
+import com.ontimize.jee.common.gui.field.ReferenceFieldAttribute;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.tools.Pair;
+import com.ontimize.jee.common.util.ParseTools;
 import com.ontimize.util.FormatPattern;
-import com.ontimize.util.Pair;
-import com.ontimize.util.ParseTools;
+import com.ontimize.util.ObjectTools;
 import com.ontimize.util.ParseUtils;
 import com.ontimize.util.swing.RotatedLabel;
 import com.ontimize.util.templates.ITemplateField;
@@ -120,7 +124,7 @@ import com.ontimize.xml.DefaultXMLParametersManager;
  */
 
 public class ReferenceExtDataField extends TextFieldDataField implements OpenDialog, Internationalization, Freeable,
-		CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateField {
+CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateField {
 
 	private static final Logger logger = LoggerFactory.getLogger(ReferenceExtDataField.class);
 
@@ -316,10 +320,10 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected String parentkeyListenerEvent = ReferenceExtDataField.defaultParentkeyListenerEvent;
 
 	/**
-	 * The vector with attributes to update when data field value changed. By
+	 * The List with attributes to update when data field value changed. By
 	 * default, null.
 	 */
-	protected Vector onsetvaluesetAttributes = null;
+	protected List onsetvaluesetAttributes = null;
 
 	/**
 	 * Indicates if fields contained into 'onsetvalueset' have to be deleted on null
@@ -354,7 +358,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * entity) when structure of parameter <code>parentkeys</code> is:
 	 * "fieldpk1:fieldentitypk1;fieldpk2:fieldentitypk2;...fieldpkn:fieldentitypkn"
 	 */
-	protected Hashtable hParentkeyEquivalences = new Hashtable();
+	protected Map hParentkeyEquivalences = new Hashtable();
 
 	/**
 	 * This object is used to store onsetvalueset attributes and equivalences (for
@@ -362,7 +366,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * <code>onsetvalueset</code> is:
 	 * "fieldonset1:fieldentitypk1;fieldonset2:fieldentitypk2;...fieldonsetn:fieldentitypkn"
 	 */
-	protected Hashtable hOnSetValueSetEquivalences = new Hashtable();
+	protected Map hOnSetValueSetEquivalences = new Hashtable();
 
 	/**
 	 * This object provides a EJTextField with 4 columns.
@@ -372,16 +376,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		/**
 		 * Sets the text and checks whether codeField is a mask.
 		 * <p>
-		 * 
+		 *
 		 * @param text the text to set.
 		 */
 		@Override
-		public void setText(String text) {
-			Document d = this.getDocument();
+		public void setText(final String text) {
+			final Document d = this.getDocument();
 			if (d instanceof MaskDocument) {
 				try {
 					((MaskDocument) d).setValue(text, true);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 					super.setText(text);
 				}
@@ -394,8 +398,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		public String getName() {
 			return ReferenceExtDataField.REFERENCEEXT_CODE_NAME;
 		};
-		
-		
+
+
 	};
 
 	/**
@@ -457,17 +461,17 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * The others parent keys in a 1x3 Vector.
 	 */
-	protected Vector othersParentKey = new Vector(1, 3);
+	protected List othersParentKey = new Vector(1, 3);
 
 	/**
 	 * The parent keys vector.
 	 */
-	protected Vector parentkeyList = null;
+	protected List parentkeyList = null;
 
 	/**
 	 * The description columns vector. By default, null.
 	 */
-	protected Vector descriptionColumns = null;
+	protected List descriptionColumns = null;
 
 	protected List<String> queryColumns = null;
 
@@ -494,7 +498,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * A <code>Hashtable</code> used as a data cache.
 	 */
-	protected Hashtable dataCache = new Hashtable();
+	protected Map dataCache = new Hashtable();
 
 	protected boolean parentkeyCache = CacheManager.defaultParentKeyCache;
 
@@ -571,7 +575,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Checks the existence of text in codeField.
 	 * <p>
-	 * 
+	 *
 	 * @return true when codeField is empty
 	 */
 	@Override
@@ -653,8 +657,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		 */
 		protected EntityResult currentEntityResult = null;
 
-		public MultipleResultWindow(Table t, final ReferenceDataComponent referenceDataComponent,
-				ResourceBundle resources) {
+		public MultipleResultWindow(final Table t, final ReferenceDataComponent referenceDataComponent,
+				final ResourceBundle resources) {
 			this.multipleResultTable = t;
 			if ((referenceDataComponent.getCodeField() != null) && referenceDataComponent.isCodeFieldVisible()
 					&& (referenceDataComponent.getCodeSearchFieldName() != null)
@@ -672,12 +676,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.queryButton.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(final ActionEvent e) {
 						Object v = MultipleResultWindow.this.auxCodeField.getText();
 						if ((v == null) || v.equals("")) {
 							v = new SearchValue(SearchValue.NULL, null);
 						}
-						EntityResult res = referenceDataComponent
+						final EntityResult res = referenceDataComponent
 								.queryBy(referenceDataComponent.getCodeSearchFieldName(), v);
 						if (res.getCode() == EntityResult.OPERATION_WRONG) {
 							referenceDataComponent.getParentForm().message(MultipleResultWindow.this.dSelec,
@@ -690,7 +694,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.auxCodeField.addKeyListener(new KeyAdapter() {
 
 					@Override
-					public void keyReleased(KeyEvent e) {
+					public void keyReleased(final KeyEvent e) {
 						if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 							if ((MultipleResultWindow.this.queryButton != null)
 									&& MultipleResultWindow.this.queryButton.isEnabled()) {
@@ -703,28 +707,28 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			// t.setControlsVisible(false);
 			this.multipleResultTable.getJTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			this.multipleResultTable.getJTable().getSelectionModel()
-					.addListSelectionListener(new ListSelectionListener() {
+			.addListSelectionListener(new ListSelectionListener() {
 
-						@Override
-						public void valueChanged(ListSelectionEvent e) {
-							if (!e.getValueIsAdjusting()) {
-								if (MultipleResultWindow.this.multipleResultTable.getJTable()
-										.getSelectedRowCount() > 0) {
-									if (MultipleResultWindow.this.okButton != null) {
-										MultipleResultWindow.this.okButton.setEnabled(true);
-									}
-								} else {
-									if (MultipleResultWindow.this.okButton != null) {
-										MultipleResultWindow.this.okButton.setEnabled(false);
-									}
-								}
+				@Override
+				public void valueChanged(final ListSelectionEvent e) {
+					if (!e.getValueIsAdjusting()) {
+						if (MultipleResultWindow.this.multipleResultTable.getJTable()
+								.getSelectedRowCount() > 0) {
+							if (MultipleResultWindow.this.okButton != null) {
+								MultipleResultWindow.this.okButton.setEnabled(true);
+							}
+						} else {
+							if (MultipleResultWindow.this.okButton != null) {
+								MultipleResultWindow.this.okButton.setEnabled(false);
 							}
 						}
-					});
+					}
+				}
+			});
 			this.multipleResultTable.getJTable().addMouseListener(new MouseAdapter() {
 
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseClicked(final MouseEvent e) {
 					if (e.getClickCount() == 2) {
 						e.consume();
 						if (MultipleResultWindow.this.multipleResultTable.getSelectedRow() >= 0) {
@@ -737,15 +741,15 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.multipleResultTable.getJTable().addKeyListener(new KeyAdapter() {
 
 				@Override
-				public void keyTyped(KeyEvent e) {
+				public void keyTyped(final KeyEvent e) {
 				}
 
 				@Override
-				public void keyPressed(KeyEvent e) {
+				public void keyPressed(final KeyEvent e) {
 				}
 
 				@Override
-				public void keyReleased(KeyEvent e) {
+				public void keyReleased(final KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						if ((MultipleResultWindow.this.okButton != null)
 								&& MultipleResultWindow.this.okButton.isEnabled()) {
@@ -756,25 +760,25 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			});
 		}
 
-		public String getResultDialogSizePreferenceKey(ReferenceDataComponent datafield) {
-			Form f = datafield.getParentForm();
+		public String getResultDialogSizePreferenceKey(final ReferenceDataComponent datafield) {
+			final Form f = datafield.getParentForm();
 			return f != null
 					? ReferenceExtDataField.RESULTS_DIALOG_SIZE_POSITION + "_" + f.getArchiveName() + "_"
-							+ datafield.getAttribute()
+					+ datafield.getAttribute()
 					: ReferenceExtDataField.RESULTS_DIALOG_SIZE_POSITION + "_" + datafield.getAttribute();
 		}
 
 		/**
 		 * Shows the window with result selection.
 		 * <p>
-		 * 
+		 *
 		 * @param res the result to show
 		 * @return the codSelectionValue
 		 */
 		protected Object showResultSelectionWindow(final EntityResult res,
-				final ReferenceDataComponent referenceDataField, ResourceBundle resources) {
+				final ReferenceDataComponent referenceDataField, final ResourceBundle resources) {
 			if (this.dSelec == null) {
-				Window w = SwingUtilities.getWindowAncestor(referenceDataField.getCodeField());
+				final Window w = SwingUtilities.getWindowAncestor(referenceDataField.getCodeField());
 				if (w instanceof Dialog) {
 					this.dSelec = new EJDialog((Dialog) w, "datafield.multiple_result", true);
 				} else {
@@ -782,11 +786,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 
 				this.dSelec.setSizePositionPreference(this.getResultDialogSizePreferenceKey(referenceDataField));
-				JPanel jpButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+				final JPanel jpButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 				jpButtonsPanel.add(this.okButton);
 				jpButtonsPanel.add(this.cancelBt);
 				this.dSelec.getContentPane().add(jpButtonsPanel, BorderLayout.SOUTH);
-				JPanel jpNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+				final JPanel jpNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 				jpNorthPanel.add(this.lInfo);
 				this.dSelec.getContentPane().add(jpNorthPanel, BorderLayout.NORTH);
 				if (this.codeFieldPanel != null) {
@@ -801,8 +805,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.okButton.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						int selec = MultipleResultWindow.this.multipleResultTable.getJTable().getSelectedRow();
+					public void actionPerformed(final ActionEvent e) {
+						final int selec = MultipleResultWindow.this.multipleResultTable.getJTable().getSelectedRow();
 						if (selec >= 0) {
 							MultipleResultWindow.this.codSelectionValue = MultipleResultWindow.this.multipleResultTable
 									.getRowData(selec).get(referenceDataField.getCodeFieldName());
@@ -813,7 +817,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.cancelBt.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(final ActionEvent e) {
 						MultipleResultWindow.this.codSelectionValue = null;
 						MultipleResultWindow.this.dSelec.setVisible(false);
 					}
@@ -827,11 +831,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			if (this.auxCodeField != null) {
 				this.auxCodeField.setText(referenceDataField.getCodeField().getText());
 			}
-			Object oValue = referenceDataField.getValue();
+			final Object oValue = referenceDataField.getValue();
 			if (oValue != null) {
-				Hashtable hKeysValues = new Hashtable();
+				final Map hKeysValues = new Hashtable();
 				hKeysValues.put(referenceDataField.getCodeFieldName(), oValue);
-				int row = this.multipleResultTable.getRowForKeys(hKeysValues);
+				final int row = this.multipleResultTable.getRowForKeys(hKeysValues);
 				if (row >= 0) {
 					this.multipleResultTable.setSelectedRow(row);
 				}
@@ -883,12 +887,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		 */
 		protected JPanel codeFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		public TableWindow(Frame f) {
+		public TableWindow(final Frame f) {
 			super(f, true);
 			this.init();
 		}
 
-		public TableWindow(Dialog d) {
+		public TableWindow(final Dialog d) {
 			super(d, true);
 			this.init();
 		}
@@ -906,7 +910,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				} else if (ReferenceExtDataField.this.windowTitle != null) {
 					this.setTitle(ReferenceExtDataField.this.windowTitle);
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (ReferenceExtDataField.this.windowTitle != null) {
 					this.setTitle(ReferenceExtDataField.this.windowTitle);
 				}
@@ -932,12 +936,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.queryBt.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(final ActionEvent e) {
 						Object v = TableWindow.this.auxCodeField.getText();
 						if ((v == null) || v.equals("")) {
 							v = new SearchValue(SearchValue.NULL, null);
 						}
-						EntityResult res = ReferenceExtDataField.this.queryBy(ReferenceExtDataField.this.codeQueryField,
+						final EntityResult res = ReferenceExtDataField.this.queryBy(ReferenceExtDataField.this.codeQueryField,
 								v);
 						if (res.getCode() == EntityResult.OPERATION_WRONG) {
 							ReferenceExtDataField.this.parentForm.message(TableWindow.this, res.getMessage(),
@@ -950,7 +954,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.auxCodeField.addKeyListener(new KeyAdapter() {
 
 					@Override
-					public void keyReleased(KeyEvent e) {
+					public void keyReleased(final KeyEvent e) {
 						if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 							if ((TableWindow.this.queryBt != null) && TableWindow.this.queryBt.isEnabled()) {
 								TableWindow.this.queryBt.doClick(10);
@@ -960,7 +964,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				});
 			}
 
-			JPanel jpSouthPanel = new JPanel();
+			final JPanel jpSouthPanel = new JPanel();
 			ReferenceExtDataField.this.okButton = new FieldButton("datafield.select") {
 
 				@Override
@@ -969,7 +973,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				};
 			};
 			ReferenceExtDataField.this.okButton.setEnabled(false);
-			ImageIcon okIcon = ImageManager.getIcon(ImageManager.OK);
+			final ImageIcon okIcon = ImageManager.getIcon(ImageManager.OK);
 			if (okIcon != null) {
 				ReferenceExtDataField.this.okButton.setIcon(okIcon);
 			}
@@ -983,7 +987,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					};
 				};
 
-				ImageIcon refreshIcon = ImageManager.getIcon(ImageManager.REFRESH);
+				final ImageIcon refreshIcon = ImageManager.getIcon(ImageManager.REFRESH);
 				if (refreshIcon != null) {
 					ReferenceExtDataField.this.refreshCacheButton.setIcon(refreshIcon);
 				}
@@ -1000,7 +1004,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 			if (ReferenceExtDataField.this.refreshCacheButton != null) {
 				ReferenceExtDataField.this.refreshCacheButton
-						.setText(ApplicationManager.getTranslation("update", ReferenceExtDataField.this.resources));
+				.setText(ApplicationManager.getTranslation("update", ReferenceExtDataField.this.resources));
 			}
 
 			this.getContentPane().add(jpSouthPanel, BorderLayout.SOUTH);
@@ -1009,14 +1013,14 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				ReferenceExtDataField.this.refreshCacheButton.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(final ActionEvent e) {
 						ReferenceExtDataField.this.invalidateCache();
 						ReferenceExtDataField.this.t.setValue(ReferenceExtDataField.this.dataCache);
-						Object oValue = ReferenceExtDataField.this.getValue();
+						final Object oValue = ReferenceExtDataField.this.getValue();
 						if (oValue != null) {
-							Hashtable hKeysValues = new Hashtable();
+							final Map hKeysValues = new Hashtable();
 							hKeysValues.put(ReferenceExtDataField.this.code, oValue);
-							int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
+							final int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
 							if (row >= 0) {
 								ReferenceExtDataField.this.t.setSelectedRow(row);
 							}
@@ -1028,39 +1032,39 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			ReferenceExtDataField.this.okButton.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					if (ReferenceExtDataField.this.t.getSelectedRow() >= 0) {
 						if (ReferenceExtDataField.this.cacheTime > 0) {
-							Hashtable hFieldValue = ReferenceExtDataField.this.t
+							final Map hFieldValue = ReferenceExtDataField.this.t
 									.getRowData(ReferenceExtDataField.this.t.getSelectedRow());
-							Object cod = hFieldValue.get(ReferenceExtDataField.this.code);
+							final Object cod = hFieldValue.get(ReferenceExtDataField.this.code);
 							ReferenceExtDataField.this.setCode(cod, ValueEvent.USER_CHANGE);
 							ReferenceExtDataField.this.tableWindow.setVisible(false);
 						} else {// There is not cache
-							Hashtable hFieldValue = ReferenceExtDataField.this.t
+							final Map hFieldValue = ReferenceExtDataField.this.t
 									.getRowData(ReferenceExtDataField.this.t.getSelectedRow());
 							// Data format must be an EntityResult
 							ReferenceExtDataField.this.disabledValueEvents = true;
-							Object oPreviusSavedValue = ReferenceExtDataField.this.getValue();
+							final Object oPreviusSavedValue = ReferenceExtDataField.this.getValue();
 							try {
-								Hashtable hValuesVector = new Hashtable();
-								Enumeration enumKeys = hFieldValue.keys();
+								final Map hValuesList = new Hashtable();
+								final Enumeration enumKeys = Collections.enumeration(hFieldValue.keySet());
 								while (enumKeys.hasMoreElements()) {
-									Object oKey = enumKeys.nextElement();
-									Vector v = new Vector();
+									final Object oKey = enumKeys.nextElement();
+									final List v = new Vector();
 									v.add(hFieldValue.get(oKey));
-									hValuesVector.put(oKey, v);
+									hValuesList.put(oKey, v);
 								}
-								Vector vAttributes = ReferenceExtDataField.this.getAttributes();
+								final List vAttributes = ReferenceExtDataField.this.getAttributes();
 								for (int i = 0; i < vAttributes.size(); i++) {
-									if (!hValuesVector.containsKey(vAttributes.get(i))) {
-										Vector v = new Vector();
+									if (!hValuesList.containsKey(vAttributes.get(i))) {
+										final List v = new Vector();
 										v.add(null);
-										hValuesVector.put(vAttributes.get(i), v);
+										hValuesList.put(vAttributes.get(i), v);
 									}
 								}
-								ReferenceExtDataField.this.setValue(hValuesVector);
-							} catch (Exception ex) {
+								ReferenceExtDataField.this.setValue(hValuesList);
+							} catch (final Exception ex) {
 								ReferenceExtDataField.logger.trace(null, ex);
 							}
 							ReferenceExtDataField.this.valueSave = oPreviusSavedValue;
@@ -1073,7 +1077,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 			});
 			ReferenceExtDataField.this.t.packTable();
-			Object oValue = ReferenceExtDataField.this.getValue();
+			final Object oValue = ReferenceExtDataField.this.getValue();
 			ReferenceExtDataField.this.t.setSelectedRow(-1);
 
 			this.pack();
@@ -1083,9 +1087,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 40, this.getHeight());
 			}
 			if (oValue != null) {
-				Hashtable kv = new Hashtable();
+				final Map kv = new Hashtable();
 				kv.put(ReferenceExtDataField.this.code, oValue);
-				int row = ReferenceExtDataField.this.t.getRowForKeys(kv);
+				final int row = ReferenceExtDataField.this.t.getRowForKeys(kv);
 				if (row >= 0) {
 					ReferenceExtDataField.this.t.setSelectedRow(row);
 				}
@@ -1120,15 +1124,15 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected ActionListener queryListener = new ActionListener() {
 
 		@Override
-		public void actionPerformed(ActionEvent event) {
+		public void actionPerformed(final ActionEvent event) {
 			// Executes a query
-			Cursor cursor = ReferenceExtDataField.this.getCursor();
+			final Cursor cursor = ReferenceExtDataField.this.getCursor();
 			try {
 				ReferenceExtDataField.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				ReferenceExtDataField.this.populateTable();
 
 				if (ReferenceExtDataField.this.tableWindow == null) {
-					Window win = SwingUtilities.getWindowAncestor(ReferenceExtDataField.this);
+					final Window win = SwingUtilities.getWindowAncestor(ReferenceExtDataField.this);
 					if (win instanceof Frame) {
 						ReferenceExtDataField.this.tableWindow = new TableWindow((Frame) win);
 					} else if (win instanceof Dialog) {
@@ -1165,11 +1169,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 								ApplicationManager.getTranslation("update", ReferenceExtDataField.this.resources));
 					}
 					ReferenceExtDataField.this.t.setSelectedRow(-1);
-					Object oValue = ReferenceExtDataField.this.getValue();
+					final Object oValue = ReferenceExtDataField.this.getValue();
 					if (oValue != null) {
-						Hashtable hKeysValues = new Hashtable();
+						final Map hKeysValues = new Hashtable();
 						hKeysValues.put(ReferenceExtDataField.this.code, oValue);
-						int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
+						final int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
 						if (row >= 0) {
 							ReferenceExtDataField.this.t.setSelectedRow(row);
 						}
@@ -1189,7 +1193,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 					ReferenceExtDataField.this.tableWindow.setVisible(true);
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ReferenceExtDataField.logger.error("Error in query. Results can not be shown", e);
 				ReferenceExtDataField.this.parentForm.message("interactionmanager.error_in_query", Form.ERROR_MESSAGE,
 						e);
@@ -1202,7 +1206,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected class OpenDetailMouseListener extends MouseAdapter {
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
+		public void mouseEntered(final MouseEvent e) {
 			if (ReferenceExtDataField.this.isEnabled() && (ReferenceExtDataField.this.t != null)
 					&& (ReferenceExtDataField.this.t.getFormName() != null)) {
 				ReferenceExtDataField.this.dataField.setCursor(ApplicationManager.getDetailsCursor());
@@ -1210,12 +1214,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
+		public void mouseExited(final MouseEvent e) {
 			ReferenceExtDataField.this.dataField.setCursor(Cursor.getDefaultCursor());
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(final MouseEvent e) {
 			if (ReferenceExtDataField.this.isEnabled() && (e.getClickCount() == 2)) {
 				e.consume();
 				if (ReferenceExtDataField.this.isEmpty() || (ReferenceExtDataField.this.t.getFormName() == null)) {
@@ -1228,9 +1232,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 								enabledFiltering = ReferenceExtDataField.this.t.isFilteringEnabled();
 								ReferenceExtDataField.this.populateTable();
 								ReferenceExtDataField.this.t.enableFiltering(false);
-								Hashtable hKeysValues = new Hashtable();
+								final Map hKeysValues = new Hashtable();
 								hKeysValues.put(ReferenceExtDataField.this.code, ReferenceExtDataField.this.getValue());
-								int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
+								final int row = ReferenceExtDataField.this.t.getRowForKeys(hKeysValues);
 								if (row >= 0) {
 									ReferenceExtDataField.this.createDataRecordListener();
 									ReferenceExtDataField.this.t.openDetailForm(row);
@@ -1238,7 +1242,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 									ReferenceExtDataField.this.parentForm.message(
 											ReferenceExtDataField.RECORD_NOT_FOUND_ERROR_MESSAGE, Form.ERROR_MESSAGE);
 								}
-							} catch (Exception ex) {
+							} catch (final Exception ex) {
 								ReferenceExtDataField.logger.trace(null, ex);
 								ReferenceExtDataField.this.parentForm.message(ex.getMessage(), Form.ERROR_MESSAGE, ex);
 							} finally {
@@ -1265,7 +1269,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		protected boolean enabled = true;
 
 		@Override
-		public void insertUpdate(DocumentEvent e) {
+		public void insertUpdate(final DocumentEvent e) {
 			if (!this.enabled) {
 				return;
 			}
@@ -1273,7 +1277,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void removeUpdate(DocumentEvent e) {
+		public void removeUpdate(final DocumentEvent e) {
 			if (!this.enabled) {
 				return;
 			}
@@ -1281,7 +1285,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void changedUpdate(DocumentEvent e) {
+		public void changedUpdate(final DocumentEvent e) {
 			if (!this.enabled) {
 				return;
 			}
@@ -1289,7 +1293,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void focusLost(FocusEvent event) {
+		public void focusLost(final FocusEvent event) {
 			if (!event.isTemporary()) {
 				if (this.codeChange) {
 					this.codeChange = false;
@@ -1299,7 +1303,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void keyReleased(final KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				this.codeChange = false;
 				e.consume();
@@ -1308,11 +1312,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
+		public void keyPressed(final KeyEvent e) {
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(final KeyEvent e) {
 		}
 
 		/**
@@ -1324,11 +1328,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				// Code field is empty. There are 2 possibilities, previous
 				// value
 				// was empty too or not
-				Object currentValue = ReferenceExtDataField.this.getValue();
+				final Object currentValue = ReferenceExtDataField.this.getValue();
 				if (!ReferenceExtDataField.this.isInnerValueEqual(currentValue)) {
 					try {
 						ReferenceExtDataField.this.setInnerListenerEnabled(false);
-						Object oldValue = ReferenceExtDataField.this.getInnerValue();
+						final Object oldValue = ReferenceExtDataField.this.getInnerValue();
 						((JTextField) ReferenceExtDataField.this.dataField).setText("");
 						ReferenceExtDataField.this.setInnerValue(currentValue);
 						ReferenceExtDataField.this.fireValueChanged(currentValue, oldValue, ValueEvent.USER_CHANGE);
@@ -1342,7 +1346,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				if ((oCodeValue == null) || oCodeValue.equals("")) {
 					oCodeValue = new SearchValue(SearchValue.NULL, null);
 				}
-				EntityResult res = ReferenceExtDataField.this.queryBy(ReferenceExtDataField.this.codeQueryField,
+				final EntityResult res = ReferenceExtDataField.this.queryBy(ReferenceExtDataField.this.codeQueryField,
 						oCodeValue);
 				if (res.getCode() == EntityResult.OPERATION_WRONG) {
 					ReferenceExtDataField.this.parentForm.message(res.getMessage(), Form.ERROR_MESSAGE);
@@ -1354,11 +1358,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 							ReferenceExtDataField.this.deleteUserData(false);
 						}
 					} else if (res.calculateRecordNumber() == 1) {
-						Hashtable hData = res.getRecordValues(0);
-						Object oResultCodeValue = hData.get(ReferenceExtDataField.this.code);
+						final Map hData = res.getRecordValues(0);
+						final Object oResultCodeValue = hData.get(ReferenceExtDataField.this.code);
 						if (oResultCodeValue == null) {
 							ReferenceExtDataField.logger
-									.debug("Query result has not data for the specified code value " + hData);
+							.debug("Query result has not data for the specified code value " + hData);
 							if (ReferenceExtDataField.this.noresultclearcode) {
 								ReferenceExtDataField.this.deleteData();
 							} else {
@@ -1372,7 +1376,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 						if (ReferenceExtDataField.this.isClearDetailTableQuickFilterWhenShow()) {
 							ReferenceExtDataField.this.clearQuickFilter();
 						}
-						Object o = ReferenceExtDataField.this.multipleResultWindow.showResultSelectionWindow(res,
+						final Object o = ReferenceExtDataField.this.multipleResultWindow.showResultSelectionWindow(res,
 								ReferenceExtDataField.this, ReferenceExtDataField.this.resources);
 						if (o != null) {
 							ReferenceExtDataField.this.setCode(o, ValueEvent.USER_CHANGE);
@@ -1391,7 +1395,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.codeChange = false;
 		}
 
-		public void setEnabled(boolean en) {
+		public void setEnabled(final boolean en) {
 			this.enabled = en;
 		}
 
@@ -1411,7 +1415,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 */
 	protected FormatPattern formatPattern = null;
 
-	public ReferenceExtDataField(Hashtable parameters) throws Exception {
+	public ReferenceExtDataField(final Map parameters) throws Exception {
 		this.init(parameters);
 		// Checks parentkeys
 		if ((!this.parentkeyCache) && (this.getParentKeys() != null) && !this.getParentKeys().isEmpty()) {
@@ -1448,11 +1452,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 	}
 
-	protected void updateOnSetValueSetAttributes(Hashtable data) {
+	protected void updateOnSetValueSetAttributes(final Map data) {
 		if ((this.parentForm != null) && (data != null)) {
 			for (int i = 0; i < this.onsetvaluesetAttributes.size(); i++) {
-				Object at = this.onsetvaluesetAttributes.get(i);
-				Object oValue = data.get(this.hOnSetValueSetEquivalences.get(at));
+				final Object at = this.onsetvaluesetAttributes.get(i);
+				final Object oValue = data.get(this.hOnSetValueSetEquivalences.get(at));
 				this.parentForm.setDataFieldValue(at, oValue);
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(" Setting field value: " + at + " -> " + oValue);
@@ -1467,18 +1471,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.t.getDetailForm().getForm().addDataRecordListener(new DataRecordListener() {
 
 					@Override
-					public void dataRecordChanged(DataRecordEvent e) {
+					public void dataRecordChanged(final DataRecordEvent e) {
 						if (e.getType() == DataRecordEvent.UPDATE) {
 							// When the detail form values are updated then it
 							// is
 							// necessary update the cache too
 							if ((ReferenceExtDataField.this.onsetvaluesetAttributes != null)
 									&& (ReferenceExtDataField.this.onsetvaluesetAttributes.size() > 0)) {
-								Hashtable updateAttributes = e.getAttributesValues();
-								Hashtable updateKeys = e.getKeysValues();
+								final Map updateAttributes = e.getAttributesValues();
+								final Map updateKeys = e.getKeysValues();
 								ReferenceExtDataField.this.updateDataCache(updateAttributes, updateKeys);
 								if (ReferenceExtDataField.this.existFieldsToUpdate(updateAttributes, updateKeys)) {
-									Hashtable data = ReferenceExtDataField.this
+									final Map data = ReferenceExtDataField.this
 											.getCodeValues(ReferenceExtDataField.this.getValue());
 									ReferenceExtDataField.this.updateOnSetValueSetAttributes(data);
 								}
@@ -1491,7 +1495,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 	}
 
-	protected boolean existFieldsToUpdate(Hashtable changes, Hashtable keys) {
+	protected boolean existFieldsToUpdate(final Map changes, final Map keys) {
 		// Field in 'onsetvalueset' attribute only must be updated if the update
 		// record is the selected one
 		// One of the modified fields must be one of the 'onsetvalueset' fields
@@ -1500,9 +1504,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			attr = ((ReferenceFieldAttribute) this.getAttribute()).getAttr();
 		}
 		if (keys.containsKey(attr)) {
-			Object currentValue = this.getValue();
+			final Object currentValue = this.getValue();
 			if (keys.get(attr).equals(currentValue)) {
-				Enumeration eKeys = changes.keys();
+				final Enumeration eKeys = Collections.enumeration(changes.keySet());
 				while (eKeys.hasMoreElements()) {
 					Object key = eKeys.nextElement();
 					if (key instanceof ReferenceFieldAttribute) {
@@ -1517,19 +1521,19 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		return false;
 	}
 
-	protected void updateDataCache(Hashtable updateAttributes, Hashtable updateKeys) {
+	protected void updateDataCache(final Map updateAttributes, final Map updateKeys) {
 		if ((this.dataCache != null) && !this.dataCache.isEmpty() && (this.dataCache instanceof EntityResult)) {
-			int index = ((EntityResult) this.dataCache).getRecordIndex(updateKeys);
+			final int index = ((EntityResult) this.dataCache).getRecordIndex(updateKeys);
 			if (index >= 0) {
-				Enumeration eKeys = updateAttributes.keys();
+				final Enumeration eKeys = Collections.enumeration(updateAttributes.keySet());
 				while (eKeys.hasMoreElements()) {
-					Object key = eKeys.nextElement();
+					final Object key = eKeys.nextElement();
 					Object values = this.dataCache.get(key);
 					if ((values == null) && (key instanceof ReferenceFieldAttribute)) {
 						values = this.dataCache.get(((ReferenceFieldAttribute) key).getAttr());
 					}
-					if ((values != null) && (values instanceof Vector)) {
-						((Vector) values).set(index, updateAttributes.get(key));
+					if ((values != null) && (values instanceof List)) {
+						((List) values).set(index, updateAttributes.get(key));
 					}
 				}
 			}
@@ -1683,7 +1687,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * when one of the parentkey values changes (when new value of the parentkey
 	 * field is null, field value is not reset, excepts if 'disableonparentkeynull'
 	 * is true). If you use this parameter then you need to use the setvalueorder
-	 * for the Form @see {@link Form#init(Hashtable)}</td>
+	 * for the Form @see {@link Form#init(Map)}</td>
 	 * </tr>
 	 * <tr>
 	 * <td>disableonparentkeynull</td>
@@ -1827,7 +1831,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * </Table>
 	 */
 	@Override
-	public void init(Hashtable parameters) {
+	public void init(final Map parameters) {
 		super.init(parameters);
 
 		this.updateVisibleColsWithColsContent(parameters);
@@ -1902,18 +1906,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			parameters.put("rows", "15");
 		}
 		try {
-			long tIni = System.currentTimeMillis();
+			final long tIni = System.currentTimeMillis();
 			this.createTable(parameters);
 
 			this.configureOnSetValueSet(parameters);
 
-			Object ignorenullonsetvalueset = parameters.get(ReferenceExtDataField.IGNORE_NULL_ONSETVALUESET);
+			final Object ignorenullonsetvalueset = parameters.get(ReferenceExtDataField.IGNORE_NULL_ONSETVALUESET);
 			this.ignorenullonsetvalueset = ParseUtils.getBoolean((String) ignorenullonsetvalueset,
 					ReferenceExtDataField.defaultIgnoreNullOnSetValueSet);
 
 			ReferenceExtDataField.logger.trace(
 					this.getClass().getName() + ": Time to create the table: " + (System.currentTimeMillis() - tIni));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ReferenceExtDataField.logger.error("Error creating table.", e);
 		}
 		this.configureCols(parameters);
@@ -1924,7 +1928,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		this.configureButtons(parameters);
 
-		boolean translation = ParseUtils.getBoolean((String) parameters.get(ComboDataField.TRANSLATION), false);
+		final boolean translation = ParseUtils.getBoolean((String) parameters.get(ComboDataField.TRANSLATION), false);
 
 		this.configureOpaque(parameters);
 		this.setParentKeyCache(parameters);
@@ -1933,18 +1937,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setRequired(boolean required) {
+	public void setRequired(final boolean required) {
 		super.setRequired(required);
 	}
-	
-	protected void configureButtons(Hashtable parameters) {
+
+	protected void configureButtons(final Map parameters) {
 		// Code field and button for showing results are added.
 		super.panel
-				.add(this.codeField,
-						new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
-								GridBagConstraints.NONE, new Insets(DataField.DEFAULT_TOP_MARGIN,
-										DataField.DEFAULT_FIELD_LEFT_MARGIN, DataField.DEFAULT_BOTTOM_MARGIN, 0),
-								0, 0));
+		.add(this.codeField,
+				new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
+						GridBagConstraints.NONE, new Insets(DataField.DEFAULT_TOP_MARGIN,
+								DataField.DEFAULT_FIELD_LEFT_MARGIN, DataField.DEFAULT_BOTTOM_MARGIN, 0),
+						0, 0));
 
 		this.setSearchIconForQueryButton();
 		this.setDeleteIconFornDeleteButton();
@@ -1955,7 +1959,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.deleteButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent event) {
+			public void actionPerformed(final ActionEvent event) {
 				// Data field are deleted.
 				ReferenceExtDataField.this.deleteUserData();
 			}
@@ -1983,21 +1987,21 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		this.setBorderParameterForTable(parameters);
 
-		boolean borderbuttons = ParseUtils.getBoolean((String) parameters.get("borderbuttons"), true);
-		boolean opaquebuttons = ParseUtils.getBoolean((String) parameters.get("opaquebuttons"), true);
-		boolean highlightButtons = ParseUtils.getBoolean((String) parameters.get("highlightbuttons"), false);
+		final boolean borderbuttons = ParseUtils.getBoolean((String) parameters.get("borderbuttons"), true);
+		final boolean opaquebuttons = ParseUtils.getBoolean((String) parameters.get("opaquebuttons"), true);
+		final boolean highlightButtons = ParseUtils.getBoolean((String) parameters.get("highlightbuttons"), false);
 		MouseListener listenerHighlightButtons = null;
 		if (highlightButtons) {
 			listenerHighlightButtons = new MouseAdapter() {
 
 				@Override
-				public void mouseEntered(MouseEvent e) {
+				public void mouseEntered(final MouseEvent e) {
 					((AbstractButton) e.getSource()).setOpaque(true);
 					((AbstractButton) e.getSource()).setContentAreaFilled(true);
 				}
 
 				@Override
-				public void mouseExited(MouseEvent e) {
+				public void mouseExited(final MouseEvent e) {
 					((AbstractButton) e.getSource()).setOpaque(false);
 					((AbstractButton) e.getSource()).setContentAreaFilled(false);
 				}
@@ -2009,7 +2013,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		if (this.codeField != null) {
 			this.codeField
-					.setFont(ParseUtils.getFont((String) parameters.get(DataField.FONT), this.dataField.getFont()));
+			.setFont(ParseUtils.getFont((String) parameters.get(DataField.FONT), this.dataField.getFont()));
 		}
 
 		this.clearDetailTableQuickFilterWhenShow = ParseUtils.getBoolean(
@@ -2017,7 +2021,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.clearDetailTableQuickFilterWhenShow);
 	}
 
-	protected void configureOpaque(Hashtable parameters) {
+	protected void configureOpaque(final Map parameters) {
 		if (parameters.containsKey("opaque")
 				&& !ApplicationManager.parseStringValue(parameters.get("opaque").toString())) {
 			if (this.codeField != null) {
@@ -2026,36 +2030,36 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 	}
 
-	protected void configureFormat(Hashtable parameters, boolean translation) {
-		Object oFormat = parameters.get(ReferenceExtDataField.FORMAT);
+	protected void configureFormat(final Map parameters, final boolean translation) {
+		final Object oFormat = parameters.get(ReferenceExtDataField.FORMAT);
 		if ((oFormat != null) && (oFormat instanceof String)) {
 			this.formatPattern = new FormatPattern(oFormat.toString(), translation);
 
-			Object oDateFormat = parameters.get(ReferenceExtDataField.DATEFORMAT);
+			final Object oDateFormat = parameters.get(ReferenceExtDataField.DATEFORMAT);
 			if ((oDateFormat != null) && (oDateFormat instanceof String)) {
-				String dateFormat = oDateFormat.toString();
+				final String dateFormat = oDateFormat.toString();
 				this.formatPattern.setDateFormat(dateFormat);
 			}
 		}
 	}
 
-	protected void configureQueryCols(Hashtable parameters) {
-		Object querycols = parameters.get("querycols");
+	protected void configureQueryCols(final Map parameters) {
+		final Object querycols = parameters.get("querycols");
 		if (querycols != null) {
 			this.queryColumns = ApplicationManager.getTokensAt((String) querycols, ";");
 		}
 	}
 
-	protected void configureQueryField(Hashtable parameters) {
+	protected void configureQueryField(final Map parameters) {
 		if (this.codeQueryField != null) {
 			try {
 				if (parameters.containsKey("form")) {
 					parameters.remove("form");
 				}
-				Object cols = parameters.get(Table.COLS);
+				final Object cols = parameters.get(Table.COLS);
 				if (cols != null) {
-					String sColumnNames = cols.toString();
-					Vector vCols = ApplicationManager.getTokensAt(sColumnNames, ";");
+					final String sColumnNames = cols.toString();
+					final List vCols = ApplicationManager.getTokensAt(sColumnNames, ";");
 					if (vCols.indexOf(this.codeQueryField) < 0) {
 						vCols.add(this.codeQueryField);
 					}
@@ -2066,17 +2070,17 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					}
 					parameters.put("cols", ApplicationManager.vectorToStringSeparateBy(vCols, ";"));
 				}
-				Table tMultipleResults = new Table(parameters);
+				final Table tMultipleResults = new Table(parameters);
 				this.createMultipleResultsWindow(tMultipleResults);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ReferenceExtDataField.logger.error("Error creating multiple results table.", e);
 			}
 		}
 	}
 
-	protected void configureCols(Hashtable parameters) {
-		Object visiblecols = parameters.get("visiblecols");
-		Object descriptioncols = parameters.get("descriptioncols");
+	protected void configureCols(final Map parameters) {
+		final Object visiblecols = parameters.get("visiblecols");
+		final Object descriptioncols = parameters.get("descriptioncols");
 		if (descriptioncols != null) {
 			this.descriptionColumns = ApplicationManager.getTokensAt(descriptioncols.toString(), ";");
 		} else if (visiblecols != null) {
@@ -2084,18 +2088,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 	}
 
-	protected void configureOnSetValueSet(Hashtable parameters) {
-		Object onsetvalueset = parameters.get("onsetvalueset");
+	protected void configureOnSetValueSet(final Map parameters) {
+		final Object onsetvalueset = parameters.get("onsetvalueset");
 		if (onsetvalueset != null) {
 			this.hOnSetValueSetEquivalences = ApplicationManager.getTokensAt(onsetvalueset.toString(), ";", ":");
 			this.onsetvaluesetAttributes = new Vector();
 
-			// We can't use the keys of the hashtable to get the attribute
+			// We can't use the keys of the Map to get the attribute
 			// names
 			// because we have to use the same order that is in the xml
-			Vector valueNamesOrder = ApplicationManager.getTokensAt(onsetvalueset.toString(), ";");
+			final List valueNamesOrder = ApplicationManager.getTokensAt(onsetvalueset.toString(), ";");
 			for (int i = 0; i < valueNamesOrder.size(); i++) {
-				int dotIndex = valueNamesOrder.get(i).toString().indexOf(":");
+				final int dotIndex = valueNamesOrder.get(i).toString().indexOf(":");
 				if (dotIndex > 0) {
 					this.onsetvaluesetAttributes.add(valueNamesOrder.get(i).toString().substring(0, dotIndex));
 				} else {
@@ -2106,7 +2110,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.addValueChangeListener(new ValueChangeListener() {
 
 					@Override
-					public void valueChanged(ValueEvent e) {
+					public void valueChanged(final ValueEvent e) {
 						if (ReferenceExtDataField.this.isEmpty()) {
 							if ((ReferenceExtDataField.this.parentForm != null)
 									&& (!ReferenceExtDataField.this.ignorenullonsetvalueset)) {
@@ -2115,13 +2119,13 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 											(String) ReferenceExtDataField.this.onsetvaluesetAttributes.get(i));
 									if (ApplicationManager.DEBUG) {
 										ReferenceExtDataField.logger
-												.debug(this.getClass().toString() + " Deleting field value: "
-														+ ReferenceExtDataField.this.onsetvaluesetAttributes.get(i));
+										.debug(this.getClass().toString() + " Deleting field value: "
+												+ ReferenceExtDataField.this.onsetvaluesetAttributes.get(i));
 									}
 								}
 							}
 						} else {
-							Hashtable h = ReferenceExtDataField.this
+							final Map h = ReferenceExtDataField.this
 									.getCodeValues(ReferenceExtDataField.this.getValue());
 							ReferenceExtDataField.this.updateOnSetValueSetAttributes(h);
 						}
@@ -2132,12 +2136,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setParentKeyCache(Hashtable parameters) {
-		Object parentkeycache = parameters.get("parentkeycache");
+	protected void setParentKeyCache(final Map parameters) {
+		final Object parentkeycache = parameters.get("parentkeycache");
 		if ((parentkeycache != null) && parentkeycache.equals("yes")) {
 			if (this.hasParentKeys()) {
 				this.parentkeyCache = true;
@@ -2158,27 +2162,27 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setBorderParameterForTable(Hashtable parameters) {
+	protected void setBorderParameterForTable(final Map parameters) {
 		Object border = parameters.get(DataField.BORDER);
 		if (border == null) {
 			border = DataField.DEFAULT_BORDER;
 		}
 		if (border != null) {
-			Border b = this.getBorder(border.toString());
+			final Border b = this.getBorder(border.toString());
 			this.codeField.setBorder(b);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
+	 * Method used to reduce the complexity of {@link #init(Map)}
 	 *
 	 */
 	protected void setSearchIconForQueryButton() {
-		ImageIcon searchIcon = ImageManager.getIcon(ImageManager.MAGNIFYING_GLASS);
+		final ImageIcon searchIcon = ImageManager.getIcon(ImageManager.MAGNIFYING_GLASS);
 		if (searchIcon == null) {
 			if (com.ontimize.gui.ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("magnifyingglass.png icon not found");
@@ -2189,11 +2193,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
+	 * Method used to reduce the complexity of {@link #init(Map)}
 	 *
 	 */
 	protected void setDeleteIconFornDeleteButton() {
-		ImageIcon deleteIcon = ImageManager.getIcon(ImageManager.DELETE);
+		final ImageIcon deleteIcon = ImageManager.getIcon(ImageManager.DELETE);
 		if (deleteIcon != null) {
 			this.deleteButton.setIcon(deleteIcon);
 		} else {
@@ -2202,11 +2206,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void configParameterForTable(Hashtable parameters) {
+	protected void configParameterForTable(final Map parameters) {
 		if (!parameters.containsKey(Table.CONTROLS_VISIBLE)) {
 			parameters.put(Table.CONTROLS_VISIBLE, "no");
 		}
@@ -2219,40 +2223,40 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 * @param key
 	 */
-	protected void setQuickFilterVisibleToTable(Hashtable parameters, Object key) {
+	protected void setQuickFilterVisibleToTable(final Map parameters, final Object key) {
 		if (key == null) {
 			parameters.put("quickfiltervisible", "yes");
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 * @param key
 	 */
-	protected void setKeyToTable(Hashtable parameters, Object key) {
+	protected void setKeyToTable(final Map parameters, final Object key) {
 		if (key == null) {
 			parameters.put("key", this.code);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodQueryFieldTable(Hashtable parameters) {
+	protected void setCodQueryFieldTable(final Map parameters) {
 		if (this.codeQueryField != null) {
-			Object cols = parameters.get(Table.COLS);
+			final Object cols = parameters.get(Table.COLS);
 			if (cols != null) {
-				String sColumnNames = cols.toString();
-				Vector vCols = ApplicationManager.getTokensAt(sColumnNames, ";");
+				final String sColumnNames = cols.toString();
+				final List vCols = ApplicationManager.getTokensAt(sColumnNames, ";");
 				if (vCols.indexOf(this.codeQueryField) < 0) {
 					vCols.add(this.codeQueryField);
 				}
@@ -2270,13 +2274,13 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodSearchParameter(Hashtable parameters) {
+	protected void setCodSearchParameter(final Map parameters) {
 		// Parameter : codsearch
-		Object codsearch = parameters.get("codsearch");
+		final Object codsearch = parameters.get("codsearch");
 		if (codsearch == null) {
 		} else {
 			this.codeQueryField = codsearch.toString();
@@ -2284,13 +2288,13 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setDescVisibleParameter(Hashtable parameters) {
+	protected void setDescVisibleParameter(final Map parameters) {
 		// Parameter : descvisible
-		Object descvisible = parameters.get("descvisible");
+		final Object descvisible = parameters.get("descvisible");
 		if (descvisible != null) {
 			this.descriptionFieldVisible = ApplicationManager.parseStringValue(descvisible.toString());
 			this.dataField.setVisible(this.descriptionFieldVisible);
@@ -2298,25 +2302,25 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodSearchVisibleParameter(Hashtable parameters) {
-		Object codSearchVisible = parameters.get("codsearchvisible");
+	protected void setCodSearchVisibleParameter(final Map parameters) {
+		final Object codSearchVisible = parameters.get("codsearchvisible");
 		if (codSearchVisible != null) {
 			this.visibleCodeSearch = ApplicationManager.parseStringValue(codSearchVisible.toString());
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodVisibleParameter(Hashtable parameters) {
+	protected void setCodVisibleParameter(final Map parameters) {
 		// Parameter :codvisible
-		Object codVisible = parameters.get("codvisible");
+		final Object codVisible = parameters.get("codvisible");
 		if (codVisible != null) {
 			try {
 				if (codVisible.equals("yes")) {
@@ -2325,7 +2329,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					this.visibleCodeField = new Boolean(codVisible.toString()).booleanValue();
 					this.codeField.setVisible(this.visibleCodeField);
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (com.ontimize.gui.ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(": Error in parameter 'codvisible': ", e);
 				} else {
@@ -2338,17 +2342,17 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCSizeParameter(Hashtable parameters) {
+	protected void setCSizeParameter(final Map parameters) {
 		// Parameter: csize
-		Object csize = parameters.get("csize");
+		final Object csize = parameters.get("csize");
 		if (csize != null) {
 			try {
 				this.codeField.setColumns(new Integer(csize.toString()).intValue());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (com.ontimize.gui.ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug("Error in parameter 'csize': ", e);
 				} else {
@@ -2359,16 +2363,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setMaskParameter(Hashtable parameters) {
+	protected void setMaskParameter(final Map parameters) {
 		// Parameter : mask
-		Object mask = parameters.get("mask");
+		final Object mask = parameters.get("mask");
 		if (mask != null) {
 			this.iMask = mask.toString();
-			MaskDocument doc = new MaskDocument(this.iMask);
+			final MaskDocument doc = new MaskDocument(this.iMask);
 			this.codeField.setDocument(doc);
 			this.codeField.setToolTipText(this.iMask);
 		} else {
@@ -2377,30 +2381,30 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCacheTimeParameter(Hashtable parameters) {
+	protected void setCacheTimeParameter(final Map parameters) {
 		// Parameter : cachetime
-		Object cache = parameters.get("cachetime");
+		final Object cache = parameters.get("cachetime");
 		if (cache != null) {
 			try {
 				this.cacheTime = Integer.parseInt(cache.toString());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ReferenceExtDataField.logger.error("Error in parameter 'cachetime'", e);
 			}
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodeParameter(Hashtable parameters) {
+	protected void setCodeParameter(final Map parameters) {
 		// Parameter cod : Name of database column that contains the code
-		Object cod = parameters.get("cod");
+		final Object cod = parameters.get("cod");
 		if (cod == null) {
 			if (com.ontimize.gui.ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("Parameter 'cod' is required. Check parameters.");
@@ -2411,11 +2415,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodeIntegerParameter(Hashtable parameters) {
+	protected void setCodeIntegerParameter(final Map parameters) {
 		// Parameter: codInteger
 		Object codInteger = parameters.get("codInteger");
 		if (codInteger != null) {
@@ -2425,7 +2429,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				} else {
 					this.integerValue = new Boolean(codInteger.toString()).booleanValue();
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (com.ontimize.gui.ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug("Error in parameter 'codInteger'. " + this.attribute, e);
 				} else {
@@ -2441,7 +2445,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					} else {
 						this.integerValue = new Boolean(codInteger.toString()).booleanValue();
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					if (com.ontimize.gui.ApplicationManager.DEBUG) {
 						ReferenceExtDataField.logger.debug("Error in parameter 'codInteger'. " + this.attribute, e);
 					} else {
@@ -2453,12 +2457,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setTitleParameter(Hashtable parameters) {
-		Object title = parameters.get("title");
+	protected void setTitleParameter(final Map parameters) {
+		final Object title = parameters.get("title");
 		if (title != null) {
 			this.windowTitle = title.toString();
 		} else {
@@ -2467,12 +2471,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setEntityParameter(Hashtable parameters) {
-		Object entity = parameters.get("entity");
+	protected void setEntityParameter(final Map parameters) {
+		final Object entity = parameters.get("entity");
 		if (entity == null) {
 			if (com.ontimize.gui.ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("Parameter 'entity' is required. Check parameters.");
@@ -2483,35 +2487,35 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
+	 * Method used to reduce the complexity of {@link #init(Map)}
 	 *
 	 */
 	protected void checkAndSetUseOfPlaf() {
 		if (ApplicationManager.useOntimizePlaf) {
-			((JTextField) this.dataField).setBackground(DataComponent.VERY_LIGHT_GRAY);
-			((JTextField) this.dataField).setForeground(Color.darkGray);
+			this.dataField.setBackground(DataComponent.VERY_LIGHT_GRAY);
+			this.dataField.setForeground(Color.darkGray);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setNoResultClearCodeParameter(Hashtable parameters) {
-		Object noresultclearcode = parameters.get(ReferenceExtDataField.NO_RESULT_CLEAR_CODE);
+	protected void setNoResultClearCodeParameter(final Map parameters) {
+		final Object noresultclearcode = parameters.get(ReferenceExtDataField.NO_RESULT_CLEAR_CODE);
 		if (noresultclearcode != null) {
 			this.noresultclearcode = ParseUtils.getBoolean(noresultclearcode.toString(), true);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setInitCacheOnsSetValueParameter(Hashtable parameters) {
-		Object initcacheonsetvalue = parameters.get("initcacheonsetvalue");
+	protected void setInitCacheOnsSetValueParameter(final Map parameters) {
+		final Object initcacheonsetvalue = parameters.get("initcacheonsetvalue");
 		if (initcacheonsetvalue != null) {
 			if (initcacheonsetvalue.equals("yes")) {
 				this.initCacheOnSetValue = true;
@@ -2520,24 +2524,24 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodNumberClassParameter(Hashtable parameters) {
-		Object codnumberclass = parameters.get("codnumberclass");
+	protected void setCodNumberClassParameter(final Map parameters) {
+		final Object codnumberclass = parameters.get("codnumberclass");
 		if (codnumberclass != null) {
 			this.codeNumberClass = ParseUtils.getTypeForName(codnumberclass.toString(), ParseTools.INTEGER_);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setDisableOnParentKeyNull(Hashtable parameters) {
-		Object disableonparentkeynull = parameters.get(ReferenceExtDataField.DISABLE_ON_PARENTKEY_NULL);
+	protected void setDisableOnParentKeyNull(final Map parameters) {
+		final Object disableonparentkeynull = parameters.get(ReferenceExtDataField.DISABLE_ON_PARENTKEY_NULL);
 		if (disableonparentkeynull != null) {
 			this.disableonparentkeynull = ParseUtils.getBoolean(disableonparentkeynull.toString(),
 					ReferenceExtDataField.defaultDisableOnParentkeyNull);
@@ -2545,12 +2549,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setParentKeyListenerEventParameter(Hashtable parameters) {
-		Object parentkeylistenerevent = parameters.get(ReferenceExtDataField.PARENTKEY_LISTENER_EVENT);
+	protected void setParentKeyListenerEventParameter(final Map parameters) {
+		final Object parentkeylistenerevent = parameters.get(ReferenceExtDataField.PARENTKEY_LISTENER_EVENT);
 		if (parentkeylistenerevent != null) {
 			if (parentkeylistenerevent.equals(ReferenceExtDataField.PARENTKEY_LISTENER_EVENT_USER)) {
 				this.parentkeyListenerEvent = ReferenceExtDataField.PARENTKEY_LISTENER_EVENT_USER;
@@ -2561,12 +2565,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setParentKeyListenerParameter(Hashtable parameters) {
-		Object parentkeylistener = parameters.get(ReferenceExtDataField.PARENTKEY_LISTENER);
+	protected void setParentKeyListenerParameter(final Map parameters) {
+		final Object parentkeylistener = parameters.get(ReferenceExtDataField.PARENTKEY_LISTENER);
 		if (parentkeylistener != null) {
 			this.parentkeyListener = ParseUtils.getBoolean(parentkeylistener.toString(),
 					ReferenceExtDataField.defaultParentkeyListener);
@@ -2574,12 +2578,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setCodNumberParameter(Hashtable parameters) {
-		Object codnumber = parameters.get("codnumber");
+	protected void setCodNumberParameter(final Map parameters) {
+		final Object codnumber = parameters.get("codnumber");
 		if (codnumber != null) {
 			if (codnumber.equals("yes")) {
 				this.codeNumber = true;
@@ -2588,44 +2592,44 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setUserCacheManagerParameter(Hashtable parameters) {
-		Object usecachemanager = parameters.get("usecachemanager");
+	protected void setUserCacheManagerParameter(final Map parameters) {
+		final Object usecachemanager = parameters.get("usecachemanager");
 		if (usecachemanager != null) {
 			this.useCacheManager = ParseUtils.getBoolean(usecachemanager.toString(), true);
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void setSeparatorParameter(Hashtable parameters) {
-		Object separator = parameters.get("separator");
+	protected void setSeparatorParameter(final Map parameters) {
+		final Object separator = parameters.get("separator");
 		if (separator != null) {
 			this.separator = separator.toString();
 		}
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 * @param sParentKeyEquivalences
 	 * @return
 	 */
-	protected String setOtherkeysParameter(Hashtable parameters, String sParentKeyEquivalences) {
+	protected String setOtherkeysParameter(final Map parameters, String sParentKeyEquivalences) {
 		Object otherKeys = parameters.get("otherkeys");
 		if (otherKeys == null) {
 			otherKeys = parameters.get("parentkeys");
 		}
 
 		if (otherKeys != null) {
-			StringTokenizer st = new StringTokenizer(otherKeys.toString(), ";");
+			final StringTokenizer st = new StringTokenizer(otherKeys.toString(), ";");
 			while (st.hasMoreTokens()) {
 				this.othersParentKey.add(ApplicationManager.getTokensAt(st.nextToken(), ":").get(0));
 			}
@@ -2639,14 +2643,14 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 * @return
 	 */
-	protected String setParentKeysParameter(Hashtable parameters) {
+	protected String setParentKeysParameter(final Map parameters) {
 		String sParentKeyEquivalences = new String();
-		Object parentkey = parameters.get("parentkey");
+		final Object parentkey = parameters.get("parentkey");
 		if (parentkey != null) {
 			this.parentKeys = parentkey.toString();
 			sParentKeyEquivalences = this.parentKeys;
@@ -2657,11 +2661,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Method used to reduce the complexity of {@link #init(Hashtable)}
-	 * 
+	 * Method used to reduce the complexity of {@link #init(Map)}
+	 *
 	 * @param parameters
 	 */
-	protected void updateVisibleColsWithColsContent(Hashtable parameters) {
+	protected void updateVisibleColsWithColsContent(final Map parameters) {
 		if (!parameters.containsKey("visiblecols") && parameters.containsKey("cols")) {
 			parameters.put("visiblecols", parameters.get("cols"));
 		}
@@ -2669,13 +2673,13 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	/**
 	 * Encapsulates the process of building result <code>Table</code>.
-	 * 
+	 *
 	 * @param parameters Parameters used to build table
 	 * @throws Exception When table constructor throws Exception
 	 * @since 5.3.8
 	 */
-	protected void createTable(Hashtable parameters) throws Exception {
-		Hashtable tableParameters = (Hashtable) parameters.clone();
+	protected void createTable(final Map parameters) throws Exception {
+		final Map tableParameters = ObjectTools.clone(parameters);
 		tableParameters.putAll(DefaultXMLParametersManager.getParameters(Table.class.getName()));
 		// 5.2067EN - Parameter onsetvalueset cannot be shared by field and
 		// table, it is configured only for field
@@ -2687,7 +2691,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.t.getJTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
+			public void valueChanged(final ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
 					if (ReferenceExtDataField.this.t.getJTable().getSelectedRowCount() > 0) {
 						if (ReferenceExtDataField.this.okButton != null) {
@@ -2705,7 +2709,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.t.getJTable().addMouseListener(new MouseAdapter() {
 
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseClicked(final MouseEvent e) {
 					if (e.getClickCount() == 2) {
 						e.consume();
 						if (ReferenceExtDataField.this.t.getSelectedRow() >= 0) {
@@ -2718,16 +2722,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.t.getJTable().addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyTyped(final KeyEvent e) {
 
 			}
 
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyPressed(final KeyEvent e) {
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(final KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if ((ReferenceExtDataField.this.okButton != null)
 							&& ReferenceExtDataField.this.okButton.isEnabled()) {
@@ -2741,7 +2745,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Gets the code field value.
 	 * <p>
-	 * 
+	 *
 	 * @return the object with code field value
 	 */
 	protected Object getCodeFieldValue() {
@@ -2751,11 +2755,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Obtains the typed value from parameter.
 	 * <p>
-	 * 
+	 *
 	 * @param s the object to obtain the type
 	 * @return the typed inner value
 	 */
-	protected Object getTypedInnerValue(Object s) {
+	protected Object getTypedInnerValue(final Object s) {
 		Object oCodeValue = null;
 		if ((s == null) || (s.toString().trim().length() == 0)) {
 			return null;
@@ -2767,7 +2771,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				Object oIntValue = null;
 				try {
 					oIntValue = new Integer(s.toString());
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 					return s;
 				}
@@ -2786,7 +2790,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * @see #setCode(Object, int)
 	 * @param codeValue
 	 */
-	public void setCode(Object codeValue) {
+	public void setCode(final Object codeValue) {
 		this.setCode(codeValue, ValueEvent.PROGRAMMATIC_CHANGE);
 	}
 
@@ -2798,19 +2802,19 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.dataField.addMouseListener(this.createOpenDetailMouseListener());
 	}
 
-	public Hashtable replaceParentkeyByEquivalence(Hashtable hParentkeyEquivalences) {
+	public Map replaceParentkeyByEquivalence(final Map hParentkeyEquivalences) {
 		if ((hParentkeyEquivalences == null) || hParentkeyEquivalences.isEmpty()) {
 			return new Hashtable();
 		}
-		Hashtable hParentkeyValues = this.getParentKeyValues();
+		final Map hParentkeyValues = this.getParentKeyValues();
 		if (hParentkeyValues != null) {
-			Hashtable hReplacedParentkeyValues = new Hashtable();
+			final Map hReplacedParentkeyValues = new Hashtable();
 			hReplacedParentkeyValues.putAll(hParentkeyValues);
-			Set values = hParentkeyValues.keySet();
-			Iterator itr = values.iterator();
+			final Set values = hParentkeyValues.keySet();
+			final Iterator itr = values.iterator();
 			while (itr.hasNext()) {
-				Object key = itr.next();
-				Object value = hReplacedParentkeyValues.remove(key);
+				final Object key = itr.next();
+				final Object value = hReplacedParentkeyValues.remove(key);
 				hReplacedParentkeyValues.put(hParentkeyEquivalences.get(key), value);
 			}
 			return hReplacedParentkeyValues;
@@ -2818,16 +2822,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		return new Hashtable();
 	}
 
-	// public Hashtable replaceOnSetValueSetByEquivalence(Hashtable
+	// public Map replaceOnSetValueSetByEquivalence(Hashtable
 	// hOnSetValueSetEquivalences){
-	// Hashtable hParentkeyValues = new Hashtable();
+	// Map hParentkeyValues = new Hashtable();
 	// hParentkeyValues = getParentKeyValues();
 	// if ((hOnSetValueSetEquivalences == null) ||
 	// (hOnSetValueSetEquivalences.isEmpty())){
 	// return hParentkeyValues;
 	// }
 	//
-	// Hashtable hReplacedOnSetValuesValues = new Hashtable();
+	// Map hReplacedOnSetValuesValues = new Hashtable();
 	// hReplacedOnSetValuesValues.putAll(hParentkeyValues);
 	// Set values = hParentkeyValues.keySet();
 	// Iterator itr = values.iterator();
@@ -2842,44 +2846,44 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Establishes the query
 	 * <p>
-	 * 
+	 *
 	 * @param column the col name
 	 * @param value  the value to add to keyvalues hashtable, with the form
 	 *               (col,value)
 	 * @return the result of query
 	 */
 	@Override
-	public EntityResult queryBy(String column, Object value) {
+	public EntityResult queryBy(final String column, final Object value) {
 
-		Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-		long t = System.currentTimeMillis();
+		final Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		final long t = System.currentTimeMillis();
 		try {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			Hashtable keysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
+			final Map keysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
 			keysValues.put(column, value);
-			EntityResult result = this.locator.getEntityReference(this.entityName).query(keysValues,
+			final EntityResult result = this.locator.getEntityReference(this.entityName).query(keysValues,
 					this.getAttributes(), this.locator.getSessionId());
 			if (ApplicationManager.DEBUG_TIMES) {
 				ReferenceExtDataField.logger
-						.debug("ReferenceExtDataField: Total query time: " + (System.currentTimeMillis() - t));
+				.debug("ReferenceExtDataField: Total query time: " + (System.currentTimeMillis() - t));
 			}
 			if (result.getCode() == EntityResult.OPERATION_WRONG) {
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(result.getMessage());
 				}
-				return new EntityResult();
+				return new EntityResultMapImpl();
 			} else {
 				ConnectionManager.checkEntityResult(result, this.locator);
 			}
 			return result;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ReferenceExtDataField.logger.error(null, e);
 			if (ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("Error in query. Results can not be shown", e);
 			} else {
 				ReferenceExtDataField.logger.error(null, e);
 			}
-			return new EntityResult();
+			return new EntityResultMapImpl();
 		} finally {
 			this.setCursor(cursor);
 		}
@@ -2888,21 +2892,21 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Queries by code
 	 * <p>
-	 * 
+	 *
 	 * @param code the value to add to hashtable, with the form (code,codigo)
 	 * @return the result of query
 	 */
-	protected EntityResult queryByCode(Object code) {
+	protected EntityResult queryByCode(final Object code) {
 
-		Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-		long t = System.currentTimeMillis();
+		final Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		final long t = System.currentTimeMillis();
 		try {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			Hashtable keysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
+			final Map keysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
 			if (code != null) {
 				keysValues.put(this.code, code);
 			}
-			EntityResult result = this.locator.getEntityReference(this.entityName).query(keysValues,
+			final EntityResult result = this.locator.getEntityReference(this.entityName).query(keysValues,
 					this.getAttributes(), this.locator.getSessionId());
 			if (ApplicationManager.DEBUG_TIMES) {
 				ReferenceExtDataField.logger.debug(
@@ -2912,18 +2916,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(result.getMessage());
 				}
-				return new EntityResult();
+				return new EntityResultMapImpl();
 			} else {
 				ConnectionManager.checkEntityResult(result, this.locator);
 			}
 			return result;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			if (ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("Error in query. Results can not be shown", e);
 			} else {
 				ReferenceExtDataField.logger.error(null, e);
 			}
-			return new EntityResult();
+			return new EntityResultMapImpl();
 		} finally {
 			this.setCursor(cursor);
 		}
@@ -2932,12 +2936,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Sets the code in function of event value.
 	 * <p>
-	 * 
+	 *
 	 * @param codeValue the value to set
 	 * @see #setValue(Object, boolean)
 	 * @param valueEventType the type of event
 	 */
-	protected void setCode(Object codeValue, int valueEventType) {
+	protected void setCode(final Object codeValue, final int valueEventType) {
 		// Query:
 		try {
 			if (this.cacheTime > 0) {
@@ -2945,7 +2949,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					ReferenceExtDataField.logger.debug(": setCode(): Code Value: " + codeValue + " with cache");
 				}
 				boolean sameValue = false;
-				Object oPreviousValue = this.getInnerValue();
+				final Object oPreviousValue = this.getInnerValue();
 				if ((oPreviousValue == null) && (codeValue == null)) {
 					sameValue = true;
 				} else if ((oPreviousValue != null) && (codeValue != null) && codeValue.equals(oPreviousValue)) {
@@ -2955,7 +2959,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.disabledValueEvents = true;
 				try {
 					this.setValue(codeValue, true);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 				this.disabledValueEvents = false;
@@ -2969,7 +2973,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 
 				boolean sameValue = false;
-				Object oPreviousValue = this.getInnerValue();
+				final Object oPreviousValue = this.getInnerValue();
 				if ((oPreviousValue == null) && (codeValue == null)) {
 					sameValue = true;
 				} else if ((oPreviousValue != null) && (codeValue != null) && codeValue.equals(oPreviousValue)) {
@@ -2979,7 +2983,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				this.disabledValueEvents = true;
 				try {
 					this.setValue(codeValue, true);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 				this.disabledValueEvents = false;
@@ -2988,7 +2992,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					this.fireValueChanged(this.getValue(), oPreviousValue, valueEventType);
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			if (com.ontimize.gui.ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.debug("Error querying code", e);
 			} else {
@@ -3006,7 +3010,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			return ((JTextField) this.dataField).getText();
 		} else {
 			if (this.codeQueryField == null) {
-				String sValue = this.codeField.getText();
+				final String sValue = this.codeField.getText();
 				if ("".equals(sValue)) {
 					return null;
 				}
@@ -3020,7 +3024,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(final Object value) {
 		this.setValue(value, false);
 	}
 
@@ -3029,14 +3033,14 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * are the code field name and description columns. Values may be vectors, in
 	 * this case the first element is selected.
 	 */
-	public void setValue(Object value, boolean inner) {
+	public void setValue(final Object value, final boolean inner) {
 		if ((value == null) || (value instanceof NullValue)) {
 			this.deleteData();
 			return;
 		}
 		this.setInnerListenerEnabled(false);
 
-		Object oPreviousValue = this.getValue();
+		final Object oPreviousValue = this.getValue();
 		try {
 			ReferenceExtDataField.logger.debug(": " + this.getAttribute() + ": setValue() : value: " + value
 					+ " : cachetime" + this.cacheTime + " , usecachemanager: " + this.useCacheManager
@@ -3047,31 +3051,31 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				return;
 			} else {
 				// Obtain the code
-				if (value instanceof Hashtable) {
+				if (value instanceof Map) {
 					this.setRecordValue(value, inner, oPreviousValue);
 				} else {
 					// When it is not a <code>Hashtable</code> is the code.
 					// Therefore, query is executed.
-					Object oValue = this.getTypedInnerValue(value);
-					this.dataCache = this.queryByCode(oValue);
+					final Object oValue = this.getTypedInnerValue(value);
+					this.dataCache = EntityResultUtils.toMap(this.queryByCode(oValue));
 					if (this.dataCache.isEmpty()) {
 						this.deleteUserData();
 						return;
 					}
-					Vector vCodes = (Vector) this.dataCache.get(this.code);
+					final List vCodes = (List) this.dataCache.get(this.code);
 					if (vCodes == null) {
 						ReferenceExtDataField.logger.debug(this.getClass().toString() + " : " + this.getAttribute()
-								+ " Data for code " + this.code + " have not been encountered: " + this.dataCache);
+						+ " Data for code " + this.code + " have not been encountered: " + this.dataCache);
 					}
-					Object cod = vCodes.get(0);
+					final Object cod = vCodes.get(0);
 					if ((this.codeQueryField == null) && (cod != null)) {
 						this.codeField.setText(cod.toString());
 					} else {
 						this.codeValue = null;
-						Vector v = (Vector) this.dataCache.get(this.codeQueryField);
+						final List v = (List) this.dataCache.get(this.codeQueryField);
 						this.codeValue = cod;
 						if (v != null) {
-							Object v2 = v.get(0);
+							final Object v2 = v.get(0);
 							if (v2 != null) {
 								this.codeField.setText(v2.toString());
 							} else {
@@ -3093,11 +3097,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 								+ cod + " does not fulfil the equals() condition with indicated value : Passed value: "
 								+ oValue.getClass() + " , class of returned value: " + cod.getClass());
 						ReferenceExtDataField.logger
-								.debug("USES CODNUMBER AND CODNUMBERCLASS, but does not use codInteger");
+						.debug("USES CODNUMBER AND CODNUMBERCLASS, but does not use codInteger");
 						this.deleteData();
 						return;
 					}
-					String cadenaDescripcion = this.getCodeDescription(cod, this.dataCache);
+					final String cadenaDescripcion = this.getCodeDescription(cod, this.dataCache);
 					((JTextField) this.dataField).setText(cadenaDescripcion);
 
 					this.setInnerValue(this.getValue());
@@ -3110,27 +3114,27 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					return;
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ReferenceExtDataField.logger.error(null, e);
 			this.deleteData();
 		}
 	}
 
-	protected void setRecordValue(Object value, boolean inner, Object oPreviousValue) {
-		this.dataCache = (Hashtable) value;
-		Object cod = ((Hashtable) value).get(this.code);
+	protected void setRecordValue(final Object value, final boolean inner, final Object oPreviousValue) {
+		this.dataCache = (Map) value;
+		Object cod = ((Map) value).get(this.code);
 		if (cod != null) {
-			if (cod instanceof Vector) {
-				cod = ((Vector) cod).get(0);
+			if (cod instanceof List) {
+				cod = ((List) cod).get(0);
 				if ((this.codeQueryField == null) && (cod != null)) {
 					this.codeField.setText(cod.toString());
 				} else {
 					this.codeValue = null;
-					Vector v = (Vector) this.dataCache.get(this.codeQueryField);
-					int index = ((Vector) ((Hashtable) value).get(this.code)).indexOf(cod);
+					final List v = (List) this.dataCache.get(this.codeQueryField);
+					final int index = ((List) ((Map) value).get(this.code)).indexOf(cod);
 					if (index >= 0) {
 						this.codeValue = cod;
-						Object v2 = v.get(index);
+						final Object v2 = v.get(index);
 						if (v2 != null) {
 							this.codeField.setText(v2.toString());
 						} else {
@@ -3147,11 +3151,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					this.codeField.setText(cod.toString());
 				} else {
 					this.codeValue = null;
-					Vector v = (Vector) this.dataCache.get(this.codeQueryField);
-					int index = ((Vector) ((Hashtable) value).get(this.code)).indexOf(cod);
+					final List v = (List) this.dataCache.get(this.codeQueryField);
+					final int index = ((List) ((Map) value).get(this.code)).indexOf(cod);
 					if (index >= 0) {
 						this.codeValue = cod;
-						Object v2 = v.get(index);
+						final Object v2 = v.get(index);
 						if (v2 != null) {
 							this.codeField.setText(v2.toString());
 						} else {
@@ -3160,7 +3164,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					}
 				}
 			}
-			String sDescriptionString = this.getCodeDescription(cod, (Hashtable) value);
+			final String sDescriptionString = this.getCodeDescription(cod, (Map) value);
 			((JTextField) this.dataField).setText(sDescriptionString);
 
 			this.setInnerValue(this.getValue());
@@ -3177,21 +3181,21 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	/**
 	 * Method used to reduce the complexity of {@link #setValue(Object, boolean)}
-	 * 
+	 *
 	 * @param value
 	 * @param inner
 	 * @param oPreviousValue
 	 */
-	protected void setValueIfCacheTimeMoreThanZero(Object value, boolean inner, Object oPreviousValue) {
-		Object oValue = this.getTypedInnerValue(value);
-		long t = System.currentTimeMillis();
-		long timeFromLastQuery = t - this.getLastCacheTime();
+	protected void setValueIfCacheTimeMoreThanZero(final Object value, final boolean inner, final Object oPreviousValue) {
+		final Object oValue = this.getTypedInnerValue(value);
+		final long t = System.currentTimeMillis();
+		final long timeFromLastQuery = t - this.getLastCacheTime();
 		if ((timeFromLastQuery > this.cacheTime) && this.dataCacheInitialized) {
 			try {
 				this.fireValueEvents = false;
 				this.invalidateCache();
 				this.setInnerListenerEnabled(false);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ReferenceExtDataField.logger.trace(null, e);
 			} finally {
 				this.fireValueEvents = true;
@@ -3201,10 +3205,10 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			try {
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(this.getClass().toString() + ": " + this.getAttribute()
-							+ ": setValue() : value: " + oValue + " : Initializing in cache");
+					+ ": setValue() : value: " + oValue + " : Initializing in cache");
 				}
 				this.initCache();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ReferenceExtDataField.logger.trace(null, e);
 				this.dataCache = null;
 				this.deleteData();
@@ -3214,7 +3218,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.useCacheManager();
 		}
 		this.setInnerListenerEnabled(false);
-		Vector vCodes = (Vector) this.dataCache.get(this.code);
+		final List vCodes = (List) this.dataCache.get(this.code);
 
 		if ((vCodes == null) || vCodes.isEmpty() || !vCodes.contains(oValue)) {
 			this.setValueIfNotExistCacheData(inner, oPreviousValue, oValue);
@@ -3227,24 +3231,24 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	/**
 	 * Method used to reduce the complexity of {@link #setValue(Object, boolean)}
-	 * 
+	 *
 	 * @param inner
 	 * @param oPreviousValue
 	 * @param oValue
 	 */
-	protected void setValueIfNotExistCacheData(boolean inner, Object oPreviousValue, Object oValue) {
-		Vector vCodes;
+	protected void setValueIfNotExistCacheData(final boolean inner, final Object oPreviousValue, final Object oValue) {
+		List vCodes;
 		if (ApplicationManager.DEBUG) {
 			ReferenceExtDataField.logger.debug(this.getClass().toString() + ": " + this.getAttribute()
-					+ ": setValue() : value: " + oValue + " : Code is not stored in cache ");
+			+ ": setValue() : value: " + oValue + " : Code is not stored in cache ");
 		}
 
 		// Query
-		EntityResult res = this.queryByCode(oValue);
+		final EntityResult res = this.queryByCode(oValue);
 		if (res.isEmpty() || (res.getCode() == EntityResult.OPERATION_WRONG)) {
 			if (ApplicationManager.DEBUG && (res.getCode() == EntityResult.OPERATION_WRONG)) {
 				ReferenceExtDataField.logger
-						.debug(": setValue() : value: " + oValue + " : Error in query result: " + res.getMessage());
+				.debug(": setValue() : value: " + oValue + " : Error in query result: " + res.getMessage());
 			}
 			if (this.noresultclearcode) {
 				this.deleteData();
@@ -3254,24 +3258,24 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			return;
 		} else {
 			if ((this.dataCache.isEmpty()) || !this.dataCache.containsKey(this.code)) {
-				this.dataCache = res;
+				this.dataCache = EntityResultUtils.toMap(res);
 			}
 			// Put in the cache
-			vCodes = (Vector) this.dataCache.get(this.code);
+			vCodes = (List) this.dataCache.get(this.code);
 			if (vCodes.contains(oValue)) {
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(this.getClass().toString() + ": " + this.getAttribute()
-							+ ": setValue() : value: " + oValue + " : Code is not stored in cache");
+					+ ": setValue() : value: " + oValue + " : Code is not stored in cache");
 				}
 
 				if (this.codeQueryField == null) {
 					this.codeField.setText(oValue.toString());
 				} else {
 					this.codeValue = null;
-					Vector v = (Vector) this.dataCache.get(this.codeQueryField);
-					int index = vCodes.indexOf(oValue);
+					final List v = (List) this.dataCache.get(this.codeQueryField);
+					final int index = vCodes.indexOf(oValue);
 					if (index >= 0) {
-						Object v2 = v.get(index);
+						final Object v2 = v.get(index);
 						if (v2 != null) {
 							this.codeField.setText(v2.toString());
 						} else {
@@ -3281,7 +3285,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					}
 				}
 
-				String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
+				final String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
 				((JTextField) this.dataField).setText(sDescriptionString);
 				this.setInnerValue(this.getValue());
 				if (!inner) {
@@ -3293,10 +3297,10 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			} else {
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(this.getClass().toString() + ": " + this.getAttribute()
-							+ ": setValue() : value: " + oValue + " : Code is not stored in cache");
+					+ ": setValue() : value: " + oValue + " : Code is not stored in cache");
 				}
 
-				if (!((Vector) res.get(this.code)).contains(oValue)) {
+				if (!((List) res.get(this.code)).contains(oValue)) {
 					if (ApplicationManager.DEBUG) {
 						ReferenceExtDataField.logger.debug(": " + this.getAttribute() + ": setValue() : value: "
 								+ oValue + " : In codes of query result is not stored the code ");
@@ -3306,11 +3310,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 
 				// Put in the cache
-				Enumeration enumCacheKeys = this.dataCache.keys();
+				final Enumeration enumCacheKeys = Collections.enumeration(this.dataCache.keySet());
 				while (enumCacheKeys.hasMoreElements()) {
-					Object oCacheKey = enumCacheKeys.nextElement();
-					Vector vCacheValues = (Vector) this.dataCache.get(oCacheKey);
-					Vector vResultValues = (Vector) res.get(oCacheKey);
+					final Object oCacheKey = enumCacheKeys.nextElement();
+					final List vCacheValues = (List) this.dataCache.get(oCacheKey);
+					final List vResultValues = (List) res.get(oCacheKey);
 					if ((vResultValues != null) && !vResultValues.isEmpty()) {
 						vCacheValues.add(vCacheValues.size(), vResultValues.get(0));
 					} else {
@@ -3321,11 +3325,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					this.codeField.setText(oValue.toString());
 				} else {
 					this.codeValue = null;
-					Vector v = (Vector) this.dataCache.get(this.codeQueryField);
-					int index = vCodes.indexOf(oValue);
+					final List v = (List) this.dataCache.get(this.codeQueryField);
+					final int index = vCodes.indexOf(oValue);
 					if (index >= 0) {
 						this.codeValue = oValue;
-						Object v2 = v.get(index);
+						final Object v2 = v.get(index);
 						if (v2 != null) {
 							this.codeField.setText(v2.toString());
 						} else {
@@ -3333,7 +3337,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 						}
 					}
 				}
-				String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
+				final String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
 				((JTextField) this.dataField).setText(sDescriptionString);
 
 				this.setInnerValue(this.getValue());
@@ -3349,26 +3353,26 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	/**
 	 * Method used to reduce the complexity of {@link #setValue(Object, boolean)}
-	 * 
+	 *
 	 * @param inner
 	 * @param oPreviousValue
 	 * @param oValue
 	 * @param vCodes
 	 */
-	protected void setValueIfExistCacheData(boolean inner, Object oPreviousValue, Object oValue, Vector vCodes) {
+	protected void setValueIfExistCacheData(final boolean inner, final Object oPreviousValue, final Object oValue, final List vCodes) {
 		if (ApplicationManager.DEBUG) {
 			ReferenceExtDataField.logger
-					.debug(": setValue() : value: " + oValue + " : In codes of query result is stored the code");
+			.debug(": setValue() : value: " + oValue + " : In codes of query result is stored the code");
 		}
 		if (this.codeQueryField == null) {
 			this.codeField.setText(oValue.toString());
 		} else {
 			this.codeValue = null;
-			Vector v = (Vector) this.dataCache.get(this.codeQueryField);
-			int index = vCodes.indexOf(oValue);
+			final List v = (List) this.dataCache.get(this.codeQueryField);
+			final int index = vCodes.indexOf(oValue);
 			if (index >= 0) {
 				this.codeValue = oValue;
-				Object v2 = v.get(index);
+				final Object v2 = v.get(index);
 				if (v2 != null) {
 					this.codeField.setText(v2.toString());
 				} else {
@@ -3376,7 +3380,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 			}
 		}
-		String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
+		final String sDescriptionString = this.getCodeDescription(oValue, this.dataCache);
 		((JTextField) this.dataField).setText(sDescriptionString);
 
 		this.setInnerValue(this.getValue());
@@ -3394,27 +3398,27 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				try {
 					this.setInnerListenerEnabled(false);
 					this.fireValueEvents = false;
-					EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
+					final EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
 							this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences()));
-					this.dataCache = res;
-				} catch (Exception ex) {
+					this.dataCache = EntityResultUtils.toMap(res);
+				} catch (final Exception ex) {
 					ReferenceExtDataField.logger.error("{}", ex.getMessage(), ex);
 				} finally {
 					this.fireValueEvents = true;
 					this.setInnerListenerEnabled(true);
 				}
 			} else if (this.dataCacheInitialized == false) {
-				Pair<DataCacheId, EntityResult> pair = this.cacheManager.retrieveDataCache(this.entityName,
+				final Pair<DataCacheId, EntityResult> pair = this.cacheManager.retrieveDataCache(this.entityName,
 						this.getAttributes(), null, this.cacheTime);
 				if (pair != null) {
 					try {
 						this.setInnerListenerEnabled(false);
 						this.fireValueEvents = false;
-						EntityResult res = pair.getSecond();
-						this.dataCache = res;
+						final EntityResult res = pair.getSecond();
+						this.dataCache = EntityResultUtils.toMap(res);
 						this.dataCacheInitialized = true;
 						this.lastCacheTime = pair.getFirst().getTime();
-					} catch (Exception ex) {
+					} catch (final Exception ex) {
 						ReferenceExtDataField.logger.error("{}", ex.getMessage(), ex);
 					} finally {
 						this.fireValueEvents = true;
@@ -3422,11 +3426,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					}
 				} else {
 					// Retrieve cache for next time
-					Thread th = new Thread("Initialize cache manager for : " + this.entityName) {
+					final Thread th = new Thread("Initialize cache manager for : " + this.entityName) {
 						@Override
 						public void run() {
 							super.run();
-							EntityResult er = ReferenceExtDataField.this.cacheManager.getDataCache(
+							final EntityResult er = ReferenceExtDataField.this.cacheManager.getDataCache(
 									ReferenceExtDataField.this.entityName, ReferenceExtDataField.this.getAttributes(),
 									null);
 						}
@@ -3437,20 +3441,20 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 	}
 
-	protected String getQueryDescription(Object code, Hashtable value, String description) {
+	protected String getQueryDescription(final Object code, final Map value, final String description) {
 		if (this.queryColumns == null) {
 			return description;
 		}
 
-		StringBuilder buffer = new StringBuilder(description);
-		Vector vCodes = (Vector) value.get(this.code);
-		int index = vCodes.indexOf(code);
+		final StringBuilder buffer = new StringBuilder(description);
+		final List vCodes = (List) value.get(this.code);
+		final int index = vCodes.indexOf(code);
 
-		for (String column : this.queryColumns) {
-			Object dataList = value.get(column);
-			if ((dataList instanceof Vector) && (((Vector) dataList).size() > index)) {
+		for (final String column : this.queryColumns) {
+			final Object dataList = value.get(column);
+			if ((dataList instanceof List) && (((List) dataList).size() > index)) {
 				buffer.append(this.separator);
-				buffer.append(this.toString(((Vector) dataList).get(index)));
+				buffer.append(this.toString(((List) dataList).get(index)));
 			}
 		}
 
@@ -3460,22 +3464,22 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Obtains the code description.
 	 * <p>
-	 * 
-	 * @param code  the object to search in hashtable parameter
-	 * @param value the hashtable with all codes
+	 *
+	 * @param code  the object to search in Map parameter
+	 * @param value the Map with all codes
 	 * @return the code description
 	 */
-	protected String getCodeDescription(Object code, Hashtable value) {
+	protected String getCodeDescription(final Object code, final Map value) {
 		// For all columns, gets and shows the value
 		String description = new String();
-		Vector vCodes = (Vector) value.get(this.code);
-		int index = vCodes.indexOf(code);
+		final List vCodes = (List) value.get(this.code);
+		final int index = vCodes.indexOf(code);
 
 		if ((this.formatPattern != null) && !this.formatPattern.isEmpty()) {
 			description = this.formatPattern.parse(index, value);
 		} else {
-			StringBuilder sDescriptionString = new StringBuilder();
-			Vector vColumns = null;
+			final StringBuilder sDescriptionString = new StringBuilder();
+			List vColumns = null;
 			if (this.descriptionColumns != null) {
 				vColumns = this.descriptionColumns;
 			} else {
@@ -3483,8 +3487,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 
 			for (int i = 0; i < vColumns.size(); i++) {
-				Object oColumn = vColumns.get(i);
-				Object vColumn = value.get(oColumn);
+				final Object oColumn = vColumns.get(i);
+				final Object vColumn = value.get(oColumn);
 				if (vColumn != null) {
 					if (vColumn instanceof List) {
 						if (index < 0) {
@@ -3514,11 +3518,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Checks whether parameter is a string or a date.
 	 * <p>
-	 * 
+	 *
 	 * @param v the object to convert
 	 * @return the string conversion
 	 */
-	protected String toString(Object v) {
+	protected String toString(final Object v) {
 		if (v == null) {
 			return "";
 		} else if (v instanceof String) {
@@ -3531,7 +3535,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.auxDateDoc.setValue((Date) v);
 			try {
 				return this.auxDateDoc.getText(0, this.auxDateDoc.getLength());
-			} catch (BadLocationException ex) {
+			} catch (final BadLocationException ex) {
 				ReferenceExtDataField.logger.trace(null, ex);
 				return v.toString();
 			}
@@ -3544,7 +3548,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * Returns the SQL type of varchar or integer in function of
 	 * {@link #integerValue}.
 	 * <p>
-	 * 
+	 *
 	 * @return the sql data type
 	 */
 	@Override
@@ -3560,7 +3564,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setReferenceLocator(EntityReferenceLocator locator) {
+	public void setReferenceLocator(final EntityReferenceLocator locator) {
 		this.locator = locator;
 	}
 
@@ -3568,30 +3572,30 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		if (this.isParentkeyListener()) {
 			if (this.getParentKeyList() != null) {
 				for (int i = 0; i < this.getParentKeyList().size(); i++) {
-					DataField field = (DataField) this.parentForm
+					final DataField field = (DataField) this.parentForm
 							.getDataFieldReference(this.getParentKeyList().get(i).toString());
 					if (field != null) {
 
 						field.addValueChangeListener(new ValueChangeListener() {
 
 							@Override
-							public void valueChanged(ValueEvent e) {
+							public void valueChanged(final ValueEvent e) {
 								// check event type
 								if (ReferenceExtDataField.PARENTKEY_LISTENER_EVENT_ALL
 										.equals(ReferenceExtDataField.this.parentkeyListenerEvent)) {
 									this.doAction(e);
 								} else if ((e.getType() == ValueEvent.PROGRAMMATIC_CHANGE)
 										&& ReferenceExtDataField.PARENTKEY_LISTENER_EVENT_PROGRAMMATIC
-												.equals(ReferenceExtDataField.this.parentkeyListenerEvent)) {
+										.equals(ReferenceExtDataField.this.parentkeyListenerEvent)) {
 									this.doAction(e);
 								} else if ((e.getType() == ValueEvent.USER_CHANGE)
 										&& ReferenceExtDataField.PARENTKEY_LISTENER_EVENT_USER
-												.equals(ReferenceExtDataField.this.parentkeyListenerEvent)) {
+										.equals(ReferenceExtDataField.this.parentkeyListenerEvent)) {
 									this.doAction(e);
 								}
 							}
 
-							protected void doAction(ValueEvent e) {
+							protected void doAction(final ValueEvent e) {
 								if ((e.getOldValue() == null)
 										|| ((e.getOldValue() != null) && !(e.getOldValue().equals(e.getNewValue())))) {
 									if (e.getNewValue() != null) {
@@ -3617,12 +3621,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		return this.parentkeyListener;
 	}
 
-	public void setParentkeyListener(boolean parentkeyListener) {
+	public void setParentkeyListener(final boolean parentkeyListener) {
 		this.parentkeyListener = parentkeyListener;
 	}
 
 	@Override
-	public void setParentFrame(Frame frame) {
+	public void setParentFrame(final Frame frame) {
 		this.parentFrame = frame;
 		if (this.t != null) {
 			this.t.setParentFrame(this.parentFrame);
@@ -3645,7 +3649,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setParentForm(Form f) {
+	public void setParentForm(final Form f) {
 		this.parentForm = f;
 		this.t.setParentForm(this.parentForm);
 		if (this.multipleResultWindow != null) {
@@ -3655,7 +3659,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setFormBuilder(FormBuilder builder) {
+	public void setFormBuilder(final FormBuilder builder) {
 		this.t.setFormBuilder(builder);
 		if (this.multipleResultWindow != null) {
 			this.multipleResultWindow.multipleResultTable.setFormBuilder(builder);
@@ -3663,12 +3667,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setEnabled(boolean en) {
+	public void setEnabled(final boolean en) {
 
 		boolean enabled = en;
 
 		if (enabled) {
-			boolean permision = this.checkEnabledPermission();
+			final boolean permision = this.checkEnabledPermission();
 			if (!permision) {
 				this.setEnabled(false);
 				return;
@@ -3679,7 +3683,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		if ((this.parentkeyList != null) && (this.parentkeyList.size() > 0) && this.disableonparentkeynull) {
 			for (int i = 0; i < this.parentkeyList.size(); i++) {
-				Object dataFieldValue = this.parentForm.getDataFieldValue(this.parentkeyList.get(i).toString());
+				final Object dataFieldValue = this.parentForm.getDataFieldValue(this.parentkeyList.get(i).toString());
 				if (dataFieldValue == null) {
 					enabled = false;
 					break;
@@ -3704,37 +3708,37 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected void updateBackgroundColor() {
 		super.updateBackgroundColor();
 
-        if (this.requiredBorder != null) {
-            if (!this.enabled) {
-                this.codeField.setForeground(this.fontColor);
-                this.codeField.setBackground(this.disabledbgcolor);
-            } else {
-                this.codeField.setBackground(this.backgroundColor);
-                this.codeField.setForeground(this.fontColor);
-            }
-        } else if (DataField.ASTERISK_REQUIRED_STYLE) {
-            if (this.enabled) {
-                this.codeField.setForeground(this.fontColor);
-                this.codeField.setBackground(this.backgroundColor);
-            } else {
-                this.codeField.setForeground(this.fontColor);
-                this.codeField.setBackground(this.disabledbgcolor);
-            }
-        } else {
-            if (!this.enabled) {
-                this.codeField.setForeground(this.fontColor);
-                this.codeField.setBackground(this.disabledbgcolor);
-            } else {
-                if (this.required) {
-                    this.codeField.setBackground(DataField.requiredFieldBackgroundColor);
-                    this.codeField.setForeground(DataField.requiredFieldForegroundColor != null
-                            ? DataField.requiredFieldForegroundColor : this.fontColor);
-                } else {
-                    this.codeField.setBackground(this.backgroundColor);
-                    this.codeField.setForeground(this.fontColor);
-                }
-            }
-        }
+		if (this.requiredBorder != null) {
+			if (!this.enabled) {
+				this.codeField.setForeground(this.fontColor);
+				this.codeField.setBackground(this.disabledbgcolor);
+			} else {
+				this.codeField.setBackground(this.backgroundColor);
+				this.codeField.setForeground(this.fontColor);
+			}
+		} else if (DataField.ASTERISK_REQUIRED_STYLE) {
+			if (this.enabled) {
+				this.codeField.setForeground(this.fontColor);
+				this.codeField.setBackground(this.backgroundColor);
+			} else {
+				this.codeField.setForeground(this.fontColor);
+				this.codeField.setBackground(this.disabledbgcolor);
+			}
+		} else {
+			if (!this.enabled) {
+				this.codeField.setForeground(this.fontColor);
+				this.codeField.setBackground(this.disabledbgcolor);
+			} else {
+				if (this.required) {
+					this.codeField.setBackground(DataField.requiredFieldBackgroundColor);
+					this.codeField.setForeground(DataField.requiredFieldForegroundColor != null
+							? DataField.requiredFieldForegroundColor : this.fontColor);
+				} else {
+					this.codeField.setBackground(this.backgroundColor);
+					this.codeField.setForeground(this.fontColor);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -3742,9 +3746,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.deleteData(true);
 	}
 
-	public void deleteData(boolean clearCode) {
+	public void deleteData(final boolean clearCode) {
 		this.setInnerListenerEnabled(false);
-		Object oPreviousValue = this.getValue();
+		final Object oPreviousValue = this.getValue();
 		((JTextField) this.dataField).setText("");
 		if (clearCode) {
 			this.codeField.setText("");
@@ -3758,13 +3762,13 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Deletes the user data in code field.
 	 */
-	protected void deleteUserData(boolean clearcode) {
+	protected void deleteUserData(final boolean clearcode) {
 		this.deleteUserData(clearcode, true);
 	}
 
-	protected void deleteUserData(boolean clearcode, boolean cleardescription) {
+	protected void deleteUserData(final boolean clearcode, final boolean cleardescription) {
 		this.setInnerListenerEnabled(false);
-		Object oPreviousValue = this.getInnerValue();
+		final Object oPreviousValue = this.getInnerValue();
 		if (cleardescription) {
 			((JTextField) this.dataField).setText("");
 		}
@@ -3796,7 +3800,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public void setResourceBundle(ResourceBundle resources) {
+	public void setResourceBundle(final ResourceBundle resources) {
 		super.setResourceBundle(resources);
 
 		// Update field content if has a custom formatter.
@@ -3804,9 +3808,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.formatPattern.setResourceBundle(resources);
 
 			if (!this.formatPattern.isEmpty()) {
-				Object value = this.getValue();
+				final Object value = this.getValue();
 				if (value != null) {
-					String s = this.getCodeDescription(value, this.dataCache);
+					final String s = this.getCodeDescription(value, this.dataCache);
 					((JTextField) this.dataField).setText(s);
 				}
 			}
@@ -3830,7 +3834,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 							ApplicationManager.getTranslation(ReferenceExtDataField.auxCodeLabelKey, resources));
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			if (this.windowTitle != null) {
 				this.tableWindow.setTitle(this.windowTitle);
 			}
@@ -3876,12 +3880,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Gets the text to translate
 	 * <p>
-	 * 
-	 * @return the vector with elements to translate
+	 *
+	 * @return the List with elements to translate
 	 */
 	@Override
-	public Vector getTextsToTranslate() {
-		Vector v = super.getTextsToTranslate();
+	public List getTextsToTranslate() {
+		final List v = super.getTextsToTranslate();
 		if (this.attribute instanceof ReferenceFieldAttribute) {
 			v.add(((ReferenceFieldAttribute) this.attribute).getAttr());
 			v.add(((ReferenceFieldAttribute) this.attribute).getCod());
@@ -3895,33 +3899,34 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Returns the combo values associated to code. Returns key-values pairs.
 	 * <p>
-	 * 
+	 *
 	 * @param code the object to find
-	 * @return the hashtable with key-values
+	 * @return the Map with key-values
 	 */
-	public Hashtable getCodeValues(Object code) {
-		Hashtable h = new Hashtable();
+	public Map getCodeValues(final Object code) {
+		final Map h = new Hashtable();
 		if ((this.cacheTime > 0) && this.isDataCacheInitialized() && this.useCacheManager && (this.cacheManager != null)
 				&& (this.parentkeyCache || this.cacheManager.existsCache(this.entityName, this.getAttributes(),
 						this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences())))) {
-			this.dataCache = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
-					this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences()));
+			this.dataCache = EntityResultUtils
+					.toMap(this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
+							this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences())));
 		}
 
 		if (this.dataCache != null) {
-			Vector vCodes = (Vector) this.dataCache.get(this.code);
+			final List vCodes = (List) this.dataCache.get(this.code);
 			if ((vCodes == null) || vCodes.isEmpty()) {
 				return h;
 			}
-			int index = vCodes.indexOf(code);
+			final int index = vCodes.indexOf(code);
 			if (index < 0) {
 				return h;
 			}
-			Enumeration enumKeys = this.dataCache.keys();
+			final Enumeration enumKeys = Collections.enumeration(dataCache.keySet());
 			while (enumKeys.hasMoreElements()) {
-				Object oKey = enumKeys.nextElement();
-				Vector vValues = (Vector) this.dataCache.get(oKey);
-				Object oValue = vValues.get(index);
+				final Object oKey = enumKeys.nextElement();
+				final List vValues = (List) this.dataCache.get(oKey);
+				final Object oValue = vValues.get(index);
 				if (oValue != null) {
 					h.put(oKey, oValue);
 				}
@@ -3933,10 +3938,10 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Gets the data cache.
 	 * <p>
-	 * 
+	 *
 	 * @return the data cache
 	 */
-	public Hashtable getDataCache() {
+	public Map getDataCache() {
 		return this.dataCache;
 	}
 
@@ -3951,9 +3956,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 			if ((this.cacheManager != null) && this.useCacheManager) {
 				try {
-					long t = System.currentTimeMillis();
+					final long t = System.currentTimeMillis();
 					this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
+					final EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
 							this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences()));
 					if (res.getCode() == EntityResult.OPERATION_WRONG) {
 						if (this.parentForm != null) {
@@ -3961,15 +3966,15 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 						}
 						return;
 					}
-					this.dataCache = res;
+					this.dataCache = EntityResultUtils.toMap(res);
 					this.dataCacheInitialized = true;
 					this.lastCacheTime = System.currentTimeMillis();
 					if (ApplicationManager.DEBUG_TIMES) {
 						ReferenceExtDataField.logger
-								.debug(this.getClass().getName() + ": init cache time: " + (this.lastCacheTime - t));
+						.debug(this.getClass().getName() + ": init cache time: " + (this.lastCacheTime - t));
 					}
 					return;
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					if (ApplicationManager.DEBUG) {
 						ReferenceExtDataField.logger.debug("CacheManager can not be used: ", e);
 					} else {
@@ -3981,16 +3986,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 		}
 
-		Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-		long t = System.currentTimeMillis();
+		final Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		final long t = System.currentTimeMillis();
 		try {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			Hashtable hKeysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
-			EntityResult result = this.locator.getEntityReference(this.entityName).query(hKeysValues,
+			final Map hKeysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
+			final EntityResult result = this.locator.getEntityReference(this.entityName).query(hKeysValues,
 					this.getAttributes(), this.locator.getSessionId());
 			if (ApplicationManager.DEBUG_TIMES) {
 				ReferenceExtDataField.logger
-						.debug(this.getClass().getName() + ": init cache time: " + (this.lastCacheTime - t));
+				.debug(this.getClass().getName() + ": init cache time: " + (this.lastCacheTime - t));
 			}
 			if (result.getCode() == EntityResult.OPERATION_WRONG) {
 				if (this.parentForm != null) {
@@ -4001,7 +4006,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				ConnectionManager.checkEntityResult(result, this.locator);
 			}
 			// Now, shows the window
-			this.dataCache = result;
+			this.dataCache = EntityResultUtils.toMap(result);
 			this.dataCacheInitialized = true;
 			this.lastCacheTime = t;
 			if (ApplicationManager.DEBUG) {
@@ -4016,7 +4021,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					out.flush();
 					size = bOut.size();
 
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.error(null, e);
 				} finally {
 					if (bOut != null) {
@@ -4029,7 +4034,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				}
 				ReferenceExtDataField.logger.debug(": Cache size is " + size + " bytes");
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			this.parentForm.message("interactionmanager.error_in_query", Form.ERROR_MESSAGE, e);
 			ReferenceExtDataField.logger.error("" + e.getMessage(), e);
 			if (ApplicationManager.DEBUG) {
@@ -4067,7 +4072,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		try {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			this.lastCacheTime = 0;
-			Object oValue = this.getValue();
+			final Object oValue = this.getValue();
 			this.dataCacheInitialized = false;
 			this.dataCache = new Hashtable();
 			if ((this.cacheManager != null) && this.useCacheManager) {
@@ -4076,7 +4081,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 			this.initCache();
 			this.setValue(oValue);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ReferenceExtDataField.logger.error("Error updating cache", e);
 			if (ApplicationManager.DEBUG) {
 				ReferenceExtDataField.logger.error(null, e);
@@ -4095,17 +4100,17 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Returns the parentkeys.
 	 * <p>
-	 * 
-	 * @return the vector with parentkeys
+	 *
+	 * @return the List with parentkeys
 	 */
-	public Vector getParentKeys() {
+	public List getParentKeys() {
 		if (this.parentkeyList == null) {
 			this.parentkeyList = new Vector();
 			if (this.parentKeys != null) {
 				this.parentkeyList.add(this.parentKeys);
 			}
 			for (int i = 0; i < this.othersParentKey.size(); i++) {
-				Object oKey = this.othersParentKey.get(i);
+				final Object oKey = this.othersParentKey.get(i);
 				if (!this.parentkeyList.contains(oKey)) {
 					this.parentkeyList.add(oKey);
 				}
@@ -4115,7 +4120,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	/**
-	 * Returns a Hashtable with key-value corresponding with result to apply two
+	 * Returns a Map with key-value corresponding with result to apply two
 	 * 'tokenizer' actions over parentkeys parameter. For example, <br>
 	 * <br>
 	 * <code>string="formfieldpk1:equivalententityfieldpk1;formfieldpk2:equivalententityfieldpk2;...;formfieldpkn:equivalententityfieldpkn"</code>
@@ -4127,11 +4132,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * { formfieldpk2 equivalententityfieldpk2} <br>
 	 * { ... ... } <br>
 	 * { formfieldpkn equivalententityfieldpkn} <br>
-	 * 
+	 *
 	 * @param parentkeys the string with values
 	 * @return <code>Hashtable</code> with key-value
 	 */
-	public Hashtable getParentkeyEquivalences() {
+	public Map getParentkeyEquivalences() {
 		return this.hParentkeyEquivalences;
 	}
 
@@ -4144,12 +4149,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public Hashtable getParentKeyValues() {
+	public Map getParentKeyValues() {
 		if ((this.getParentKeys() != null) && (this.getParentKeys().size() > 0)) {
-			Hashtable keysValues = new Hashtable();
+			final Map keysValues = new Hashtable();
 			for (int i = 0; i < this.getParentKeys().size(); i++) {
-				Object currentParentKey = this.getParentKeys().get(i);
-				Object currentParentKeyValue = this.parentForm.getDataFieldValue(currentParentKey.toString());
+				final Object currentParentKey = this.getParentKeys().get(i);
+				final Object currentParentKeyValue = this.parentForm.getDataFieldValue(currentParentKey.toString());
 				if (ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug(
 							": Filtering by " + currentParentKey + " parentkey with value: " + currentParentKeyValue);
@@ -4167,25 +4172,25 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * Sets the CacheManager.
 	 */
 	@Override
-	public void setCacheManager(CacheManager cm) {
+	public void setCacheManager(final CacheManager cm) {
 		this.cacheManager = cm;
 	}
 
 	/**
 	 * Gets Attributes from table.
 	 * <p>
-	 * 
-	 * @return the vector with attributes
+	 *
+	 * @return the List with attributes
 	 */
 	@Override
-	public Vector getAttributes() {
+	public List getAttributes() {
 		return this.t.getAttributeList();
 	}
 
 	/**
 	 * The entity name.
 	 * <p>
-	 * 
+	 *
 	 * @return the {@link #entityName}
 	 */
 	@Override
@@ -4194,7 +4199,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	protected void fireValueChanged(Object newValue, Object oldValue, int type) {
+	protected void fireValueChanged(final Object newValue, final Object oldValue, final int type) {
 		if (!this.disabledValueEvents) {
 			super.fireValueChanged(newValue, oldValue, type);
 		}
@@ -4210,12 +4215,12 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Applies a filter to a specified column.
 	 * <p>
-	 * 
+	 *
 	 * @param column    the name of column
 	 * @param values    the object array to apply filter
 	 * @param condition the condition to filter
 	 */
-	public void setFilter(String column, Object[] values, int condition) {
+	public void setFilter(final String column, final Object[] values, final int condition) {
 		if (this.t != null) {
 			this.t.applyFilter(column, values, condition);
 		}
@@ -4243,22 +4248,22 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Fills the table.
 	 * <p>
-	 * 
+	 *
 	 * @throws Exception when exception occurs
 	 */
 	protected void populateTable() throws Exception {
 		if (this.clearDetailTableQuickFilterWhenShow) {
 			this.clearQuickFilter();
 		}
-		Hashtable hData = this.dataCache;
+		Map hData = this.dataCache;
 		if (this.cacheTime != 0) {
-			long t = System.currentTimeMillis();
-			long timeSinceLastQuery = t - this.getLastCacheTime();
+			final long t = System.currentTimeMillis();
+			final long timeSinceLastQuery = t - this.getLastCacheTime();
 			if ((!this.dataCacheInitialized) || (timeSinceLastQuery > this.cacheTime)) {
 				try {
 					this.invalidateCache();
 					hData = this.dataCache;
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 					this.dataCache = null;
 					this.deleteData();
@@ -4268,15 +4273,15 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				// Checks whether cache is valid. In this case, we use cache
 				// manager.
 				if (this.parentkeyCache) {
-					EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
+					final EntityResult res = this.cacheManager.getDataCache(this.entityName, this.getAttributes(),
 							this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences()));
-					this.dataCache = res;
+					this.dataCache = EntityResultUtils.toMap(res);
 					hData = this.dataCache;
 				}
 			}
 		} else {
-			Hashtable hKeysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
-			EntityResult result = this.locator.getEntityReference(this.entityName).query(hKeysValues,
+			final Map hKeysValues = this.replaceParentkeyByEquivalence(this.getParentkeyEquivalences());
+			final EntityResult result = this.locator.getEntityReference(this.entityName).query(hKeysValues,
 					this.t.getAttributeList(), this.locator.getSessionId());
 			if (result.getCode() == EntityResult.OPERATION_WRONG) {
 				if (this.parentForm != null) {
@@ -4286,7 +4291,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			} else {
 				ConnectionManager.checkEntityResult(result, this.locator);
 			}
-			hData = result;
+			hData = EntityResultUtils.toMap(result);
 		}
 		// Now it shows the window and establishes the table value.
 		this.t.setValue(hData);
@@ -4328,27 +4333,27 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 
 			@Override
-			public void setDocument(Document doc) {
-				Document previousDocument = this.getDocument();
+			public void setDocument(final Document doc) {
+				final Document previousDocument = this.getDocument();
 				try {
 					if ((ReferenceExtDataField.this.innerListener != null) && (previousDocument != null)) {
 						previousDocument.removeDocumentListener(ReferenceExtDataField.this.innerListener);
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 				try {
 					if ((ReferenceExtDataField.this.queryDocumentListener != null) && (previousDocument != null)) {
 						previousDocument.removeDocumentListener(ReferenceExtDataField.this.queryDocumentListener);
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 				super.setDocument(doc);
 
 				try {
 					ReferenceExtDataField.this.installInnerListener();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 
@@ -4356,7 +4361,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 					if ((ReferenceExtDataField.this.queryDocumentListener != null) && (doc != null)) {
 						doc.addDocumentListener(ReferenceExtDataField.this.queryDocumentListener);
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 				}
 			}
@@ -4372,7 +4377,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		this.addFocusListener(new FocusAdapter() {
 
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusLost(final FocusEvent e) {
 				super.focusLost(e);
 				if (ReferenceExtDataField.this.queryPopup != null) {
 					if (ReferenceExtDataField.this.queryPopup.isVisible()) {
@@ -4392,7 +4397,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * Inits the user and application preferences.
 	 */
 	@Override
-	public void initPreferences(ApplicationPreferences prefs, String user) {
+	public void initPreferences(final ApplicationPreferences prefs, final String user) {
 		super.initPreferences(prefs, user);
 		if (this.t != null) {
 			// t.setControlsVisible(false);
@@ -4409,18 +4414,18 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Creates the multiple result window.
 	 * <p>
-	 * 
+	 *
 	 * @param t the table
 	 */
 
-	protected void createMultipleResultsWindow(Table t) {
+	protected void createMultipleResultsWindow(final Table t) {
 		if (this.multipleResultWindow == null) {
 			this.multipleResultWindow = new MultipleResultWindow(t, this, this.resources);
 		}
 	}
 
 	@Override
-	protected void setInnerListenerEnabled(boolean enabled) {
+	protected void setInnerListenerEnabled(final boolean enabled) {
 		super.setInnerListenerEnabled(enabled);
 		this.codeFieldListener.setEnabled(enabled);
 		if (this.queryDocumentListener != null) {
@@ -4445,7 +4450,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	/**
 	 * Returns the codeField.
 	 * <p>
-	 * 
+	 *
 	 * @return a Jcomponent with code field.
 	 */
 	@Override
@@ -4455,25 +4460,25 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	/**
 	 * Returns a string with preference key about dialog size.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	@Deprecated
 	public String getResultDialogSizePreferenceKey() {
-		Form f = this.parentForm;
+		final Form f = this.parentForm;
 		return f != null
 				? ReferenceExtDataField.RESULTS_DIALOG_SIZE_POSITION + "_" + f.getArchiveName() + "_" + this.attribute
-				: ReferenceExtDataField.RESULTS_DIALOG_SIZE_POSITION + "_" + this.attribute;
+						: ReferenceExtDataField.RESULTS_DIALOG_SIZE_POSITION + "_" + this.attribute;
 	}
 
 	/**
 	 * Returns a string with preference key about dialog search.
 	 */
 	public String getSearchDialogSizePreferenceKey() {
-		Form f = this.parentForm;
+		final Form f = this.parentForm;
 		return f != null
 				? ReferenceExtDataField.SEARCH_DIALOG_SIZE_POSITION + "_" + f.getArchiveName() + "_" + this.attribute
-				: ReferenceExtDataField.SEARCH_DIALOG_SIZE_POSITION + "_" + this.attribute;
+						: ReferenceExtDataField.SEARCH_DIALOG_SIZE_POSITION + "_" + this.attribute;
 	}
 
 	/**
@@ -4484,10 +4489,10 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 */
 	@Override
 	protected void installPopupMenuListener() {
-		MouseListener ml = new MouseAdapter() {
+		final MouseListener ml = new MouseAdapter() {
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(final MouseEvent e) {
 				if (SwingUtilities.isRightMouseButton(e)) {
 					ReferenceExtDataField.this.showPopupMenu((Component) e.getSource(), e.getX(), e.getY());
 				}
@@ -4503,7 +4508,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	@Override
 	protected void installPreferenceHelpListener() {
 		if (this.dataField != null) {
-			MouseListener ml = new InfoMouseListener(this);
+			final MouseListener ml = new InfoMouseListener(this);
 
 			this.dataField.addMouseListener(ml);
 			this.codeField.addMouseListener(ml);
@@ -4514,7 +4519,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	 * Returns the condition expressed in parameter 'clearquickfilter'. When it is
 	 * true, quickfilter field will be showed empty when result table is showed.
 	 * When it is false, the last filter typed is maintained in quickfilter.
-	 * 
+	 *
 	 * @return condition about clear quickfilter
 	 */
 	public boolean isClearDetailTableQuickFilterWhenShow() {
@@ -4522,7 +4527,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	@Override
-	public Vector getParentKeyList() {
+	public List getParentKeyList() {
 		return this.getParentKeys();
 	}
 
@@ -4556,7 +4561,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	@Override
 	public Object getTemplateDataValue() {
-		Object value = this.getValue();
+		final Object value = this.getValue();
 		if (value != null) {
 			return this.getCodeDescription(value, this.dataCache);
 		}
@@ -4572,21 +4577,21 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		protected boolean enabled = true;
 
 		@Override
-		public void insertUpdate(DocumentEvent e) {
+		public void insertUpdate(final DocumentEvent e) {
 			if (ReferenceExtDataField.this.dataField.hasFocus()) {
 				this.executeQuery();
 			}
 		}
 
 		@Override
-		public void removeUpdate(DocumentEvent e) {
+		public void removeUpdate(final DocumentEvent e) {
 			if (ReferenceExtDataField.this.dataField.hasFocus()) {
 				this.executeQuery();
 			}
 		}
 
 		@Override
-		public void changedUpdate(DocumentEvent e) {
+		public void changedUpdate(final DocumentEvent e) {
 			if (ReferenceExtDataField.this.dataField.hasFocus()) {
 				this.executeQuery();
 			}
@@ -4610,7 +4615,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			}
 		}
 
-		public void setEnabled(boolean enabled) {
+		public void setEnabled(final boolean enabled) {
 			this.enabled = enabled;
 		}
 
@@ -4621,7 +4626,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected class ExecuteQuery implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			((Timer) e.getSource()).stop();
 			if (ReferenceExtDataField.this.queryPopup == null) {
 				ReferenceExtDataField.this.queryPopup = new QueryPopup();
@@ -4634,14 +4639,14 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	}
 
 	protected void installKeyboardActions() {
-		ActionMap map = this.dataField.getActionMap();
+		final ActionMap map = this.dataField.getActionMap();
 		if (map != null) {
 			map.put("selectPrevious", new UpAction());
 			map.put("selectNext", new DownAction());
 			map.put("selection", new SelectAction());
 		}
 
-		InputMap input = this.dataField.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		final InputMap input = this.dataField.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		input.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "selectNext");
 		input.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "selectPrevious");
 		input.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "selection");
@@ -4650,8 +4655,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected class SelectAction extends AbstractAction {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			JTextField field = (JTextField) e.getSource();
+		public void actionPerformed(final ActionEvent e) {
+			final JTextField field = (JTextField) e.getSource();
 			if (field.isEditable() && (ReferenceExtDataField.this.queryPopup != null)) {
 				if (ReferenceExtDataField.this.queryPopup.isVisible()) {
 					ReferenceExtDataField.this.queryPopup.selection();
@@ -4664,8 +4669,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected class DownAction extends AbstractAction {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			JTextField field = (JTextField) e.getSource();
+		public void actionPerformed(final ActionEvent e) {
+			final JTextField field = (JTextField) e.getSource();
 			if (field.isEditable() && (ReferenceExtDataField.this.queryPopup != null)) {
 				if (ReferenceExtDataField.this.queryPopup.isVisible()) {
 					ReferenceExtDataField.this.queryPopup.selectNextPossibleValue();
@@ -4678,8 +4683,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	protected class UpAction extends AbstractAction {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			JTextField field = (JTextField) e.getSource();
+		public void actionPerformed(final ActionEvent e) {
+			final JTextField field = (JTextField) e.getSource();
 			if (field.isEditable() && (ReferenceExtDataField.this.queryPopup != null)) {
 				if (ReferenceExtDataField.this.queryPopup.isVisible()) {
 					ReferenceExtDataField.this.queryPopup.selectPreviousPossibleValue();
@@ -4731,21 +4736,21 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		}
 
-		public ReferenceExtDataField getReferenceExtDataField(Component invoker) {
+		public ReferenceExtDataField getReferenceExtDataField(final Component invoker) {
 			return (ReferenceExtDataField) SwingUtilities.getAncestorOfClass(ReferenceExtDataField.class, invoker);
 		}
 
 		@Override
-		public void setInvoker(Component invoker) {
+		public void setInvoker(final Component invoker) {
 			super.setInvoker(invoker);
-			Dimension d = this.waitPanel.getPreferredSize();
+			final Dimension d = this.waitPanel.getPreferredSize();
 			d.width = invoker.getWidth();
 			this.waitPanel.setPreferredSize(d);
 		}
 
 		@Override
 		public Dimension getPreferredSize() {
-			Dimension dimension = super.getPreferredSize();
+			final Dimension dimension = super.getPreferredSize();
 			if (dimension.width < this.getInvoker().getWidth()) {
 				dimension.width = this.getInvoker().getWidth();
 			}
@@ -4762,7 +4767,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		/**
 		 * Creates the JList used in the popup to display the items in the combo box
 		 * model. This method is called when the UI class is created.
-		 * 
+		 *
 		 * @return a <code>JList</code> used to display the combo box items
 		 */
 		protected JList createList() {
@@ -4770,9 +4775,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			list.addMouseListener(new MouseAdapter() {
 
 				@Override
-				public void mousePressed(MouseEvent e) {
+				public void mousePressed(final MouseEvent e) {
 					if (SwingUtilities.isLeftMouseButton(e)) {
-						int index = list.locationToIndex(e.getPoint());
+						final int index = list.locationToIndex(e.getPoint());
 						if (index >= 0) {
 							QueryPopup.this.selection(index);
 						}
@@ -4784,14 +4789,14 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		public void selectNextPossibleValue() {
-			JList list = this.getList();
+			final JList list = this.getList();
 			int selectedIndex = list.getSelectedIndex();
 			if (selectedIndex < 0) {
 				this.getList().setSelectedIndex(0);
 				this.getList().ensureIndexIsVisible(0);
 				return;
 			}
-			int total = list.getModel().getSize();
+			final int total = list.getModel().getSize();
 			selectedIndex = selectedIndex + 1;
 			if (total > selectedIndex) {
 				this.getList().setSelectedIndex(selectedIndex);
@@ -4800,7 +4805,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		public void selectPreviousPossibleValue() {
-			JList list = this.getList();
+			final JList list = this.getList();
 			int selectedIndex = list.getSelectedIndex();
 			if (selectedIndex < 0) {
 				return;
@@ -4814,16 +4819,16 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		public void selection() {
-			JList list = this.getList();
-			int selectedIndex = list.getSelectedIndex();
+			final JList list = this.getList();
+			final int selectedIndex = list.getSelectedIndex();
 			this.selection(selectedIndex);
 		}
 
-		public void selection(int index) {
+		public void selection(final int index) {
 			if (index >= 0) {
-				ResultItem item = (ResultItem) this.list.getModel().getElementAt(index);
+				final ResultItem item = (ResultItem) this.list.getModel().getElementAt(index);
 				if (item != null) {
-					ReferenceExtDataField datafield = this.getReferenceExtDataField(this.getInvoker());
+					final ReferenceExtDataField datafield = this.getReferenceExtDataField(this.getInvoker());
 					try {
 						((QueryDocumentListener) datafield.queryDocumentListener).setEnabled(false);
 						datafield.setCode(item.getCode(), ValueEvent.USER_CHANGE);
@@ -4836,7 +4841,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		protected JPanel createWaitPanel() {
-			JPanel panel = new JPanel(new GridBagLayout());
+			final JPanel panel = new JPanel(new GridBagLayout());
 			panel.add(new RotatedLabel(ImageManager.getIcon("loading.png")), new GridBagConstraints(0, 0, 1, 1, 0, 1,
 					GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 			return panel;
@@ -4846,7 +4851,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		 * Creates the scroll pane which houses the scrollable list.
 		 */
 		protected JScrollPane createScroller() {
-			JScrollPane sp = new JScrollPane(this.list, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+			final JScrollPane sp = new JScrollPane(this.list, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			// sp.setHorizontalScrollBar(null);
 			return sp;
@@ -4883,7 +4888,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 			this.setFocusable(false);
 		}
 
-		public void executeQuery(String filterText, ReferenceExtDataField invoker) {
+		public void executeQuery(final String filterText, final ReferenceExtDataField invoker) {
 			if ((filterText == null) || ((filterText.length() < 3) && !filterText.equalsIgnoreCase("*"))) {
 				this.setVisible(false);
 				if (this.queryThread != null) {
@@ -4913,7 +4918,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 			protected boolean finish = false;
 
-			public QueryThread(ReferenceExtDataField field, String filter) {
+			public QueryThread(final ReferenceExtDataField field, final String filter) {
 				super("ReferenceExt.QueryThread");
 				this.dataField = field;
 				this.filter = filter;
@@ -4923,27 +4928,27 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				return this.finish;
 			}
 
-			public void setFinish(boolean finish) {
+			public void setFinish(final boolean finish) {
 				this.finish = finish;
 			}
 
 			@Override
 			public void run() {
-				Hashtable dataCache = null;
+				Map dataCache = null;
 				if (this.dataField.cacheTime > 0) {
 					if (!this.dataField.isDataCacheInitialized()) {
 						this.dataField.initCache();
 					}
 					dataCache = this.dataField.getDataCache();
 				} else {
-					dataCache = this.dataField.queryByCode(null);
+					dataCache = EntityResultUtils.toMap(this.dataField.queryByCode(null));
 				}
 
 				if (this.finish) {
 					return;
 				}
 
-				List result = this.processFilter(this.filter, dataCache);
+				final List result = this.processFilter(this.filter, dataCache);
 
 				if (this.finish) {
 					return;
@@ -4983,8 +4988,8 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				});
 			}
 
-			protected List processFilter(String filter, Hashtable dataCache) {
-				List result = new ArrayList();
+			protected List processFilter(String filter, final Map dataCache) {
+				final List result = new ArrayList();
 				if ((dataCache == null) || dataCache.isEmpty()) {
 					return result;
 				}
@@ -5011,17 +5016,17 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 				filter = filter.replaceAll("\\)", "\\\\)");
 				filter = "(?i)" + filter;
 
-				Pattern pattern = Pattern.compile(filter, Pattern.CASE_INSENSITIVE);
+				final Pattern pattern = Pattern.compile(filter, Pattern.CASE_INSENSITIVE);
 
-				String codeField = this.dataField.getCodeFieldName();
-				Vector codes = (Vector) dataCache.get(codeField);
+				final String codeField = this.dataField.getCodeFieldName();
+				final List codes = (List) dataCache.get(codeField);
 
-				Iterator valueCodes = codes.iterator();
+				final Iterator valueCodes = codes.iterator();
 				while (valueCodes.hasNext()) {
-					Object value = valueCodes.next();
-					String sDescription = this.dataField.getCodeDescription(value, dataCache);
-					String queryDescription = this.dataField.getQueryDescription(value, dataCache, sDescription);
-					Matcher matcher = pattern.matcher(queryDescription);
+					final Object value = valueCodes.next();
+					final String sDescription = this.dataField.getCodeDescription(value, dataCache);
+					final String queryDescription = this.dataField.getQueryDescription(value, dataCache, sDescription);
+					final Matcher matcher = pattern.matcher(queryDescription);
 					if (matcher.matches()) {
 						result.add(new ResultItem(sDescription, value));
 					}
@@ -5040,9 +5045,9 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 		protected Object code;
 
-		protected Hashtable data;
+		protected Map data;
 
-		public ResultItem(String description, Object code) {
+		public ResultItem(final String description, final Object code) {
 			this.code = code;
 			this.description = description;
 		}
@@ -5068,11 +5073,11 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 		}
 
 		@Override
-		public Object getElementAt(int index) {
+		public Object getElementAt(final int index) {
 			return this.data.get(index);
 		}
 
-		public void setData(List data) {
+		public void setData(final List data) {
 			this.data = data;
 			this.fireContentsChanged(this, 0, this.data.size());
 		}

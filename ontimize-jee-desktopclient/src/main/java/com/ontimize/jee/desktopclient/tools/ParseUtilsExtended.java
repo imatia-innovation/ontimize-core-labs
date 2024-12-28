@@ -1,35 +1,20 @@
 package com.ontimize.jee.desktopclient.tools;
 
-import java.awt.Font;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 import javax.swing.Icon;
 import javax.swing.SwingConstants;
 import javax.xml.bind.DatatypeConverter;
 
-import com.ontimize.gui.ApplicationManager;
-import com.ontimize.gui.images.ImageManager;
-import com.ontimize.jee.common.tools.MapTools;
-import com.ontimize.jee.common.tools.ObjectTools;
-import com.ontimize.jee.common.tools.ReflectionTools;
-import com.ontimize.util.Base64Utils;
-import com.ontimize.util.ParseTools;
-import com.ontimize.util.ParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.ontimize.gui.ApplicationManager;
+import com.ontimize.gui.images.ImageManager;
+import com.ontimize.jee.common.tools.ObjectTools;
+import com.ontimize.util.ParseUtils;
 
 /**
  * The Class ParseUtilsExtended.

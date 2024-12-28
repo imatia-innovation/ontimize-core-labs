@@ -38,7 +38,7 @@ public class LoginIntoOAuth2Component extends Row {
      * Instantiates a new ExpressionDataField.
      * @param parameters the parameters
      */
-    public LoginIntoOAuth2Component(Hashtable parameters) {
+    public LoginIntoOAuth2Component(Map parameters) {
         super(parameters);
         this.createFxPanel();
         this.setOpaque(true);

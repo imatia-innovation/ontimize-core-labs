@@ -3,11 +3,12 @@ package com.ontimize.jee.desktopclient.locator.handlers;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.ontimize.gui.i18n.DatabaseBundleDescriptor;
-import com.ontimize.gui.i18n.DatabaseBundleValues;
-import com.ontimize.gui.i18n.IDatabaseBundleManager;
+import com.ontimize.jee.common.gui.i18n.DatabaseBundleDescriptor;
+import com.ontimize.jee.common.gui.i18n.DatabaseBundleValues;
+import com.ontimize.jee.common.gui.i18n.IDatabaseBundleManager;
 import com.ontimize.jee.common.services.i18n.II18nService;
 import com.ontimize.jee.common.tools.CheckingTools;
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;
@@ -47,7 +48,7 @@ public class DatabaseBundleManagerInvocationDelegate extends AbstractInvocationD
      * int)
      */
     @Override
-    public Hashtable getBundles(List baseNames, Locale locale, int sessionId) throws Exception {
+    public Map getBundles(List baseNames, Locale locale, int sessionId) throws Exception {
         return new Hashtable<>(this.getI18nService().getBundles(baseNames, locale));
     }
 
@@ -57,7 +58,7 @@ public class DatabaseBundleManagerInvocationDelegate extends AbstractInvocationD
      * @see com.ontimize.gui.i18n.IDatabaseBundleManager#getAllResourceBundles(java.util.Locale, int)
      */
     @Override
-    public Hashtable getAllResourceBundles(Locale locale, int sessionId) throws Exception {
+    public Map getAllResourceBundles(Locale locale, int sessionId) throws Exception {
         return new Hashtable<>(this.getI18nService().getAllResourceBundles(locale));
     }
 

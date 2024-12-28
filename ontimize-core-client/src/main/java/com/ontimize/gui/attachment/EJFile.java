@@ -1,8 +1,8 @@
 package com.ontimize.gui.attachment;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.JFileChooser;
 
@@ -21,7 +21,7 @@ public class EJFile extends JFileChooser implements Internationalization {
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         if (this.panel != null) {
             return this.panel.getTextsToTranslate();
         }

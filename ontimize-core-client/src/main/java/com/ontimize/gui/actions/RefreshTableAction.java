@@ -2,15 +2,15 @@ package com.ontimize.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.text.MessageFormat;
-import java.util.Vector;
+import java.util.List;
 
-import com.ontimize.db.EntityResult;
 import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.Form;
 import com.ontimize.gui.field.FormComponent;
 import com.ontimize.gui.table.RefreshTableEvent;
 import com.ontimize.gui.table.RefreshTableListener;
 import com.ontimize.gui.table.Table;
+import com.ontimize.jee.common.dto.EntityResult;
 
 public class RefreshTableAction extends AbstractButtonAction {
 
@@ -50,7 +50,7 @@ public class RefreshTableAction extends AbstractButtonAction {
                     if (!t.isEnabled()) {
                         t.setEnabled(true);
                     }
-                    Vector v = t.getParentKeys();
+                    List v = t.getParentKeys();
                     boolean someEmpty = false;
                     String emptyAttribute = null;
                     for (int i = 0; i < v.size(); i++) {

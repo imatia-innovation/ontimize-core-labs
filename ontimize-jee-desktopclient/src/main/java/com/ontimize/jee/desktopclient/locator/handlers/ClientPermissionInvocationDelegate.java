@@ -1,10 +1,10 @@
 package com.ontimize.jee.desktopclient.locator.handlers;
 
-import java.util.Hashtable;
+import java.util.Map;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.security.ClientPermissionManager;
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;
-import com.ontimize.security.ClientPermissionManager;
 
 /**
  * The Class ClientPermissionInvocationDelegate.
@@ -17,7 +17,7 @@ public class ClientPermissionInvocationDelegate extends AbstractInvocationDelega
      * @see com.ontimize.security.ClientPermissionManager#getClientPermissions(java.util.Hashtable, int)
      */
     @Override
-    public EntityResult getClientPermissions(Hashtable userKeys, int sessionId) throws Exception {
+    public EntityResult getClientPermissions(Map userKeys, int sessionId) throws Exception {
         // TODO
         return null;
     }
@@ -29,7 +29,7 @@ public class ClientPermissionInvocationDelegate extends AbstractInvocationDelega
      * int)
      */
     @Override
-    public void installClientPermissions(Hashtable userKeys, int sessionId) throws Exception {
+    public void installClientPermissions(Map userKeys, int sessionId) throws Exception {
         // TODO
 
     }

@@ -8,14 +8,14 @@ import org.slf4j.LoggerFactory;
 import com.ontimize.gui.ApplicationManager;
 import com.ontimize.jee.common.callback.CallbackWrapperMessage;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.locator.UtilReferenceLocator;
 import com.ontimize.jee.common.services.remoteoperation.RemoteOperationFinishMessage;
 import com.ontimize.jee.common.services.remoteoperation.RemoteOperationStatusMessage;
 import com.ontimize.jee.common.tools.Pair;
+import com.ontimize.jee.common.util.operation.RemoteOperationManager;
 import com.ontimize.jee.desktopclient.components.task.OSwingWorker;
 import com.ontimize.jee.desktopclient.components.task.WorkerStatusInfo;
-import com.ontimize.locator.EntityReferenceLocator;
-import com.ontimize.locator.UtilReferenceLocator;
-import com.ontimize.util.operation.RemoteOperationManager;
 
 /**
  * The Class AbstractRemoteOperationSwingWorker.

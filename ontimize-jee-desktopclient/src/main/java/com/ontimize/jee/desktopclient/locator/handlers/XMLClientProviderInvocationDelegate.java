@@ -1,10 +1,10 @@
 package com.ontimize.jee.desktopclient.locator.handlers;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;
-import com.ontimize.util.remote.BytesBlock;
-import com.ontimize.xml.XMLClientProvider;
+import com.ontimize.jee.common.util.remote.BytesBlock;
+import com.ontimize.jee.common.xml.XMLClientProvider;
 
 /**
  * The Class XMLClientProviderInvocationDelegate.
@@ -17,7 +17,7 @@ public class XMLClientProviderInvocationDelegate extends AbstractInvocationDeleg
     }
 
     @Override
-    public Hashtable getFormManagerParameters(String formManagerId, int userid) throws Exception {
+    public Map getFormManagerParameters(String formManagerId, int userid) throws Exception {
         return null;
     }
 

@@ -18,7 +18,7 @@ import com.ontimize.gui.SecureElement;
 import com.ontimize.gui.SelectCurrencyValues;
 import com.ontimize.gui.i18n.Internationalization;
 import com.ontimize.gui.preferences.ApplicationPreferences;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 import com.ontimize.util.rule.RuleEngine;
 
 public interface IFormManager extends Internationalization, SecureElement, Freeable, SelectCurrencyValues,

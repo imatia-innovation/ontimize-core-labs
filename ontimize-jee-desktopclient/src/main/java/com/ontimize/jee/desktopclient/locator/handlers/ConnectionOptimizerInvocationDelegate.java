@@ -1,7 +1,8 @@
 package com.ontimize.jee.desktopclient.locator.handlers;
 
-import com.ontimize.db.EntityResult;
-import com.ontimize.gui.ConnectionOptimizer;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.gui.ConnectionOptimizer;
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;
 
 /**
@@ -16,7 +17,7 @@ public class ConnectionOptimizerInvocationDelegate extends AbstractInvocationDel
      */
     @Override
     public EntityResult testConnectionSpeed(int sizeInBytes, boolean compressed) throws Exception {
-        return new EntityResult();
+        return new EntityResultMapImpl();
     }
 
     /*

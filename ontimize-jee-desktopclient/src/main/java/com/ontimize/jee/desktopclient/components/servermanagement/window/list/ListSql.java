@@ -9,11 +9,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.MouseListener;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -57,7 +56,7 @@ public class ListSql extends JScrollPane implements DataComponent, AccessForm, V
      * @param params the params
      * @throws Exception the exception
      */
-    public ListSql(Hashtable params) throws Exception {
+    public ListSql(Map params) throws Exception {
         super();
         this.list = new JList(new DefaultListModel());
         this.setViewportView(this.list);
@@ -220,7 +219,7 @@ public class ListSql extends JScrollPane implements DataComponent, AccessForm, V
      * @see com.ontimize.gui.field.FormComponent#init(java.util.Hashtable)
      */
     @Override
-    public void init(Hashtable hashtable) throws Exception {
+    public void init(Map hashtable) throws Exception {
         this.attr = (String) hashtable.get("attr");
         if (this.attr == null) {
             this.attr = "list";
@@ -287,7 +286,7 @@ public class ListSql extends JScrollPane implements DataComponent, AccessForm, V
      * @see com.ontimize.gui.i18n.Internationalization#getTextsToTranslate()
      */
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

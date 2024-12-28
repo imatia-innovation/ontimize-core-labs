@@ -58,7 +58,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
         this(new Hashtable());
     }
 
-    public CellAttributesPanel(Hashtable attr) {
+    public CellAttributesPanel(Map attr) {
         super(attr);
         this.initialize();
         this.alignPanel.setAttributes(this.getAttributes());

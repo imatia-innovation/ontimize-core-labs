@@ -3,19 +3,19 @@ package com.ontimize.jee.desktopclient.locator.security;
 import java.net.ConnectException;
 import java.net.URI;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.Advised;
 
 import com.ontimize.jee.common.exceptions.InvalidCredentialsException;
-import com.ontimize.jee.common.hessian.OntimizeHessianHttpClientSessionProcessorFactory;
-import com.ontimize.jee.common.hessian.OntimizeHessianProxyFactoryBean;
 import com.ontimize.jee.common.security.ILoginProvider;
 import com.ontimize.jee.common.services.user.IUserInformationService;
 import com.ontimize.jee.common.tools.ObjectTools;
+import com.ontimize.jee.desktopclient.hessian.OntimizeHessianHttpClientSessionProcessorFactory;
+import com.ontimize.jee.desktopclient.hessian.OntimizeHessianProxyFactoryBean;
 import com.ontimize.jee.desktopclient.spring.BeansFactory;
 
 public class OntimizeLoginProvider implements ILoginProvider {
@@ -58,8 +58,8 @@ public class OntimizeLoginProvider implements ILoginProvider {
 		try (CloseableHttpClient httpClient = OntimizeHessianHttpClientSessionProcessorFactory.createClient(-1)) {
 			final HttpGet request = new HttpGet(serviceUrl);
 			final CloseableHttpResponse response = httpClient.execute(request);
-			if (response.getStatusLine().getStatusCode() == 401) {
-				throw new InvalidCredentialsException(response.getStatusLine().getReasonPhrase());
+			if (response.getCode() == 401) {
+				throw new InvalidCredentialsException(response.getReasonPhrase());
 				// TODO jok
 				// } else if (response.getStatusLine().getStatusCode() == 302) {
 				// Header[] authenticateHeader = response.getHeaders("WWW-Authenticate");
@@ -67,8 +67,8 @@ public class OntimizeLoginProvider implements ILoginProvider {
 				// && "Bearer realm=\"oauth\"".equals(authenticateHeader[0].getValue())) {
 				// new OntimizeLoginProviderOauth2Handler().doOauth2Authentication(this, response);
 				// }
-			} else if (!ObjectTools.isIn(response.getStatusLine().getStatusCode(), 200, 405)) {
-				throw new ConnectException(serviceUrl + ": " + response.getStatusLine().getReasonPhrase());
+			} else if (!ObjectTools.isIn(response.getCode(), 200, 405)) {
+				throw new ConnectException(serviceUrl + ": " + response.getReasonPhrase());
 			}
 		} catch (InvalidCredentialsException | ConnectException ex) {
 			OntimizeLoginProvider.logger.error(null, ex);

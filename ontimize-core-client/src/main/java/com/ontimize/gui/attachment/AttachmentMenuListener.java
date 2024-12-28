@@ -46,8 +46,8 @@ public class AttachmentMenuListener implements ActionListener {
             // try {
             // Entity attachmentEntity = ((UtilReferenceLocator)
             // locator).getAttachmentEntity(locator.getSessionId());
-            // Vector v = this.form.getKeys();
-            // Hashtable kv = new Hashtable();
+            // List v = this.form.getKeys();
+            // Map kv = new Hashtable();
             // Collections.sort(v);
             // for (int i = 0; i < v.size(); i++) {
             // Object o = this.form.getDataFieldValue((String) v.get(i));

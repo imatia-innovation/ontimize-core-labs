@@ -35,8 +35,8 @@ import com.ontimize.gui.Freeable;
 import com.ontimize.gui.FreeableUtils;
 import com.ontimize.gui.MessageDialog;
 import com.ontimize.gui.preferences.ApplicationPreferences;
-import com.ontimize.locator.ClientReferenceLocator;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.locator.ClientReferenceLocator;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 import com.ontimize.util.incidences.FormCreateIncidences;
 import com.ontimize.util.swing.OGlassPanel;
 

@@ -60,6 +60,8 @@
         <!--=====================================-->
         <!--        Dependencies version         -->
         <!--=====================================-->
+        <ontimize-jee.version>5.11.0</ontimize-jee.version>
+        <apache-httpcomponents.version>5.4.1</apache-httpcomponents.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
         <jfreechart.version>1.0.12</jfreechart.version>
         <logback-classic.version>1.0.13</logback-classic.version>
@@ -205,6 +207,18 @@
                 <artifactId>ontimize-jee-hessian-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.ontimize</groupId>
+                <artifactId>ontimize-jee-hessian-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+	
+			<dependency>
+				<groupId>com.ontimize.jee</groupId>
+				<artifactId>ontimize-jee-common</artifactId>
+				<version>${ontimize-jee.version}</version>
+			</dependency>
+		
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -357,6 +371,12 @@
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
             </dependency>
+            
+			<dependency>
+			    <groupId>org.apache.httpcomponents.client5</groupId>
+			    <artifactId>httpclient5</artifactId>
+			    <version>${apache-httpcomponents.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>net.sf</groupId>

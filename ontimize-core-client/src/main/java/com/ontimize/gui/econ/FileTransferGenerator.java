@@ -1,7 +1,7 @@
 package com.ontimize.gui.econ;
 
 import java.io.File;
-import java.util.Vector;
+import java.util.List;
 
 import com.ontimize.gui.econ.FileTransferModel.FileTransferRegister;
 import com.ontimize.util.FileUtils;
@@ -21,7 +21,7 @@ public class FileTransferGenerator {
     public String getString() throws Exception {
         StringBuilder sb = new StringBuilder();
         try {
-            Vector registros = this.model.generate();
+            List registros = this.model.generate();
             for (int i = 0; i < registros.size(); i++) {
                 FileTransferRegister registro = (FileTransferRegister) registros.get(i);
                 sb.append(registro.getContents());

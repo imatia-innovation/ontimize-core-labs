@@ -33,7 +33,7 @@ import com.ontimize.gui.Form;
 import com.ontimize.gui.images.ImageManager;
 import com.ontimize.gui.preferences.ApplicationPreferences;
 import com.ontimize.gui.preferences.BasicApplicationPreferences;
-import com.ontimize.locator.ClientReferenceLocator;
+import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.util.swing.MenuButton;
 
 public class ChartButton extends TableButtonSelection {

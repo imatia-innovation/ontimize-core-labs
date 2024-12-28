@@ -3,15 +3,18 @@
  */
 package com.ontimize.jee.desktopclient.tools;
 
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.TableModel;
 
-import com.ontimize.db.EntityResult;
-import com.ontimize.jee.common.tools.FastQSortAlgorithm;
-import com.ontimize.report.TableSorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.tools.FastQSortAlgorithm;
+import com.ontimize.report.TableSorter;
 
 /**
  * Clase de utilidades para EntityResult.
@@ -47,14 +50,14 @@ public final class EntityResultTools {
         if (a.calculateRecordNumber() < 2) {
             return a;
         }
-        Object[] keysSorted = ((Vector) a.get(col)).toArray();
+        Object[] keysSorted = ((List) a.get(col)).toArray();
         int[] indexes = FastQSortAlgorithm.sort(keysSorted);
-        Vector cols = new Vector(a.keySet());
-        EntityResult res = new EntityResult();
+        List cols = new Vector(a.keySet());
+        EntityResult res = new EntityResultMapImpl();
         com.ontimize.jee.common.tools.EntityResultTools.initEntityResult(res, cols, indexes.length);
         for (Object key : cols) {
-            Vector vOrig = (Vector) a.get(key);
-            Vector vDest = (Vector) res.get(key);
+            List vOrig = (List) a.get(key);
+            List vDest = (List) res.get(key);
             for (int i = 0; i < indexes.length; i++) {
                 vDest.add(i, vOrig.get(indexes[i]));
             }
@@ -110,7 +113,7 @@ public final class EntityResultTools {
      * @return the ordered entity result
      */
     protected static EntityResult getOrderedEntityResult(TableSorter sorter, EntityResult er) {
-        EntityResult res = new EntityResult();
+        EntityResult res = new EntityResultMapImpl();
         com.ontimize.jee.common.tools.EntityResultTools.initEntityResult(res, new Vector(er.keySet()));
         int j = 0;
         for (int i : sorter.getIndexes()) {

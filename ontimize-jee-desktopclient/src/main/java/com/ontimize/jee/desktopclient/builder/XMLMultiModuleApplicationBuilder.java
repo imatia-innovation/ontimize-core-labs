@@ -43,7 +43,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.ontimize.builder.xml.CustomNode;
 import com.ontimize.builder.xml.XMLApplicationBuilder;
 import com.ontimize.builder.xml.XMLButtonBarBuilder;
 import com.ontimize.builder.xml.XMLFormBuilder;
@@ -55,13 +54,14 @@ import com.ontimize.gui.MenuListener;
 import com.ontimize.gui.ToolBarListener;
 import com.ontimize.gui.manager.IFormManager;
 import com.ontimize.gui.manager.ITreeFormManager;
+import com.ontimize.jee.common.builder.CustomNode;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 import com.ontimize.jee.common.tools.Chronometer;
 import com.ontimize.jee.common.tools.Pair;
+import com.ontimize.jee.common.util.extend.ExtendedXmlParser;
 import com.ontimize.jee.desktopclient.components.treetabbedformmanager.ITreeTabbedFormManager;
 import com.ontimize.jee.desktopclient.components.treetabbedformmanager.levelmanager.builder.xml.XMLLevelManagerBuilder;
-import com.ontimize.locator.EntityReferenceLocator;
-import com.ontimize.util.extend.ExtendedXmlParser;
 
 /**
  * The Class XMLMultiModuleApplicationBuilder. Unifica todos los "clientapplication.xml" en uno

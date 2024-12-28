@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -161,7 +161,7 @@ public class SelectOutputColumns extends EJDialog implements ActionListener {
         }
 
         @Override
-        public Vector getTextsToTranslate() {
+        public List getTextsToTranslate() {
             return null;
         }
 

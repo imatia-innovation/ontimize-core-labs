@@ -1,14 +1,14 @@
 package com.ontimize.jee.desktopclient.components;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import com.ontimize.gui.ValueEvent;
 import com.ontimize.gui.field.ImageDataField;
-import com.ontimize.util.remote.BytesBlock;
+import com.ontimize.jee.common.util.remote.BytesBlock;
 
 public class ByteArrayImageDataField extends ImageDataField {
 
-    public ByteArrayImageDataField(Hashtable param) {
+    public ByteArrayImageDataField(Map param) {
         super(param);
     }
 

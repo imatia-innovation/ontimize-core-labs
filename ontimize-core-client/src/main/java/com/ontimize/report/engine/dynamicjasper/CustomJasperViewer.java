@@ -2,7 +2,7 @@ package com.ontimize.report.engine.dynamicjasper;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -66,7 +66,7 @@ public class CustomJasperViewer extends JRViewer implements Internationalization
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

@@ -91,7 +91,7 @@ public class DefaultPathManager implements PathManager {
 
     @Override
     public Component createGUIComponent() {
-        Hashtable params = new Hashtable();
+        Map params = new Hashtable();
         params.put("attr", "actual");
         params.put("visible", "yes");
         params.put("labelvisible", "no");

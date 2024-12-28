@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.ApplicationManager;
-import com.ontimize.gui.preferences.RemoteApplicationPreferences;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
+import com.ontimize.jee.common.gui.preferences.RemoteApplicationPreferences;
 import com.ontimize.jee.common.services.preferences.IRemoteApplicationPreferencesService;
 import com.ontimize.jee.common.tools.ReflectionTools;
 import com.ontimize.jee.common.tools.proxy.AbstractInvocationDelegate;

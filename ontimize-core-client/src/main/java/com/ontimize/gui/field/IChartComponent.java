@@ -2,9 +2,9 @@ package com.ontimize.gui.field;
 
 import java.awt.LayoutManager;
 import java.awt.Paint;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -185,7 +185,7 @@ public interface IChartComponent {
 
     public void initPermissions();
 
-    public Vector getTextsToTranslate();
+    public List getTextsToTranslate();
 
     public void setComponentLocale(Locale l);
 

@@ -109,12 +109,12 @@ public class DefaultLevelManager extends Column implements LevelManager {
 
     private ResourceBundle resourceBundle;
 
-    public DefaultLevelManager(Hashtable parameters) {
+    public DefaultLevelManager(Map parameters) {
         super(parameters);
     }
 
     @Override
-    public void init(Hashtable parameters) {
+    public void init(Map parameters) {
         super.init(parameters);
         String pathManager = (String) parameters.get(LevelManager.PATH_MANAGER_CLASS);
         if (pathManager != null) {
@@ -302,7 +302,7 @@ public class DefaultLevelManager extends Column implements LevelManager {
     }
 
     protected Component createMain() {
-        Hashtable params = new Hashtable();
+        Map params = new Hashtable();
         params.put("attr", "cardPanel");
         params.put("opaque", "no");
         params.put("enabled", "yes");
@@ -311,7 +311,7 @@ public class DefaultLevelManager extends Column implements LevelManager {
     }
 
     protected Button createButton(String key, String tip, String icon, ActionListener actionListener) {
-        Hashtable bP = new Hashtable();
+        Map bP = new Hashtable();
         bP.put("key", key);
         bP.put("tip", tip);
         bP.put("rollover", "yes");
@@ -502,7 +502,7 @@ public class DefaultLevelManager extends Column implements LevelManager {
 
     @Override
     public void add(Level level) {
-        Hashtable colParams = new Hashtable();
+        Map colParams = new Hashtable();
         colParams.put("attr", DefaultLevelManager.COL_TAG + level.getId());
         if (level instanceof JComponent) {
             ((JComponent) level).setEnabled(true);

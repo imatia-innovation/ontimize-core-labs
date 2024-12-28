@@ -21,7 +21,7 @@ public class ImagePanel extends HTMLAttributeEditorPanel {
         this(new Hashtable());
     }
 
-    public ImagePanel(Hashtable at) {
+    public ImagePanel(Map at) {
         super();
         this.initialize();
         this.setAttributes(at);

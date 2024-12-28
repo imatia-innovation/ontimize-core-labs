@@ -11,13 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ontimize.annotation.FormComponent;
-import com.ontimize.db.EntityResult;
 import com.ontimize.gui.BasicInteractionManager;
 import com.ontimize.gui.Form;
 import com.ontimize.gui.MessageDialog;
 import com.ontimize.gui.button.Button;
 import com.ontimize.gui.manager.IFormManager;
 import com.ontimize.gui.table.Table;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 import com.ontimize.jee.common.services.servermanagement.IServerManagementService;
 import com.ontimize.jee.common.session.SessionDto;
@@ -71,7 +72,7 @@ public class IMSession extends BasicInteractionManager {
                 @Override
                 public void run() {
                     try {
-                        EntityResult res = new EntityResult();
+                        EntityResult res = new EntityResultMapImpl();
                         EntityResultTools.initEntityResult(res,
                                 Arrays.asList("USER", "IP", "BEGINDATE", "ENDDATE", "EXPIRATIONTIME"));
                         Collection<SessionDto> sessions = IMSession.this.getActiveSessions();

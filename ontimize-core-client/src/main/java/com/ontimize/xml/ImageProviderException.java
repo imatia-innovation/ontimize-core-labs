@@ -1,6 +1,6 @@
 package com.ontimize.xml;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.jee.common.dto.EntityResult;
 
 public class ImageProviderException extends Exception {
 

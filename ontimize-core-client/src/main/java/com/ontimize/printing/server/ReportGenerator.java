@@ -1,6 +1,6 @@
 package com.ontimize.printing.server;
 
-import java.util.Vector;
+import java.util.List;
 
 public interface ReportGenerator {
 
@@ -8,9 +8,9 @@ public interface ReportGenerator {
 
     public static final String ERROR = "ERROR";
 
-    public Vector getReportList();
+    public List getReportList();
 
-    public Vector getReportDescription();
+    public List getReportDescription();
 
     public String getDescription();
 
