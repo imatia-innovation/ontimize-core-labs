@@ -106,7 +106,7 @@ public class XMLTemplateBuilder extends XMLInterpreter implements TemplateBuilde
 			className = packageName + className;
 			// Get the attribute list
 			final NamedNodeMap attributeList = childNode.attributeList();
-			final Hashtable<String, String> hAttributesTable = new Hashtable<String, String>();
+			final Map<String, String> hAttributesTable = new Hashtable<String, String>();
 			for (int i = 0; i < attributeList.getLength(); i++) {
 				final Node node = attributeList.item(i);
 				hAttributesTable.put(node.getNodeName(), node.getNodeValue());

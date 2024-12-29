@@ -329,7 +329,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 			} else {
 				if (NavigationMenu.OPTIONS.equalsIgnoreCase(currentNode.getNodeName())) {
 					final String options = currentNode.getNodeValue();
-					final ArrayList li = new ArrayList();
+					final List li = new ArrayList();
 					final StringTokenizer tokens = new StringTokenizer(options, ";");
 					while (tokens.hasMoreTokens()) {
 						li.add(tokens.nextToken());
@@ -338,7 +338,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 					parameters.put(NavigationMenu.OPTIONS, opts);
 				} else if (NavigationMenu.ICONS.equalsIgnoreCase(currentNode.getNodeName())) {
 					final String sIcons = currentNode.getNodeValue();
-					final ArrayList li = new ArrayList();
+					final List li = new ArrayList();
 					final StringTokenizer tokens = new StringTokenizer(sIcons, ";");
 					while (tokens.hasMoreTokens()) {
 						if (this.imageBasePath != null) {
@@ -676,10 +676,10 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 	/**
 	 * This method obtains the current visibility values of the MenuItems of the MenuGroups and builds a
 	 * String to be used into the preference values.
-	 * @param menulist ArrayList with the whole MenuGroups of the NavigationMenu.
+	 * @param menulist List with the whole MenuGroups of the NavigationMenu.
 	 * @return a <code>String</code>
 	 */
-	public String getPreferencesStructure(final ArrayList menulist) {
+	public String getPreferencesStructure(final List menulist) {
 
 		final StringBuilder buffer = new StringBuilder("~items~");
 		final String equals = "=";
@@ -1402,9 +1402,9 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 	public static class GroupSelectableItem extends SelectableItem {
 
 		/**
-		 * ArrayList of SelectableItems.
+		 * List of SelectableItems.
 		 */
-		protected ArrayList itemSelectableItem = null;
+		protected List itemSelectableItem = null;
 
 		/**
 		 * Constructs a new GroupSelectableItem
@@ -1415,23 +1415,23 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		}
 
 		/**
-		 * This method returns the ArrayList of SelectableItems associated to this GroupSelectableItem.
+		 * This method returns the List of SelectableItems associated to this GroupSelectableItem.
 		 * @return a <code>ArrayList</code> of SelectableItems.
 		 */
-		public ArrayList getItemSelectableItem() {
+		public List getItemSelectableItem() {
 			return this.itemSelectableItem;
 		}
 
 		/**
-		 * This method sets the ArrayList of SelectableItems of this GroupSelectableItem.
-		 * @param itemSelectableItem ArrayList of SelectableItems.
+		 * This method sets the List of SelectableItems of this GroupSelectableItem.
+		 * @param itemSelectableItem List of SelectableItems.
 		 */
-		public void setItemSelectableItem(final ArrayList itemSelectableItem) {
+		public void setItemSelectableItem(final List itemSelectableItem) {
 			this.itemSelectableItem = itemSelectableItem;
 		}
 
 		/**
-		 * This method adds a SelectableItem to the ArrayList of SelectablItems.
+		 * This method adds a SelectableItem to the List of SelectablItems.
 		 * @param item The SelectbleItem to be added.
 		 */
 		public void addItemSelectableItem(final SelectableItem item) {
@@ -1495,9 +1495,9 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		public int operation = -1;
 
 		/**
-		 * ArrayList that contains all the MenuGroups of the NavigationMenu.
+		 * List that contains all the MenuGroups of the NavigationMenu.
 		 */
-		protected ArrayList menulist = null;
+		protected List menulist = null;
 
 		/**
 		 * Map that contains the whole information about a MenuGroup.
@@ -1539,7 +1539,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		 */
 		public void jInit() {
 			// setUndecorated(true);
-			final ArrayList menuGroupGUI = this.menulist;
+			final List menuGroupGUI = this.menulist;
 
 			final JPanel jMyPanel = new JPanel();
 			jMyPanel.setLayout(new GridBagLayout());
@@ -1788,7 +1788,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 
 					final int index = e.getIndex0();
 					final GroupSelectableItem gsItem = (GroupSelectableItem) jlistGroup.getModel().getElementAt(index);
-					final ArrayList selectableItem = gsItem.getItemSelectableItem();
+					final List selectableItem = gsItem.getItemSelectableItem();
 					if (gsItem.isSelected()) {
 						for (int j = 0; j < selectableItem.size(); j++) {
 							final SelectableItem selItem = (SelectableItem) selectableItem.get(j);
@@ -1821,7 +1821,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 					final int index = jlistGroup.getSelectedIndex();
 					final GroupSelectableItem menuSelected = (GroupSelectableItem) jlistGroup.getModel().getElementAt(index);
 					final String menuGroupNameSelected = menuSelected.getText();
-					final ArrayList selectableItem = menuSelected.getItemSelectableItem();
+					final List selectableItem = menuSelected.getItemSelectableItem();
 
 					for (int i = 0; i < menuGroupGUI.size(); i++) {
 						final MenuGroupGUI menuGroupSelected = (MenuGroupGUI) menuGroupGUI.get(i);
@@ -1911,16 +1911,16 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		 * This method returns the necessary data to configure the JDialog.
 		 * @return a <code>ArrayList</code> whit the input data necessary.
 		 */
-		public ArrayList getInputData() {
+		public List getInputData() {
 			return this.menulist;
 		}
 
 		/**
 		 * This method establishes the input data necessary to configure the JDialog. That is a list with
 		 * the whole MenuGroups of the NavigationMenu.
-		 * @param menulist ArrayList whit the input data necessary.
+		 * @param menulist List whit the input data necessary.
 		 */
-		public void setInputData(final ArrayList menulist) {
+		public void setInputData(final List menulist) {
 			this.menulist = menulist;
 		}
 
@@ -1958,7 +1958,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 				final String menuGName = menuGroup.getText();
 
 				final List infoItems = new Vector();
-				final ArrayList items = menuGroup.getItemSelectableItem();
+				final List items = menuGroup.getItemSelectableItem();
 				for (int j = 0; j < items.size(); j++) {
 					final SelectableItem selItem = (SelectableItem) items.get(j);
 					final String name = selItem.getText();
@@ -1982,7 +1982,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		 * @return menugroup list
 		 * @since 5.2068EN-0.7
 		 */
-		public ArrayList getMenulist() {
+		public List getMenulist() {
 			return this.menulist;
 		}
 
@@ -1991,7 +1991,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 		 * @param menulist List with <code>MenuGroup</code>
 		 * @since 5.2068EN-0.7
 		 */
-		public void setMenulist(final ArrayList menulist) {
+		public void setMenulist(final List menulist) {
 			this.menulist = menulist;
 		}
 

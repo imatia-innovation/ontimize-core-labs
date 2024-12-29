@@ -1,5 +1,6 @@
 package com.ontimize.gui.field;
 
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -66,7 +67,7 @@ public class CustomComboBoxModel extends DefaultComboBoxModel {
 		this.checkNullSelection();
 	}
 
-	public void setDataVector(final Vector v) {
+	public void setDataVector(final List v) {
 		try {
 			this.disableEvents = true;
 			super.removeAllElements();

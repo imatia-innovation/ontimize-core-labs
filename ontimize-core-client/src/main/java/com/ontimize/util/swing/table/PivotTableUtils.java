@@ -1674,8 +1674,8 @@ public class PivotTableUtils extends JPanel {
 			final DefaultTableModel model = new DefaultTableModel();
 			if (this.dateGroupTableModel != null) {
 				// Recovering the name of the columns of the parameter 'rows'...
-				final ArrayList rowNames = new ArrayList();
-				final ArrayList rowValuesGrouped = new ArrayList();
+				final List rowNames = new ArrayList();
+				final List rowValuesGrouped = new ArrayList();
 				for (int i = 0; i < this.rowColumns; i++) {
 					// with i<= columnIndex we allow to show in detail data when
 					// user
@@ -1713,8 +1713,8 @@ public class PivotTableUtils extends JPanel {
 					data[i] = new ArrayList();
 				}
 				int emptyIndex = 0;
-				final ArrayList colItems = PivotPanel.getItems(this.dateGroupTableModel, this.column, (Comparator) null);
-				final ArrayList allColItems = new ArrayList();
+				final List colItems = PivotPanel.getItems(this.dateGroupTableModel, this.column, (Comparator) null);
+				final List allColItems = new ArrayList();
 				allColItems.addAll(rowNames);
 				allColItems.addAll(colItems);
 
@@ -1770,9 +1770,9 @@ public class PivotTableUtils extends JPanel {
 		public Map getDetailTableInformation(final int rowIndex, final int columnIndex) {
 			final Map information = new Hashtable();
 
-			final ArrayList rows = new ArrayList(this.rowColumns);
+			final List rows = new ArrayList(this.rowColumns);
 			for (int i = 0; i < this.rowColumns; i++) {
-				final ArrayList data = new ArrayList(2);
+				final List data = new ArrayList(2);
 				data.add(0, this.innerModel.getColumnName(i));
 				if (rowIndex != -1) {
 					data.add(1, this.getValueAt(rowIndex, i));
@@ -1784,8 +1784,8 @@ public class PivotTableUtils extends JPanel {
 			}
 			information.put("rows", rows);
 
-			final ArrayList column = new ArrayList(1);
-			final ArrayList datac = new ArrayList(2);
+			final List column = new ArrayList(1);
+			final List datac = new ArrayList(2);
 			datac.add(0, this.column);
 			if (columnIndex != -1) {
 				datac.add(1, ApplicationManager.getTranslation(this.innerModel.getColumnName(columnIndex)));
@@ -2764,7 +2764,7 @@ public class PivotTableUtils extends JPanel {
 		}
 
 		protected void configureDataField() {
-			final ArrayList cols = new ArrayList();
+			final List cols = new ArrayList();
 			for (int i = 0; i < this.model.getColumnCount(); i++) {
 				cols.add(this.model.getColumnName(i));
 			}
@@ -2819,7 +2819,7 @@ public class PivotTableUtils extends JPanel {
 		}
 
 		protected void configureFormat() {
-			final ArrayList listRender = new ArrayList<String>();
+			final List listRender = new ArrayList<String>();
 			// listRender.add(PivotTableUtils.PIVOTTABLE_FORMAT_PERCENTAGE_STRING);
 			// listRender.add(PivotTableUtils.PIVOTTABLE_FORMAT_CURRENCY_STRING);
 			// listRender.add(PivotTableUtils.PIVOTTABLE_FORMAT_REAL_STRING);
@@ -2880,13 +2880,13 @@ public class PivotTableUtils extends JPanel {
 				this.selectedColumn.clear();
 			}
 
-			final ArrayList rowFields = this.getSelectedRowFields();
+			final List rowFields = this.getSelectedRowFields();
 			this.selectedColumn.put(PivotTableUtils.PIVOTTABLE_ROWFIELD, rowFields);
 
-			final ArrayList columnFields = this.getSelectedColumnFields();
+			final List columnFields = this.getSelectedColumnFields();
 			this.selectedColumn.put(PivotTableUtils.PIVOTTABLE_COLUMNFIELD, columnFields);
 
-			final ArrayList dataFields = this.getSelectedDataFields();
+			final List dataFields = this.getSelectedDataFields();
 			this.selectedColumn.put(PivotTableUtils.PIVOTTABLE_DATAFIELD, dataFields);
 
 			final Object oc = this.coperation.getItemAt(this.coperation.getSelectedIndex());
@@ -2929,9 +2929,9 @@ public class PivotTableUtils extends JPanel {
 						this.rowFieldWidth.clear();
 						this.rowFieldWidth.add((Pair<String, Integer>) v);
 						this.arrayCrowField[0].setSelectedItem(((Pair<String, Integer>) v).getFirst());
-					} else if (v instanceof ArrayList) {
+					} else if (v instanceof List) {
 						this.rowFieldWidth.clear();
-						final ArrayList list = (ArrayList) v;
+						final List list = (List) v;
 						for (int i = 0; i < list.size(); i++) {
 							Object item = list.get(i);
 							if (item instanceof Pair<?, ?>) {
@@ -2947,8 +2947,8 @@ public class PivotTableUtils extends JPanel {
 					final Object v = h.get(PivotTableUtils.PIVOTTABLE_COLUMNFIELD);
 					if (v instanceof String) {
 						this.ccolumnField.setSelectedItem(v);
-					} else if (v instanceof ArrayList) {
-						final ArrayList list = (ArrayList) v;
+					} else if (v instanceof List) {
+						final List list = (List) v;
 						for (int i = 0; i < list.size(); i++) {
 							this.ccolumnField.setSelectedItem(list.get(i));
 						}
@@ -2960,8 +2960,8 @@ public class PivotTableUtils extends JPanel {
 					final Object v = h.get(PivotTableUtils.PIVOTTABLE_DATAFIELD);
 					if (v instanceof String) {
 						this.cdataField.setSelectedItem(v);
-					} else if (v instanceof ArrayList) {
-						final ArrayList list = (ArrayList) v;
+					} else if (v instanceof List) {
+						final List list = (List) v;
 						this.cdataField.setSelectedItem(list.get(0));
 					}
 				}
@@ -2996,7 +2996,7 @@ public class PivotTableUtils extends JPanel {
 		}
 
 		protected void configure(final JComboBox c) {
-			final ArrayList cols = new ArrayList();
+			final List cols = new ArrayList();
 			for (int i = 0; i < this.model.getColumnCount(); i++) {
 				cols.add(this.model.getColumnName(i));
 			}
@@ -3102,9 +3102,9 @@ public class PivotTableUtils extends JPanel {
 		protected void updateTable() {
 			try {
 				if (this.updateEnabled) {
-					final ArrayList rowFields = this.getSelectedRowFields();
-					final ArrayList columnFields = this.getSelectedColumnFields();
-					final ArrayList dataFields = this.getSelectedDataFields();
+					final List rowFields = this.getSelectedRowFields();
+					final List columnFields = this.getSelectedColumnFields();
+					final List dataFields = this.getSelectedDataFields();
 
 					if (rowFields.isEmpty() || columnFields.isEmpty() || dataFields.isEmpty()) {
 						this.clearTable();
@@ -3186,8 +3186,8 @@ public class PivotTableUtils extends JPanel {
 						}
 					}
 
-					final ArrayList colItems = PivotPanel.getItems(orig, column, columnComparator);
-					final ArrayList rowItems = PivotPanel.getItems(orig, rows, rowComparator);
+					final List colItems = PivotPanel.getItems(orig, column, columnComparator);
+					final List rowItems = PivotPanel.getItems(orig, rows, rowComparator);
 					final int[] rindex = PivotPanel.columnIndex(orig, rows);
 					final int cindex = PivotPanel.columnIndex(orig, column);
 					// TableModel contains : columns = colItems, rows = rowItems
@@ -3199,7 +3199,7 @@ public class PivotTableUtils extends JPanel {
 					}
 
 					for (int i = 0; i < rows.length; i++) {
-						final ArrayList data = new ArrayList();
+						final List data = new ArrayList();
 						for (int j = 0; j < rowItems.size(); j++) {
 							final GroupValue gv = (GroupValue) rowItems.get(j);
 							data.add(gv.values[i]);
@@ -3291,9 +3291,9 @@ public class PivotTableUtils extends JPanel {
 
 		protected static NullComparator comparator = new NullComparator();
 
-		protected static ArrayList getItems(final TableModel model, final String column, final Comparator currentComparator) {
+		protected static List getItems(final TableModel model, final String column, final Comparator currentComparator) {
 			final int iColumn = PivotPanel.columnIndex(model, column);
-			final ArrayList columnItems = new ArrayList();
+			final List columnItems = new ArrayList();
 			for (int i = 0; i < model.getRowCount(); i++) {
 				final Object v = model.getValueAt(i, iColumn);
 				if (!columnItems.contains(v)) {
@@ -3310,13 +3310,13 @@ public class PivotTableUtils extends JPanel {
 			return columnItems;
 		}
 
-		protected static ArrayList getItems(final TableModel model, final String[] columns, final Comparator[] comparators) {
+		protected static List getItems(final TableModel model, final String[] columns, final Comparator[] comparators) {
 			final int[] columnIndexes = new int[columns.length];
 
 			for (int i = 0; i < columns.length; i++) {
 				columnIndexes[i] = PivotPanel.columnIndex(model, columns[i]);
 			}
-			final ArrayList columnItems = new ArrayList();
+			final List columnItems = new ArrayList();
 			for (int i = 0; i < model.getRowCount(); i++) {
 				final Object[] values = new Object[columns.length];
 				for (int j = 0; j < columnIndexes.length; j++) {
@@ -3365,8 +3365,8 @@ public class PivotTableUtils extends JPanel {
 			this.fixedColumnTable.setModel(new DefaultTableModel(), 0, this.cformat.getSelectedItem());
 		}
 
-		public ArrayList getSelectedRowFields() {
-			final ArrayList slist = new ArrayList();
+		public List getSelectedRowFields() {
+			final List slist = new ArrayList();
 			for (int i = 0; i < this.arrayCrowField.length; i++) {
 				if (this.arrayCrowField[i].getSelectedItem() != null) {
 					slist.add(this.arrayCrowField[i].getSelectedItem());
@@ -3375,16 +3375,16 @@ public class PivotTableUtils extends JPanel {
 			return slist;
 		}
 
-		public ArrayList getSelectedColumnFields() {
-			final ArrayList slist = new ArrayList();
+		public List getSelectedColumnFields() {
+			final List slist = new ArrayList();
 			if (this.ccolumnField.getSelectedItem() != null) {
 				slist.add(this.ccolumnField.getSelectedItem());
 			}
 			return slist;
 		}
 
-		public ArrayList getSelectedDataFields() {
-			final ArrayList slist = new ArrayList();
+		public List getSelectedDataFields() {
+			final List slist = new ArrayList();
 			if (this.cdataField.getSelectedItem() != null) {
 				slist.add(this.cdataField.getSelectedItem());
 			}

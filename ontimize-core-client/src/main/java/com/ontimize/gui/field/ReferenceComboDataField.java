@@ -2452,7 +2452,7 @@ ITemplateField {
 	 * @param vCodes
 	 * @param codV
 	 */
-	protected void checkVCodesOnSetValue(final Vector vCodes, final Object codV) {
+	protected void checkVCodesOnSetValue(final List vCodes, final Object codV) {
 		if ((vCodes == null) || vCodes.isEmpty() || (codV == null)) {
 			((JComboBox) this.dataField).setSelectedIndex(0);
 		} else {

@@ -39,7 +39,7 @@ public class ColumnSelectionListener extends MouseAdapter {
     }
 
     private int[] removeValue(int value) {
-        ArrayList l = new ArrayList();
+        List l = new ArrayList();
 
         int[] out = new int[l.size()];
         for (int i = 0, a = l.size(); i < a; i++) {

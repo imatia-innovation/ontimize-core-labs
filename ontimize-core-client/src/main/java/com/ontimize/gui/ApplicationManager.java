@@ -3580,7 +3580,7 @@ public abstract class ApplicationManager {
 
 		protected JTable table = null;
 
-		protected ArrayList threads = new ArrayList();
+		protected List threads = new ArrayList();
 
 		protected JButton hideButton = new JButton("applicationmanager.hide");
 

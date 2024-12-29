@@ -760,7 +760,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 		if (keysValues.size() == 0) {
 			return;
 		}
-		final ArrayList keyList = new ArrayList(keysValues.keySet());
+		final List keyList = new ArrayList(keysValues.keySet());
 		final List vKey = (List) this.data.get(keyList.get(0));
 		final Object oKeyValue = keysValues.get(keyList.get(0));
 		if ((vKey == null) || (oKeyValue == null)) {

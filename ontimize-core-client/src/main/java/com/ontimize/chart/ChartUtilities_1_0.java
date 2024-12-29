@@ -451,7 +451,7 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 		Object[] seriesValues = null;
 		final List seriesNamesList = new ArrayList();
 
-		final ArrayList yDataList = new ArrayList();
+		final List yDataList = new ArrayList();
 		for (int i = 0; i < colsY.length; i++) {
 			int iOperation = ChartUtilities_1_0.SUM;
 			if ((operations != null) && (operations.length > i)) {
@@ -983,7 +983,7 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 
 		private final JPanel chartTitlePanel = new JPanel(new BorderLayout());
 
-		private final ArrayList titleList = new ArrayList();
+		private final List titleList = new ArrayList();
 
 		private ChartUtilities_1_0 chartUtilities = null;
 
@@ -2881,12 +2881,12 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 			final int timeGrouping) {
 
 		// Look form x axis distinct values and put then into a vector
-		final ArrayList xDistintcValues = new ArrayList();
+		final List xDistintcValues = new ArrayList();
 		ArrayList[] yCorrespondentValues = null;
 
 		final Map shownValue = (Map) this.t.getShownValue(new String[] { colX, colY, columnSeriesValuesGen });
 
-		final ArrayList serieDistinctValues = new ArrayList();
+		final List serieDistinctValues = new ArrayList();
 
 		List xData = (List) shownValue.get(colX);
 
@@ -3017,7 +3017,7 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 				}
 			}
 		} else {
-			final ArrayList yValues = new ArrayList();
+			final List yValues = new ArrayList();
 			int xDataIndex = xDataVector.indexOf(xData);
 			if (xDataIndex < 0) {
 				return null;
@@ -3102,10 +3102,10 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 			}
 
 			if (availablePeriod != null) {
-				final ArrayList dy = (ArrayList) res.get(availablePeriod);
+				final List dy = res.get(availablePeriod);
 				dy.add(yData.get(i));
 			} else {
-				final ArrayList dy = new ArrayList();
+				final List dy = new ArrayList();
 				dy.add(0, yData.get(i));
 				res.put(period, dy);
 			}

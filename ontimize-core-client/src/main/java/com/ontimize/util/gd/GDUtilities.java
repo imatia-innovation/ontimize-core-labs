@@ -288,7 +288,7 @@ public class GDUtilities {
         if (res == null) {
             return null;
         }
-        ArrayList list = new ArrayList();
+        List list = new ArrayList();
         for (int i = 0; i < res.length; i++) {
             boolean match = GDUtilities.matchs(res[i], rootDir, category, name);
             if (match) {
@@ -351,7 +351,7 @@ public class GDUtilities {
             throw new IllegalArgumentException("query parameter can´t be null");
         }
         int lastResults = GDUtilities.STEP_SIZE;
-        ArrayList list = new ArrayList();
+        List list = new ArrayList();
         while (lastResults == GDUtilities.STEP_SIZE) {
             Result[] res = GDUtilities.search(query, start, items);
             if (res == null) {

@@ -205,7 +205,7 @@ class ColumnCalculatorWindow extends EJDialog {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				final MathExpressionParser parser = MathExpressionParserFactory.getInstance();
-				final ArrayList source = new ArrayList();
+				final List source = new ArrayList();
 				final List realCols = ColumnCalculatorWindow.this.table.getRealColumns();
 				final String expression = ColumnCalculatorWindow.this.textArea.getText();
 				if ((expression != null) && (expression.length() > 0)) {

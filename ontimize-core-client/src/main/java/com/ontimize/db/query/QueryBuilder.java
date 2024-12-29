@@ -225,7 +225,7 @@ public class QueryBuilder extends JPanel {
 
 		protected String[] columns = null;
 
-		protected ArrayList expressionList = new ArrayList();
+		protected List expressionList = new ArrayList();
 
 		protected java.util.List auxcols = new ArrayList();
 
@@ -527,7 +527,7 @@ public class QueryBuilder extends JPanel {
 			// Get the lower row
 			// Order
 			Arrays.sort(rows);
-			final ArrayList list = new ArrayList();
+			final List list = new ArrayList();
 
 			for (int i = 0, j = rows.length; i < j; i++) {
 				if (!this.isExpressionOKWithoutParameters(rows[i])) {
@@ -1185,9 +1185,9 @@ public class QueryBuilder extends JPanel {
 
 				final AdvancedQueryEntity eAv = (AdvancedQueryEntity) entity;
 				final Map m = eAv.getColumnListForAvancedQuery(b.getSessionId());
-				final ArrayList colum = new ArrayList();
-				final ArrayList tips = new ArrayList();
-				final ArrayList columaux = new ArrayList();
+				final List colum = new ArrayList();
+				final List tips = new ArrayList();
+				final List columaux = new ArrayList();
 				final Set setKeys = m.keySet();
 				final Iterator it = setKeys.iterator();
 
@@ -1490,7 +1490,7 @@ public class QueryBuilder extends JPanel {
 				final String s = ((BasicField) this.getValueAt(row, 0)).toString();
 				final int t = this.types[this.columns.indexOf(((BasicField) this.getValueAt(row, 0)).toString())];
 
-				final ArrayList l = new ArrayList();
+				final List l = new ArrayList();
 				if (t == ConditionsTableModel.BOOLEAN) {
 					this.valueEditor = new ComboEditor(false, this.bundle);
 					l.add("0");
@@ -1844,9 +1844,9 @@ public class QueryBuilder extends JPanel {
 				final AdvancedQueryEntity eAv = (AdvancedQueryEntity) entity;
 				final Map m = eAv.getColumnListForAvancedQuery(this.locator.getSessionId());
 
-				final ArrayList tips = new ArrayList();
-				final ArrayList colsTips = new ArrayList();
-				final ArrayList ordenTips = new ArrayList();
+				final List tips = new ArrayList();
+				final List colsTips = new ArrayList();
+				final List ordenTips = new ArrayList();
 
 				final Set setKeys = m.keySet();
 				final Iterator it = setKeys.iterator();
@@ -1978,9 +1978,9 @@ public class QueryBuilder extends JPanel {
 
 					final AdvancedQueryEntity eAv = (AdvancedQueryEntity) entity;
 					final Map m = eAv.getColumnListForAvancedQuery(this.locator.getSessionId());
-					final ArrayList colum = new ArrayList();
-					final ArrayList tips = new ArrayList();
-					final ArrayList auxCOlumn = new ArrayList();
+					final List colum = new ArrayList();
+					final List tips = new ArrayList();
+					final List auxCOlumn = new ArrayList();
 					final Set setKeys = m.keySet();
 					final Iterator it = setKeys.iterator();
 
@@ -2254,7 +2254,7 @@ public class QueryBuilder extends JPanel {
 				final String s = ((BasicField) this.getValueAt(row, 0)).toString();
 				final int t = this.types[this.columns.indexOf(((BasicField) this.getValueAt(row, 0)).toString())];
 
-				final ArrayList l = new ArrayList();
+				final List l = new ArrayList();
 				if (t == ConditionsTableModel.BOOLEAN) {
 					this.valueEditor = new ComboEditor(false, this.bundle);
 					l.add("0");

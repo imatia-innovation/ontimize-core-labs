@@ -119,7 +119,7 @@ com.ontimize.jee.desktopclient.components.treetabbedformmanager.levelmanager.bui
 					XMLLevelManagerBuilder.logger.error("Error creating object. ", e2);
 				}
 			} else if (Level.class.isAssignableFrom(classObject)) {
-				final Hashtable<String, Object> parameters = new Hashtable<>();
+				final Map<String, Object> parameters = new Hashtable<>();
 				parameters.put("opaque", "no");
 				parameters.put("attr", "tree");
 				parameters.put("displaypathhtml", "yes");

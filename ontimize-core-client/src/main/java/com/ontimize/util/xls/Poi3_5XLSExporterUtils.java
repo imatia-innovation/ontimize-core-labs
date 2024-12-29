@@ -225,7 +225,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 	 * @since 5.3.8
 	 *
 	 */
-	protected float calculateRowHeight(final Hashtable<Object, Object> sqlColumnTypes) {
+	protected float calculateRowHeight(final Map<Object, Object> sqlColumnTypes) {
 		if ((sqlColumnTypes != null) && !sqlColumnTypes.isEmpty()) {
 			final Collection<Object> collectionTypes = sqlColumnTypes.values();
 			for (final Object data : collectionTypes) {

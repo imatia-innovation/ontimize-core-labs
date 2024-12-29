@@ -10,6 +10,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -272,7 +273,8 @@ public class TreeTabbedFormManager extends BaseFormManager implements ITreeTabbe
 		try {
 			if (!this.isLoaded()) {
 				if (this.formInteractionManagerClassNameList != null) {
-					final Enumeration enumKeys = this.formInteractionManagerClassNameList.keys();
+					final Enumeration enumKeys = Collections
+							.enumeration(this.formInteractionManagerClassNameList.keySet());
 					while (enumKeys.hasMoreElements()) {
 						final String form = (String) enumKeys.nextElement();
 						final String imClassName = this.formInteractionManagerClassNameList.get(form);
@@ -791,7 +793,7 @@ public class TreeTabbedFormManager extends BaseFormManager implements ITreeTabbe
 	public void setApplicationPreferences(final ApplicationPreferences ap) {
 		this.aPreferences = ap;
 		this.registerApplicationPreferencesListener();
-		final Enumeration enumKeys = this.formReferenceList.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formReferenceList.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			final Form f = this.formReferenceList.get(oKey);

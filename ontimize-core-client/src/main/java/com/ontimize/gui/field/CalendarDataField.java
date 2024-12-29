@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ implements ValueChangeDataComponent, CalendarListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(CalendarDataField.class);
 
-	private ArrayList valueListener = null;
+	private List valueListener = null;
 
 	/**
 	 * The condition of value events activation. By default, true.

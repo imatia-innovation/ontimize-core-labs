@@ -106,7 +106,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 	 * A <code>Hashtable</code> with a form list where the key is the form name and the value a
 	 * <code>Form</code> class instance.
 	 */
-	protected Hashtable<String, Form> formReferenceList = new Hashtable<String, Form>();
+	protected Map<String, Form>						formReferenceList										= new Hashtable<String, Form>();
 
 	/** Base URI used to obtain the form file. */
 	protected String uRIBase = null;
@@ -130,14 +130,14 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 	 * <code>Hashtable</code> key is the form name and the <code>Hashtable</code> value is the
 	 * <code>InteractionManager</code> class instance.
 	 */
-	protected Hashtable<String, InteractionManager> interactionManagerList = new Hashtable<String, InteractionManager>();
+	protected Map<String, InteractionManager> interactionManagerList = new Hashtable<String, InteractionManager>();
 
 	/**
 	 * A <code>Hashtable</code> with the interaction manager class name assigned to each form. The
 	 * <code>Hashtable</code> key is the form name and the <code>Hashtable</code> value is the
 	 * <code>InteractionManager</code> class name.
 	 */
-	protected Hashtable<String, String> formInteractionManagerClassNameList = null;
+	protected Map<String, String> formInteractionManagerClassNameList = null;
 
 	/**
 	 * A <code>Hashtable</code> with the interaction manager class name assigned to each action handler.
@@ -643,7 +643,8 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 		try {
 			if (!this.isLoaded()) {
 				if (this.formInteractionManagerClassNameList != null) {
-					final Enumeration enumKeys = this.formInteractionManagerClassNameList.keys();
+					final Enumeration enumKeys = Collections
+							.enumeration(this.formInteractionManagerClassNameList.keySet());
 					while (enumKeys.hasMoreElements()) {
 						final String form = (String) enumKeys.nextElement();
 						final String imClassName = this.formInteractionManagerClassNameList.get(form);
@@ -1638,7 +1639,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 	public void setReferenceLocator(final EntityReferenceLocator locator) {
 		this.locator = locator;
 		// For each form, it updates their reference components.
-		final Enumeration enumKeys = this.formReferenceList.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formReferenceList.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oForm = enumKeys.nextElement();
 			final Form fForm = this.formReferenceList.get(oForm);
@@ -1943,7 +1944,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 		}
 		this.interactionManagers.clear();
 		if (this.interactionManagerList != null) {
-			final Enumeration enumKeys = this.interactionManagerList.keys();
+			final Enumeration enumKeys = Collections.enumeration(this.interactionManagerList.keySet());
 			while (enumKeys.hasMoreElements()) {
 				Object oKey = null;
 				try {
@@ -1964,7 +1965,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 			}
 		}
 		if (this.formReferenceList != null) {
-			final Enumeration enumFormKeys = this.formReferenceList.keys();
+			final Enumeration enumFormKeys = Collections.enumeration(this.formReferenceList.keySet());
 			while (enumFormKeys.hasMoreElements()) {
 				Object oKey = null;
 				try {
@@ -2300,7 +2301,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 	@Override
 	public void setApplicationPreferences(final ApplicationPreferences ap) {
 		this.aPreferences = ap;
-		final Enumeration enumKeys = this.formReferenceList.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formReferenceList.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			final Form f = this.formReferenceList.get(oKey);

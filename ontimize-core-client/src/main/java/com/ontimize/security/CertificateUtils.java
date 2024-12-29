@@ -313,7 +313,7 @@ public final class CertificateUtils {
 				return new Certificate[0];
 			}
 		}
-		final ArrayList certList = new ArrayList();
+		final List certList = new ArrayList();
 		for (int i = 0; i < dirlist.size(); i++) {
 			final String currentDir = dirlist.get(i).toString();
 			final File dir = new File(currentDir);
@@ -385,7 +385,7 @@ public final class CertificateUtils {
 			CertificateUtils.logger.debug("X.509 CertificateFactory is null");
 			return null;
 		}
-		final ArrayList l = new ArrayList();
+		final List l = new ArrayList();
 		final Enumeration props = properties.keys();
 		while (props.hasMoreElements()) {
 			final String prop = (String) props.nextElement();
@@ -500,7 +500,7 @@ public final class CertificateUtils {
 
 	public static List getAliasCertPairFromKeyStore(final KeyStore ks, final String pin)
 			throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-		final ArrayList l = new ArrayList();
+		final List l = new ArrayList();
 		if (ks == null) {
 			return l;
 		}

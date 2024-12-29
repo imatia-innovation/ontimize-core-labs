@@ -170,7 +170,7 @@ public abstract class PdfFiller {
 
 			final PdfLister list = new PdfLister(System.out);
 			final HashMap retToField = new HashMap();
-			final ArrayList fields = pdfForm.getFields();
+			final List fields = pdfForm.getFields();
 			for (int k = 0; k < fields.size(); ++k) {
 				final PRAcroForm.FieldInformation field = (PRAcroForm.FieldInformation) fields.get(k);
 				retToField.put(new Integer(field.getRef().getNumber()), field);
@@ -181,7 +181,7 @@ public abstract class PdfFiller {
 				if (annots == null) {
 					continue;
 				}
-				final ArrayList ali = annots.getArrayList();
+				final List ali = annots.getArrayList();
 				for (int annot = 0; annot < ali.size(); ++annot) {
 					PdfObject refObj = (PdfObject) ali.get(annot);
 					PRIndirectReference ref = null;
@@ -211,7 +211,7 @@ public abstract class PdfFiller {
 
 					final FieldProp fieldProp = new FieldProp(fName);
 					fieldProp.page = page;
-					final ArrayList arr = rect.getArrayList();
+					final List arr = rect.getArrayList();
 					PdfNumber num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(0));
 					fieldProp.x1 = num.floatValue();
 					num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(1));

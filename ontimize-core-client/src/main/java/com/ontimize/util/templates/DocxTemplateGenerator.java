@@ -285,7 +285,7 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 			this.findAndReplaceImages(mlp.getMainDocumentPart(), valuesImages, mlp);
 
 			final String[] keyIndex = (String[]) valuesImages.keySet().toArray(new String[0]);
-			final ArrayList<ArrayList> replaceImages = new ArrayList<ArrayList>();
+			final List<List> replaceImages = new ArrayList<>();
 
 			final RelationshipsPart rp = mlp.getMainDocumentPart().getRelationshipsPart();
 			for (final Relationship r : rp.getRelationships().getRelationship()) {
@@ -311,7 +311,7 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 														+ 1);
 										final Object oValue = valuesImages.get(tString);
 
-										final ArrayList params = new ArrayList();
+										final List params = new ArrayList();
 										params.add(col);
 										params.add(oValue);
 										params.add(tString);
@@ -328,7 +328,7 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 
 			}
 
-			for (final ArrayList l : replaceImages) {
+			for (final List l : replaceImages) {
 				final Tc col = (Tc) l.get(0);
 				final Object oValue = l.get(1);
 				final String tString = l.get(2).toString();

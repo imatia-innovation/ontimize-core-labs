@@ -321,7 +321,8 @@ public class FormManager extends BaseFormManager implements ITreeFormManager {
 		try {
 			if (!this.isLoaded()) {
 				if (this.formInteractionManagerClassNameList != null) {
-					final Enumeration enumKeys = this.formInteractionManagerClassNameList.keys();
+					final Enumeration enumKeys = Collections
+							.enumeration(this.formInteractionManagerClassNameList.keySet());
 					while (enumKeys.hasMoreElements()) {
 						final String form = (String) enumKeys.nextElement();
 						final String imClassName = this.formInteractionManagerClassNameList.get(form);
@@ -681,7 +682,7 @@ public class FormManager extends BaseFormManager implements ITreeFormManager {
 			fForm.deleteDataFields(true);
 			// Moves until the root
 			OTreeNode auxNode = node;
-			final ArrayList settedList = new ArrayList();
+			final List settedList = new ArrayList();
 			while ((auxNode != null) && !auxNode.isRoot()) {
 				final Map hAssociatedFields = auxNode.getAssociatedDataField();
 				final Enumeration enumKeys = Collections.enumeration(hAssociatedFields.keySet());

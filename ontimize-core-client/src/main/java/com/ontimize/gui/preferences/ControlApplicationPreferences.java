@@ -58,7 +58,7 @@ public class ControlApplicationPreferences extends EJDialog implements Internati
 	/** <i>User has not rights to perfom action</i> message key. */
 	public static String M_YOU_DO_NOT_HAVE_PERMISSION_TO_EXECUTE_ACTION = "entity.no_has_permissions_to_perform_this_action";
 
-	protected static ArrayList basicPreferences = null;
+	protected static List basicPreferences = null;
 	static {
 		ControlApplicationPreferences.basicPreferences = new ArrayList();
 		ControlApplicationPreferences.basicPreferences.add(BasicApplicationPreferences.APP_WINDOW_SIZE);

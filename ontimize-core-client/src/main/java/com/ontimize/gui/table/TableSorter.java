@@ -1171,8 +1171,8 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 			if ((clase == Double.class) || (clase == Float.class) || (clase == BigDecimal.class)
 					|| (clase == BigInteger.class) || (clase == Integer.class)) {
 				// Apply the appropriate function
-				final ArrayList validValues = new ArrayList();
-				final ArrayList validIndexes = new ArrayList();
+				final List validValues = new ArrayList();
+				final List validIndexes = new ArrayList();
 				final Map requiredColsValues = new HashMap();
 				final List<String> requiredCols = TableSorter.this.operations.get(new Integer(function))
 						.getRequiredColumns();
@@ -2459,9 +2459,9 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 	 */
 	public static class MultipleFilter implements java.io.Serializable {
 
-		protected ArrayList list = new ArrayList();
+		protected List list = new ArrayList();
 
-		protected ArrayList conditionList = new ArrayList();
+		protected List conditionList = new ArrayList();
 
 		/**
 		 * Adds a value to the filter with an OR condition.
@@ -2875,7 +2875,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 	 * Stores operation identifiers and instances of {@link GroupOperation}. E.g. for SUM operation
 	 * operation_id = 0 and object will be an instance of {@link SumGroupOperation}
 	 */
-	protected Hashtable<Integer, GroupOperation> operations;
+	protected Map<Integer, GroupOperation> operations;
 
 	protected boolean lastIsSum = true;
 

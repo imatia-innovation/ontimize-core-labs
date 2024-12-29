@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -367,18 +366,18 @@ public class PivotDetailTableUtils extends JPanel {
 		protected void updateTitle(final Map information) {
 			if (information != null) {
 				final Object oRowList = information.get("rows");
-				if (oRowList instanceof ArrayList) {
+				if (oRowList instanceof List) {
 					final String text = this.getTranslation(PivotDetailTableUtils.PIVOTDETAILTABLE_GROUPINGROWS_TITLE,
-							(ArrayList) oRowList);
+							(List) oRowList);
 					this.rows.setText(text);
 				} else {
 					this.rows.setText(null);
 				}
 
 				final Object oColumnList = information.get("column");
-				if (oColumnList instanceof ArrayList) {
+				if (oColumnList instanceof List) {
 					final String text = this.getTranslation(PivotDetailTableUtils.PIVOTDETAILTABLE_GROUPINGCOLUMNS_TITLE,
-							(ArrayList) oColumnList);
+							(List) oColumnList);
 					this.column.setText(text);
 				} else {
 					this.column.setText(null);
@@ -386,7 +385,7 @@ public class PivotDetailTableUtils extends JPanel {
 			}
 		}
 
-		protected String getTranslation(final String title, final ArrayList listValues) {
+		protected String getTranslation(final String title, final List listValues) {
 			final StringBuilder sb = new StringBuilder();
 			if (title != null) {
 				sb.append(PivotDetailTableUtils.translate(title, this.resources, null));
@@ -399,7 +398,7 @@ public class PivotDetailTableUtils extends JPanel {
 				sb.append(" = ");
 				sb.append("{").append(index + 1).append("}");
 
-				final ArrayList values = (ArrayList) listValues.get(i);
+				final List values = (List) listValues.get(i);
 				args[index] = PivotDetailTableUtils.translate((String) values.get(0), this.resources, null);
 				args[index + 1] = values.get(1);
 

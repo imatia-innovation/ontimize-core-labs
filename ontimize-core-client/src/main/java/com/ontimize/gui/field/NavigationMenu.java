@@ -266,9 +266,9 @@ public class NavigationMenu extends JPanel {
 	public static final String DARKBLUE = "darkblue";
 
 	/**
-	 * ArrayList that contains all the menuGroups contained into the NavigatioMenu.
+	 * List that contains all the menuGroups contained into the NavigatioMenu.
 	 */
-	protected ArrayList menuList = new ArrayList();
+	protected List menuList = new ArrayList();
 
 	/**
 	 * Background image of the NavigationMenu.
@@ -803,7 +803,7 @@ public class NavigationMenu extends JPanel {
 		currentNode = this.getNode(attributes, NavigationMenu.OPTIONS);
 		if (currentNode != null) {
 			final String options = currentNode.getNodeValue();
-			final ArrayList li = new ArrayList();
+			final List li = new ArrayList();
 			final StringTokenizer tokens = new StringTokenizer(options, ";");
 			while (tokens.hasMoreTokens()) {
 				li.add(tokens.nextToken());
@@ -817,7 +817,7 @@ public class NavigationMenu extends JPanel {
 		currentNode = this.getNode(attributes, NavigationMenu.ICONS);
 		if (currentNode != null) {
 			final String sIcons = currentNode.getNodeValue();
-			final ArrayList li = new ArrayList();
+			final List li = new ArrayList();
 			final StringTokenizer tokens = new StringTokenizer(sIcons, ";");
 			while (tokens.hasMoreTokens()) {
 				if (this.imageBasePath != null) {

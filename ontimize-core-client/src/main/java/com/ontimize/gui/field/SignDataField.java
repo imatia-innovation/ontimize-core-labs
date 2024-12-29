@@ -623,7 +623,7 @@ public class SignDataField extends JPanel implements DataComponent, AccessForm, 
 	public static class SignLabel extends JLabel {
 
 		/**
-		 * ArrayList of Points of signature
+		 * List of Points of signature
 		 */
 		protected ArrayList<Point> points = new ArrayList<Point>();
 

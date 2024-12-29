@@ -1092,8 +1092,8 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 	@Override
 	public Object getCategoryDataset(final String colX, final String colY, final int operation) {
 		// Search the different values for x axis and put them in a Vector
-		final ArrayList xAxisDifferentValues = new ArrayList();
-		final ArrayList yAxisValues = new ArrayList();
+		final List xAxisDifferentValues = new ArrayList();
+		final List yAxisValues = new ArrayList();
 		final Map hShownValue = this.value;
 		final List vXData = (List) hShownValue.get(colX);
 		final List vYData = (List) hShownValue.get(colY);
@@ -1134,7 +1134,7 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 					}
 				}
 			} else {
-				final ArrayList yValues = new ArrayList();
+				final List yValues = new ArrayList();
 				int indexInXData = vXData.indexOf(oXValue);
 				while (indexInXData >= 0) {
 					yValues.add(vYData.get(indexInXData));

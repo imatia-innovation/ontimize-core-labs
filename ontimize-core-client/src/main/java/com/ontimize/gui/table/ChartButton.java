@@ -172,7 +172,7 @@ public class ChartButton extends TableButtonSelection {
     }
 
     protected List getChartConfiguration() {
-        ArrayList configurationList = new ArrayList();
+        List configurationList = new ArrayList();
         try {
             Application ap = ApplicationManager.getApplication();
             String preferenceKey = this.getCustomChartPreferenceKey();

@@ -612,7 +612,7 @@ public class ODFConcatParser {
 		ODFConcatParser.verbose("Zip to " + output.getCanonicalPath() + "\n\n");
 
 		// List all files in directory in recursive mode.
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		this.listFiles(input, list);
 
 		final String baseStr = input.getCanonicalPath();

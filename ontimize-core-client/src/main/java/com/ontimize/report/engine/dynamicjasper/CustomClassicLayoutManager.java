@@ -608,7 +608,7 @@ public class CustomClassicLayoutManager extends ClassicLayoutManager {
 
 	protected List getOtherColumnsForMultigroup(final String column) {
 		final List vOtherColNames = new Vector();
-		final ArrayList vAllAbstractColumns = new ArrayList();
+		final List vAllAbstractColumns = new ArrayList();
 		vOtherColNames.addAll(((DynamicJasperEngine) this.reportEngine).getMultiGroupColumnsForColumn(column));
 		vAllAbstractColumns.addAll(this.getReport().getColumns());
 		vAllAbstractColumns.addAll(((DynamicJasperEngine) this.reportEngine).getMultiGroupColumns());

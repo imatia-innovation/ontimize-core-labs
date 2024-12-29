@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.rmi.NoSuchObjectException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -60,7 +61,7 @@ public class CacheManager {
 
 	protected List cachedComponents = new Vector();
 
-	protected Hashtable<DataCacheId, EntityResult> data = new Hashtable<DataCacheId, EntityResult>();
+	protected Map<DataCacheId, EntityResult>	data					= new Hashtable<DataCacheId, EntityResult>();
 
 	protected EntityReferenceLocator locator = null;
 
@@ -181,7 +182,7 @@ public class CacheManager {
 		}
 	}
 
-	public Hashtable<DataCacheId, EntityResult> getData() {
+	public Map<DataCacheId, EntityResult> getData() {
 		return this.data;
 	}
 
@@ -189,7 +190,7 @@ public class CacheManager {
 		if (keysValues != null && keysValues.isEmpty()) {
 			keysValues = null;
 		}
-		final Enumeration enumKeys = this.data.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.data.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			if (oKey instanceof DataCacheId) {
@@ -407,7 +408,7 @@ public class CacheManager {
 	public static int maximumDataCacheIdSize = 100;
 
 	protected synchronized void checkMaximumSizeDataCacheId() {
-		final Enumeration keys = this.data.keys();
+		final Enumeration keys = Collections.enumeration(this.data.keySet());
 		int size = 0;
 		DataCacheId olderDataCacheId = null;
 		while (keys.hasMoreElements()) {
@@ -433,7 +434,7 @@ public class CacheManager {
 
 	public String getCachedEntities() {
 		final StringBuilder sb = new StringBuilder();
-		final Enumeration keys = this.data.keys();
+		final Enumeration keys = Collections.enumeration(this.data.keySet());
 		while (keys.hasMoreElements()) {
 			sb.append(keys.nextElement() + " ");
 		}
@@ -654,7 +655,7 @@ public class CacheManager {
 			public Object getValueAt(final int rowIndex, final int columnIndex) {
 				final CacheManager cacheManager = CacheManager
 						.getDefaultCacheManager(ApplicationManager.getApplication().getReferenceLocator());
-				final Hashtable<DataCacheId, EntityResult> data = cacheManager.getData();
+				final Map<DataCacheId, EntityResult> data = cacheManager.getData();
 				final Set<DataCacheId> kSet = data.keySet();
 				final DataCacheId[] keys = kSet.toArray(new DataCacheId[kSet.size()]);
 

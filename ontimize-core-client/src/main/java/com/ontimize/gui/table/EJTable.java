@@ -10,7 +10,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.text.Collator;
-import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Hashtable;
 import java.util.List;
@@ -593,7 +592,7 @@ public class EJTable extends JTable implements Freeable {
 		if (!ExtendedTableModel.ROW_NUMBERS_COLUMN.equalsIgnoreCase(sColumnName)) {
 			if ((!m.isSumCell(row, column)) && m.isGrouped()) {
 				final Object o = m.getValueAt(row, indexModel);
-				if (o instanceof ArrayList) {
+				if (o instanceof List) {
 					return this.getGroupCellRenderer();
 				} else if (o instanceof ValueByGroup) {
 					return this.getValueByGroupRenderer();

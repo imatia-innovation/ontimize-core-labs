@@ -707,7 +707,7 @@ HasHelpIdComponent, Freeable {
 	protected List dataNavigationListeners = null;
 
 	/** List where the record listeners are stored in */
-	protected ArrayList dataRecordListeners = null;
+	protected List dataRecordListeners = null;
 
 	/** Visible form permission */
 	protected FormPermission visiblePermission = null;
@@ -7367,7 +7367,7 @@ HasHelpIdComponent, Freeable {
 			}
 		}
 
-		final ArrayList list = this.getVisibleDataComponentAttributes();
+		final List list = this.getVisibleDataComponentAttributes();
 		if ((list != null) && (list.size() > 0)) {
 			this.tableButton.setSelectionColumns(true);
 		} else {
@@ -9008,7 +9008,7 @@ HasHelpIdComponent, Freeable {
 	 * @return a <code>List</code> with the component references from the form.
 	 */
 	public java.util.List getComponentList() {
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		for (int i = 0; i < this.componentList.size(); i++) {
 			list.add(i, this.componentList.get(i));
 		}
@@ -9110,7 +9110,7 @@ HasHelpIdComponent, Freeable {
 
 		private final JList columnJList = new JList();
 
-		private ArrayList columnList = null;
+		private List columnList = null;
 
 		private List defaultColumnList = null;
 
@@ -9161,7 +9161,7 @@ HasHelpIdComponent, Freeable {
 		private class ColumnSelectionListener extends MouseAdapter {
 
 			private int[] removeValue(final int value) {
-				final ArrayList l = new ArrayList();
+				final List l = new ArrayList();
 
 				final int[] out = new int[l.size()];
 				for (int i = 0, a = l.size(); i < a; i++) {
@@ -9333,7 +9333,7 @@ HasHelpIdComponent, Freeable {
 
 		};
 
-		public SelColumnsDialog(final Frame f, final ArrayList l, final List defaultValue, final ResourceBundle res) {
+		public SelColumnsDialog(final Frame f, final List l, final List defaultValue, final ResourceBundle res) {
 			super(f, "form.selection_of_columns_for_tabular_view", true);
 			this.columnList = l;
 			this.defaultColumnList = defaultValue;
@@ -9341,7 +9341,7 @@ HasHelpIdComponent, Freeable {
 			this.init(res);
 		}
 
-		public SelColumnsDialog(final Dialog f, final ArrayList l, final List defaultValue, final ResourceBundle res) {
+		public SelColumnsDialog(final Dialog f, final List l, final List defaultValue, final ResourceBundle res) {
 			super(f, "form.selection_of_columns_for_tabular_view", true);
 			this.columnList = l;
 			this.defaultColumnList = defaultValue;
@@ -9401,7 +9401,7 @@ HasHelpIdComponent, Freeable {
 			return l;
 		}
 
-		protected void updateModel(final ArrayList l, final List lDef, final ResourceBundle res) {
+		protected void updateModel(final List l, final List lDef, final ResourceBundle res) {
 			final DefaultListModel m = new DefaultListModel();
 			final List order = new Vector();
 			try {
@@ -9485,7 +9485,7 @@ HasHelpIdComponent, Freeable {
 			this.createTableViewTable();
 		}
 
-		final ArrayList visibleComponentsList = this.getVisibleDataComponentAttributes();
+		final List visibleComponentsList = this.getVisibleDataComponentAttributes();
 		final List visibleTableViewColumns = this.getVisibleComponentsAttributes(this.tableViewColumns,
 				visibleComponentsList);
 		final List visibleAdditionalTableViewColumns = this.getVisibleComponentsAttributes(this.additionalTableViewColumns,
@@ -9515,7 +9515,7 @@ HasHelpIdComponent, Freeable {
 		this.selColumnsDialog.setVisible(true);
 	}
 
-	protected List getVisibleComponentsAttributes(final List columnsVector, final ArrayList visibleComponentsAttrList) {
+	protected List getVisibleComponentsAttributes(final List columnsVector, final List visibleComponentsAttrList) {
 		final List toRet = new Vector();
 		for (final Object componentAttr : visibleComponentsAttrList) {
 			if (columnsVector.contains(componentAttr)) {
@@ -9530,8 +9530,8 @@ HasHelpIdComponent, Freeable {
 	 * Returns a list of all visible components that are displayed in this form.
 	 * @return a <code>ArrayList</code> with all visible components
 	 */
-	protected ArrayList getVisibleDataComponentAttributes() {
-		final ArrayList l = new ArrayList();
+	protected List getVisibleDataComponentAttributes() {
+		final List l = new ArrayList();
 		final List v = this.getDataComponents();
 		for (int i = 0; i < v.size(); i++) {
 			final DataComponent cD = (DataComponent) v.get(i);

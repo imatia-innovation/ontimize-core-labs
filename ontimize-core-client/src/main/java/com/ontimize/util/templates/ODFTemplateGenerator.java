@@ -346,7 +346,7 @@ public class ODFTemplateGenerator extends AbstractTemplateGenerator {
 			return null;
 		}
 
-		final ArrayList l = new ArrayList();
+		final List l = new ArrayList();
 
 		final Set keys = h.keySet();
 		if (keys.isEmpty()) {

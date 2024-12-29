@@ -275,7 +275,7 @@ implements InteractionManagerModeListener, ReferenceComponent {
 	}
 
 	private java.util.List getFilterConfigurations() {
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		try {
 			final Application ap = this.parentForm.getFormManager().getApplication();
 			final String preferenceKey = this.getFilterListPreferenceKey();

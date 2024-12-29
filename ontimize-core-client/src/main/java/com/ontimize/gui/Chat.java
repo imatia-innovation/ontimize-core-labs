@@ -176,7 +176,7 @@ public class Chat extends JPanel {
 			final Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if ((c instanceof JLabel) && Chat.this.windowCache.containsKey(value)) {
 				final UserChatWindow user = (UserChatWindow) Chat.this.windowCache.get(value);
-				final ArrayList alList = user.getUser();
+				final List alList = user.getUser();
 				((JLabel) c).setText(alList.toString());
 			}
 			return c;
@@ -399,7 +399,7 @@ public class Chat extends JPanel {
 		private class StoreUser extends ArrayList {
 
 			public List toStringArray() {
-				final ArrayList list = new ArrayList();
+				final List list = new ArrayList();
 				for (int i = 0; i < this.size(); i++) {
 					list.add(this.get(i).toString());
 				}
@@ -427,7 +427,7 @@ public class Chat extends JPanel {
 			return this.sessionCommunicationId;
 		}
 
-		protected ArrayList getUser() {
+		protected List getUser() {
 			return this.userList;
 		}
 
@@ -774,7 +774,7 @@ public class Chat extends JPanel {
 							if (UserChatWindow.this.equals(actual)) {
 								Chat.this.windowCache.remove(k);
 								Chat.this.connectionList.removeConnection(new Long(actual.getSessionCommunicationId()));
-								final ArrayList list = actual.getUser();
+								final List list = actual.getUser();
 
 								for (int i = 0; i < list.size(); i++) {
 									final String destino = list.get(i).toString();
@@ -826,7 +826,7 @@ public class Chat extends JPanel {
 
 		protected static JList userList = null;
 
-		protected static ArrayList returnList = null;
+		protected static List returnList = null;
 
 		public static List showAddList(final Component comp, final EntityReferenceLocator locator, final List connect) {
 			UserSelectionList.returnList = null;
@@ -848,7 +848,7 @@ public class Chat extends JPanel {
 					list.remove(((ClientReferenceLocator) locator).getUser());
 				}
 
-				final ArrayList finalList = new ArrayList();
+				final List finalList = new ArrayList();
 				for (int i = 0; i < list.size(); i++) {
 					if (!finalList.contains(list.get(i))) {
 						finalList.add(list.get(i));
@@ -943,7 +943,7 @@ public class Chat extends JPanel {
 
 		private boolean connect = false;
 
-		private final ArrayList changeListener = new ArrayList();
+		private final List changeListener = new ArrayList();
 
 		protected User(final String user) {
 			this.user = user;
@@ -1093,7 +1093,7 @@ public class Chat extends JPanel {
 		while (enu.hasMoreElements()) {
 			final Long lSessionId = (Long) enu.nextElement();
 			final UserChatWindow w = (UserChatWindow) this.windowCache.get(lSessionId);
-			final ArrayList list = w.getUser();
+			final List list = w.getUser();
 			if (list.size() > 1) {
 				continue;
 			}

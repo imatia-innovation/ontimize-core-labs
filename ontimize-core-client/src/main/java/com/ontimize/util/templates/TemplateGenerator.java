@@ -45,7 +45,7 @@ public interface TemplateGenerator {
 	public File fillDocument(InputStream input, String nameFile, Map fieldValues, Map valuesTable,
 			Map valuesImages, Map valuesPivotTable) throws Exception;
 
-	// public void fillDocument(String archive, Form form, List field, Vector
+	// public void fillDocument(String archive, Form form, List field, List
 	// table,Vector images);
 
 	/**

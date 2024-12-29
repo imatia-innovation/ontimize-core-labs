@@ -2041,7 +2041,7 @@ IRefreshable, InteractionManagerModeListener {
 
 	protected boolean openInNewWindowByDefault = false;
 
-	protected Hashtable<String, Integer> hColumnSQLTypes = new Hashtable<String, Integer>();
+	protected Map<String, Integer> hColumnSQLTypes = new Hashtable<String, Integer>();
 
 	protected boolean allColumnTypes = false;
 
@@ -5364,7 +5364,6 @@ IRefreshable, InteractionManagerModeListener {
 					// and now we can add the new values
 					final Map hValue = (Map) value;
 
-					// Enumeration eKeys = hValue.keys();
 					Iterator eKeys = null;
 					if (value instanceof EntityResult) {
 						final List orderColumns = ((EntityResult) value).getOrderColumns();
@@ -6117,7 +6116,7 @@ IRefreshable, InteractionManagerModeListener {
 	 *        keys-values combination to search
 	 * @return the indexes of the rows that matches the keys in the param
 	 */
-	public int[] getRowsForKeys(final Hashtable[] keysValuesToQuery) {
+	public int[] getRowsForKeys(final Map[] keysValuesToQuery) {
 		this.checkRefreshThread();
 
 		if ((keysValuesToQuery == null) || (keysValuesToQuery.length == 0)) {
@@ -6153,7 +6152,7 @@ IRefreshable, InteractionManagerModeListener {
 			final Map hKeysI = keysValuesToQuery[i];
 			final Object oKey1 = v.get(0);
 			final Object oKeyValue1 = hKeysI.get(oKey1);
-			final ArrayList column0ValueList = keyList[0];
+			final List column0ValueList = keyList[0];
 			for (int j = 0; j < column0ValueList.size(); j++) {
 				final Object oValue = column0ValueList.get(j);
 				if (oKeyValue1.equals(oValue)) {
@@ -6162,7 +6161,7 @@ IRefreshable, InteractionManagerModeListener {
 					for (int k = 1; k < v.size(); k++) {
 						final Object oKeyk = v.get(k);
 						final Object oKeyValuek = hKeysI.get(oKeyk);
-						final ArrayList columnkValueList = keyList[k];
+						final List columnkValueList = keyList[k];
 						final Object oTableValuek = columnkValueList.get(j);
 						if (!oKeyValuek.equals(oTableValuek)) {
 							allKeysMatch = false;
@@ -8795,12 +8794,15 @@ IRefreshable, InteractionManagerModeListener {
 
 	/**
 	 * Adds several rows to the table.
-	 * @param rows and array with the position of the rows in which the new rows will be inserted
-	 * @param rowsData a {@link #Vector} containing {@link #Hashtable}. Each position of the List is a
-	 *        Map containing information for a row
+	 *
+	 * @param rows
+	 *            and array with the position of the rows in which the new rows will be inserted
+	 * @param rowsData
+	 *            a {@link #Vector} containing {@link #Hashtable}. Each position of the List is a Map containing
+	 *            information for a row
 	 * @deprecated
 	 * @see #addRows(List)
-	 * @see TableSorter#addRows(int[], Vector)
+	 * @see TableSorter#addRows(int[], List)
 	 */
 	@Deprecated
 	public void addRows(final int[] rows, final List rowsData) {
@@ -16947,7 +16949,7 @@ IRefreshable, InteractionManagerModeListener {
 	 * @return
 	 */
 	protected java.util.List getConfigurationReport() {
-		final ArrayList arrayList = new ArrayList();
+		final List arrayList = new ArrayList();
 		try {
 			final Application ap = this.parentForm.getFormManager().getApplication();
 			final String preferenceKey = this.getCustomReportPreferenceKey();
@@ -17930,7 +17932,7 @@ IRefreshable, InteractionManagerModeListener {
 							if (PivotTableUtils.PIVOTTABLE_ROWFIELD.equals(key) && (value != null)
 									&& (value.length() > 0)) {
 								final StringTokenizer pairsFixed = new StringTokenizer(value, ":");
-								final ArrayList list = new ArrayList<Pair<String, Integer>>();
+								final List list = new ArrayList<Pair<String, Integer>>();
 								while (pairsFixed.hasMoreTokens()) {
 									final String tokenFixedColumns = pairsFixed.nextToken();
 									final String[] pairComp = tokenFixedColumns.split("=");
@@ -17943,7 +17945,7 @@ IRefreshable, InteractionManagerModeListener {
 								selection.put(key, list);
 
 							} else if ((value != null) && (value.length() > 0)) {
-								final ArrayList list = new ArrayList(ApplicationManager.getTokensAt(value, ":"));
+								final List list = new ArrayList(ApplicationManager.getTokensAt(value, ":"));
 								selection.put(key, list);
 							}
 						} else if (PivotTableUtils.PIVOTTABLE_OPERATION.equals(key)
@@ -18009,8 +18011,8 @@ IRefreshable, InteractionManagerModeListener {
 
 			if (h.containsKey(PivotTableUtils.PIVOTTABLE_COLUMNFIELD)) {
 				final Object o = h.get(PivotTableUtils.PIVOTTABLE_COLUMNFIELD);
-				if (o instanceof ArrayList) {
-					final ArrayList list = (ArrayList) o;
+				if (o instanceof List) {
+					final List list = (List) o;
 					buffer.append("~" + PivotTableUtils.PIVOTTABLE_COLUMNFIELD + "~");
 					for (int i = 0; i < list.size(); i++) {
 						buffer.append(list.get(i));
@@ -18024,8 +18026,8 @@ IRefreshable, InteractionManagerModeListener {
 
 			if (h.containsKey(PivotTableUtils.PIVOTTABLE_DATAFIELD)) {
 				final Object o = h.get(PivotTableUtils.PIVOTTABLE_DATAFIELD);
-				if (o instanceof ArrayList) {
-					final ArrayList list = (ArrayList) o;
+				if (o instanceof List) {
+					final List list = (List) o;
 					buffer.append("~" + PivotTableUtils.PIVOTTABLE_DATAFIELD + "~");
 					for (int i = 0; i < list.size(); i++) {
 						buffer.append(list.get(i));
@@ -18356,7 +18358,7 @@ IRefreshable, InteractionManagerModeListener {
 			final List<String> cols = this.table.getQuickFilterColumns();
 			final List calculedColumns = this.table.getCalculatedColumns();
 
-			final Hashtable<String, Integer> columnSQLTypes = this.table.getColumnSQLTypes();
+			final Map<String, Integer> columnSQLTypes = this.table.getColumnSQLTypes();
 
 			for (final String currentColumn : cols) {
 				if ((calculedColumns != null) && calculedColumns.contains(currentColumn)) {
@@ -18908,7 +18910,7 @@ IRefreshable, InteractionManagerModeListener {
 		return this.insertTitleKey;
 	}
 
-	public Hashtable<String, Integer> getColumnSQLTypes() {
+	public Map<String, Integer> getColumnSQLTypes() {
 		return this.hColumnSQLTypes;
 	}
 

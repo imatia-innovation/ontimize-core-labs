@@ -373,13 +373,13 @@ public class IdentifiedFocusTraversalPolicy extends LayoutFocusTraversalPolicy {
 			}
 
 			Container commonParent = null;
-			final ArrayList aParents = new ArrayList();
+			final List aParents = new ArrayList();
 			Container parent = a.getParent();
 			while (parent != null) {
 				aParents.add(parent);
 				parent = parent.getParent();
 			}
-			final ArrayList bParents = new ArrayList();
+			final List bParents = new ArrayList();
 			parent = b.getParent();
 			while (parent != null) {
 				bParents.add(parent);

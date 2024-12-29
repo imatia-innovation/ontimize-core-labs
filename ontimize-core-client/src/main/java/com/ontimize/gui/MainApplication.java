@@ -277,9 +277,9 @@ public class MainApplication extends JFrame implements Application {
 
 	protected List<String> panelIds = new ArrayList<String>();
 
-	protected Hashtable<String, IFormManager> formsManagers = new Hashtable<String, IFormManager>();
+	protected Map<String, IFormManager> formsManagers = new Hashtable<String, IFormManager>();
 
-	protected Hashtable<String, JFrame> formManagerFrames = new Hashtable<String, JFrame>();
+	protected Map<String, JFrame> formManagerFrames = new Hashtable<String, JFrame>();
 
 	protected EntityReferenceLocator locator = null;
 
@@ -2085,7 +2085,7 @@ public class MainApplication extends JFrame implements Application {
 		if ((this.menu != null) && (this.menu instanceof Internationalization)) {
 			v.addAll(((Internationalization) this.menu).getTextsToTranslate());
 		}
-		final Enumeration enumKeys = this.formsManagers.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formsManagers.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			final Object oFormManager = this.formsManagers.get(oKey);
@@ -2161,7 +2161,7 @@ public class MainApplication extends JFrame implements Application {
 			fw.close();
 
 			// Now all the form managers
-			final Enumeration enumKeys = this.formsManagers.keys();
+			final Enumeration enumKeys = Collections.enumeration(this.formsManagers.keySet());
 			while (enumKeys.hasMoreElements()) {
 				final Object oKey = enumKeys.nextElement();
 				final Object formManagers = this.formsManagers.get(oKey);
@@ -2290,7 +2290,7 @@ public class MainApplication extends JFrame implements Application {
 				MainApplication.logger.trace(null, e);
 			}
 		}
-		final Enumeration enumKeys = this.formsManagers.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formsManagers.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			final Object oFormManagers = this.formsManagers.get(oKey);
@@ -2382,7 +2382,7 @@ public class MainApplication extends JFrame implements Application {
 		if ((this.menu != null) && (this.menu instanceof Internationalization)) {
 			((Internationalization) this.menu).setComponentLocale(l);
 		}
-		final Enumeration enumKeys = this.formsManagers.keys();
+		final Enumeration enumKeys = Collections.enumeration(this.formsManagers.keySet());
 		while (enumKeys.hasMoreElements()) {
 			final Object oKey = enumKeys.nextElement();
 			final IFormManager formManager = this.formsManagers.get(oKey);
@@ -3046,7 +3046,7 @@ public class MainApplication extends JFrame implements Application {
 					((HasPreferenceComponent) this.toolBar).initPreferences(this.preferences, user);
 				}
 
-				final Enumeration enumKeys = this.formsManagers.keys();
+				final Enumeration enumKeys = Collections.enumeration(this.formsManagers.keySet());
 				while (enumKeys.hasMoreElements()) {
 					final Object c = enumKeys.nextElement();
 					final IFormManager formManager = this.formsManagers.get(c);

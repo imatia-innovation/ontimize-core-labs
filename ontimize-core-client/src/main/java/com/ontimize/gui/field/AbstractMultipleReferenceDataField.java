@@ -50,6 +50,7 @@ import com.ontimize.jee.common.gui.ConnectionManager;
 import com.ontimize.jee.common.gui.MultipleValue;
 import com.ontimize.jee.common.gui.field.MultipleReferenceDataFieldAttribute;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.util.ObjectTools;
 
 /**
  * Abstract class that implements a Multiple Reference Data Field.
@@ -112,22 +113,22 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 	protected List onsetvaluesetAttributes = null;
 
 	/**
-	 * An ArrayList where will be inserted the data field names of codes
+	 * An List where will be inserted the data field names of codes
 	 */
-	protected ArrayList cods = null;
+	protected List						cods					= null;
 
 	/**
-	 * An ArrayList where the possible types of codes will be inserted. If no other
+	 * An List where the possible types of codes will be inserted. If no other
 	 * specification(String,Float,Double) exists, the type will be Integer by default. The order must be
 	 * the same that cods have in <code>Arraylist cods</codes>.
 	 */
-	protected ArrayList typecods = null;
+	protected List						typecods				= null;
 
 	/**
-	 * An ArrayList where the visible column codes will be inserted . If it is empty all codes will be
+	 * An List where the visible column codes will be inserted . If it is empty all codes will be
 	 * hidden and by default all codes will be visible.
 	 */
-	protected ArrayList visibleCods;
+	protected List						visibleCods;
 
 	/**
 	 * An Map to put the visible key-component pairs.
@@ -142,19 +143,19 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 	/**
 	 * The reference to parent cods. By default, null.
 	 */
-	protected ArrayList parentCods = null;
+	protected List						parentCods				= null;
 
 	/**
 	 * The reference to keys. By default, null.
 	 */
-	protected ArrayList keys = null;
+	protected List						keys					= null;
 
 	/**
 	 * The reference to parent keys. By default, null.
 	 */
-	protected ArrayList parentkeys = null;
+	protected List						parentkeys				= null;
 
-	protected ArrayList cols = null;
+	protected List						cols					= null;
 
 	/**
 	 * A separator reference. By default, ' '.
@@ -483,7 +484,7 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 				this.cods.add(st.nextToken());
 			}
 		} else {
-			this.cods = (ArrayList) this.keys.clone();
+			this.cods = ObjectTools.clone(this.keys);
 		}
 	}
 
@@ -513,7 +514,7 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 				this.parentCods.add(st.nextToken());
 			}
 		} else if (this.parentkeys != null) {
-			this.parentCods = (ArrayList) this.parentkeys.clone();
+			this.parentCods = ObjectTools.clone(this.parentkeys);
 		}
 	}
 

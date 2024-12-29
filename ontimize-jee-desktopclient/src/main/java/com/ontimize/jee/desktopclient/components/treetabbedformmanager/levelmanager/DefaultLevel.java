@@ -90,7 +90,7 @@ public class DefaultLevel extends Table implements Level {
 	@Override
 	public String getDisplayText() {
 		if ((this.displayTextFormatPattern != null) && (this.getSelectedRowsNumber() == 1)) {
-			final Hashtable<Object, Object> tableKeys = new Hashtable<>();
+			final Map<Object, Object> tableKeys = new Hashtable<>();
 			final Map<String, List<?>> selectedRowData = this.lastSelectedRowData;
 			for (final Entry<String, List<?>> entry : selectedRowData.entrySet()) {
 				if ((entry.getValue() != null) && (entry.getValue().size() == 1)) {

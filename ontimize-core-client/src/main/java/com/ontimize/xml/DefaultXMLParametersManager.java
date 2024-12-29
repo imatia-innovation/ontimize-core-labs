@@ -554,7 +554,7 @@ public abstract class DefaultXMLParametersManager {
 	 */
 	public static ParameterValue[] get(final String className) {
 		if (DefaultXMLParametersManager.parameters.containsKey(className)) {
-			return (ParameterValue[]) ((ArrayList) DefaultXMLParametersManager.parameters.get(className))
+			return (ParameterValue[]) ((List) DefaultXMLParametersManager.parameters.get(className))
 					.toArray(new ParameterValue[] {});
 		} else {
 			return null;
@@ -574,7 +574,7 @@ public abstract class DefaultXMLParametersManager {
 
 	public static ParameterValue[] getStartsWith(final String tag) {
 		// keys
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		final Iterator keys = DefaultXMLParametersManager.parameters.keySet().iterator();
 		while (keys.hasNext()) {
 			final Object keyO = keys.next();

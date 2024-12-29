@@ -2446,7 +2446,7 @@ public class DefaultReportDialog {
 	}
 
 	public java.util.List getResources(final String template) {
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		final URL templateURL = this.getClass().getClassLoader().getResource(template);
 
 		final DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
@@ -4031,7 +4031,7 @@ public class DefaultReportDialog {
 	}
 
 	protected java.util.List getConfigurations() {
-		final ArrayList list = new ArrayList();
+		final List list = new ArrayList();
 		if ((this.preferenceKey != null) && (this.prefs != null)) {
 			final String p = this.prefs.getPreference(this.user, this.preferenceKey);
 			if (p != null) {

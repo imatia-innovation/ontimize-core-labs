@@ -80,7 +80,7 @@ public class TreeTabbedDetailForm extends BaseDetailForm {
 		}
 
 		final String previousLevelId = level.getPreviousLevelId();
-		final Hashtable<Object, Object> pk = new Hashtable<>();
+		final Map<Object, Object> pk = new Hashtable<>();
 		if (previousLevelId != null) {
 			final Map<String, List<?>> selectedData2 = level.getLevelManager().getLevel(previousLevelId).getSelectedData();
 			for (final Entry<String, List<?>> entry : selectedData2.entrySet()) {
@@ -103,8 +103,8 @@ public class TreeTabbedDetailForm extends BaseDetailForm {
 		}
 	}
 
-	private Map adaptKeys(final Hashtable<Object, Object> levelKeys2) {
-		final Hashtable<Object, Vector<?>> result = new Hashtable<>();
+	private Map adaptKeys(final Map<Object, Object> levelKeys2) {
+		final Map<Object, List<?>> result = new Hashtable<>();
 		for (final Entry<?, ?> entry : levelKeys2.entrySet()) {
 			if (entry.getValue() != null) {
 				final Vector<Object> value = new Vector<>();
@@ -124,15 +124,15 @@ public class TreeTabbedDetailForm extends BaseDetailForm {
 			if (InteractionManager.INSERT == currentMode) {
 				descriptionText = ApplicationManager.getTranslation(this.level.getEntityName(),
 						this.form.getResourceBundle()) + "("
-								+ ApplicationManager.getTranslation("insert",
-										this.form.getResourceBundle())
-								+ ")";
+						+ ApplicationManager.getTranslation("insert",
+								this.form.getResourceBundle())
+						+ ")";
 			} else if (InteractionManager.QUERY == currentMode) {
 				descriptionText = ApplicationManager.getTranslation(this.level.getEntityName(),
 						this.form.getResourceBundle()) + "("
-								+ ApplicationManager.getTranslation("query",
-										this.form.getResourceBundle())
-								+ ")";
+						+ ApplicationManager.getTranslation("query",
+								this.form.getResourceBundle())
+						+ ")";
 			} else {
 				if (this.level.getDetailFormatPattern() != null) {
 					final FormatPattern formatPattern = this.level.getDetailFormatPattern();

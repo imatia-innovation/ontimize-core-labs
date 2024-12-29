@@ -500,7 +500,7 @@ public class FormMultilanguageTable extends EJDialog implements Internationaliza
 					new MemoMultilanguageCellEditor(params));
 		}
 
-		final Hashtable<String, Object> cellRendererParameters = new Hashtable<String, Object>();
+		final Map<String, Object> cellRendererParameters = new Hashtable<String, Object>();
 		cellRendererParameters.put("attr", "localeRender");
 		cellRendererParameters.put("entity", "ELocale");
 		cellRendererParameters.put("cod", this.attributeLocale);

@@ -60,7 +60,7 @@ public class PasswordDataField extends TextFieldDataField implements Freeable {
 
 	protected int secureLevel = 0;
 
-	protected Hashtable<Integer, String> patternLevels = new Hashtable<Integer, String>();
+	protected Map<Integer, String>	patternLevels				= new Hashtable<Integer, String>();
 
 	protected JToolTip tooltip = new JToolTip() {
 
