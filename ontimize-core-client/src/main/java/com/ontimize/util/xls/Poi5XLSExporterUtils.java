@@ -75,9 +75,9 @@ import com.ontimize.windows.office.WindowsUtils;
  * @author Imatia Innovation SL
  * @since 5.2062EN
  */
-public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSExporter {
+public class Poi5XLSExporterUtils extends AbstractXLSExporter implements XLSExporter {
 
-	private static final Logger logger = LoggerFactory.getLogger(Poi3_5XLSExporterUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(Poi5XLSExporterUtils.class);
 
 	public DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 
@@ -122,7 +122,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 	/**
 	 * Constructor of this class
 	 */
-	public Poi3_5XLSExporterUtils() {
+	public Poi5XLSExporterUtils() {
 		// Class constructor empty.
 	}
 
@@ -181,7 +181,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 				WindowsUtils.openFile(output);
 			}
 		} catch (final Exception e) {
-			Poi3_5XLSExporterUtils.logger.error(null, e);
+			Poi5XLSExporterUtils.logger.error(null, e);
 		} finally {
 			os.close();
 		}
@@ -360,7 +360,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						m.invoke(sxSheet, new Object[] {});
 					}
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger
+					Poi5XLSExporterUtils.logger
 					.debug("Apache POI libraries below 3.15 version. Method \"{}\" not found.", e.getMessage(), e);
 				}
 			}
@@ -401,7 +401,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					values.subList(0, this.MAX_ROWS_XLS).clear();
 					rs.put(key, values);
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger.trace(null, e);
+					Poi5XLSExporterUtils.logger.trace(null, e);
 					continue;
 				}
 			}
@@ -431,7 +431,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						continue;
 					}
 				} catch (final Exception x) {
-					Poi3_5XLSExporterUtils.logger.error(null, x);
+					Poi5XLSExporterUtils.logger.error(null, x);
 				}
 			}
 
@@ -439,7 +439,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			try {
 				cell = row.createCell((short) column++);
 			} catch (final Exception e1) {
-				Poi3_5XLSExporterUtils.logger.error(null, e1);
+				Poi5XLSExporterUtils.logger.error(null, e1);
 			}
 
 			switch (this.getCellType(orderColumns.get(i).toString(), true, hColumnRenderers, hColumnTypes)) {
@@ -534,7 +534,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						m.invoke(sxSheet, new Object[] {});
 					}
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger
+					Poi5XLSExporterUtils.logger
 					.debug("Apache POI libraries below 3.15 version. Method \"{}\" not found.", e.getMessage(), e);
 				}
 			}
@@ -578,7 +578,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					values.subList(0, this.MAX_ROWS_XLSX).clear();
 					rs.put(key, values);
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger.trace(null, e);
+					Poi5XLSExporterUtils.logger.trace(null, e);
 					continue;
 				}
 			}
@@ -606,7 +606,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			try {
 				cell = row.createCell((short) column++);
 			} catch (final Exception e1) {
-				Poi3_5XLSExporterUtils.logger.error(null, e1);
+				Poi5XLSExporterUtils.logger.error(null, e1);
 			}
 
 			if (cell != null) {
@@ -643,7 +643,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					break;
 
 				case TEXT_CELL:
-					cell.setCellType(Cell.CELL_TYPE_STRING);
 					cell.setCellValue(String.valueOf(ob));
 					break;
 				default:
@@ -655,8 +654,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						}
 						cell.setCellValue(number.doubleValue());
 					} catch (final Exception e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 					break;
@@ -672,18 +670,14 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 				if ((ob instanceof Double) || (ob instanceof Float) || (ob instanceof Long)) {
 					cell.setCellValue(((Double) ob).doubleValue());
 				}
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 			} else {
 				try {
 					final Number number = this.decimalFormat.parse(ob.toString());
 					if ((number instanceof Double) || (number instanceof Float) || (number instanceof Long)) {
 						cell.setCellValue(number.doubleValue());
 					}
-					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger.trace(null, e);
-					cell.setCellType(Cell.CELL_TYPE_STRING);
+					Poi5XLSExporterUtils.logger.trace(null, e);
 					cell.setCellValue(ob.toString());
 				}
 			}
@@ -692,7 +686,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
 	protected void writePercentLineWithoutStyle(final Object ob, final Cell cell) {
 		final ParsePosition ppt = new ParsePosition(0);
-		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 
 		if (ob != null) {
 
@@ -712,7 +705,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			final ByteBuffer bb = ByteBuffer.wrap(ob.toString().getBytes(Charset.forName("ISO-8859-1")));
 			bytesImage = bb.array();
 		} catch (final Exception e1) {
-			Poi3_5XLSExporterUtils.logger.error(null, e1);
+			Poi5XLSExporterUtils.logger.error(null, e1);
 		}
 		if (bytesImage.length > 0) {
 			final int pictureIdx = wb.addPicture(bytesImage, Workbook.PICTURE_TYPE_JPEG);
@@ -736,7 +729,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
 	protected void writeCurrencyLineWithoutStyle(final Object ob, final Cell cell) {
 		final ParsePosition pp = new ParsePosition(0);
-		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 
 		if (ob != null) {
 
@@ -755,16 +747,13 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			if (ob.toString().contains(":")) {
 				if (ob instanceof Date) {
 					cell.setCellValue((Date) ob);
-					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 					cell.setCellStyle(this.cs_date_hour);
 				} else {
 					try {
 						cell.setCellValue(this.sdfHour.parse(ob.toString()));
-						cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 						cell.setCellStyle(this.cs_date_hour);
 					} catch (final ParseException e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 				}
@@ -777,8 +766,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						cell.setCellValue(this.sdf.parse(ob.toString()));
 						cell.setCellStyle(this.cs_date);
 					} catch (final ParseException e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 				}
@@ -790,16 +778,13 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 	protected void writeNumericLineWithoutStyle(final Object ob, final Cell cell) {
 		if (ob != null) {
 			if (ob instanceof Number) {
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 				cell.setCellValue(((Number) ob).intValue());
 			} else {
 				try {
 					final int value = this.numericFormat.parse(ob.toString()).intValue();
-					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 					cell.setCellValue(value);
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger.trace(null, e);
-					cell.setCellType(Cell.CELL_TYPE_STRING);
+					Poi5XLSExporterUtils.logger.trace(null, e);
 					cell.setCellValue(ob.toString());
 				}
 			}
@@ -819,7 +804,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 				if (ob instanceof Double) {
 					cell.setCellValue(((Double) ob).doubleValue());
 				}
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 			} else {
 				try {
 					final Number number = this.decimalFormat.parse(ob.toString());
@@ -832,10 +816,8 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					if (number instanceof Double) {
 						cell.setCellValue(number.doubleValue());
 					}
-					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 				} catch (final Exception e) {
-					Poi3_5XLSExporterUtils.logger.trace(null, e);
-					cell.setCellType(Cell.CELL_TYPE_STRING);
+					Poi5XLSExporterUtils.logger.trace(null, e);
 					cell.setCellValue(ob.toString());
 				}
 			}
@@ -916,7 +898,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 				final CellStyle cs_style = columnStyles != null ? (CellStyle) columnStyles.get(i) : wb.createCellStyle();
 				cell.setCellStyle(cs_style);
 			} catch (final Exception e1) {
-				Poi3_5XLSExporterUtils.logger.error(null, e1);
+				Poi5XLSExporterUtils.logger.error(null, e1);
 			}
 
 			if (cell != null) {
@@ -942,7 +924,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					this.writeImageLine(wb, sheet, column, ob);
 					break;
 				case TEXT_CELL:
-					cell.setCellType(Cell.CELL_TYPE_STRING);
 					cell.setCellValue(String.valueOf(ob));
 					break;
 				default:
@@ -954,8 +935,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						}
 						cell.setCellValue(number.doubleValue());
 					} catch (final Exception e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 					break;
@@ -970,7 +950,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			final ByteBuffer bb = ByteBuffer.wrap(ob.toString().getBytes(Charset.forName("ISO-8859-1")));
 			bytesImage = bb.array();
 		} catch (final Exception e1) {
-			Poi3_5XLSExporterUtils.logger.error(null, e1);
+			Poi5XLSExporterUtils.logger.error(null, e1);
 		}
 		if (bytesImage.length > 0) {
 			final int pictureIdx = wb.addPicture(bytesImage, Workbook.PICTURE_TYPE_JPEG);
@@ -991,7 +971,6 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
 	protected void writeCurrencyLine(final Workbook wb, final Object ob, final Cell cell) {
 		final ParsePosition pp = new ParsePosition(0);
-		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 
 		if (ob != null) {
 
@@ -1013,20 +992,17 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 			if (ob.toString().contains(":")) {
 				if (ob instanceof Date) {
 					cell.setCellValue((Date) ob);
-					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 					final CellStyle cs_date_hour = cell.getCellStyle();
 					cs_date_hour.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
 					cell.setCellStyle(cs_date_hour);
 				} else {
 					try {
 						cell.setCellValue(this.sdfHour.parse(ob.toString()));
-						cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 						final CellStyle cs_date_hour = cell.getCellStyle();
 						cs_date_hour.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
 						cell.setCellStyle(cs_date_hour);
 					} catch (final ParseException e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 				}
@@ -1043,8 +1019,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						cs_date.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
 						cell.setCellStyle(cs_date);
 					} catch (final ParseException e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 					}
 				}
@@ -1079,7 +1054,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					cell.setCellStyle((org.apache.poi.xssf.usermodel.XSSFCellStyle) columnStyles.get(i));
 				}
 			} catch (final Exception e1) {
-				Poi3_5XLSExporterUtils.logger.error(null, e1);
+				Poi5XLSExporterUtils.logger.error(null, e1);
 			}
 
 			if (cell != null) {
@@ -1088,7 +1063,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 					try {
 						cell.setCellValue(((Number) ob).doubleValue());
 					} catch (final Exception e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						if (ob != null) {
 							if (!(ob instanceof Number)) {
 								cell.setCellValue(new Double(ob.toString()));
@@ -1125,7 +1100,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 						}
 						cell.setCellValue(number.doubleValue());
 					} catch (final Exception e) {
-						Poi3_5XLSExporterUtils.logger.trace(null, e);
+						Poi5XLSExporterUtils.logger.trace(null, e);
 						cell.setCellValue(String.valueOf(ob));
 						if (columnStyles != null) {
 							cell.setCellStyle((CellStyle) columnStyles.get(i));
@@ -1197,7 +1172,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 				WindowsUtils.openFile(output);
 			}
 		} catch (final Exception e) {
-			Poi3_5XLSExporterUtils.logger.error(null, e);
+			Poi5XLSExporterUtils.logger.error(null, e);
 		} finally {
 			os.close();
 		}
@@ -1210,10 +1185,10 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 	public static Object createXSSFWorkbook() {
 		Class classObject = null;
 		try {
-			classObject = Poi3_5XLSExporterUtils.class.getClassLoader()
+			classObject = Poi5XLSExporterUtils.class.getClassLoader()
 					.loadClass("org.apache.poi.xssf.usermodel.XSSFWorkbook");
 		} catch (final Exception e) {
-			Poi3_5XLSExporterUtils.logger.error(null, e);
+			Poi5XLSExporterUtils.logger.error(null, e);
 		}
 		return classObject;
 	}

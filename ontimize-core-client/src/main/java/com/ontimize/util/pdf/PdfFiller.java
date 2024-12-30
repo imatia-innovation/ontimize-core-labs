@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -435,22 +434,23 @@ public abstract class PdfFiller {
 								img = Image.getInstance((java.awt.Image) value, null);
 							}
 							if (img != null) {
-								float realimagewidth = img.width();
-								float realimageheight = img.height();
-								if ((img.width() > field.width()) || (img.height() > field.height())) {
-									final float scaleX = field.width() / img.width();
-									final float scaleY = field.height() / img.height();
+								float realimagewidth = img.getWidth();
+								float realimageheight = img.getHeight();
+								if ((img.getWidth() > field.width()) || (img.getHeight() > field.height())) {
+									final float scaleX = field.width() / img.getWidth();
+									final float scaleY = field.height() / img.getHeight();
 									final float scale = Math.min(scaleX, scaleY);
-									final float newwidth = img.width() * scale;
-									final float newheight = img.height() * scale;
+									final float newwidth = img.getWidth() * scale;
+									final float newheight = img.getHeight() * scale;
 									img.scaleToFit(newwidth, newheight);
 									realimagewidth = newwidth;
 									realimageheight = newheight;
-									PdfFiller.logger.debug("Original size for image: " + img.width() + ", "
-											+ img.height() + "Scaled to: " + newwidth + " , " + newheight);
+									PdfFiller.logger.debug("Original size for image: " + img.getWidth() + ", "
+											+ img.getHeight() + "Scaled to: " + newwidth + " , " + newheight);
 								} else {
-									PdfFiller.logger.debug("It is not necessary resize the image: " + img.width() + ", "
-											+ img.height() + " --> Field size: " + field
+									PdfFiller.logger
+											.debug("It is not necessary resize the image: " + img.getWidth() + ", "
+													+ img.getHeight() + " --> Field size: " + field
 											.width()
 											+ " , " + field.height());
 								}

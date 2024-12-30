@@ -2021,7 +2021,8 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 					// If style is null the column isn't in selected printing
 					// columns.
 					if (column.getStyle() != null) {
-						columnStyle.setHorizontalAlign(column.getStyle().getHorizontalAlign());
+						columnStyle.setHorizontalTextAlign(column.getStyle().getHorizontalTextAlign());
+						columnStyle.setHorizontalImageAlign(column.getStyle().getHorizontalImageAlign());
 						group.addFooterVariable(column, this.getOperation((Integer) valueOperation), columnStyle,
 								new DJValueFormatter() {
 
@@ -2058,7 +2059,8 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 					}
 				} else {
 					final Style columnStyle = (Style) this.styleFooterVariable.clone();
-					columnStyle.setHorizontalAlign(column.getStyle().getHorizontalAlign());
+					columnStyle.setHorizontalTextAlign(column.getStyle().getHorizontalTextAlign());
+					columnStyle.setHorizontalImageAlign(column.getStyle().getHorizontalImageAlign());
 					if (this.drb.getColumns().contains(column)) {
 						this.drb.addGlobalFooterVariable(column, this.getOperation((Integer) valueOperation),
 								columnStyle, new DJValueFormatter() {

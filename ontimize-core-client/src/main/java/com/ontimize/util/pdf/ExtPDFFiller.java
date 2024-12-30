@@ -172,11 +172,11 @@ public abstract class ExtPDFFiller extends PdfFiller {
 								img = Image.getInstance((java.awt.Image) value, null);
 							}
 							if (img != null) {
-								if ((img.width() > keyvalue.width()) || (img.height() > keyvalue.height())) {
+								if ((img.getWidth() > keyvalue.width()) || (img.getHeight() > keyvalue.height())) {
 									img.scaleToFit(keyvalue.width(), keyvalue.height());
 								}
-								img.setAbsolutePosition(keyvalue.x1 + ((keyvalue.width() - img.width()) / 2),
-										keyvalue.y1 + ((keyvalue.height() - img.height()) / 2));
+								img.setAbsolutePosition(keyvalue.x1 + ((keyvalue.width() - img.getWidth()) / 2),
+										keyvalue.y1 + ((keyvalue.height() - img.getHeight()) / 2));
 								cb.addImage(img);
 							}
 						}

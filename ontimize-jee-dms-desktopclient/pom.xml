@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ontimize</groupId>
+		<artifactId>ontimize-core-parent</artifactId>
+		<version>labs7.0.0-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>ontimize-jee-dms-desktopclient</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ontimize</groupId>
+			<artifactId>ontimize-jee-desktopclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ontimize.jee.dms</groupId>
+			<artifactId>ontimize-jee-dms-common</artifactId>
+		</dependency>
+		
+		<!-- Google Drive API -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.18.0-rc</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-gson</artifactId>
+			<version>1.18.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-jackson2</artifactId>
+			<version>1.18.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-drive</artifactId>
+			<version>v2-rev135-1.18.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-oauth2</artifactId>
+			<version>v2-rev74-1.18.0-rc</version>
+		</dependency>
+		<!-- dropbox api -->
+		<dependency>
+			<groupId>com.dropbox.core</groupId>
+			<artifactId>dropbox-core-sdk</artifactId>
+			<version>1.7.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!--JAVAFX-->
+<!--		<dependency>-->
+<!--			<groupId>org.openjfx</groupId>-->
+<!--			<artifactId>javafx-controls</artifactId>-->
+<!--			<classifier>win</classifier>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-web</artifactId>
+			<classifier>win</classifier>
+			<scope>provided</scope>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.openjfx</groupId>-->
+<!--			<artifactId>javafx-graphics</artifactId>-->
+<!--			<classifier>win</classifier>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-swing</artifactId>
+			<classifier>win</classifier>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

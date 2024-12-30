@@ -20,23 +20,8 @@ public abstract class XLSExporterFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(XLSExporterFactory.class);
 
-	/**
-	 * For poi 2 o higher (lower than 3.0). Please use POI_3_5;
-	 * @deprecated
-	 */
-	@Deprecated
-	public static final String POI = "poi";
 
-	/**
-	 * For poi 3.2 o higher (lower than 3.5). Please use POI_3_5;
-	 * @deprecated
-	 */
-	@Deprecated
-	public static final String POI_3_2 = "poi3.2";
-
-	public static final String POI_3_5 = "poi3.5";
-
-	public static final String POI_3_15 = "poi3.15";
+	public static final String	POI						= "poi";
 
 	public static final String CLIPBOARD = "clipboard";
 
@@ -47,31 +32,11 @@ public abstract class XLSExporterFactory {
 	protected static String errorMessage;
 
 	public static XLSExporter instanceXLSExporter(final String type) {
-		if (XLSExporterFactory.xlsExporterInstances.get(type) != null) {
+		if (XLSExporterFactory.xlsExporterInstances.containsKey(type)) {
 			return (XLSExporter) XLSExporterFactory.xlsExporterInstances.get(type);
 		} else if (type.equals(XLSExporterFactory.POI) && XLSExporterFactory.isPOILibraryAvailable()) {
 			if (!XLSExporterFactory.xlsExporterInstances.containsKey(type)) {
-				try {
-					final Class rootClass = Class.forName("com.ontimize.util.xls.PoiXLSExporterUtils");
-					final Class[] p = {};
-					final java.lang.reflect.Constructor constructorPoi = rootClass.getConstructor(p);
-					final Object poiInstance = constructorPoi.newInstance();
-					XLSExporterFactory.xlsExporterInstances.put(type, poiInstance);
-				} catch (final Exception e) {
-					XLSExporterFactory.logger.trace(null, e);
-				}
-				// deprecated - legacy
-				// xlsExporterInstances.put(type, new PoiXLSExporterUtils());
-			}
-			return (XLSExporter) XLSExporterFactory.xlsExporterInstances.get(type);
-		} else if (type.equals(XLSExporterFactory.POI_3_2) && XLSExporterFactory.isPOI_3_2_LibraryAvailable()) {
-			if (!XLSExporterFactory.xlsExporterInstances.containsKey(type)) {
-				XLSExporterFactory.xlsExporterInstances.put(type, new Poi3_2XLSExporterUtils());
-			}
-			return (XLSExporter) XLSExporterFactory.xlsExporterInstances.get(type);
-		} else if (type.equals(XLSExporterFactory.POI_3_5) && XLSExporterFactory.isPOI_3_5_LibraryAvailable()) {
-			if (!XLSExporterFactory.xlsExporterInstances.containsKey(type)) {
-				XLSExporterFactory.xlsExporterInstances.put(type, new Poi3_5XLSExporterUtils());
+				XLSExporterFactory.xlsExporterInstances.put(type, new Poi5XLSExporterUtils());
 			}
 			return (XLSExporter) XLSExporterFactory.xlsExporterInstances.get(type);
 		} else if (type.equals(XLSExporterFactory.CLIPBOARD)) {
@@ -104,43 +69,15 @@ public abstract class XLSExporterFactory {
 		}
 	}
 
-	/**
-	 * Method that checks whether poi 3.2 or higher (until 3.6 included) is available.
-	 * @return <code>true</code> when poi library is available.
-	 */
-	public static boolean isPOI_3_2_LibraryAvailable() {
-		try {
-			Class.forName("org.apache.poi.ss.formula.FormulaParser");
-			return true;
-		} catch (final Exception e) {
-			XLSExporterFactory.logger.trace(null, e);
-			return false;
-		}
-	}
-
 	public static Object createXSSFWorkbook() {
 		Class classObject = null;
 		try {
-			classObject = Poi3_2XLSExporterUtils.class.getClassLoader()
+			classObject = Poi5XLSExporterUtils.class.getClassLoader()
 					.loadClass("org.apache.poi.xssf.usermodel.XSSFWorkbook");
 		} catch (final Exception e) {
 			XLSExporterFactory.logger.error(null, e);
 		}
 		return classObject;
-	}
-
-	public static boolean isPOI_3_5_LibraryAvailable() {
-		try {
-			Class.forName("org.apache.poi.common.usermodel.Hyperlink");
-			return true;
-		} catch (final Exception e) {
-			XLSExporterFactory.logger.trace(null, e);
-			return false;
-		}
-	}
-
-	public static boolean isPOI_3_15_LibraryAvailable() {
-		return XLSExporterFactory.isPOI_3_5_LibraryAvailable();
 	}
 
 	/**

@@ -2125,9 +2125,6 @@ public class BasicInteractionManager extends InteractionManager {
 		}
 		this.attributes = null;
 		this.attributesValues = null;
-		if (this.printThread != null) {
-			this.printThread.destroy();
-		}
 		this.printThread = null;
 		super.free();
 		BasicInteractionManager.logger.debug("Remove references.-> free");

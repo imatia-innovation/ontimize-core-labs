@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<FormExt entity="a" keys="a" status="no" buttons="no"
+	title="dms.formDriveLoginService" scroll="yes">
+	<ObjectDataField attr="CLOUD_FILE" visible="no"/>
+	<Column margin="5;5;5;5">
+	<CardPanel attr="cardpanel" expand="yes" animation="slide">
+		<Column attr="login" align="center">
+			<com.ontimize.jee.desktopclient.dms.upload.cloud.gdrive.LoginIntoGoogleDriveComponent
+				attr="WEB" labelvisible="no" valign="center" expand="yes" align="center" />
+		</Column>
+		<Column attr="remotedir" align="center">
+			<com.ontimize.jee.desktopclient.dms.upload.cloud.CloudDrivePanel cloudmanagerclass="com.ontimize.jee.desktopclient.dms.upload.cloud.gdrive.GoogleDriveManager"
+				attr="remotepanel" valign="center" expand="yes" align="center" />
+		</Column>
+	</CardPanel>
+	</Column>
+</FormExt>

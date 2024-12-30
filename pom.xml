@@ -61,13 +61,14 @@
         <!--        Dependencies version         -->
         <!--=====================================-->
         <ontimize-jee.version>5.11.0</ontimize-jee.version>
+        <ontimize-jee-dms.version>3.1.0</ontimize-jee-dms.version>
         <apache-httpcomponents.version>5.4.1</apache-httpcomponents.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
         <jfreechart.version>1.0.12</jfreechart.version>
         <logback-classic.version>1.0.13</logback-classic.version>
         <log4j-core.version>2.8.2</log4j-core.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
-        <dynamicjasper.version>5.0.0</dynamicjasper.version>
+        <dynamicjasper.version>5.3.9</dynamicjasper.version>
         <registry.version>3.1.3</registry.version>
         <sam.version>0.0.1</sam.version>
         <jai.version>1.1.2</jai.version>
@@ -76,8 +77,9 @@
         <jep.version>2.24</jep.version>
         <mail.version>1.4.5</mail.version>
         <mesp.version>1.0.2</mesp.version>
+        <jna.version>5.16.0</jna.version>
         <core-renderer.version>R8</core-renderer.version>
-        <docx4j.version>3.2.2</docx4j.version>
+        <docx4j.version>8.3.13</docx4j.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-text.version>1.10.0</commons-text.version>
@@ -88,7 +90,7 @@
         <comm.version>2.0</comm.version>
         <jnlp.version>1.2.2</jnlp.version>
         <jmf.version>2.1.1e</jmf.version>
-        <poi.version>3.9</poi.version>
+        <poi.version>5.3.0</poi.version>
         <systray4j.version>2.4.1</systray4j.version>
         <quartz.version>1.5.2</quartz.version>
         <junit.version>4.11</junit.version>
@@ -157,8 +159,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>Cp1252</encoding>
                 </configuration>
             </plugin>
@@ -217,6 +219,11 @@
 				<groupId>com.ontimize.jee</groupId>
 				<artifactId>ontimize-jee-common</artifactId>
 				<version>${ontimize-jee.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ontimize.jee.dms</groupId>
+				<artifactId>ontimize-jee-dms-common</artifactId>
+				<version>${ontimize-jee-dms.version}</version>
 			</dependency>
 		
             <dependency>
@@ -327,6 +334,16 @@
                 <version>${jep.version}</version>
                 <optional>true</optional>
             </dependency>
+            <dependency>
+			    <groupId>net.java.dev.jna</groupId>
+			    <artifactId>jna</artifactId>
+			    <version>${jna.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>net.java.dev.jna</groupId>
+			    <artifactId>jna-platform</artifactId>
+			    <version>${jna.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>javax.mail</groupId>
@@ -351,7 +368,7 @@
 
             <dependency>
                 <groupId>org.docx4j</groupId>
-                <artifactId>docx4j</artifactId>
+                <artifactId>docx4j-core</artifactId>
                 <version>${docx4j.version}</version>
                 <optional>true</optional>
             </dependency>
@@ -480,6 +497,36 @@
                 <version>${servlet-api.version}</version>
             </dependency>
 
+
+			<!-- JAVAFX -->
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-controls</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-web</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-swing</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-graphics</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

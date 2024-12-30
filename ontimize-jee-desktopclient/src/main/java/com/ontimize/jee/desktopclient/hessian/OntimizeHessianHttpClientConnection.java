@@ -175,7 +175,6 @@ public class OntimizeHessianHttpClientConnection extends AbstractHessianConnecti
 
 			throw new HessianConnectionException(this.statusCode + ": " + sb.toString());
 		}
-
 	}
 
 	/**
@@ -215,11 +214,6 @@ public class OntimizeHessianHttpClientConnection extends AbstractHessianConnecti
 	 */
 	@Override
 	public void close() {
-		try {
-			this.client.close();
-		} catch (final IOException error) {
-			OntimizeHessianHttpClientConnection.logger.error(null, error);
-		}
 	}
 
 }

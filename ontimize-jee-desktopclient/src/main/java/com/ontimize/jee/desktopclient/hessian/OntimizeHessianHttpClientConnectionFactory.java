@@ -34,6 +34,8 @@ public class OntimizeHessianHttpClientConnectionFactory extends AbstractHessianC
 	private static final Logger logger = LoggerFactory
 			.getLogger(OntimizeHessianHttpClientConnectionFactory.class.getName());
 
+	protected CloseableHttpClient	httpClient;
+
 	/**
 	 * Instantiates a new ontimize hessian http client connection factory.
 	 */
@@ -53,14 +55,24 @@ public class OntimizeHessianHttpClientConnectionFactory extends AbstractHessianC
 
 		OntimizeHessianHttpClientConnectionFactory.logger.trace(this + " open(" + url + ")");
 
-		final long connectTimeout = this.getHessianProxyFactory().getConnectTimeout();
+		final CloseableHttpClient httpClient = getClient();
 
-		final CloseableHttpClient httpClient = OntimizeHessianHttpClientSessionProcessorFactory.createClient(connectTimeout);
 		final HttpPost request = new HttpPost(url.toString());
-
 		this.addCustomHeaders(request);
 
 		return new OntimizeHessianHttpClientConnection(request, httpClient);
+	}
+
+	protected CloseableHttpClient getClient() {
+		if (httpClient == null) {
+			httpClient = createClient();
+		}
+		return httpClient;
+	}
+
+	protected CloseableHttpClient createClient() {
+		final long connectTimeout = this.getHessianProxyFactory().getConnectTimeout();
+		return OntimizeHessianHttpClientSessionProcessorFactory.createClient(connectTimeout);
 	}
 
 	protected OntimizeHessianProxyFactory getOntimizeHessianProxyFactory() {
