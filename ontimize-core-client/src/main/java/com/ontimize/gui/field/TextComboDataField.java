@@ -223,7 +223,7 @@ public class TextComboDataField extends ComboDataField {
 		}
 	}
 
-	public Vector processValues(final Vector values) {
+	public List processValues(final List values) {
 		if ((values == null) || (this.codeNumberClass == null)) {
 			return values;
 		}
@@ -279,7 +279,7 @@ public class TextComboDataField extends ComboDataField {
 	}
 
 	@Override
-	public void setValues(Vector values) {
+	public void setValues(List values) {
 		values = this.processValues(values);
 		super.setValues(values);
 	}

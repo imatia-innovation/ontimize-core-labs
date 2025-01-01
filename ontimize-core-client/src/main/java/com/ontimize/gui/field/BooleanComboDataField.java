@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -424,7 +424,7 @@ public class BooleanComboDataField extends ComboDataField {
 	}
 
 	@Override
-	public void setValues(final Vector values) {
+	public void setValues(final List values) {
 	}
 
 	@Override

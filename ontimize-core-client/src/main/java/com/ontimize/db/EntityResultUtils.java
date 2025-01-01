@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,7 +24,7 @@ import com.ontimize.jee.common.dto.EntityResultMapImpl;
 import com.ontimize.jee.common.util.remote.BytesBlock;
 import com.ontimize.util.swing.image.BooleanImage;
 
-public abstract class EntityResultUtils {
+public class EntityResultUtils extends com.ontimize.jee.common.util.EntityResultUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(EntityResultUtils.class);
 
@@ -222,119 +221,6 @@ public abstract class EntityResultUtils {
 		return new EntityResultTableModel(resN, returnEmptyStrings, convertBB2Im, true);
 	}
 
-	/**
-	 * @param entityResult
-	 * @param recordValue
-	 * @param index
-	 * @use EntityResultTools.updateRecordValues(entityResult, recordValue, index);
-	 */
-	@Deprecated
-	public static void updateRecordValues(final EntityResult entityResult, final Map recordValue, final int index) {
-		com.ontimize.jee.common.dto.EntityResultTools.updateRecordValues(entityResult, recordValue, index);
-	}
-
-	/**
-	 * @param entityResult
-	 * @param kv
-	 * @return
-	 * @use EntityResultTools.getValuesKeysIndex(entityResult, kv);
-	 */
-	@Deprecated
-	public static int getValuesKeysIndex(final Map entityResult, final Map kv) {
-		EntityResult er;
-		if (entityResult instanceof EntityResult) {
-			er = (EntityResult) entityResult;
-		} else {
-			er = new EntityResultMapImpl(new HashMap(entityResult));
-		}
-		return com.ontimize.jee.common.dto.EntityResultTools.getValuesKeysIndex(er, kv);
-	}
-
-	/**
-	 * Joins the data in two EntityResult objects. These objects must have the same structure, is they
-	 * have not it the method uses the structure of res1
-	 * @param r1
-	 * @param r2
-	 * @return
-	 */
-	public static EntityResult merge(final EntityResult r1, final EntityResult r2) {
-		if (r1.isEmpty()) {
-			return r2.clone();
-		}
-		if (r2.isEmpty()) {
-			return r1.clone();
-		}
-		// None of them are empty
-		final EntityResult res1 = r1.clone();
-		final Enumeration enumKeys = res1.keys();
-		final int necordNumber2 = r2.calculateRecordNumber();
-		while (enumKeys.hasMoreElements()) {
-			final Object oKey = enumKeys.nextElement();
-			final List vValues1 = (List) res1.get(oKey);
-			final List vValues2 = (List) r2.get(oKey);
-			if (vValues2 == null) {
-				for (int i = 0; i < necordNumber2; i++) {
-					vValues1.add(vValues1.size(), null);
-				}
-			} else {
-				for (int i = 0; (i < vValues2.size()) && (i < necordNumber2); i++) {
-					vValues1.add(vValues1.size(), vValues2.get(i));
-				}
-				for (int i = vValues1.size(); i < necordNumber2; i++) {
-					vValues1.add(vValues1.size(), null);
-				}
-			}
-		}
-		return res1;
-	}
-
-	/**
-	 * Combines all data in the Map h and the EntityResult r2. The combination is done in the next
-	 * way:<BR>
-	 * - All pairs (key-value) in the Map h are added in each record of r2.<BR>
-	 * - NullValue objects in the Map h are null objects in the result.<BR>
-	 * @param h
-	 * @param r2
-	 * @return
-	 */
-	public static EntityResult combine(final Map<?, ?> h, final EntityResult r2) {
-		final EntityResult res = r2.clone();
-		if (h.isEmpty()) {
-			return res;
-		}
-		int r = res.calculateRecordNumber();
-		// If r == 0, combine using 1
-		if (r == 0) {
-			r = 1;
-		}
-		for (final Entry<?, ?> entry : h.entrySet()) {
-			final Object oKey = entry.getKey();
-			Object oValue = entry.getValue();
-			if (oValue instanceof NullValue) {
-				oValue = null;
-			}
-			final List v = new Vector();
-			for (int i = 0; i < r; i++) {
-				v.add(i, oValue);
-			}
-			res.put(oKey, v);
-		}
-		return res;
-	}
-
-	/**
-	 * Combines the data from two hashtables. The combination is the next:<BR>
-	 * - All pairs (key-value) in the Map h are added in h2.<BR>
-	 * - NullValue objects are null objects in the result.<BR>
-	 * @param h
-	 * @param h2
-	 * @return
-	 */
-	public static EntityResult combine(final Map h, final Map h2) {
-		final EntityResult rAux = new EntityResultMapImpl();
-		rAux.putAll(h2);
-		return EntityResultUtils.combine(h, rAux);
-	}
 
 	public static class Order implements Serializable {
 
@@ -364,17 +250,6 @@ public abstract class EntityResultUtils {
 			return this.columnName;
 		}
 
-	}
-
-	public static void addColumn(final EntityResult entityResult, final String columnName) {
-		if (!entityResult.containsKey(columnName)) {
-			final int recordNumber = entityResult.calculateRecordNumber();
-			final Vector columnRecords = new Vector(recordNumber);
-			columnRecords.setSize(recordNumber);
-			entityResult.put(columnName, columnRecords);
-		} else {
-			EntityResultUtils.logger.warn("{} column already exists in this EntityResult", columnName);
-		}
 	}
 
 	public static void sort(final EntityResult entityResult, final List<Order> order) {
@@ -560,17 +435,6 @@ public abstract class EntityResultUtils {
 			return 0;
 		}
 
-	}
-
-	public static Map<Object, Object> toMap(final EntityResult res) {
-		if (res instanceof Map) {
-			return (Map) res;
-		}
-		final Map<Object, Object> map = new HashMap<>();
-		for (final Object key : res.keySet()) {
-			map.put(key, res.get(key));
-		}
-		return map;
 	}
 
 }

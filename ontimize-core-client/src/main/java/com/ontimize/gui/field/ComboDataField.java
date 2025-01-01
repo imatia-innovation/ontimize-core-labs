@@ -716,7 +716,7 @@ public abstract class ComboDataField extends DataField implements Freeable {
 	 * <p>
 	 * @param values the List with values.
 	 */
-	public void setValues(final Vector values) {
+	public void setValues(final List values) {
 		this.values = values;
 		((JComboBox) this.dataField).removeAllItems();
 
