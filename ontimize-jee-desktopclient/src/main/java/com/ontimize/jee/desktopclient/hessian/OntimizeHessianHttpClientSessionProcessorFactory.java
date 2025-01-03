@@ -26,11 +26,6 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
-import org.apache.hc.client5.http.protocol.RequestAddCookies;
-import org.apache.hc.client5.http.protocol.RequestClientConnControl;
-import org.apache.hc.client5.http.protocol.RequestDefaultHeaders;
-import org.apache.hc.client5.http.protocol.RequestExpectContinue;
-import org.apache.hc.client5.http.protocol.ResponseProcessCookies;
 import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
 import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
@@ -43,11 +38,6 @@ import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpResponseInterceptor;
 import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.protocol.HttpContext;
-import org.apache.hc.core5.http.protocol.HttpProcessor;
-import org.apache.hc.core5.http.protocol.HttpProcessorBuilder;
-import org.apache.hc.core5.http.protocol.RequestContent;
-import org.apache.hc.core5.http.protocol.RequestTargetHost;
-import org.apache.hc.core5.http.protocol.RequestUserAgent;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.ssl.TrustStrategy;
 import org.slf4j.Logger;
@@ -81,33 +71,7 @@ public final class OntimizeHessianHttpClientSessionProcessorFactory {
 
 	public static String JWT_TOKEN = null;
 
-	/** The httpproc. */
-	private static HttpProcessor httpproc = HttpProcessorBuilder.create()
-			.add(new RequestAddCookies())
-			.add(new ResponseProcessCookies())
-			.add(OntimizeHessianHttpClientSessionProcessorFactory.requestInterceptor)
-			.add(OntimizeHessianHttpClientSessionProcessorFactory.responseInterceptor)
-			.add(new RequestDefaultHeaders())
-			// Required protocol interceptors
-			.add(new RequestContent())
-			.add(new RequestTargetHost())
-			// Recommended protocol interceptors
-			.add(new RequestClientConnControl())
-			.add(new RequestUserAgent())
-			.add(new RequestExpectContinue())
-			// HTTP state management interceptors
-			// httpproc.addInterceptor(new RequestAuthCache());
-			.build();
-
 	private static Map<AuthScope, Credentials> credentials = new HashMap<>();
-
-	public static HttpProcessor getHttpProcessor() {
-		return OntimizeHessianHttpClientSessionProcessorFactory.httpproc;
-	}
-
-	public static void setHttpProcessor(final HttpProcessor httpProc) {
-		OntimizeHessianHttpClientSessionProcessorFactory.httpproc = httpProc;
-	}
 
 	/**
 	 * Gets the http processor.
@@ -160,7 +124,8 @@ public final class OntimizeHessianHttpClientSessionProcessorFactory {
 						.entrySet()) {
 					credentialsProvider.setCredentials(entry.getKey(), entry.getValue());
 				}
-				context.setAttribute(HttpClientContext.CREDS_PROVIDER, credentialsProvider);
+				((HttpClientContext) context).setCredentialsProvider(credentialsProvider);
+				// context.setAttribute(HttpClientContext.CREDS_PROVIDER, credentialsProvider);
 			}
 			if ((OntimizeHessianHttpClientSessionProcessorFactory.JWT_TOKEN != null)
 					&& (OntimizeHessianHttpClientSessionProcessorFactory.JWT_TOKEN.length() > 0)) {
@@ -283,7 +248,16 @@ public final class OntimizeHessianHttpClientSessionProcessorFactory {
 		return OntimizeHessianHttpClientSessionProcessorFactory.httpCookieStore;
 	}
 
-	public static CloseableHttpClient createClient(final long connectTimeout) {
+	protected static CloseableHttpClient httpClient;
+
+	public static CloseableHttpClient getClient() {
+		if (httpClient == null) {
+			httpClient = createClient(-1);
+		}
+		return httpClient;
+	}
+
+	protected static CloseableHttpClient createClient(final long connectTimeout) {
 		final SocketConfig.Builder socketConfigBuilder = SocketConfig.custom().setSoKeepAlive(true);
 		if (connectTimeout >= 0) {
 			socketConfigBuilder.setSoTimeout(SafeCasting.longToInt(connectTimeout), TimeUnit.MILLISECONDS);
@@ -304,7 +278,8 @@ public final class OntimizeHessianHttpClientSessionProcessorFactory {
 				.disableAuthCaching()
 				.setDefaultCredentialsProvider(credentialsProvider)
 				.setConnectionManager(connectionMananger)
-				.addRequestInterceptorLast(OntimizeHessianHttpClientSessionProcessorFactory.getHttpProcessor())
+				.addRequestInterceptorLast(requestInterceptor)
+				.addResponseInterceptorFirst(responseInterceptor)
 				.setDefaultCookieStore(OntimizeHessianHttpClientSessionProcessorFactory.getCookieStore())
 				.setConnectionManagerShared(true)
 				.disableRedirectHandling();

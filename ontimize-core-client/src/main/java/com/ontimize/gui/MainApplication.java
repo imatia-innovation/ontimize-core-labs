@@ -1351,7 +1351,7 @@ public class MainApplication extends JFrame implements Application {
 								try {
 									final Class cpClass = Class.forName(this.changePasswordDialogClass.toString());
 									final Constructor constructor = cpClass
-											.getConstructor(new Class[] { Application.class, Hashtable.class,
+											.getConstructor(new Class[] { Application.class, Map.class,
 													EntityReferenceLocator.class, String.class, String.class });
 									cpdialog = (IChangePasswordDialog) constructor
 											.newInstance(new Object[] { this, params, locator, this.lastLogin, password });
@@ -1854,7 +1854,7 @@ public class MainApplication extends JFrame implements Application {
 
 				final Class loginDialog = Class.forName(this.loginDialogClass);
 				final Constructor constructor = loginDialog
-						.getConstructor(new Class[] { Application.class, Hashtable.class, EntityReferenceLocator.class });
+						.getConstructor(new Class[] { Application.class, Map.class, EntityReferenceLocator.class });
 				final Object currentObject = constructor.newInstance(new Object[] { this, parameters, this.locator });
 				return (ILoginDialog) currentObject;
 

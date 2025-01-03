@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -91,7 +90,7 @@ public class ToastMessage {
 	 */
 	public ToastMessage(final Component parent, final boolean blocking, final String message, final String description, final ImageIcon icon,
 			final int animationTime, final Rectangle windowBounds,
-			final Class<? extends JPanel> panelClass, final Hashtable<?, ?> otherData, final Object[] bundleMessageParams,
+			final Class<? extends JPanel> panelClass, final Map<?, ?> otherData, final Object[] bundleMessageParams,
 			final Object[] bundleDescriptionParams) {
 		super();
 		this.parentWindow = (Window) (parent == null ? null

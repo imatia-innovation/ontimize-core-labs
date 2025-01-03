@@ -317,7 +317,7 @@ public abstract class AbstractLoginDialog extends JDialog implements ILoginDialo
 						final Class cpClass = Class
 								.forName(this.params.get(IChangePasswordDialog.CHANGE_PASSWORD_DIALOG_CLASS).toString());
 						final Constructor constructor = cpClass
-								.getConstructor(new Class[] { Application.class, Hashtable.class,
+								.getConstructor(new Class[] { Application.class, Map.class,
 										EntityReferenceLocator.class, String.class, String.class });
 						cpdialog = (IChangePasswordDialog) constructor.newInstance(new Object[] { this.getApplication(),
 								this.params, this.getEntityReferenceLocator(), this.user

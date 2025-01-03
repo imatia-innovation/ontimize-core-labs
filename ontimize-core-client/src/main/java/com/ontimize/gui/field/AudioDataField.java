@@ -165,7 +165,7 @@ public class AudioDataField extends DataField implements OpenDialog {
 
 		String description = "";
 
-		public ExtensionFileFilter(final Vector acceptedExtensions, final String description) {
+		public ExtensionFileFilter(final List acceptedExtensions, final String description) {
 			this.extensions = acceptedExtensions;
 			this.description = description;
 		}

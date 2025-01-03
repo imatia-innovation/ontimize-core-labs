@@ -43,7 +43,7 @@ public abstract class FileUtils {
 
 		String descrip = "";
 
-		public ExtensionFileFilter(final Vector extAccepted, final String description) {
+		public ExtensionFileFilter(final List extAccepted, final String description) {
 			this.extensions = extAccepted;
 			this.descrip = description;
 		}

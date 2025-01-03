@@ -394,7 +394,7 @@ public class SelectionListDataField extends DataField {
 	 * <p>
 	 * @param items the <CODE>Vector</CODE> with items
 	 */
-	public void setItems(final Vector items) {
+	public void setItems(final List items) {
 		final DefaultListModel model = (DefaultListModel) ((JList) this.dataField).getModel();
 		model.clear();
 		if (items == null) {

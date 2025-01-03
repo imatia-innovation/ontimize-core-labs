@@ -175,7 +175,7 @@ public class TextComboDataField extends ComboDataField {
 		final Object values = parameters.get("values");
 		if (values != null) {
 			final StringTokenizer st = new StringTokenizer(values.toString(), ";");
-			final Vector v = new Vector();
+			final List v = new Vector();
 			while (st.hasMoreTokens()) {
 				v.add(st.nextToken());
 			}

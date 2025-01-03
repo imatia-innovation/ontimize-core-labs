@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultUtils;
 import com.ontimize.gui.container.EJDialog;
 import com.ontimize.gui.field.DataComponent;
 import com.ontimize.gui.i18n.Internationalization;
@@ -410,7 +409,7 @@ implements Internationalization, DataNavigationListener, IDetailForm, Freeable {
 			if (this.form instanceof FormExt) {
 				((FormExt) this.form).updateDataFields(tableKeys, -1);
 			} else {
-				this.data = EntityResultUtils.toMap(this.query(this.vectorIndex));
+				this.data = com.ontimize.jee.common.util.EntityResultUtils.toMap(this.query(this.vectorIndex));
 				this.form.updateDataFields(this.data);
 			}
 
@@ -493,7 +492,7 @@ implements Internationalization, DataNavigationListener, IDetailForm, Freeable {
 		if (!this.tableKeys.isEmpty()) {
 			if (!(this.form instanceof FormExt)) {
 				if (this.vectorIndex >= 0) {
-					this.data = EntityResultUtils.toMap(this.query(this.vectorIndex));
+					this.data = com.ontimize.jee.common.util.EntityResultUtils.toMap(this.query(this.vectorIndex));
 					this.form.updateDataFields(this.data);
 					if (recordNumber > 1) {
 						this.form.startButton.setEnabled(true);
@@ -681,7 +680,7 @@ implements Internationalization, DataNavigationListener, IDetailForm, Freeable {
 	 * @param otherParentKeys
 	 */
 	@Deprecated
-	public void resetOthersParentKeys(final Vector otherParentKeys) {
+	public void resetOthersParentKeys(final List otherParentKeys) {
 		if (otherParentKeys != null) {
 			for (int i = 0; i < otherParentKeys.size(); i++) {
 				final String formAttr = this.getFormFieldName(otherParentKeys.get(i));

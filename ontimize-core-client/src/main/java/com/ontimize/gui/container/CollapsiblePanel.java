@@ -779,7 +779,7 @@ implements FormComponent, IdentifiedElement, AccessForm, HasPreferenceComponent,
 			final Class renderClass = Class.forName(borderClassName);
 			Constructor constructor = null;
 			try {
-				constructor = renderClass.getConstructor(new Class[] { Hashtable.class });
+				constructor = renderClass.getConstructor(new Class[] { Map.class });
 				borderInstance = constructor.newInstance(new Object[] { parameters });
 			} catch (final Exception e) {
 				CollapsiblePanel.logger.debug(null, e);

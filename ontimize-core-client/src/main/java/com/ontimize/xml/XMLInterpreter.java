@@ -261,7 +261,7 @@ public abstract class XMLInterpreter {
 
 	protected Object createComponent(final String tagName, final Class componentClass, final Map attributes) throws Exception {
 		final Object[] parameters = { attributes };
-		final Class[] p = { Hashtable.class };
+		final Class[] p = { Map.class };
 		final Constructor constructorHash = componentClass.getConstructor(p);
 		return constructorHash.newInstance(parameters);
 	}

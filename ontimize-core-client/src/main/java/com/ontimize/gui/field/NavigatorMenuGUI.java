@@ -436,7 +436,7 @@ implements IdentifiedElement, AccessForm, FormComponent, HasPreferenceComponent,
 						.forName("com.ontimize.gui.field.NavigatorMenuGUI" + "$" + NavigationMenu.MENUGROUP + "GUI");
 			}
 
-			final Constructor constructors = cMenuGroupGUI.getConstructor(new Class[] { Hashtable.class });
+			final Constructor constructors = cMenuGroupGUI.getConstructor(new Class[] { Map.class });
 			ob = constructors.newInstance(new Object[] { parameters });
 		} catch (final Exception e) {
 			NavigatorMenuGUI.logger.error(null, e);

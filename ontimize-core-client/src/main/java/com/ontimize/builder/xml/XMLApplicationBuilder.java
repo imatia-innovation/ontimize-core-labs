@@ -330,7 +330,7 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 					} else {
 						try {
 							final Class locatorClass = Class.forName(locatorClassName.toString());
-							final Class[] p = { Hashtable.class };
+							final Class[] p = { Map.class };
 							final Constructor constructorHash = locatorClass.getConstructor(p);
 							final Object[] params = { param };
 							final Object lc = constructorHash.newInstance(params);
@@ -521,11 +521,11 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 			try {
 				Method m = XMLApplicationBuilder.iftc.getClass()
 						.getMethod("parseXML", new Class[] { org.w3c.dom.Node.class });
-				final Object Map = m.invoke(XMLApplicationBuilder.iftc, new Object[] { current });
+				final Object map = m.invoke(XMLApplicationBuilder.iftc, new Object[] { current });
 
 				m = XMLApplicationBuilder.iftc.getClass()
-						.getMethod("setConfiguration", new Class[] { Hashtable.class });
-				m.invoke(XMLApplicationBuilder.iftc, new Object[] { Map });
+						.getMethod("setConfiguration", new Class[] { Map.class });
+				m.invoke(XMLApplicationBuilder.iftc, new Object[] { map });
 
 				m = XMLApplicationBuilder.iftc.getClass().getMethod("start", null);
 				m.invoke(XMLApplicationBuilder.iftc, null);
@@ -777,7 +777,7 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 				equivalence = node.getNodeInfo();
 			}
 			final Class rootClass = Class.forName(this.packageA + equivalence.toString());
-			final Class[] p = { Hashtable.class };
+			final Class[] p = { Map.class };
 			final Constructor constructorHash = rootClass.getConstructor(p);
 			final Map h = node.hashtableAttribute();
 			final Object[] parameters = { h };
@@ -820,7 +820,7 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 				equivalence = nameInstance;
 			}
 			final Class rootClass = Class.forName(this.packageA + equivalence.toString());
-			final Class[] p = { Hashtable.class };
+			final Class[] p = { Map.class };
 			final Constructor constructorHash = rootClass.getConstructor(p);
 			final Object[] parameters = { param };
 			final Object o = constructorHash.newInstance(parameters);

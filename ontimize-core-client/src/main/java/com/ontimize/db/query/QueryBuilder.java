@@ -3241,7 +3241,8 @@ public class QueryBuilder extends JPanel {
 
 		final Vector v = new Vector();
 		v.add(entity);
-		final QueryExpression q = new QueryExpression(initQuery, (String) null, (java.util.List) null, (java.util.List) null);
+		final QueryExpression q = new QueryExpression(initQuery, (String) null, (java.util.List) null,
+				(java.util.List) null);
 		return QueryBuilder.showQueryBuilder(c, v, bundle, locator, q, okCancel, openList, false);
 	}
 

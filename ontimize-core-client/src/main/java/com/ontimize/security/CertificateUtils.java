@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -683,7 +682,7 @@ public final class CertificateUtils {
 	 *
 	 * @since 5.2068EN-0.2EN
 	 */
-	public static Object loadCertificates(final Vector vCert, final boolean crl) throws Exception {
+	public static Object loadCertificates(final List vCert, final boolean crl) throws Exception {
 		Certificate[] base = null;
 		CRL[] rvk = null;
 		for (int i = 0; i < vCert.size(); i++) {

@@ -1,6 +1,7 @@
 package com.ontimize.jee.desktopclient.test;
 
-public abstract class AbstractIdentifiedOntimizeTest extends AbstractOntimizeTest {
+
+public abstract class AbstractIdentifiedCallbackOntimizeTest extends AbstractCallbackOntimizeTest {
 
 	@Override
 	protected String getServiceBaseUrl() {

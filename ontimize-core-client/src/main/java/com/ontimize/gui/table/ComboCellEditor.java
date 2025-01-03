@@ -1,7 +1,7 @@
 package com.ontimize.gui.table;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.ontimize.gui.field.TextComboDataField;
 
@@ -11,7 +11,7 @@ public class ComboCellEditor extends CellEditor {
 		super(parameters.get(CellEditor.COLUMN_PARAMETER), new TextComboDataField(parameters));
 	}
 
-	public void setValues(final Vector values) {
+	public void setValues(final List values) {
 		((TextComboDataField) this.field).setValues(values);
 	}
 

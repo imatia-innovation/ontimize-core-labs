@@ -45,7 +45,7 @@ public class FormAddUserSharedReference extends EJDialog implements Internationa
 
 	protected SelectionListDataField selectionListDataField;
 
-	protected Vector<String> vSelectedUsers = new Vector<String>();
+	protected List<String>				vSelectedUsers		= new Vector<String>();
 
 	protected boolean updateTargetShare = false;
 
@@ -136,7 +136,7 @@ public class FormAddUserSharedReference extends EJDialog implements Internationa
 
 				@Override
 				public void valueChanged(final ValueEvent e) {
-					FormAddUserSharedReference.this.vSelectedUsers = (Vector<String>) FormAddUserSharedReference.this.selectionListDataField
+					FormAddUserSharedReference.this.vSelectedUsers = (List<String>) FormAddUserSharedReference.this.selectionListDataField
 							.getValue();
 				}
 			});
@@ -149,7 +149,7 @@ public class FormAddUserSharedReference extends EJDialog implements Internationa
 
 		final List oV = (List) this.listDataField.getValue();
 		if (oV != null) {
-			final Vector<String> v = new Vector<String>();
+			final List<String> v = new Vector<String>();
 			for (final Object actualOV : oV) {
 				v.add(actualOV.toString());
 			}

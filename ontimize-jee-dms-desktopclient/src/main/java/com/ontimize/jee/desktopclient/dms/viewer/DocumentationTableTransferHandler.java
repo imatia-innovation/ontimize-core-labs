@@ -55,7 +55,7 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @param table
 	 *            the table
 	 */
-	public DocumentationTableTransferHandler(DocumentationTable table) {
+	public DocumentationTableTransferHandler(final DocumentationTable table) {
 		super(null);
 		this.table = table;
 	}
@@ -74,7 +74,7 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
 	 */
 	@Override
-	public int getSourceActions(JComponent c) {
+	public int getSourceActions(final JComponent c) {
 		return TransferHandler.MOVE;
 	}
 
@@ -83,9 +83,9 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
 	 */
 	@Override
-	protected Transferable createTransferable(JComponent c) {
-		ArrayList<Object> fileIds = new ArrayList<>();
-		for (int row : this.getTable().getJTable().getSelectedRows()) {
+	protected Transferable createTransferable(final JComponent c) {
+		final ArrayList<Object> fileIds = new ArrayList<>();
+		for (final int row : this.getTable().getJTable().getSelectedRows()) {
 			fileIds.add(this.getTable().getJTable().getValueAt(row, this.getTable().getColumnIndex(DMSNaming.DOCUMENT_FILE_ID_DMS_DOCUMENT_FILE)));
 		}
 
@@ -97,9 +97,9 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
 	 */
 	@Override
-	protected void exportDone(JComponent c, Transferable transferable, int act) {
+	protected void exportDone(final JComponent c, final Transferable transferable, final int act) {
 		if (act == TransferHandler.MOVE) {
-			for (DataFlavor flavor : transferable.getTransferDataFlavors()) {
+			for (final DataFlavor flavor : transferable.getTransferDataFlavors()) {
 				if (DocumentationTableTransferHandler.TRANSFER_HANLDER_HUMAN_ID.equals(flavor.getHumanPresentableName())) {
 					this.exportDoneFlavor(transferable, flavor);
 				}
@@ -107,18 +107,18 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 		}
 	}
 
-	private void exportDoneFlavor(Transferable transferable, DataFlavor flavor) {
+	private void exportDoneFlavor(final Transferable transferable, final DataFlavor flavor) {
 		try {
-			DataWrapper<ArrayList<Object>> transferData = (DataWrapper<ArrayList<Object>>) transferable.getTransferData(flavor);
-			ArrayList<Object> data = transferData.getData();
-			for (Object idDocumentFileVersion : data) {
-				Map<String, Object> kv = new Hashtable<>();
+			final DataWrapper<ArrayList<Object>> transferData = (DataWrapper<ArrayList<Object>>) transferable.getTransferData(flavor);
+			final ArrayList<Object> data = transferData.getData();
+			for (final Object idDocumentFileVersion : data) {
+				final Map<String, Object> kv = new Hashtable<>();
 				kv.put(DMSNaming.DOCUMENT_FILE_ID_DMS_DOCUMENT_FILE, idDocumentFileVersion);
-				int index = this.getTable().getRowForKeys((Hashtable) kv);
+				final int index = this.getTable().getRowForKeys(kv);
 				this.getTable().deleteRow(index);
 			}
 
-		} catch (Exception error) {
+		} catch (final Exception error) {
 			DocumentationTableTransferHandler.logger.error(null, error);
 		}
 	}
@@ -128,9 +128,9 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
 	@Override
-	public boolean canImport(TransferSupport support) {
-		DataFlavor[] dataFlavors = support.getDataFlavors();
-		for (DataFlavor df : dataFlavors) {
+	public boolean canImport(final TransferSupport support) {
+		final DataFlavor[] dataFlavors = support.getDataFlavors();
+		for (final DataFlavor df : dataFlavors) {
 			if (df.getMimeType().toLowerCase().startsWith("application/x-java-file")) {
 				return true;
 			}
@@ -143,11 +143,11 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
 	 */
 	@Override
-	public boolean importData(JComponent comp, Transferable t) {
-		Serializable idDocument = this.getTable().getCurrentIdDocument();
-		Serializable idCategory = this.getTable().getCurrentIdCategory();
+	public boolean importData(final JComponent comp, final Transferable t) {
+		final Serializable idDocument = this.getTable().getCurrentIdDocument();
+		final Serializable idCategory = this.getTable().getCurrentIdCategory();
 		boolean someImported = false;
-		for (DataFlavor df : t.getTransferDataFlavors()) {
+		for (final DataFlavor df : t.getTransferDataFlavors()) {
 			if (!df.getMimeType().toLowerCase().startsWith("application/x-java-file")) {
 				continue;
 			}
@@ -156,21 +156,21 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 		return someImported;
 	}
 
-	private boolean importDataFlavor(Transferable t, DataFlavor df, Serializable idDocument, Serializable idCategory) {
+	private boolean importDataFlavor(final Transferable t, final DataFlavor df, final Serializable idDocument, final Serializable idCategory) {
 		boolean someImported = false;
 		try {
-			List<Path> transferData = FileTools.toPath((List<File>) t.getTransferData(df));
-			String description = JOptionPane.showInputDialog(ApplicationManager.getTranslation("dms.descriptioninput"));
-			for (Path file : transferData) {
-				DocumentIdentifier docIdf = new DocumentIdentifier(idDocument);
-				LocalDiskDmsUploadable transferable = new LocalDiskDmsUploadable(file, description, docIdf, idCategory);
+			final List<Path> transferData = FileTools.toPath((List<File>) t.getTransferData(df));
+			final String description = JOptionPane.showInputDialog(ApplicationManager.getTranslation("dms.descriptioninput"));
+			for (final Path file : transferData) {
+				final DocumentIdentifier docIdf = new DocumentIdentifier(idDocument);
+				final LocalDiskDmsUploadable transferable = new LocalDiskDmsUploadable(file, description, docIdf, idCategory);
 				transferable.addObserver(new Observer() {
 
 					@Override
-					public void update(Observable observable, Object arg) {
+					public void update(final Observable observable, final Object arg) {
 						// TODO intentar sólo añadir la información de la nueva fila sin necesidad de refrescar toda la tabla
 						CheckingTools.failIf(!(observable instanceof AbstractDmsUploadable), "observable not instnaceof AbstractDmsUploadable");
-						AbstractDmsUploadable uploadable = (AbstractDmsUploadable) observable;
+						final AbstractDmsUploadable uploadable = (AbstractDmsUploadable) observable;
 						if (uploadable.getStatus()
 								.equals(Status.COMPLETED) && (DocumentationTableTransferHandler.this.table
 										.getCurrentIdDocument() != null) && DocumentationTableTransferHandler.this.table
@@ -186,7 +186,7 @@ public class DocumentationTableTransferHandler extends TransferHandler {
 				DmsTransfererManagerFactory.getInstance().transfer(transferable);
 				someImported = true;
 			}
-		} catch (Exception error) {
+		} catch (final Exception error) {
 			MessageManager.getMessageManager().showExceptionMessage(error, DocumentationTableTransferHandler.logger);
 		}
 		return someImported;

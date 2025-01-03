@@ -9,7 +9,6 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.lang.reflect.Constructor;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -199,7 +198,7 @@ public class Chart extends JPanel implements DataComponent, IChartComponent, ITe
 		} else {
 			try {
 				final Class rootClass = Class.forName("com.ontimize.gui.field.Chart_0_9");
-				final Class[] p = { Hashtable.class };
+				final Class[] p = { Map.class };
 				final Constructor constructorChart = rootClass.getConstructor(p);
 				final Object[] params = { p };
 				this.chartImpl = (IChartComponent) constructorChart.newInstance(params);

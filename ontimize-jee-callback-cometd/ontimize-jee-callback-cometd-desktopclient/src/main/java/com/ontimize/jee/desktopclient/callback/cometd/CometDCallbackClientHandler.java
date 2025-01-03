@@ -5,6 +5,7 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,6 +175,38 @@ public class CometDCallbackClientHandler implements ICallbackClientHandler, Init
 	 */
 	protected void connect() throws Exception {
 		final HttpClient httpClient = new HttpClient(new SslContextFactory(true));
+		httpClient.setCookieStore(new CookieStore() {
+
+			@Override
+			public boolean removeAll() {
+				return false;
+			}
+
+			@Override
+			public boolean remove(final URI uri, final HttpCookie cookie) {
+				return false;
+			}
+
+			@Override
+			public List<URI> getURIs() {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public List<HttpCookie> getCookies() {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public List<HttpCookie> get(final URI uri) {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public void add(final URI uri, final HttpCookie cookie) {
+
+			}
+		});
 		httpClient.start();
 		final LongPollingTransport longPollingTransport = new LongPollingTransport(null, httpClient) {
 			@Override

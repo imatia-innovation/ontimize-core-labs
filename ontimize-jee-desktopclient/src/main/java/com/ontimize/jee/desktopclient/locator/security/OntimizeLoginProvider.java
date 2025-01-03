@@ -55,7 +55,7 @@ public class OntimizeLoginProvider implements ILoginProvider {
 
 	protected synchronized void doLogin(final String serviceUrl) throws InvalidCredentialsException, ConnectException {
 		OntimizeHessianHttpClientSessionProcessorFactory.JWT_TOKEN = null;
-		try (CloseableHttpClient httpClient = OntimizeHessianHttpClientSessionProcessorFactory.createClient(-1)) {
+		try (CloseableHttpClient httpClient = OntimizeHessianHttpClientSessionProcessorFactory.getClient()) {
 			final HttpGet request = new HttpGet(serviceUrl);
 			final CloseableHttpResponse response = httpClient.execute(request);
 			if (response.getCode() == 401) {

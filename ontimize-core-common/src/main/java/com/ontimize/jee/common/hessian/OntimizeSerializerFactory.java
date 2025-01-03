@@ -125,7 +125,7 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 
 			final Object ob = ReflectionTools.newInstance("java.lang.reflect.ReflectAccess");
 			final Field field = (Field) ReflectionTools.invoke(ob, "newField", cl,
-					OntimizeSerializerFactory.INNER_ONTIMIZE_MAP, Hashtable.class, Member.PUBLIC, 0, "", null);
+					OntimizeSerializerFactory.INNER_ONTIMIZE_MAP, Map.class, Member.PUBLIC, 0, "", null);
 			compoundFields.add(field);
 
 			final ArrayList<Field> fields = new ArrayList<>();

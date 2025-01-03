@@ -54,7 +54,6 @@ import org.docx4j.wml.Tr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultUtils;
 import com.ontimize.gui.table.Table;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
@@ -225,7 +224,7 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 
 		// Populate the table
 		final int records = actualValues.calculateRecordNumber();
-		final Map<Object, Object> mapActualValues = EntityResultUtils.toMap(actualValues);
+		final Map<Object, Object> mapActualValues = com.ontimize.jee.common.util.EntityResultUtils.toMap(actualValues);
 		this.translateToPatternFields(mapActualValues);
 		final EntityResult actualValuesTrans = new EntityResultMapImpl(new HashMap(mapActualValues));
 		actualValuesTrans.setColumnOrder(actualValues.getOrderColumns());
@@ -770,12 +769,12 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 			fieldValues.remove(actualKey);
 		}
 
-		final Vector<String> paragraphs = this.createFieldString(fieldValues);
+		final List<String> paragraphs = this.createFieldString(fieldValues);
 		for (final String s : paragraphs) {
 			mainDocument.addParagraphOfText(s);
 		}
 
-		final Vector<Tbl> images = this.createImagesField(valuesImages, mainDocument);
+		final List<Tbl> images = this.createImagesField(valuesImages, mainDocument);
 		for (final Tbl i : images) {
 			mainDocument.addParagraphOfText("");
 			mainDocument.addObject(i);
@@ -836,8 +835,8 @@ public class DocxTemplateGenerator extends AbstractTemplateGenerator {
 	 * @return A List of {@link String} with all of the field data stored in the
 	 *         <code>fieldHashtable</code>
 	 */
-	protected Vector<String> createFieldString(final Map fieldHashtable) {
-		final Vector<String> toRet = new Vector<String>();
+	protected List<String> createFieldString(final Map fieldHashtable) {
+		final List<String> toRet = new Vector<String>();
 
 		final Enumeration keys = Collections.enumeration(fieldHashtable.keySet());
 		while (keys.hasMoreElements()) {

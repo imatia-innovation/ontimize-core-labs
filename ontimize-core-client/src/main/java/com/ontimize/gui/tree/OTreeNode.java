@@ -675,7 +675,7 @@ public class OTreeNode extends DefaultMutableTreeNode implements Comparable, Int
 		Object current = null;
 		try {
 			final Class nodeClass = this.getClass();
-			final Constructor constructor = nodeClass.getConstructor(new Class[] { Hashtable.class });
+			final Constructor constructor = nodeClass.getConstructor(new Class[] { Map.class });
 			current = constructor.newInstance(new Object[] { parameters });
 		} catch (final Exception ex) {
 			OTreeNode.logger.error(null, ex);

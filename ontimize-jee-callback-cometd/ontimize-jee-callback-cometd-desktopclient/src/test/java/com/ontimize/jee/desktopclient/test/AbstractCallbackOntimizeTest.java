@@ -9,6 +9,7 @@ import org.springframework.context.support.GenericApplicationContext;
 
 import com.ontimize.jee.common.security.ILoginProvider;
 import com.ontimize.jee.common.services.user.IUserInformationService;
+import com.ontimize.jee.desktopclient.callback.cometd.CometDCallbackClientHandler;
 import com.ontimize.jee.desktopclient.hessian.OntimizeHessianProxyFactory;
 import com.ontimize.jee.desktopclient.hessian.OntimizeHessianProxyFactoryBean;
 import com.ontimize.jee.desktopclient.locator.security.OntimizeLoginProvider;
@@ -17,16 +18,15 @@ import com.ontimize.jee.desktopclient.spring.BeansFactory;
 /**
  * The Class AbstractOntimizeTest.
  */
-public abstract class AbstractOntimizeTest {
+public abstract class AbstractCallbackOntimizeTest {
 
 	/** The Constant logger. */
-	private static final Logger logger = LoggerFactory.getLogger(AbstractOntimizeTest.class);
-
+	private static final Logger logger = LoggerFactory.getLogger(AbstractCallbackOntimizeTest.class);
 
 	/**
 	 * Instantiates a new abstract ontimize test.
 	 */
-	public AbstractOntimizeTest() {
+	public AbstractCallbackOntimizeTest() {
 		super();
 		BeansFactory.init(new String[] {});
 
@@ -74,6 +74,16 @@ public abstract class AbstractOntimizeTest {
 		return BeansFactory.getBean(OntimizeLoginProvider.class);
 	}
 
+	protected CometDCallbackClientHandler createCallbackClientHandler() {
+		((GenericApplicationContext) BeansFactory.getApplicationContext())
+		.registerBean("callbackClientHandler",CometDCallbackClientHandler.class, (Supplier) () -> {
+			final CometDCallbackClientHandler cometDCallbackClientHandler = new CometDCallbackClientHandler();
+			cometDCallbackClientHandler.setCallbackRelativeUrl("/private/services/callback/control");
+			return cometDCallbackClientHandler;
+		});
+		return BeansFactory.getBean(CometDCallbackClientHandler.class);
+	}
+
 	/**
 	 * Prepare test.
 	 * @param args the args
@@ -83,15 +93,15 @@ public abstract class AbstractOntimizeTest {
 		System.setProperty(OntimizeHessianProxyFactoryBean.SERVICES_BASE_URL, getServiceBaseUrl());
 		createLoginProvider();
 		createHessianProxyFactory();
+		createCallbackClientHandler();
 
-		final IUserInformationService service = this.createService(IUserInformationService.class,
-				"/private/services/hessian/userinformationservice");
+		this.createService(IUserInformationService.class, "/private/services/hessian/userinformationservice");
 		BeansFactory.getBean(ILoginProvider.class).doLogin(new URI(this.getServiceBaseUrl()), this.getUser(),
 				this.getPass());
 
 		final long startTime = System.currentTimeMillis();
 		this.doTest();
-		AbstractOntimizeTest.logger.error("Test finalizado en {}", System.currentTimeMillis() - startTime);
+		AbstractCallbackOntimizeTest.logger.error("Test finalizado en {}", System.currentTimeMillis() - startTime);
 	}
 
 	/**

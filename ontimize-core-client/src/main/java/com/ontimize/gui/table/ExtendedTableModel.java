@@ -81,7 +81,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 		return this.columnNames;
 	}
 
-	public void setColumnNames(final Vector columnNames) {
+	public void setColumnNames(final List columnNames) {
 		this.columnNames = columnNames;
 	}
 
@@ -91,7 +91,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 		return this.columnTexts;
 	}
 
-	public void setColumnTexts(final Vector columnTexts) {
+	public void setColumnTexts(final List columnTexts) {
 		this.columnTexts = columnTexts;
 	}
 

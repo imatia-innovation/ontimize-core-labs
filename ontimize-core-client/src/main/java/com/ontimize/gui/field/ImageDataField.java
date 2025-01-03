@@ -349,7 +349,7 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		 * @param acceptedExtensions accepted extension list
 		 * @param description the description
 		 */
-		public ExtensionFileFilter(final Vector acceptedExtensions, final String description) {
+		public ExtensionFileFilter(final List acceptedExtensions, final String description) {
 			this.extensions = acceptedExtensions;
 			this.description = description;
 		}

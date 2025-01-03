@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.LayoutManager;
-import java.util.Hashtable;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class LoginIntoGoogleDriveComponent extends Row {
 	 * @param parameters
 	 *            the parameters
 	 */
-	public LoginIntoGoogleDriveComponent(Hashtable parameters) {
+	public LoginIntoGoogleDriveComponent(final Map parameters) {
 		super(parameters);
 		this.createFxPanel();
 		this.setOpaque(true);
@@ -64,7 +64,7 @@ public class LoginIntoGoogleDriveComponent extends Row {
 			});
 			try {
 				this.fxPanel.wait();
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// do nothing
 			}
 		}
@@ -78,34 +78,34 @@ public class LoginIntoGoogleDriveComponent extends Row {
 		this.webView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
 
 			@Override
-			public void changed(ObservableValue<? extends State> ov, State oldState, State newState) {
+			public void changed(final ObservableValue<? extends State> ov, final State oldState, final State newState) {
 				if (newState == State.SUCCEEDED) {
-					String title = LoginIntoGoogleDriveComponent.this.webView.getEngine().getTitle();
+					final String title = LoginIntoGoogleDriveComponent.this.webView.getEngine().getTitle();
 					if ((title != null) && title.contains(LoginIntoGoogleDriveComponent.SUCCESS_CODE)) {
-						String code = title.substring(LoginIntoGoogleDriveComponent.SUCCESS_CODE.length());
+						final String code = title.substring(LoginIntoGoogleDriveComponent.SUCCESS_CODE.length());
 						try {
 							GoogleDriveManager.getInstance().setAuthorizationCode(code);
 							((IMGoogleDrive) LoginIntoGoogleDriveComponent.this.parentForm.getInteractionManager()).showRemoteDir();
-						} catch (Exception ex) {
+						} catch (final Exception ex) {
 							MessageManager.getMessageManager().showExceptionMessage(ex, LoginIntoGoogleDriveComponent.logger);
 						}
 					}
 
 				} else if (newState == State.FAILED) {
 					MessageManager.getMessageManager().showExceptionMessage(LoginIntoGoogleDriveComponent.this.webView.getEngine().getLoadWorker().getException(),
-					        LoginIntoGoogleDriveComponent.logger);
+							LoginIntoGoogleDriveComponent.logger);
 				}
 			}
 		});
 
-		BorderPane borderPane = new BorderPane();
+		final BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(this.webView);
 		return new Scene(borderPane, 10, 10);
 	}
 
 	@Override
-	public Object getConstraints(LayoutManager parentLayout) {
-		Object constraints = super.getConstraints(parentLayout);
+	public Object getConstraints(final LayoutManager parentLayout) {
+		final Object constraints = super.getConstraints(parentLayout);
 		if (constraints instanceof GridBagConstraints) {
 			return new GridBagConstraints(-1, -1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 		}
@@ -113,7 +113,7 @@ public class LoginIntoGoogleDriveComponent extends Row {
 	}
 
 	@Override
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(final boolean enabled) {
 		super.setEnabled(enabled);
 		if (this.webView != null) {
 			this.webView.setDisable(!enabled);
@@ -130,7 +130,7 @@ public class LoginIntoGoogleDriveComponent extends Row {
 					LoginIntoGoogleDriveComponent.this.webView.getEngine().load(url);
 				}
 			});
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			LoginIntoGoogleDriveComponent.logger.error("Error loading login screen", ex);
 		}
 

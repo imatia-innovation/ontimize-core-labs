@@ -7905,7 +7905,7 @@ HasHelpIdComponent, Freeable {
 						.getParameters("com.ontimize.scripting.gui.ScriptButton");
 				parameters.put(Button.KEY, "com.ontimize.scripting.gui.ScriptButton");
 				parameters.put("margin", "1;1;1;1");
-				final Constructor scriptButtonConstructor = scriptButtonClass.getConstructor(new Class[] { Hashtable.class });
+				final Constructor scriptButtonConstructor = scriptButtonClass.getConstructor(new Class[] { Map.class });
 				final Object obj = scriptButtonConstructor.newInstance(new Object[] { parameters });
 				if (obj instanceof JButton) {
 					this.scriptButton = (JButton) obj;
@@ -9085,7 +9085,7 @@ HasHelpIdComponent, Freeable {
 		if (res2 == null) {
 			res2 = new EntityResultMapImpl();
 		}
-		final EntityResult combinedResult = EntityResultUtils.combine(hFieldsValues, res2);
+		final EntityResult combinedResult = com.ontimize.jee.common.util.EntityResultUtils.combine(hFieldsValues, res2);
 		Form.logger.info("CombinedResultSet: {}", combinedResult);
 		final TableModel tm = EntityResultUtils.createTableModel(combinedResult);
 		String trad = null;

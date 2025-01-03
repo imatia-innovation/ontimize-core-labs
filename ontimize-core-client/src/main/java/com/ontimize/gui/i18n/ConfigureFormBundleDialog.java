@@ -327,7 +327,7 @@ public class ConfigureFormBundleDialog extends EJDialog implements IConfigureFor
 		final String applicationResourceFileName = ((MainApplication) this.form.getFormManager().getApplication())
 				.getResourcesFileName();
 
-		final Vector values = new Vector();
+		final List values = new Vector();
 		if (formResourceFileName != null) {
 			values.add(formResourceFileName);
 		}

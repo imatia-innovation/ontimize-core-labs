@@ -16,8 +16,7 @@
 		<dependency>
 			<groupId>com.ontimize</groupId>
 			<artifactId>ontimize-jee-desktopclient</artifactId>
-		</dependency>
-		
+		</dependency>		
 		
 		 <dependency>
             <groupId>org.cometd.java</groupId>

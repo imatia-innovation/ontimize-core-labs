@@ -8055,7 +8055,7 @@ IRefreshable, InteractionManagerModeListener {
 					form.getInteractionManager().setQueryInsertMode();
 					final EntityResult res = new EntityResultMapImpl();
 					res.addRecord(this.getRowKeys(modelSelectedRows[shown]));
-					form.updateDataFields(EntityResultUtils.toMap(res));
+					form.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 					form.getInteractionManager().setUpdateMode();
 				} else {
 					final String entStr = form.getEntityName();
@@ -8066,7 +8066,7 @@ IRefreshable, InteractionManagerModeListener {
 						final Entity ent = referenceLocator.getEntityReference(entStr);
 						final EntityResult res = ent.query(this.getRowKeys(modelSelectedRows[shown]),
 								form.getDataFieldAttributeList(), referenceLocator.getSessionId());
-						form.updateDataFields(EntityResultUtils.toMap(res));
+						form.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 						form.getInteractionManager().setUpdateMode();
 					} catch (final Exception ex) {
 						Table.logger.error(null, ex);
@@ -8101,7 +8101,7 @@ IRefreshable, InteractionManagerModeListener {
 				form.getInteractionManager().setQueryInsertMode();
 				final EntityResult res = new EntityResultMapImpl();
 				res.addRecord(this.getRowKeys(modelSelectedRows[i]));
-				form.updateDataFields(EntityResultUtils.toMap(res));
+				form.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 				form.getInteractionManager().setUpdateMode();
 			} else {
 				final String entStr = form.getEntityName();
@@ -8111,7 +8111,7 @@ IRefreshable, InteractionManagerModeListener {
 					final Entity ent = buscador.getEntityReference(entStr);
 					final EntityResult res = ent.query(this.getRowKeys(modelSelectedRows[i]),
 							form.getDataFieldAttributeList(), buscador.getSessionId());
-					form.updateDataFields(EntityResultUtils.toMap(res));
+					form.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 					form.getInteractionManager().setUpdateMode();
 				} catch (final Exception ex) {
 					Table.logger.error(null, ex);
@@ -9841,7 +9841,7 @@ IRefreshable, InteractionManagerModeListener {
 					final Class renderClass = Class.forName(renderClassName);
 					Constructor constructor = null;
 					try {
-						constructor = renderClass.getConstructor(new Class[] { JTable.class, Hashtable.class });
+						constructor = renderClass.getConstructor(new Class[] { JTable.class, Map.class });
 						rend = constructor.newInstance(new Object[] { table, this.parameters });
 					} catch (final Exception e) {
 						Table.logger.trace(null, e);

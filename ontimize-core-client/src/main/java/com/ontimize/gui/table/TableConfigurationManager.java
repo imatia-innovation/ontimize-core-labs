@@ -292,7 +292,7 @@ public class TableConfigurationManager {
 				Constructor constructor = null;
 				Object[] parameters = null;
 				try {
-					constructor = elementClass.getConstructor(new Class[] { Hashtable.class });
+					constructor = elementClass.getConstructor(new Class[] { Map.class });
 					parameters = new Object[] { params };
 				} catch (final Exception e) {
 					TableConfigurationManager.logger.trace(null, e);
