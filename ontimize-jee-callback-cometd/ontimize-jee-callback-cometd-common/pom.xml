@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-jee-callback-cometd</artifactId>
-		<version>labs7.0.0-SNAPSHOT</version>
+		<version>6.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-jee-callback-cometd-common</artifactId>
 
