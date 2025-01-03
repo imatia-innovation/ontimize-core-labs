@@ -3,7 +3,7 @@
 	<artifactId>ontimize-core-icons</artifactId>
 	
 	<parent>
-		<groupId>com.ontimize</groupId>
+		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-core-parent</artifactId>
 		<version>labs7.0.0-SNAPSHOT</version>
 	</parent>
