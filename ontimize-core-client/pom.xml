@@ -26,6 +26,10 @@
 			<groupId>com.ontimize.labs</groupId>
 			<artifactId>ontimize-core-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.ontimize.labs</groupId>
+			<artifactId>ontimize-core-icons-lgpl</artifactId>
+		</dependency>
   
 		<dependency>
 			<groupId>jfree</groupId>

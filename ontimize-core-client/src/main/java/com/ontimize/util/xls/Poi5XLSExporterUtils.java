@@ -419,7 +419,7 @@ public class Poi5XLSExporterUtils extends AbstractXLSExporter implements XLSExpo
 	 */
 	protected void setColumnStyle(final Workbook wb, final Sheet sheet, final List orderColumns, final List columnStyles,
 			final Map hColumnRenderers, final Map hColumnTypes) {
-		final Row row = sheet.createRow(sheet.getLastRowNum());
+		final Row row = sheet.createRow(sheet.getLastRowNum() + 1);
 		int column = 0;
 
 		for (int i = 0; i < orderColumns.size(); i++) {

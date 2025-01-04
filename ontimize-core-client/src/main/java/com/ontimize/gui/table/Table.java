@@ -13957,16 +13957,6 @@ IRefreshable, InteractionManagerModeListener {
 	 * Checks if the charting classes are set into the classpath
 	 */
 	protected static void checkChartEnabled() {
-		Table.logger.debug("Looking for charting classes...");
-		final long t = System.currentTimeMillis();
-		try {
-			Class.forName("com.jrefinery.data.DefaultXYDataset");
-		} catch (final Exception e) {
-			Table.logger.info("0.9.3 Charting classes not found");
-			Table.logger.debug(null, e);
-			Table.CHART_ENABLED = false;
-		}
-		Table.logger.trace("Check time: {}", System.currentTimeMillis() - t);
 		Table.CHART_ENABLED = ChartVersionControl.isChartEnabled();
 		Table.CHART_V1 = ChartVersionControl.isVersion_1_0();
 	}

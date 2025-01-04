@@ -3,6 +3,8 @@ package com.ontimize.jee.desktopclient.test;
 
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -41,6 +43,7 @@ public class CallbackTest extends AbstractIdentifiedCallbackOntimizeTest {
 
 	@Override
 	protected void doTest() {
+
 		createCallbackManager();
 		final IUserInformationService service = BeansFactory.getBean(IUserInformationService.class);
 		final UserInformation userInformation = service.getUserInformation();
@@ -71,7 +74,7 @@ public class CallbackTest extends AbstractIdentifiedCallbackOntimizeTest {
 		 */
 		@Override
 		public void onCallbackMessageReceived(final CallbackWrapperMessage message) {
-			logger.info("Event received: {}", message);
+			logger.info("Event received: {}", ReflectionToStringBuilder.toString(message, ToStringStyle.JSON_STYLE));
 		}
 	}
 

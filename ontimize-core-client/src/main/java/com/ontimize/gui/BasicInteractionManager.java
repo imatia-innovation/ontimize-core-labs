@@ -28,7 +28,6 @@ import javax.swing.tree.TreePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultUtils;
 import com.ontimize.gui.button.AttachmentFileButton;
 import com.ontimize.gui.button.Button;
 import com.ontimize.gui.button.DeleteAttachmentButton;
@@ -498,7 +497,7 @@ public class BasicInteractionManager extends InteractionManager {
 							if (!InteractionManager.NEWMODE) {
 								BasicInteractionManager.this.managedForm.setAdvancedQueryModeAll(false);
 								BasicInteractionManager.this.managedForm
-								.updateDataFields(EntityResultUtils.toMap(result));
+								.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(result));
 							}
 							if (result.isEmpty()) {
 								if (result.getCode() == EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE) {
@@ -516,7 +515,7 @@ public class BasicInteractionManager extends InteractionManager {
 								if (InteractionManager.NEWMODE) {
 									BasicInteractionManager.this.managedForm.setAdvancedQueryModeAll(false);
 									BasicInteractionManager.this.managedForm
-									.updateDataFields(EntityResultUtils.toMap(result));
+									.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(result));
 								}
 								if (result.getCode() == EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE) {
 									BasicInteractionManager.this.managedForm.message(result.getMessage(),
@@ -731,7 +730,7 @@ public class BasicInteractionManager extends InteractionManager {
 										sourceTable.setSelectedRow(row);
 										if (BasicInteractionManager.this.stayInRecordAfterInsert) {
 											BasicInteractionManager.this.setQueryInsertMode();
-											detailForm.setKeys(EntityResultUtils.toMap(res), 0);
+											detailForm.setKeys(com.ontimize.jee.common.util.EntityResultUtils.toMap(res), 0);
 											// BasicInteractionManager.this.managedForm.updateDataFields(detailForm.valuesToForm(res));
 											BasicInteractionManager.this.setUpdateMode();
 											if (detailForm instanceof TabbedDetailForm) {
@@ -831,7 +830,7 @@ public class BasicInteractionManager extends InteractionManager {
 						if ((res != null) && (res.getCode() != EntityResult.OPERATION_WRONG) && !res.isEmpty()
 								&& (res.calculateRecordNumber() == 1)) {
 							BasicInteractionManager.this.setQueryInsertMode();
-							BasicInteractionManager.this.managedForm.updateDataFields(EntityResultUtils.toMap(res));
+							BasicInteractionManager.this.managedForm.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 							BasicInteractionManager.this.setUpdateMode();
 						} else {
 							BasicInteractionManager.logger
@@ -863,7 +862,7 @@ public class BasicInteractionManager extends InteractionManager {
 						if ((res != null) && (res.getCode() != EntityResult.OPERATION_WRONG) && !res.isEmpty()
 								&& (res.calculateRecordNumber() == 1)) {
 							BasicInteractionManager.this.setQueryInsertMode();
-							BasicInteractionManager.this.managedForm.updateDataFields(EntityResultUtils.toMap(res));
+							BasicInteractionManager.this.managedForm.updateDataFields(com.ontimize.jee.common.util.EntityResultUtils.toMap(res));
 							BasicInteractionManager.this.setUpdateMode();
 						} else {
 							// Impossible to stay in the insert record,
@@ -2208,7 +2207,7 @@ public class BasicInteractionManager extends InteractionManager {
 	 * Returns the form keys and its values, to identify the record.
 	 * @return
 	 */
-	protected Map getFormKeyValues() {
+	public Map getFormKeyValues() {
 		if (this.getCurrentMode() != InteractionManager.UPDATE) {
 			return null;
 		}

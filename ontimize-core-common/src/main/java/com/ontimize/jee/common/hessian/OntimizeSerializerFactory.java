@@ -3,7 +3,6 @@ package com.ontimize.jee.common.hessian;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +64,9 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 
 	/**
 	 * Creates a new OntimizeSerializer object.
-	 * @param cl the cl
+	 *
+	 * @param cl
+	 *            the cl
 	 * @return the serializer
 	 */
 	protected Serializer createSerializer(final Class cl) {
@@ -74,7 +75,9 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 
 	/**
 	 * Creates a new OntimizeSerializer object.
-	 * @param cl the cl
+	 *
+	 * @param cl
+	 *            the cl
 	 * @return the deserializer
 	 */
 	protected Deserializer createDeserializer(final Class cl) {
@@ -82,10 +85,9 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 	}
 
 	/**
-	 * Serializer for classes extending {@link HashMap} or {@link Hashtable}. Lo que hacemos es no
-	 * permitir explorar las propiedades de la parte del Map (igual que hace el map serializer) y crear
-	 * una variable ficticia para meter el contenido del map.
-	 *
+	 * Serializer for classes extending {@link HashMap} or {@link Map}. Lo que hacemos es no permitir explorar las
+	 * propiedades de la parte del Map (igual que hace el map serializer) y crear una variable ficticia para meter el
+	 * contenido del map.
 	 */
 	public static class MapExtendedClassSerializer extends JavaSerializer {
 
@@ -123,10 +125,7 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 				}
 			}
 
-			final Object ob = ReflectionTools.newInstance("java.lang.reflect.ReflectAccess");
-			final Field field = (Field) ReflectionTools.invoke(ob, "newField", cl,
-					OntimizeSerializerFactory.INNER_ONTIMIZE_MAP, Map.class, Member.PUBLIC, 0, "", null);
-			compoundFields.add(field);
+			compoundFields.add(ReflectionTools.getField(OntimizeMapExtendedFix.class, "innerontimizemap"));
 
 			final ArrayList<Field> fields = new ArrayList<>();
 			fields.addAll(primitiveFields);
@@ -147,7 +146,8 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 			theFieldSerializers[theFieldSerializers.length - 1] = new FieldSerializer() {
 
 				@Override
-				protected void serialize(final AbstractHessianOutput out, final Object obj, final Field field) throws IOException {
+				protected void serialize(final AbstractHessianOutput out, final Object obj, final Field field)
+						throws IOException {
 					// write the map values
 					if (out.addRef(new HashMap<>())) {
 						return;
@@ -175,7 +175,6 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 
 	/**
 	 * Deserializer for classes extending {@link HashMap} or {@link Hashtable}
-	 *
 	 */
 	public static class MapExtendedClassDeserializer extends JavaDeserializer {
 
@@ -199,6 +198,29 @@ public class OntimizeSerializerFactory extends AbstractSerializerFactory {
 			});
 
 			return fieldMap;
+		}
+
+	}
+
+	private static class OntimizeMapExtendedFix {
+
+		private Object innerontimizemap;
+
+		public OntimizeMapExtendedFix() {
+			super();
+		}
+
+		public OntimizeMapExtendedFix(final Object innerontimizemap) {
+			super();
+			this.innerontimizemap = innerontimizemap;
+		}
+
+		public Object getInnerontimizemap() {
+			return this.innerontimizemap;
+		}
+
+		public void setInnerontimizemap(final Object innerontimizemap) {
+			this.innerontimizemap = innerontimizemap;
 		}
 
 	}

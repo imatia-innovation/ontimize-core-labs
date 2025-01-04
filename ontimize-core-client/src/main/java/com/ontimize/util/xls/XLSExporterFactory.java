@@ -90,7 +90,7 @@ public abstract class XLSExporterFactory {
 			Class.forName("org.apache.poi.xssf.usermodel.XSSFWorkbook");
 			// poi-ooxml 3.5 or higher (version of this library should match
 			// with version of Poi library)
-			Class.forName("org.apache.poi.POIXMLDocument");
+			Class.forName("org.apache.poi.ooxml.POIXMLDocument");
 			// xmlbeans-2.3.0
 			Class.forName("org.apache.xmlbeans.Filer");
 			// dom4j-1.6.1
@@ -107,20 +107,13 @@ public abstract class XLSExporterFactory {
 
 	public static boolean isSTCFAvailable() throws Exception {
 		try {
-			// ooxml-schemas-1.0
-			Class.forName("schemasMicrosoftComOfficeExcel.STCF");
+			// ooxml-schemas-1.3
+			Class.forName("com.microsoft.schemas.office.excel.STCF");
 			return true;
-		} catch (final Exception e) {
-			XLSExporterFactory.logger.trace(null, e);
-			try {
-				// ooxml-schemas-1.3
-				Class.forName("com.microsoft.schemas.office.excel.STCF");
-				return true;
-			} catch (final Exception e2) {
-				XLSExporterFactory.logger.debug(null, e2);
-				XLSExporterFactory.errorMessage = e2.getMessage();
-				throw e2;
-			}
+		} catch (final Exception e2) {
+			XLSExporterFactory.logger.debug(null, e2);
+			XLSExporterFactory.errorMessage = e2.getMessage();
+			throw e2;
 		}
 	}
 

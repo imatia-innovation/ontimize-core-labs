@@ -199,6 +199,11 @@
             </dependency>
             <dependency>
                 <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-core-icons-lgpl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
                 <artifactId>ontimize-jee-desktopclient</artifactId>
                 <version>${project.version}</version>
             </dependency>
