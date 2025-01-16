@@ -23,32 +23,30 @@ import org.slf4j.LoggerFactory;
 import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.MainApplication;
 import com.ontimize.jee.common.gui.i18n.IDatabaseBundleManager;
-import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
-import com.ontimize.jee.common.locator.InitialContext;
 import com.ontimize.jee.common.locator.UtilReferenceLocator;
 import com.ontimize.jee.common.util.extend.EntitiesPropertiesParser;
 import com.ontimize.jee.common.util.extend.OrderProperties;
 
 public class ExtendedPropertiesBundle extends ResourceBundle implements Serializable {
 
-	private static final Logger logger = LoggerFactory.getLogger(ExtendedPropertiesBundle.class);
+	private static final Logger		logger				= LoggerFactory.getLogger(ExtendedPropertiesBundle.class);
 
-	public static final String INCLUDE_KEY = "@include";
+	public static final String		INCLUDE_KEY			= "@include";
 
-	private static Map cache = new Hashtable();
+	private static Map				cache				= new Hashtable();
 
-	protected static Map databaseCache;
+	protected static Map			databaseCache;
 
-	protected static Map extendedBundleCache = new Hashtable();
+	protected static Map			extendedBundleCache	= new Hashtable();
 
-	protected static List<String> moduleResources = new ArrayList<String>();
+	protected static List<String>	moduleResources		= new ArrayList<>();
 
 	private static class CacheKey implements Serializable {
 
-		protected String baseName = null;
+		protected String	baseName	= null;
 
-		protected Locale locale = null;
+		protected Locale	locale		= null;
 
 		public CacheKey(final String baseName, final Locale l) {
 			this.baseName = baseName;
@@ -84,9 +82,9 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 
 	}
 
-	private ResourceBundle[] res = null;
+	private ResourceBundle[]	res			= null;
 
-	private List cachedKeys = null;
+	private List				cachedKeys	= null;
 
 	public ResourceBundle[] getBundles() {
 		return this.res;
@@ -133,8 +131,7 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 	public Enumeration getKeys() {
 		if (this.cachedKeys == null) {
 			final List keys = new Vector();
-			for (int i = 0; i < this.res.length; i++) {
-				final ResourceBundle r = this.res[i];
+			for (final ResourceBundle r : this.res) {
 				if (r == null) {
 					continue;
 				}
@@ -159,19 +156,17 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 
 		for (final ResourceBundle r : this.res) {
 			try {
-				if (r.containsKey(key)) {
-					return r.getObject(key);
+				final Object o = r.getObject(key);
+				if ((o == null) || key.equals(o)) {
+					continue;
 				}
+				return o;
 			} catch (final Exception e) {
 				ExtendedPropertiesBundle.logger.trace(null, e);
 			}
 		}
-		// Review comment svn - revision 2430.
-		// TODO Review Xestre.
 		return key;
-		// return null;
 	}
-
 
 	public static ResourceBundle getExtendedBundle(final String baseName, final Locale l) {
 
@@ -232,8 +227,8 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 				if ((ExtendedPropertiesBundle.extendedBundleCache != null)
 						&& ExtendedPropertiesBundle.extendedBundleCache.containsKey(key)) {
 					dest.add(ExtendedPropertiesBundle.extendedBundleCache.get(key));
-					ExtendedPropertiesBundle
-					.checkImports((ResourceBundle) ExtendedPropertiesBundle.extendedBundleCache.get(key), l, dest);
+					ExtendedPropertiesBundle.checkImports(
+							(ResourceBundle) ExtendedPropertiesBundle.extendedBundleCache.get(key), l, dest);
 				}
 				bundle = ResourceBundle.getBundle(baseName, l);
 			} catch (final Exception e) {
@@ -296,7 +291,7 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 			if (_extends.hasMoreElements()) {
 
 				final EntitiesPropertiesParser parser = new EntitiesPropertiesParser();
-				final List<OrderProperties> extendsResourceBundle = new ArrayList<OrderProperties>();
+				final List<OrderProperties> extendsResourceBundle = new ArrayList<>();
 
 				while (_extends.hasMoreElements()) {
 					final Properties extendedBundle = new Properties();
@@ -391,11 +386,11 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 		return iSize;
 	}
 
-	protected static UtilReferenceLocator locator;
+	protected static UtilReferenceLocator	locator;
 
-	protected static String dbBundleManagerName;
+	protected static String					dbBundleManagerName;
 
-	protected static boolean useDatabaseBundle = false;
+	protected static boolean				useDatabaseBundle	= false;
 
 	public static void useDatabaseBundle(final UtilReferenceLocator locator, final String databaseBundleManagerName) {
 		ExtendedPropertiesBundle.locator = locator;
@@ -407,7 +402,7 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 
 		if (ExtendedPropertiesBundle.cache != null) {
 			// Include the database bundle if exist in the existing resources
-			final Enumeration keys = Collections.enumeration(ExtendedPropertiesBundle.cache.keySet());
+			final Enumeration keys = Collections.enumeration(new ArrayList<>(ExtendedPropertiesBundle.cache.keySet()));
 			while (keys.hasMoreElements()) {
 				final CacheKey key = (CacheKey) keys.nextElement();
 				final Map allDatabaseResourceBundles = ExtendedPropertiesBundle
@@ -464,21 +459,11 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 					&& (((EntityReferenceLocator) ExtendedPropertiesBundle.locator)
 							.getSessionId() >= 0)) {
 
-				Map bundles = null;
-				if ((((ClientReferenceLocator) ExtendedPropertiesBundle.locator).getInitialContext() != null)
-						&& ((ClientReferenceLocator) ExtendedPropertiesBundle.locator)
-						.getInitialContext()
-						.containsKey(InitialContext.ALL_RESOURCES_BUNDLES)) {
-					bundles = (Map) ((ClientReferenceLocator) ExtendedPropertiesBundle.locator)
-							.getInitialContext()
-							.get(InitialContext.ALL_RESOURCES_BUNDLES);
-				} else {
-					final IDatabaseBundleManager remoteReference = (IDatabaseBundleManager) ExtendedPropertiesBundle.locator
-							.getRemoteReference(ExtendedPropertiesBundle.dbBundleManagerName,
-									((EntityReferenceLocator) ExtendedPropertiesBundle.locator).getSessionId());
-					bundles = remoteReference.getAllResourceBundles(locale,
-							((EntityReferenceLocator) ExtendedPropertiesBundle.locator).getSessionId());
-				}
+				final IDatabaseBundleManager remoteReference = (IDatabaseBundleManager) ExtendedPropertiesBundle.locator
+						.getRemoteReference(ExtendedPropertiesBundle.dbBundleManagerName,
+								((EntityReferenceLocator) ExtendedPropertiesBundle.locator).getSessionId());
+				final Map bundles = remoteReference.getAllResourceBundles(locale,
+						((EntityReferenceLocator) ExtendedPropertiesBundle.locator).getSessionId());
 
 				if ((bundles != null) && !bundles.isEmpty()) {
 					final Enumeration keys = Collections.enumeration(bundles.keySet());
@@ -532,14 +517,6 @@ public class ExtendedPropertiesBundle extends ResourceBundle implements Serializ
 
 		if (ExtendedPropertiesBundle.extendedBundleCache != null) {
 			ExtendedPropertiesBundle.extendedBundleCache.clear();
-		}
-
-		if ((((ClientReferenceLocator) ExtendedPropertiesBundle.locator).getInitialContext() != null)
-				&& ((ClientReferenceLocator) ExtendedPropertiesBundle.locator)
-				.getInitialContext()
-				.containsKey(InitialContext.ALL_RESOURCES_BUNDLES)) {
-			((ClientReferenceLocator) ExtendedPropertiesBundle.locator).getInitialContext()
-			.remove(InitialContext.ALL_RESOURCES_BUNDLES);
 		}
 
 		final ResourceBundle extendedBundle = ExtendedPropertiesBundle.getExtendedBundle(

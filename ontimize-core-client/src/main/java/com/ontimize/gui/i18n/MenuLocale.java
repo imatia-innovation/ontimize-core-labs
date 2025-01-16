@@ -19,9 +19,7 @@ import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.MainApplication;
 import com.ontimize.gui.Menu;
 import com.ontimize.jee.common.gui.i18n.IDatabaseBundleManager;
-import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
-import com.ontimize.jee.common.locator.InitialContext;
 import com.ontimize.jee.common.locator.UtilReferenceLocator;
 import com.ontimize.util.ParseUtils;
 
@@ -72,18 +70,10 @@ public class MenuLocale extends Menu {
 				final MainApplication mainApplication = (MainApplication) ApplicationManager.getApplication();
 				final EntityReferenceLocator locator = mainApplication.getReferenceLocator();
 
-				final InitialContext initial = ((ClientReferenceLocator) locator).getInitialContext();
-				String[] locales = null;
-				if ((initial != null) && initial.containsKey(InitialContext.AVAILABLE_LOCALES)) {
-					locales = (String[]) initial.get(InitialContext.AVAILABLE_LOCALES);
-				}
-
-				if (locales == null) {
-					final IDatabaseBundleManager remoteReference = (IDatabaseBundleManager) ((UtilReferenceLocator) locator)
-							.getRemoteReference(dbBundleManagerName,
-									locator.getSessionId());
-					locales = remoteReference.getAvailableLocales(locator.getSessionId());
-				}
+				final IDatabaseBundleManager remoteReference = (IDatabaseBundleManager) ((UtilReferenceLocator) locator)
+						.getRemoteReference(dbBundleManagerName,
+								locator.getSessionId());
+				final String[] locales = remoteReference.getAvailableLocales(locator.getSessionId());
 
 				if (locales != null) {
 					for (int i = 0; i < locales.length; i++) {

@@ -107,7 +107,6 @@ import com.ontimize.jee.common.gui.preferences.RemoteApplicationPreferenceRefere
 import com.ontimize.jee.common.gui.preferences.RemoteApplicationPreferences;
 import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
-import com.ontimize.jee.common.locator.InitialContext;
 import com.ontimize.jee.common.locator.UtilReferenceLocator;
 import com.ontimize.jee.common.security.ApplicationPermission;
 import com.ontimize.jee.common.security.ClientPermissionManager;
@@ -1392,17 +1391,8 @@ public class MainApplication extends JFrame implements Application {
 					BasicApplicationPreferences.remoteUserPreferences = false;
 					MainApplication.logger.debug("Remote preferences has no sense in local mode");
 				} else {
-					final InitialContext context = ((ClientReferenceLocator) locator).getInitialContext();
-					RemoteApplicationPreferences remotePreferences = null;
-					if ((context != null) && context.containsKey(InitialContext.REMOTE_APPLICATION_PREFERENCES)) {
-						remotePreferences = (RemoteApplicationPreferences) context
-								.get(InitialContext.REMOTE_APPLICATION_PREFERENCES);
-					}
-
-					if (remotePreferences == null) {
-						remotePreferences = ((RemoteApplicationPreferenceReferencer) locator)
-								.getRemoteApplicationPreferences(locator.getSessionId());
-					}
+					final RemoteApplicationPreferences remotePreferences = ((RemoteApplicationPreferenceReferencer) locator)
+							.getRemoteApplicationPreferences(locator.getSessionId());
 
 					this.preferences.setRemoteApplicationPreferences(remotePreferences);
 				}
