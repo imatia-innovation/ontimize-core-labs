@@ -2,14 +2,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ontimize</groupId>
+    <groupId>com.ontimize.labs</groupId>
     <artifactId>ontimize-core-parent</artifactId>
-    <version>6.3.0-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>ontimize-core-icon</module>
         <module>ontimize-core-common</module>
         <module>ontimize-core-client</module>
+        <module>ontimize-jee-hessian</module>
+        <module>ontimize-jee-desktopclient</module>
+        <module>ontimize-jee-dms-desktopclient</module>
+<!--        <module>ontimize-jee-desktopclient-oauth</module>-->
+        <module>ontimize-jee-server-hessian-api</module>
+        <module>ontimize-jee-callback-websocket</module>
+        <module>ontimize-jee-callback-cometd</module>
     </modules>
 
     <organization>
@@ -23,36 +30,8 @@
     </description>
     <url>https://www.ontimize.com</url>
 
-    <developers>
-        <developer>
-            <name>Enrique Álvarez Pereira</name>
-            <email>enrique.alvarez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Faustino Lage Rego</name>
-            <email>faustino.lage@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Pablo Martínez Kirsten</name>
-            <email>pablo.martinez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Xoán Loureiro Santamaría</name>
-            <email>xoan.loureiro@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-    </developers>
-
     <scm>
         <connection>scm:git:git://github.com/ontimize/ontimize-core-parent.git</connection>
-        <developerConnection>scm:git:ssh://github.com:ontimize/ontimize-core-parent.git</developerConnection>
         <url>https://github.com/ontimize/ontimize-core-parent/tree/master</url>
     </scm>
 
@@ -84,12 +63,15 @@
         <!--=====================================-->
         <!--        Dependencies version         -->
         <!--=====================================-->
+        <ontimize-jee.version>5.11.0</ontimize-jee.version>
+        <ontimize-jee-dms.version>3.1.0</ontimize-jee-dms.version>
+        <apache-httpcomponents.version>5.4.1</apache-httpcomponents.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
-        <jfreechart.version>1.0.12</jfreechart.version>
+        <jfreechart.version>1.0.19</jfreechart.version>
         <logback-classic.version>1.0.13</logback-classic.version>
         <log4j-core.version>2.8.2</log4j-core.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
-        <dynamicjasper.version>5.0.0</dynamicjasper.version>
+        <dynamicjasper.version>5.3.9</dynamicjasper.version>
         <registry.version>3.1.3</registry.version>
         <sam.version>0.0.1</sam.version>
         <jai.version>1.1.2</jai.version>
@@ -98,9 +80,12 @@
         <jep.version>2.24</jep.version>
         <mail.version>1.4.5</mail.version>
         <mesp.version>1.0.2</mesp.version>
+        <jna.version>5.16.0</jna.version>
         <core-renderer.version>R8</core-renderer.version>
-        <docx4j.version>3.2.2</docx4j.version>
-        <commons-lang.version>2.4</commons-lang.version>
+        <docx4j.version>8.3.13</docx4j.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-text.version>1.10.0</commons-text.version>
         <jooreports.version>2.0.0</jooreports.version>
         <dynclass.version>0.0.1</dynclass.version>
         <morena.version>6.4.0.12</morena.version>
@@ -108,13 +93,20 @@
         <comm.version>2.0</comm.version>
         <jnlp.version>1.2.2</jnlp.version>
         <jmf.version>2.1.1e</jmf.version>
-        <poi.version>3.9</poi.version>
+        <poi.version>5.3.0</poi.version>
         <systray4j.version>2.4.1</systray4j.version>
         <quartz.version>1.5.2</quartz.version>
         <junit.version>4.11</junit.version>
         <jcommon.version>1.0.15</jcommon.version>
         <redmine-java-api.version>3.0.0</redmine-java-api.version>
         <servlet-api.version>2.5</servlet-api.version>
+        <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <spring-security-kerberos.version>1.0.1.RELEASE</spring-security-kerberos.version>
+        <spring-security-ldap.version>5.5.1</spring-security-ldap.version>
+        <spring-security.version>5.5.1</spring-security.version>
+        <spring-session-data-redis.version>2.5.0</spring-session-data-redis.version>
+        <spring-session.version>1.3.5.RELEASE</spring-session.version>
+        <spring.version>5.3.18</spring.version>
         <!--=====================================-->
         <!--        Plugins version              -->
         <!--=====================================-->
@@ -158,24 +150,6 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
                 </plugin>
-
-                <!-- Imatia javaformat plugin -->
-                <!--                <plugin>-->
-                <!--                    <groupId>com.imatia.javaformat</groupId>-->
-                <!--                    <artifactId>imatia-javaformat-maven-plugin</artifactId>-->
-                <!--                    <version>${imatia-javaformat-plugin}</version>-->
-                <!--                    <executions>-->
-                <!--                        <execution>-->
-                <!--                            <id>imatia-javaformat</id>-->
-                <!--                            <phase>validate</phase>-->
-                <!--                            <inherited>true</inherited>-->
-                <!--                            <goals>-->
-                <!--                                <goal>validate</goal>-->
-                <!--                            </goals>-->
-                <!--                        </execution>-->
-                <!--                    </executions>-->
-                <!--                </plugin>-->
-
             </plugins>
 
         </pluginManagement>
@@ -188,9 +162,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>Cp1252</encoding>
+			        <fork>true</fork>
+			        <compilerArgs>
+			            <arg>--add-exports=java.desktop/com.sun.java.swing.plaf.windows=ALL-UNNAMED</arg>
+			            <arg>--add-exports=java.desktop/sun.awt=ALL-UNNAMED</arg>
+			        </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -209,25 +188,81 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.ontimize</groupId>
+                <groupId>com.ontimize.labs</groupId>
                 <artifactId>ontimize-core-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
-                <groupId>com.ontimize</groupId>
+                <groupId>com.ontimize.labs</groupId>
                 <artifactId>ontimize-core-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-core-icons-lgpl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-desktopclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-hessian</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-hessian-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-hessian-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-hessian-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+	
+			<dependency>
+				<groupId>com.ontimize.jee</groupId>
+				<artifactId>ontimize-jee-common</artifactId>
+				<version>${ontimize-jee.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ontimize.jee</groupId>
+				<artifactId>ontimize-jee-server</artifactId>
+				<version>${ontimize-jee.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ontimize.jee.dms</groupId>
+				<artifactId>ontimize-jee-dms-common</artifactId>
+				<version>${ontimize-jee-dms.version}</version>
+			</dependency>
+		
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-api.version}</version>
             </dependency>
 
+			<dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-web</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
             <dependency>
-                <groupId>jfree</groupId>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+		    
+            <dependency>
+                <groupId>org.jfree</groupId>
                 <artifactId>jfreechart</artifactId>
                 <version>${jfreechart.version}</version>
             </dependency>
@@ -258,7 +293,6 @@
                 <artifactId>commons-jexl</artifactId>
                 <version>${commons-jexl.version}</version>
                 <optional>true</optional>
-
             </dependency>
 
             <dependency>
@@ -267,7 +301,6 @@
                 <version>${dynamicjasper.version}</version>
                 <scope>compile</scope>
                 <optional>true</optional>
-
             </dependency>
 
             <dependency>
@@ -318,6 +351,16 @@
                 <version>${jep.version}</version>
                 <optional>true</optional>
             </dependency>
+            <dependency>
+			    <groupId>net.java.dev.jna</groupId>
+			    <artifactId>jna</artifactId>
+			    <version>${jna.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>net.java.dev.jna</groupId>
+			    <artifactId>jna-platform</artifactId>
+			    <version>${jna.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>javax.mail</groupId>
@@ -342,17 +385,32 @@
 
             <dependency>
                 <groupId>org.docx4j</groupId>
-                <artifactId>docx4j</artifactId>
+                <artifactId>docx4j-core</artifactId>
                 <version>${docx4j.version}</version>
                 <optional>true</optional>
             </dependency>
-
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-                <optional>true</optional>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            
+			<dependency>
+			    <groupId>org.apache.httpcomponents.client5</groupId>
+			    <artifactId>httpclient5</artifactId>
+			    <version>${apache-httpcomponents.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>net.sf</groupId>
@@ -456,6 +514,36 @@
                 <version>${servlet-api.version}</version>
             </dependency>
 
+
+			<!-- JAVAFX -->
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-controls</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-web</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-swing</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-graphics</artifactId>
+				<version>14</version>
+				<classifier>win</classifier>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

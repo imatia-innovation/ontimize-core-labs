@@ -1,20 +1,20 @@
 package com.ontimize.gui.table;
 
 import java.util.EventObject;
-import java.util.Hashtable;
+import java.util.Map;
 
 public class InsertTableInsertRowEvent extends EventObject {
 
-    Hashtable rowData = null;
+	Map rowData = null;
 
-    public InsertTableInsertRowEvent(InsertTableInsertRowChange source, Hashtable rowData) {
-        super(source);
+	public InsertTableInsertRowEvent(final InsertTableInsertRowChange source, final Map rowData) {
+		super(source);
 
-        this.rowData = rowData;
-    }
+		this.rowData = rowData;
+	}
 
-    public Hashtable getRowData() {
-        return this.rowData;
-    }
+	public Map getRowData() {
+		return this.rowData;
+	}
 
 }

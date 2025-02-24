@@ -3,7 +3,6 @@ package com.ontimize.gui.field;
 import java.awt.Color;
 
 import com.ontimize.gui.ColorConstants;
-import com.ontimize.gui.Freeable;
 
 /**
  * This interface defines methods used by data components:

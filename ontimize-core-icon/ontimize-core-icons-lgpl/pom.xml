@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.ontimize</groupId>
+        <groupId>com.ontimize.labs</groupId>
         <artifactId>ontimize-core-icons</artifactId>
-        <version>6.3.0-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>ontimize-core-icons-lgpl</artifactId>
 
@@ -17,36 +17,8 @@
     <description>Ontimize Core Icons LGPL</description>
     <url>https://www.ontimize.com</url>
 
-    <developers>
-        <developer>
-            <name>Enrique Álvarez Pereira</name>
-            <email>enrique.alvarez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Faustino Lage Rego</name>
-            <email>faustino.lage@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Pablo Martínez Kirsten</name>
-            <email>pablo.martinez@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Xoán Loureiro Santamaría</name>
-            <email>xoan.loureiro@imatia.com</email>
-            <organization>Imatia Innovation</organization>
-            <organizationUrl>http://imatia.com</organizationUrl>
-        </developer>
-    </developers>
-
     <scm>
         <connection>scm:git:git://github.com/ontimize/ontimize-core-parent.git</connection>
-        <developerConnection>scm:git:ssh://github.com:ontimize/ontimize-core-parent.git</developerConnection>
         <url>https://github.com/ontimize/ontimize-core-parent/tree/master</url>
     </scm>
 </project>  

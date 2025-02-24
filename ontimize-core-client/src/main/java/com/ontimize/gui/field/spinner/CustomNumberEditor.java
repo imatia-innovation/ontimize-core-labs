@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -91,7 +91,7 @@ public class CustomNumberEditor extends NumberEditor implements Internationaliza
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

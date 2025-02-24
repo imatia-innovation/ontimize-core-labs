@@ -2,11 +2,11 @@ package com.ontimize.gui.field;
 
 import javax.swing.JTextField;
 
-import com.ontimize.db.EntityResult;
 import com.ontimize.gui.CreateForms;
 import com.ontimize.gui.Form;
 import com.ontimize.gui.OpenDialog;
 import com.ontimize.gui.ReferenceComponent;
+import com.ontimize.jee.common.dto.EntityResult;
 
 public interface ReferenceDataComponent extends DataComponent, ReferenceComponent, CreateForms, OpenDialog {
 

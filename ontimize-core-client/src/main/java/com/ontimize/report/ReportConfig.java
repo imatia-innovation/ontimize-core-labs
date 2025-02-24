@@ -1,6 +1,7 @@
 package com.ontimize.report;
 
-import com.ontimize.report.store.ReportStore;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.report.store.ReportStore;
 
 /**
  * <p>
@@ -13,18 +14,18 @@ import com.ontimize.report.store.ReportStore;
  */
 public interface ReportConfig {
 
-    public java.awt.Window getAncestor();
+	public java.awt.Window getAncestor();
 
-    public com.ontimize.locator.EntityReferenceLocator getLocator();
+	public EntityReferenceLocator getLocator();
 
-    public com.ontimize.report.store.ReportStore[] getReportStores();
+	public ReportStore[] getReportStores();
 
-    public java.util.ResourceBundle getResourceBundle();
+	public java.util.ResourceBundle getResourceBundle();
 
-    public void setReportStores(ReportStore[] stores) throws Exception;
+	public void setReportStores(ReportStore[] stores) throws Exception;
 
-    public void setResourceBundle(java.util.ResourceBundle bundle);
+	public void setResourceBundle(java.util.ResourceBundle bundle);
 
-    public void setVisible(boolean vis);
+	public void setVisible(boolean vis);
 
 }

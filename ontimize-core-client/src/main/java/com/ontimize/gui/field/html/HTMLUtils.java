@@ -43,7 +43,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.tidy.Tidy;
 
 import com.ontimize.gui.field.html.utils.ElementWriter;
-import com.ontimize.util.Base64Utils;
 
 /**
  * A collection of static convenience methods for working with HTML, HTMLDocuments, AttributeSets
@@ -76,7 +75,7 @@ public class HTMLUtils {
      * @param el The element
      * @return true if the elements name equals "p-implied", false otherwise
      */
-    public static boolean isImplied(Element el) {
+    public static boolean isImplied(final Element el) {
         return el.getName().equals("p-implied");
     }
 
@@ -86,7 +85,7 @@ public class HTMLUtils {
      * @param innerHTML the HTML to be inclosed
      * @return
      */
-    public static String createTag(HTML.Tag enclTag, String innerHTML) {
+    public static String createTag(final HTML.Tag enclTag, final String innerHTML) {
         return HTMLUtils.createTag(enclTag, new SimpleAttributeSet(), innerHTML);
     }
 
@@ -97,17 +96,17 @@ public class HTMLUtils {
      * @param innerHTML
      * @return
      */
-    public static String createTag(HTML.Tag enclTag, AttributeSet set, String innerHTML) {
-        String t = HTMLUtils.tagOpen(enclTag, set) + innerHTML + HTMLUtils.tagClose(enclTag);
+    public static String createTag(final HTML.Tag enclTag, final AttributeSet set, final String innerHTML) {
+        final String t = HTMLUtils.tagOpen(enclTag, set) + innerHTML + HTMLUtils.tagClose(enclTag);
         return t;
     }
 
-    protected static String tagOpen(HTML.Tag enclTag, AttributeSet set) {
+    protected static String tagOpen(final HTML.Tag enclTag, final AttributeSet set) {
         String t = "<" + enclTag;
-        for (Enumeration e = set.getAttributeNames(); e.hasMoreElements();) {
-            Object name = e.nextElement();
+        for (final Enumeration e = set.getAttributeNames(); e.hasMoreElements();) {
+            final Object name = e.nextElement();
             if (!name.toString().equals("name")) {
-                Object val = set.getAttribute(name);
+                final Object val = set.getAttribute(name);
                 t += " " + name + "=\"" + val + "\"";
             }
         }
@@ -115,16 +114,16 @@ public class HTMLUtils {
         return t + ">";
     }
 
-    protected static String tagClose(HTML.Tag t) {
+    protected static String tagClose(final HTML.Tag t) {
         return "</" + t + ">";
     }
 
-    public static List getParagraphElements(JEditorPane editor) {
-        List elems = new LinkedList();
+    public static List getParagraphElements(final JEditorPane editor) {
+        final List elems = new LinkedList();
         try {
-            HTMLDocument doc = (HTMLDocument) editor.getDocument();
+            final HTMLDocument doc = (HTMLDocument) editor.getDocument();
             Element curE = HTMLUtils.getParaElement(doc, editor.getSelectionStart());
-            Element endE = HTMLUtils.getParaElement(doc, editor.getSelectionEnd());
+            final Element endE = HTMLUtils.getParaElement(doc, editor.getSelectionEnd());
 
             while (curE.getEndOffset() <= endE.getEndOffset()) {
                 elems.add(curE);
@@ -133,20 +132,20 @@ public class HTMLUtils {
                     break;
                 }
             }
-        } catch (ClassCastException cce) {
+        } catch (final ClassCastException cce) {
             HTMLUtils.logger.trace(null, cce);
         }
 
         return elems;
     }
 
-    protected static Element getParaElement(HTMLDocument doc, int pos) {
+    protected static Element getParaElement(final HTMLDocument doc, final int pos) {
         Element curE = doc.getParagraphElement(pos);
         while (HTMLUtils.isImplied(curE)) {
             curE = curE.getParentElement();
         }
 
-        Element lp = HTMLUtils.getListParent(curE);
+        final Element lp = HTMLUtils.getListParent(curE);
         if (lp != null) {
             curE = lp;
         }
@@ -160,7 +159,7 @@ public class HTMLUtils {
      * @param parentTag
      * @return The parent element, or null if the parent wasnt found
      */
-    public static Element getParent(Element curElem, HTML.Tag parentTag) {
+    public static Element getParent(final Element curElem, final HTML.Tag parentTag) {
         Element parent = curElem;
         while (parent != null) {
             if (parent.getName().equals(parentTag.toString())) {
@@ -177,8 +176,8 @@ public class HTMLUtils {
      * @param el
      * @return
      */
-    public static boolean isElementEmpty(Element el) {
-        String s = HTMLUtils.getElementHTML(el, false).trim();
+    public static boolean isElementEmpty(final Element el) {
+        final String s = HTMLUtils.getElementHTML(el, false).trim();
         return s.length() == 0;
     }
 
@@ -187,7 +186,7 @@ public class HTMLUtils {
      * @param elem
      * @return A list element (UL, OL, DIR, MENU, or DL) if found, null otherwise
      */
-    public static Element getListParent(Element elem) {
+    public static Element getListParent(final Element elem) {
         Element parent = elem;
         while (parent != null) {
             if (parent.getName().toUpperCase().equals("UL") || parent.getName().toUpperCase().equals("OL")
@@ -206,7 +205,7 @@ public class HTMLUtils {
      * @param el
      * @return
      */
-    public static Element getPreviousElement(HTMLDocument doc, Element el) {
+    public static Element getPreviousElement(final HTMLDocument doc, final Element el) {
         if (el.getStartOffset() > 0) {
             return doc.getParagraphElement(el.getStartOffset() - 1);
         }
@@ -219,7 +218,7 @@ public class HTMLUtils {
      * @param el
      * @return
      */
-    public static Element getNextElement(HTMLDocument doc, Element el) {
+    public static Element getNextElement(final HTMLDocument doc, final Element el) {
         if (el.getEndOffset() < doc.getLength()) {
             return doc.getParagraphElement(el.getEndOffset() + 1);
         }
@@ -232,8 +231,8 @@ public class HTMLUtils {
      * @param txt
      * @return
      */
-    public static String removeEnclosingTags(Element elem, String txt) {
-        HTML.Tag t = HTML.getTag(elem.getName());
+    public static String removeEnclosingTags(final Element elem, final String txt) {
+        final HTML.Tag t = HTML.getTag(elem.getName());
         return HTMLUtils.removeEnclosingTags(t, txt);
     }
 
@@ -243,14 +242,14 @@ public class HTMLUtils {
      * @param txt
      * @return
      */
-    public static String removeEnclosingTags(HTML.Tag t, String txt) {
-        String openStart = "<" + t;
-        String closeTag = "</" + t + ">";
+    public static String removeEnclosingTags(final HTML.Tag t, String txt) {
+        final String openStart = "<" + t;
+        final String closeTag = "</" + t + ">";
 
         txt = txt.trim();
 
         if (txt.startsWith(openStart)) {
-            int n = txt.indexOf(">");
+            final int n = txt.indexOf(">");
             if (n != -1) {
                 txt = txt.substring(n + 1, txt.length());
             }
@@ -269,15 +268,15 @@ public class HTMLUtils {
      * @param includeEnclosingTags true, if the enclosing tags should be included
      * @return
      */
-    public static String getElementHTML(Element el, boolean includeEnclosingTags) {
+    public static String getElementHTML(final Element el, final boolean includeEnclosingTags) {
         String txt = "";
 
         try {
-            StringWriter out = new StringWriter();
-            ElementWriter w = new ElementWriter(out, el);
+            final StringWriter out = new StringWriter();
+            final ElementWriter w = new ElementWriter(out, el);
             w.write();
             txt = out.toString();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             HTMLUtils.logger.error(null, ex);
         }
 
@@ -292,12 +291,12 @@ public class HTMLUtils {
      * @param el
      * @throws BadLocationException
      */
-    public static void removeElement(Element el) throws BadLocationException {
-        HTMLDocument document = (HTMLDocument) el.getDocument();
-        int start = el.getStartOffset();
+    public static void removeElement(final Element el) throws BadLocationException {
+        final HTMLDocument document = (HTMLDocument) el.getDocument();
+        final int start = el.getStartOffset();
         int len = el.getEndOffset() - start;
 
-        Element tdEle = HTMLUtils.getParent(el, HTML.Tag.TD);
+        final Element tdEle = HTMLUtils.getParent(el, HTML.Tag.TD);
         if ((tdEle != null) && (el.getEndOffset() == tdEle.getEndOffset())) {
             document.remove(start, len - 1);
         } else {
@@ -309,13 +308,13 @@ public class HTMLUtils {
         }
     }
 
-    public static HTML.Tag getStartTag(String text) {
-        String html = text.trim();
-        int s = html.indexOf('<');
+    public static HTML.Tag getStartTag(final String text) {
+        final String html = text.trim();
+        final int s = html.indexOf('<');
         if (s != 0) {
             return null;
         }
-        int e = html.indexOf('>');
+        final int e = html.indexOf('>');
         if (e == -1) {
             return null; // not any kind of tag
         }
@@ -328,7 +327,7 @@ public class HTMLUtils {
         return HTML.getTag(tagName);
     }
 
-    protected static int depthFromRoot(Element curElem) {
+    protected static int depthFromRoot(final Element curElem) {
         Element parent = curElem;
         int depth = 0;
         while (parent != null) {
@@ -348,21 +347,21 @@ public class HTMLUtils {
      * @param rawHtml
      * @param editor
      */
-    public static void insertArbitraryHTML(String rawHtml, JEditorPane editor) {
+    public static void insertArbitraryHTML(final String rawHtml, final JEditorPane editor) {
         HTMLUtils.tidy.setOutputEncoding("UTF-8");
         HTMLUtils.tidy.setInputEncoding("UTF-8");
 
         try {
-            ByteArrayInputStream bin = new ByteArrayInputStream(rawHtml.getBytes("UTF-8"));
-            Document doc = HTMLUtils.tidy.parseDOM(bin, null);
-            NodeList nodelist = doc.getElementsByTagName("body");
+            final ByteArrayInputStream bin = new ByteArrayInputStream(rawHtml.getBytes("UTF-8"));
+            final Document doc = HTMLUtils.tidy.parseDOM(bin, null);
+            final NodeList nodelist = doc.getElementsByTagName("body");
 
             if (nodelist != null) {
-                Node body = nodelist.item(0);
-                NodeList bodyChildren = body.getChildNodes();
+                final Node body = nodelist.item(0);
+                final NodeList bodyChildren = body.getChildNodes();
 
                 // for(int i = bodyChildren.getLength() - 1; i >= 0; i--)
-                int len = bodyChildren.getLength();
+                final int len = bodyChildren.getLength();
                 for (int i = 0; i < len; i++) {
                     String ml = HTMLUtils.xmlToString(bodyChildren.item(i));
                     if (ml != null) {
@@ -375,26 +374,26 @@ public class HTMLUtils {
                     }
                 }
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             HTMLUtils.logger.error(null, e);
         }
     }
 
-    protected static String xmlToString(Node node) {
+    protected static String xmlToString(final Node node) {
         try {
-            Source source = new DOMSource(node);
-            StringWriter stringWriter = new StringWriter();
-            Result result = new StreamResult(stringWriter);
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer();
+            final Source source = new DOMSource(node);
+            final StringWriter stringWriter = new StringWriter();
+            final Result result = new StreamResult(stringWriter);
+            final TransformerFactory factory = TransformerFactory.newInstance();
+            final Transformer transformer = factory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             transformer.transform(source, result);
 
             return stringWriter.getBuffer().toString();
-        } catch (TransformerConfigurationException e) {
+        } catch (final TransformerConfigurationException e) {
             HTMLUtils.logger.error(null, e);
-        } catch (TransformerException e) {
+        } catch (final TransformerException e) {
             HTMLUtils.logger.error(null, e);
         }
 
@@ -408,28 +407,28 @@ public class HTMLUtils {
      * @param tag
      * @param editor
      */
-    public static void insertHTML(String html, HTML.Tag tag, JEditorPane editor) {
+    public static void insertHTML(String html, final HTML.Tag tag, final JEditorPane editor) {
         HTMLEditorKit editorKit;
         HTMLDocument document;
         try {
             editorKit = (HTMLEditorKit) editor.getEditorKit();
             document = (HTMLDocument) editor.getDocument();
-        } catch (ClassCastException ex) {
+        } catch (final ClassCastException ex) {
             HTMLUtils.logger.trace(null, ex);
             return;
         }
 
-        int caret = editor.getCaretPosition();
-        Element pElem = document.getParagraphElement(caret);
+        final int caret = editor.getCaretPosition();
+        final Element pElem = document.getParagraphElement(caret);
 
-        boolean breakParagraph = tag.breaksFlow() || tag.isBlock();
-        boolean beginParagraph = caret == pElem.getStartOffset();
+        final boolean breakParagraph = tag.breaksFlow() || tag.isBlock();
+        final boolean beginParagraph = caret == pElem.getStartOffset();
         html = HTMLUtils.jEditorPaneizeHTML(html);
 
         try {
             if (breakParagraph && beginParagraph) {
                 document.insertBeforeStart(pElem, "<p></p>");
-                Element nextEl = document.getParagraphElement(caret + 1);
+                final Element nextEl = document.getParagraphElement(caret + 1);
                 editorKit.insertHTML(document, caret + 1, html, HTMLUtils.depthFromRoot(nextEl)/* 1 */, 0, tag);
                 document.remove(caret, 1);
             } else if (breakParagraph && !beginParagraph) {
@@ -447,7 +446,7 @@ public class HTMLUtils {
             } else if (!breakParagraph && !beginParagraph) {
                 editorKit.insertHTML(document, caret, html, 0, 0, tag);
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             HTMLUtils.logger.error(null, ex);
         }
     }
@@ -461,7 +460,7 @@ public class HTMLUtils {
      * @param editor
      * @return An {@link AttributeSet} or null, if the editor doesn't have a {@link StyledDocument}
      */
-    public static AttributeSet getCharacterAttributes(JEditorPane editor) {
+    public static AttributeSet getCharacterAttributes(final JEditorPane editor) {
         int p;
         if (editor.getSelectedText() != null) {
             p = editor.getSelectionEnd() - 1;
@@ -470,9 +469,9 @@ public class HTMLUtils {
         }
 
         try {
-            StyledDocument doc = (StyledDocument) editor.getDocument();
+            final StyledDocument doc = (StyledDocument) editor.getDocument();
             return doc.getCharacterElement(p).getAttributes();
-        } catch (ClassCastException cce) {
+        } catch (final ClassCastException cce) {
             HTMLUtils.logger.trace(null, cce);
         }
 
@@ -484,8 +483,8 @@ public class HTMLUtils {
      * @param editor
      * @return The font family name, or null if no font is set
      */
-    public static String getFontFamily(JEditorPane editor) {
-        AttributeSet attr = HTMLUtils.getCharacterAttributes(editor);
+    public static String getFontFamily(final JEditorPane editor) {
+        final AttributeSet attr = HTMLUtils.getCharacterAttributes(editor);
         if (attr != null) {
             Object val = attr.getAttribute(StyleConstants.FontFamily);
             if (val != null) {
@@ -497,7 +496,7 @@ public class HTMLUtils {
             }
             val = attr.getAttribute(HTML.Tag.FONT);
             if ((val != null) && (val instanceof AttributeSet)) {
-                AttributeSet set = (AttributeSet) val;
+                final AttributeSet set = (AttributeSet) val;
                 val = set.getAttribute(HTML.Attribute.FACE);
                 if (val != null) {
                     return val.toString();
@@ -517,8 +516,8 @@ public class HTMLUtils {
      * @param editor
      * @param fontName
      */
-    public static void setFontFamily(JEditorPane editor, String fontName) {
-        AttributeSet attr = HTMLUtils.getCharacterAttributes(editor);
+    public static void setFontFamily(final JEditorPane editor, final String fontName) {
+        final AttributeSet attr = HTMLUtils.getCharacterAttributes(editor);
         if (attr == null) {
             return;
         }
@@ -528,7 +527,7 @@ public class HTMLUtils {
             // the font might be defined as a font tag
             Object val = attr.getAttribute(HTML.Tag.FONT);
             if ((val != null) && (val instanceof AttributeSet)) {
-                MutableAttributeSet set = new SimpleAttributeSet((AttributeSet) val);
+                final MutableAttributeSet set = new SimpleAttributeSet((AttributeSet) val);
                 // does it have a FACE attrib?
                 val = set.getAttribute(HTML.Attribute.FACE);
                 if (val != null) {
@@ -537,7 +536,7 @@ public class HTMLUtils {
                     HTMLUtils.removeCharacterAttribute(editor, HTML.Tag.FONT);
                     if (set.getAttributeCount() > 0) {
                         // it's not empty so replace the other font attribs
-                        SimpleAttributeSet fontSet = new SimpleAttributeSet();
+                        final SimpleAttributeSet fontSet = new SimpleAttributeSet();
                         fontSet.addAttribute(HTML.Tag.FONT, set);
                         HTMLUtils.setCharacterAttributes(editor, set);
                     }
@@ -548,7 +547,7 @@ public class HTMLUtils {
             HTMLUtils.removeCharacterAttribute(editor, CSS.Attribute.FONT_FAMILY);
         } else // adding the font family
         {
-            MutableAttributeSet tagAttrs = new SimpleAttributeSet();
+            final MutableAttributeSet tagAttrs = new SimpleAttributeSet();
             tagAttrs.addAttribute(StyleConstants.FontFamily, fontName);
             HTMLUtils.setCharacterAttributes(editor, tagAttrs);
         }
@@ -567,29 +566,29 @@ public class HTMLUtils {
      * @param atr
      * @param val
      */
-    public static void removeCharacterAttribute(JEditorPane editor, CSS.Attribute atr, String val) {
+    public static void removeCharacterAttribute(final JEditorPane editor, final CSS.Attribute atr, final String val) {
         HTMLDocument doc;
         MutableAttributeSet attr;
         try {
             doc = (HTMLDocument) editor.getDocument();
             attr = ((HTMLEditorKit) editor.getEditorKit()).getInputAttributes();
-        } catch (ClassCastException cce) {
+        } catch (final ClassCastException cce) {
             HTMLUtils.logger.trace(null, cce);
             return;
         }
 
-        List tokens = HTMLUtils.tokenizeCharAttribs(doc, editor.getSelectionStart(), editor.getSelectionEnd());
-        for (Iterator it = tokens.iterator(); it.hasNext();) {
-            CharStyleToken t = (CharStyleToken) it.next();
+        final List tokens = HTMLUtils.tokenizeCharAttribs(doc, editor.getSelectionStart(), editor.getSelectionEnd());
+        for (final Iterator it = tokens.iterator(); it.hasNext();) {
+            final CharStyleToken t = (CharStyleToken) it.next();
             if (t.attrs.isDefined(atr) && t.attrs.getAttribute(atr).toString().equals(val)) {
-                SimpleAttributeSet sas = new SimpleAttributeSet();
+                final SimpleAttributeSet sas = new SimpleAttributeSet();
                 sas.addAttributes(t.attrs);
                 sas.addAttribute(StyleConstants.NameAttribute, HTML.Tag.CONTENT);
                 sas.removeAttribute(atr);
                 doc.setCharacterAttributes(t.offs, t.len, sas, true);
             }
         }
-        int pos = editor.getCaretPosition();
+        final int pos = editor.getCaretPosition();
         attr.addAttributes(doc.getCharacterElement(pos).getAttributes());
         attr.removeAttribute(atr);
     }
@@ -604,29 +603,29 @@ public class HTMLUtils {
      * @param editor
      * @param atr
      */
-    public static void removeCharacterAttribute(JEditorPane editor, Object atr) {
+    public static void removeCharacterAttribute(final JEditorPane editor, final Object atr) {
         HTMLDocument doc;
         MutableAttributeSet attr;
         try {
             doc = (HTMLDocument) editor.getDocument();
             attr = ((HTMLEditorKit) editor.getEditorKit()).getInputAttributes();
-        } catch (ClassCastException cce) {
+        } catch (final ClassCastException cce) {
             HTMLUtils.logger.trace(null, cce);
             return;
         }
 
-        List tokens = HTMLUtils.tokenizeCharAttribs(doc, editor.getSelectionStart(), editor.getSelectionEnd());
-        for (Iterator it = tokens.iterator(); it.hasNext();) {
-            CharStyleToken t = (CharStyleToken) it.next();
+        final List tokens = HTMLUtils.tokenizeCharAttribs(doc, editor.getSelectionStart(), editor.getSelectionEnd());
+        for (final Iterator it = tokens.iterator(); it.hasNext();) {
+            final CharStyleToken t = (CharStyleToken) it.next();
             if (t.attrs.isDefined(atr)) {
-                SimpleAttributeSet sas = new SimpleAttributeSet();
+                final SimpleAttributeSet sas = new SimpleAttributeSet();
                 sas.addAttributes(t.attrs);
                 sas.addAttribute(StyleConstants.NameAttribute, HTML.Tag.CONTENT);
                 sas.removeAttribute(atr);
                 doc.setCharacterAttributes(t.offs, t.len, sas, true);
             }
         }
-        int pos = editor.getCaretPosition();
+        final int pos = editor.getCaretPosition();
         attr.addAttributes(doc.getCharacterElement(pos).getAttributes());
         attr.removeAttribute(atr);
     }
@@ -638,13 +637,13 @@ public class HTMLUtils {
      * @param e
      * @return
      */
-    protected static List tokenizeCharAttribs(HTMLDocument doc, int s, int e) {
-        LinkedList tokens = new LinkedList();
+    protected static List tokenizeCharAttribs(final HTMLDocument doc, int s, final int e) {
+        final LinkedList tokens = new LinkedList();
         CharStyleToken tok = new CharStyleToken();
         for (; s <= e; s++) {
             // if(s == doc.getLength())
             // break;
-            AttributeSet as = doc.getCharacterElement(s).getAttributes();
+            final AttributeSet as = doc.getCharacterElement(s).getAttributes();
             if ((tok.attrs == null) || (((s + 1) <= e) && !as.isEqual(tok.attrs))) {
                 tok = new CharStyleToken();
                 tok.offs = s;
@@ -666,13 +665,13 @@ public class HTMLUtils {
      * @param attrs
      * @param replace if true, replaces the attrubutes
      */
-    public static void setCharacterAttributes(JEditorPane editor, AttributeSet attr, boolean replace) {
+    public static void setCharacterAttributes(final JEditorPane editor, AttributeSet attr, final boolean replace) {
         HTMLDocument doc;
         StyledEditorKit k;
         try {
             doc = (HTMLDocument) editor.getDocument();
             k = (StyledEditorKit) editor.getEditorKit();
-        } catch (ClassCastException ex) {
+        } catch (final ClassCastException ex) {
             HTMLUtils.logger.trace(null, ex);
             return;
         }
@@ -683,13 +682,13 @@ public class HTMLUtils {
         // gets inserted. If it is in the attributes, something gets screwed up
         // and the text gets all jumbled up and doesn't render correctly.
         // Is it yet another JEditorPane bug?
-        MutableAttributeSet inputAttributes = k.getInputAttributes();
-        SimpleAttributeSet sas = new SimpleAttributeSet(attr);
+        final MutableAttributeSet inputAttributes = k.getInputAttributes();
+        final SimpleAttributeSet sas = new SimpleAttributeSet(attr);
         sas.removeAttribute("CR");
         attr = sas;
 
-        int p0 = editor.getSelectionStart();
-        int p1 = editor.getSelectionEnd();
+        final int p0 = editor.getSelectionStart();
+        final int p1 = editor.getSelectionEnd();
         if (p0 != p1) {
             doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
         } else {
@@ -711,7 +710,7 @@ public class HTMLUtils {
      * @param editor
      * @param attrs
      */
-    public static void setCharacterAttributes(JEditorPane editor, AttributeSet attrs) {
+    public static void setCharacterAttributes(final JEditorPane editor, final AttributeSet attrs) {
         HTMLUtils.setCharacterAttributes(editor, attrs, false);
     }
 
@@ -723,24 +722,24 @@ public class HTMLUtils {
      * @param atts
      * @return
      */
-    public static Map tagAttribsToMap(String atts) {
-        Map attribs = new HashMap();
+    public static Map tagAttribsToMap(final String atts) {
+        final Map attribs = new HashMap();
 
-        StringTokenizer st = new StringTokenizer(atts.trim(), " ");
+        final StringTokenizer st = new StringTokenizer(atts.trim(), " ");
         String lastAtt = null;
         while (st.hasMoreTokens()) {
-            String atVal = st.nextToken().trim();
-            int equalPos = atVal.indexOf('=');
+            final String atVal = st.nextToken().trim();
+            final int equalPos = atVal.indexOf('=');
             if (equalPos == -1) {
                 if (lastAtt == null) {
                     break;// no equals char in this string
                 }
-                String lastVal = attribs.get(lastAtt).toString();
+                final String lastVal = attribs.get(lastAtt).toString();
                 attribs.put(lastAtt, lastVal + " " + atVal);
                 continue;
             }
 
-            String at = atVal.substring(0, equalPos);
+            final String at = atVal.substring(0, equalPos);
             String val = atVal.substring(atVal.indexOf('=') + 1, atVal.length());
             if (val.startsWith("\"")) {
                 val = val.substring(1, val.length());
@@ -759,7 +758,7 @@ public class HTMLUtils {
     /**
      * Converts a Color to a hex string in the format "#RRGGBB"
      */
-    public static String colorToHex(Color color) {
+    public static String colorToHex(final Color color) {
         String colorstr = new String("#");
 
         // Red
@@ -799,7 +798,7 @@ public class HTMLUtils {
      * Convert a "#FFFFFF" hex string to a Color. If the color specification is bad, an attempt will be
      * made to fix it up.
      */
-    public static Color hexToColor(String value) {
+    public static Color hexToColor(final String value) {
         String digits;
         // int n = value.length();
         if (value.startsWith("#")) {
@@ -808,12 +807,12 @@ public class HTMLUtils {
             digits = value;
         }
 
-        String hstr = "0x" + digits;
+        final String hstr = "0x" + digits;
         Color c;
 
         try {
             c = Color.decode(hstr);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             HTMLUtils.logger.trace(null, nfe);
             c = Color.BLACK; // just return black
         }
@@ -823,7 +822,7 @@ public class HTMLUtils {
     /**
      * Convert a color string such as "RED" or "#NNNNNN" or "rgb(r, g, b)" to a Color.
      */
-    public static Color stringToColor(String str) {
+    public static Color stringToColor(final String str) {
         Color color = null;
 
         if (str.length() == 0) {
@@ -880,7 +879,7 @@ public class HTMLUtils {
      * @param html
      * @return JEditorpane friendly html
      */
-    public static String jEditorPaneizeHTML(String html) {
+    public static String jEditorPaneizeHTML(final String html) {
         return html.replaceAll("(<\\s*\\w+\\b[^>]*)/(\\s*>)", "$1$2");
     }
 
@@ -888,13 +887,13 @@ public class HTMLUtils {
      * Helper method that prints out the contents of an {@link AttributeSet} to logger for debugging
      * @param attr
      */
-    public static void printAttribs(AttributeSet attr) {
+    public static void printAttribs(final AttributeSet attr) {
         HTMLUtils.logger.debug("----------------------------------------------------------------");
         HTMLUtils.logger.debug(attr.toString());
-        Enumeration ee = attr.getAttributeNames();
+        final Enumeration ee = attr.getAttributeNames();
         while (ee.hasMoreElements()) {
-            Object name = ee.nextElement();
-            Object atr = attr.getAttribute(name);
+            final Object name = ee.nextElement();
+            final Object atr = attr.getAttribute(name);
             HTMLUtils.logger
                 .debug(name + " " + name.getClass().getName() + " | " + atr + " " + atr.getClass().getName());
         }
@@ -973,7 +972,7 @@ public class HTMLUtils {
                 __bytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
                     .getBytes(Base64.PREFERRED_ENCODING);
             } // end try
-            catch (java.io.UnsupportedEncodingException use) {
+            catch (final java.io.UnsupportedEncodingException use) {
                 HTMLUtils.logger.trace(null, use);
                 __bytes = Base64._NATIVE_ALPHABET; // Fall back to native
                                                    // encoding
@@ -1045,7 +1044,7 @@ public class HTMLUtils {
          * @return four byte array in Base64 notation.
          * @since 1.5.1
          */
-        private static byte[] encode3to4(byte[] b4, byte[] threeBytes, int numSigBytes) {
+        private static byte[] encode3to4(final byte[] b4, final byte[] threeBytes, final int numSigBytes) {
             Base64.encode3to4(threeBytes, 0, numSigBytes, b4, 0);
             return b4;
         } // end encode3to4
@@ -1065,8 +1064,8 @@ public class HTMLUtils {
          * @return the <var>destination</var> array
          * @since 1.3
          */
-        private static byte[] encode3to4(byte[] source, int srcOffset, int numSigBytes, byte[] destination,
-                int destOffset) {
+        private static byte[] encode3to4(final byte[] source, final int srcOffset, final int numSigBytes, final byte[] destination,
+                final int destOffset) {
             // 1 2 3
             // 01234567890123456789012345678901 Bit position
             // --------000000001111111122222222 Array position from threeBytes
@@ -1080,7 +1079,7 @@ public class HTMLUtils {
             // appear
             // when Java treats a value as negative that is cast from a byte to
             // an int.
-            int inBuff = (numSigBytes > 0 ? (source[srcOffset] << 24) >>> 8 : 0)
+            final int inBuff = (numSigBytes > 0 ? (source[srcOffset] << 24) >>> 8 : 0)
                     | (numSigBytes > 1 ? (source[srcOffset + 1] << 24) >>> 16 : 0)
                     | (numSigBytes > 2 ? (source[srcOffset + 2] << 24) >>> 24 : 0);
 
@@ -1119,7 +1118,7 @@ public class HTMLUtils {
          * @return The Base64-encoded object
          * @since 1.4
          */
-        public static String encodeObject(java.io.Serializable serializableObject) {
+        public static String encodeObject(final java.io.Serializable serializableObject) {
             return Base64.encodeObject(serializableObject, Base64.NO_OPTIONS);
         } // end encodeObject
 
@@ -1146,7 +1145,7 @@ public class HTMLUtils {
          * @see Base64#DONT_BREAK_LINES
          * @since 2.0
          */
-        public static String encodeObject(java.io.Serializable serializableObject, int options) {
+        public static String encodeObject(final java.io.Serializable serializableObject, final int options) {
             // Streams
             java.io.ByteArrayOutputStream baos = null;
             java.io.OutputStream b64os = null;
@@ -1154,8 +1153,8 @@ public class HTMLUtils {
             java.util.zip.GZIPOutputStream gzos = null;
 
             // Isolate options
-            int gzip = options & Base64.GZIP;
-            int dontBreakLines = options & Base64.DONT_BREAK_LINES;
+            final int gzip = options & Base64.GZIP;
+            final int dontBreakLines = options & Base64.DONT_BREAK_LINES;
 
             try {
                 // ObjectOutputStream -> (GZIP) -> Base64 ->
@@ -1172,28 +1171,28 @@ public class HTMLUtils {
                 }
 
                 oos.writeObject(serializableObject);
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.error(null, e);
                 return null;
             } finally {
                 try {
                     oos.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
                 try {
                     gzos.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
                 try {
                     b64os.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
                 try {
                     baos.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1201,7 +1200,7 @@ public class HTMLUtils {
             // Return value according to relevant encoding.
             try {
                 return new String(baos.toByteArray(), Base64.PREFERRED_ENCODING);
-            } catch (java.io.UnsupportedEncodingException uue) {
+            } catch (final java.io.UnsupportedEncodingException uue) {
                 HTMLUtils.logger.trace(null, uue);
                 return new String(baos.toByteArray());
             }
@@ -1212,7 +1211,7 @@ public class HTMLUtils {
          * @param source The data to convert
          * @since 1.4
          */
-        public static String encodeBytes(byte[] source) {
+        public static String encodeBytes(final byte[] source) {
             return Base64.encodeBytes(source, 0, source.length, Base64.NO_OPTIONS);
         } // end encodeBytes
 
@@ -1237,7 +1236,7 @@ public class HTMLUtils {
          * @see Base64#DONT_BREAK_LINES
          * @since 2.0
          */
-        public static String encodeBytes(byte[] source, int options) {
+        public static String encodeBytes(final byte[] source, final int options) {
             return Base64.encodeBytes(source, 0, source.length, options);
         } // end encodeBytes
 
@@ -1248,7 +1247,7 @@ public class HTMLUtils {
          * @param len Length of data to convert
          * @since 1.4
          */
-        public static String encodeBytes(byte[] source, int off, int len) {
+        public static String encodeBytes(final byte[] source, final int off, final int len) {
             return Base64.encodeBytes(source, off, len, Base64.NO_OPTIONS);
         } // end encodeBytes
 
@@ -1275,10 +1274,10 @@ public class HTMLUtils {
          * @see Base64#DONT_BREAK_LINES
          * @since 2.0
          */
-        public static String encodeBytes(byte[] source, int off, int len, int options) {
+        public static String encodeBytes(final byte[] source, final int off, final int len, final int options) {
             // Isolate options
-            int dontBreakLines = options & Base64.DONT_BREAK_LINES;
-            int gzip = options & Base64.GZIP;
+            final int dontBreakLines = options & Base64.DONT_BREAK_LINES;
+            final int gzip = options & Base64.GZIP;
 
             // Compress?
             if (gzip == Base64.GZIP) {
@@ -1294,23 +1293,23 @@ public class HTMLUtils {
 
                     gzos.write(source, off, len);
                     gzos.close();
-                } catch (java.io.IOException e) {
+                } catch (final java.io.IOException e) {
                     HTMLUtils.logger.error(null, e);
                     return null;
                 } finally {
                     try {
                         gzos.close();
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         HTMLUtils.logger.trace(null, e);
                     }
                     try {
                         b64os.close();
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         HTMLUtils.logger.trace(null, e);
                     }
                     try {
                         baos.close();
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         HTMLUtils.logger.trace(null, e);
                     }
                 }
@@ -1318,7 +1317,7 @@ public class HTMLUtils {
                 // Return value according to relevant encoding.
                 try {
                     return new String(baos.toByteArray(), Base64.PREFERRED_ENCODING);
-                } catch (java.io.UnsupportedEncodingException uue) {
+                } catch (final java.io.UnsupportedEncodingException uue) {
                     HTMLUtils.logger.trace(null, uue);
                     return new String(baos.toByteArray());
                 }
@@ -1327,15 +1326,15 @@ public class HTMLUtils {
             // Else, don't compress. Better not to use streams at all then.
             else {
                 // Convert option to boolean in way that code likes it.
-                boolean breakLines = dontBreakLines == 0;
+                final boolean breakLines = dontBreakLines == 0;
 
-                int len43 = (len * 4) / 3;
-                byte[] outBuff = new byte[len43 // Main 4:3
+                final int len43 = (len * 4) / 3;
+                final byte[] outBuff = new byte[len43 // Main 4:3
                         + ((len % 3) > 0 ? 4 : 0) // Account for padding
                         + (breakLines ? len43 / Base64.MAX_LINE_LENGTH : 0)]; // New lines
                 int d = 0;
                 int e = 0;
-                int len2 = len - 2;
+                final int len2 = len - 2;
                 int lineLength = 0;
                 for (; d < len2; d += 3, e += 4) {
                     Base64.encode3to4(source, d + off, 3, outBuff, e);
@@ -1356,7 +1355,7 @@ public class HTMLUtils {
                 // Return value according to relevant encoding.
                 try {
                     return new String(outBuff, 0, e, Base64.PREFERRED_ENCODING);
-                } catch (java.io.UnsupportedEncodingException uue) {
+                } catch (final java.io.UnsupportedEncodingException uue) {
                     HTMLUtils.logger.trace(null, uue);
                     return new String(outBuff, 0, e);
                 }
@@ -1379,7 +1378,7 @@ public class HTMLUtils {
          * @return the number of decoded bytes converted
          * @since 1.3
          */
-        private static int decode4to3(byte[] source, int srcOffset, byte[] destination, int destOffset) {
+        private static int decode4to3(final byte[] source, final int srcOffset, final byte[] destination, final int destOffset) {
             // Example: Dk==
             if (source[srcOffset + 2] == Base64.EQUALS_SIGN) {
                 // Two ways to do the same thing. Don't know which way I like
@@ -1387,7 +1386,7 @@ public class HTMLUtils {
                 // int outBuff = ( ( DECODABET[ source[ srcOffset ] ] << 24 )
                 // >>> 6 )
                 // | ( ( DECODABET[ source[ srcOffset + 1] ] << 24 ) >>> 12 );
-                int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
+                final int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
                         | ((Base64.DECODABET[source[srcOffset + 1]] & 0xFF) << 12);
 
                 destination[destOffset] = (byte) (outBuff >>> 16);
@@ -1402,7 +1401,7 @@ public class HTMLUtils {
                 // >>> 6 )
                 // | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
                 // | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 );
-                int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
+                final int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
                         | ((Base64.DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
                         | ((Base64.DECODABET[source[srcOffset + 2]] & 0xFF) << 6);
 
@@ -1424,7 +1423,7 @@ public class HTMLUtils {
                     // )
                     // | ( ( DECODABET[ source[ srcOffset + 3 ] ] << 24 ) >>> 24
                     // );
-                    int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
+                    final int outBuff = ((Base64.DECODABET[source[srcOffset]] & 0xFF) << 18)
                             | ((Base64.DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
                             | ((Base64.DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
                             | (Base64.DECODABET[source[srcOffset + 3]] & 0xFF);
@@ -1434,7 +1433,7 @@ public class HTMLUtils {
                     destination[destOffset + 2] = (byte) outBuff;
 
                     return 3;
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                     HTMLUtils.logger.debug("" + source[srcOffset] + ": " + Base64.DECODABET[source[srcOffset]]);
                     HTMLUtils.logger.debug("" + source[srcOffset + 1] + ": " + Base64.DECODABET[source[srcOffset + 1]]);
@@ -1454,12 +1453,12 @@ public class HTMLUtils {
          * @return decoded data
          * @since 1.3
          */
-        public static byte[] decode(byte[] source, int off, int len) {
-            int len34 = (len * 3) / 4;
-            byte[] outBuff = new byte[len34]; // Upper limit on size of output
+        public static byte[] decode(final byte[] source, final int off, final int len) {
+            final int len34 = (len * 3) / 4;
+            final byte[] outBuff = new byte[len34]; // Upper limit on size of output
             int outBuffPosn = 0;
 
-            byte[] b4 = new byte[4];
+            final byte[] b4 = new byte[4];
             int b4Posn = 0;
             int i = 0;
             byte sbiCrop = 0;
@@ -1493,7 +1492,7 @@ public class HTMLUtils {
                 } // end else:
             } // each input character
 
-            byte[] out = new byte[outBuffPosn];
+            final byte[] out = new byte[outBuffPosn];
             System.arraycopy(outBuff, 0, out, 0, outBuffPosn);
             return out;
         } // end decode
@@ -1505,11 +1504,11 @@ public class HTMLUtils {
          * @return the decoded data
          * @since 1.4
          */
-        public static byte[] decode(String s) {
+        public static byte[] decode(final String s) {
             byte[] bytes;
             try {
                 bytes = s.getBytes(Base64.PREFERRED_ENCODING);
-            } catch (java.io.UnsupportedEncodingException uee) {
+            } catch (final java.io.UnsupportedEncodingException uee) {
                 HTMLUtils.logger.trace(null, uee);
                 bytes = s.getBytes();
             }
@@ -1522,12 +1521,12 @@ public class HTMLUtils {
             // GZIP Magic Two-Byte Number: 0x8b1f (35615)
             if ((bytes != null) && (bytes.length >= 4)) {
 
-                int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
+                final int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
                 if (java.util.zip.GZIPInputStream.GZIP_MAGIC == head) {
                     java.io.ByteArrayInputStream bais = null;
                     java.util.zip.GZIPInputStream gzis = null;
                     java.io.ByteArrayOutputStream baos = null;
-                    byte[] buffer = new byte[2048];
+                    final byte[] buffer = new byte[2048];
                     int length = 0;
 
                     try {
@@ -1542,23 +1541,23 @@ public class HTMLUtils {
                         // No error? Get new bytes.
                         bytes = baos.toByteArray();
 
-                    } catch (java.io.IOException e) {
+                    } catch (final java.io.IOException e) {
                         HTMLUtils.logger.trace(null, e);
                         // Just return originally-decoded bytes
                     } finally {
                         try {
                             baos.close();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             HTMLUtils.logger.trace(null, e);
                         }
                         try {
                             gzis.close();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             HTMLUtils.logger.trace(null, e);
                         }
                         try {
                             bais.close();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             HTMLUtils.logger.trace(null, e);
                         }
                     }
@@ -1575,9 +1574,9 @@ public class HTMLUtils {
          * @return The decoded and deserialized object
          * @since 1.5
          */
-        public static Object decodeToObject(String encodedObject) {
+        public static Object decodeToObject(final String encodedObject) {
             // Decode and gunzip if necessary
-            byte[] objBytes = Base64.decode(encodedObject);
+            final byte[] objBytes = Base64.decode(encodedObject);
 
             java.io.ByteArrayInputStream bais = null;
             java.io.ObjectInputStream ois = null;
@@ -1588,21 +1587,21 @@ public class HTMLUtils {
                 ois = new java.io.ObjectInputStream(bais);
 
                 obj = ois.readObject();
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.error(null, e);
                 obj = null;
-            } catch (java.lang.ClassNotFoundException e) {
+            } catch (final java.lang.ClassNotFoundException e) {
                 HTMLUtils.logger.error(null, e);
                 obj = null;
             } finally {
                 try {
                     bais.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
                 try {
                     ois.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1617,20 +1616,20 @@ public class HTMLUtils {
          *
          * @since 2.1
          */
-        public static boolean encodeToFile(byte[] dataToEncode, String filename) {
+        public static boolean encodeToFile(final byte[] dataToEncode, final String filename) {
             boolean success = false;
             Base64.OutputStream bos = null;
             try {
                 bos = new Base64.OutputStream(new java.io.FileOutputStream(filename), Base64.ENCODE);
                 bos.write(dataToEncode);
                 success = true;
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.trace(null, e);
                 success = false;
             } finally {
                 try {
                     bos.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1645,20 +1644,20 @@ public class HTMLUtils {
          *
          * @since 2.1
          */
-        public static boolean decodeToFile(String dataToDecode, String filename) {
+        public static boolean decodeToFile(final String dataToDecode, final String filename) {
             boolean success = false;
             Base64.OutputStream bos = null;
             try {
                 bos = new Base64.OutputStream(new java.io.FileOutputStream(filename), Base64.DECODE);
                 bos.write(dataToDecode.getBytes(Base64.PREFERRED_ENCODING));
                 success = true;
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.trace(null, e);
                 success = false;
             } finally {
                 try {
                     bos.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1672,12 +1671,12 @@ public class HTMLUtils {
          *
          * @since 2.1
          */
-        public static byte[] decodeFromFile(String filename) {
+        public static byte[] decodeFromFile(final String filename) {
             byte[] decodedData = null;
             Base64.InputStream bis = null;
             try {
                 // Set up some useful variables
-                java.io.File file = new java.io.File(filename);
+                final java.io.File file = new java.io.File(filename);
                 byte[] buffer = null;
                 int length = 0;
                 int numBytes = 0;
@@ -1703,12 +1702,12 @@ public class HTMLUtils {
                 decodedData = new byte[length];
                 System.arraycopy(buffer, 0, decodedData, 0, length);
 
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.error("Error decoding from file " + filename, e);
             } finally {
                 try {
                     bis.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1722,13 +1721,13 @@ public class HTMLUtils {
          *
          * @since 2.1
          */
-        public static String encodeFromFile(String filename) {
+        public static String encodeFromFile(final String filename) {
             String encodedData = null;
             Base64.InputStream bis = null;
             try {
                 // Set up some useful variables
-                java.io.File file = new java.io.File(filename);
-                byte[] buffer = new byte[(int) (file.length() * 1.4)];
+                final java.io.File file = new java.io.File(filename);
+                final byte[] buffer = new byte[(int) (file.length() * 1.4)];
                 int length = 0;
                 int numBytes = 0;
 
@@ -1744,12 +1743,12 @@ public class HTMLUtils {
                 // Save in a variable to return
                 encodedData = new String(buffer, 0, length, Base64.PREFERRED_ENCODING);
 
-            } catch (java.io.IOException e) {
+            } catch (final java.io.IOException e) {
                 HTMLUtils.logger.error("Error encoding from file " + filename, e);
             } finally {
                 try {
                     bis.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     HTMLUtils.logger.trace(null, e);
                 }
             }
@@ -1787,7 +1786,7 @@ public class HTMLUtils {
              * @param in the <tt>java.io.InputStream</tt> from which to read data.
              * @since 1.3
              */
-            public InputStream(java.io.InputStream in) {
+            public InputStream(final java.io.InputStream in) {
                 this(in, Base64.DECODE);
             } // end constructor
 
@@ -1812,7 +1811,7 @@ public class HTMLUtils {
              * @see Base64#DONT_BREAK_LINES
              * @since 2.0
              */
-            public InputStream(java.io.InputStream in, int options) {
+            public InputStream(final java.io.InputStream in, final int options) {
                 super(in);
                 this.breakLines = (options & Base64.DONT_BREAK_LINES) != Base64.DONT_BREAK_LINES;
                 this.encode = (options & Base64.ENCODE) == Base64.ENCODE;
@@ -1832,11 +1831,11 @@ public class HTMLUtils {
                 // Do we need to get data?
                 if (this.position < 0) {
                     if (this.encode) {
-                        byte[] b3 = new byte[3];
+                        final byte[] b3 = new byte[3];
                         int numBinaryBytes = 0;
                         for (int i = 0; i < 3; i++) {
                             try {
-                                int b = this.in.read();
+                                final int b = this.in.read();
 
                                 // If end of stream, b is -1.
                                 if (b >= 0) {
@@ -1844,7 +1843,7 @@ public class HTMLUtils {
                                     numBinaryBytes++;
                                 } // end if: not end of stream
 
-                            } catch (java.io.IOException e) {
+                            } catch (final java.io.IOException e) {
                                 HTMLUtils.logger.trace(null, e);
                                 // Only a problem if we got no data at all.
                                 if (i == 0) {
@@ -1865,7 +1864,7 @@ public class HTMLUtils {
 
                     // Else decoding
                     else {
-                        byte[] b4 = new byte[4];
+                        final byte[] b4 = new byte[4];
                         int i = 0;
                         for (i = 0; i < 4; i++) {
                             // Read four "meaningful" bytes:
@@ -1912,7 +1911,7 @@ public class HTMLUtils {
                         // but throwing an extra "if" seems
                         // just as wasteful.
 
-                        int b = this.buffer[this.position++];
+                        final int b = this.buffer[this.position++];
 
                         if (this.position >= this.bufferLength) {
                             this.position = -1;
@@ -1940,7 +1939,7 @@ public class HTMLUtils {
              * @since 1.3
              */
             @Override
-            public int read(byte[] dest, int off, int len) throws java.io.IOException {
+            public int read(final byte[] dest, final int off, final int len) throws java.io.IOException {
                 int i;
                 int b;
                 for (i = 0; i < len; i++) {
@@ -1994,7 +1993,7 @@ public class HTMLUtils {
              * @param out the <tt>java.io.OutputStream</tt> to which data will be written.
              * @since 1.3
              */
-            public OutputStream(java.io.OutputStream out) {
+            public OutputStream(final java.io.OutputStream out) {
                 this(out, Base64.ENCODE);
             } // end constructor
 
@@ -2019,7 +2018,7 @@ public class HTMLUtils {
              * @see Base64#DONT_BREAK_LINES
              * @since 1.3
              */
-            public OutputStream(java.io.OutputStream out, int options) {
+            public OutputStream(final java.io.OutputStream out, final int options) {
                 super(out);
                 this.breakLines = (options & Base64.DONT_BREAK_LINES) != Base64.DONT_BREAK_LINES;
                 this.encode = (options & Base64.ENCODE) == Base64.ENCODE;
@@ -2039,7 +2038,7 @@ public class HTMLUtils {
              * @since 1.3
              */
             @Override
-            public void write(int theByte) throws java.io.IOException {
+            public void write(final int theByte) throws java.io.IOException {
                 // Encoding suspended?
                 if (this.suspendEncoding) {
                     super.out.write(theByte);
@@ -2071,7 +2070,7 @@ public class HTMLUtils {
                         if (this.position >= this.bufferLength) // Enough to
                                                                 // output.
                         {
-                            int len = Base64.decode4to3(this.buffer, 0, this.b4, 0);
+                            final int len = Base64.decode4to3(this.buffer, 0, this.b4, 0);
                             this.out.write(this.b4, 0, len);
                             // out.write( Base64.decode4to3( buffer ) );
                             this.position = 0;
@@ -2091,7 +2090,7 @@ public class HTMLUtils {
              * @since 1.3
              */
             @Override
-            public void write(byte[] theBytes, int off, int len) throws java.io.IOException {
+            public void write(final byte[] theBytes, final int off, final int len) throws java.io.IOException {
                 // Encoding suspended?
                 if (this.suspendEncoding) {
                     super.out.write(theBytes, off, len);

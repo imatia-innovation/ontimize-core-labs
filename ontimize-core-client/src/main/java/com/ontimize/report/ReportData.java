@@ -1,6 +1,6 @@
 package com.ontimize.report;
 
-import com.ontimize.report.store.ReportStore;
+import com.ontimize.jee.common.report.store.ReportStore;
 
 /**
  * <p>

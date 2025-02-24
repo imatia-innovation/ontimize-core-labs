@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -31,7 +31,7 @@ public abstract class HTMLAttributeEditorPanel extends JPanel implements Interna
         super();
     }
 
-    public HTMLAttributeEditorPanel(Hashtable attribs) {
+    public HTMLAttributeEditorPanel(Map attribs) {
         super();
         this.attribs = attribs;
     }
@@ -53,7 +53,7 @@ public abstract class HTMLAttributeEditorPanel extends JPanel implements Interna
     public abstract void updateComponentsFromAttribs();
 
     /**
-     * Subclasses should implement this method to set values in the attribs hashtable from the states of
+     * Subclasses should implement this method to set values in the attribs Map from the states of
      * any components on the panel.
      */
     public abstract void updateAttribsFromComponents();
@@ -69,7 +69,7 @@ public abstract class HTMLAttributeEditorPanel extends JPanel implements Interna
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

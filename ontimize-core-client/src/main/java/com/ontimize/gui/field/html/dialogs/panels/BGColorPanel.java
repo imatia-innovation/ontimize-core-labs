@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -171,7 +171,7 @@ public class BGColorPanel extends JPanel implements Internationalization {
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

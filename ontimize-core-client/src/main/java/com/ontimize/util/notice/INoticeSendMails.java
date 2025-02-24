@@ -1,6 +1,6 @@
 package com.ontimize.util.notice;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.jee.common.dto.EntityResult;
 
 public interface INoticeSendMails {
 

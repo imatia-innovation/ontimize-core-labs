@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ontimize.labs</groupId>
+		<artifactId>ontimize-core-parent</artifactId>
+		<version>6.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ontimize-jee-hessian</artifactId>
+    <packaging>pom</packaging>
+	
+	<!-- se corresponde con la version 4.0.38 de la original -->
+
+	<modules>
+		<module>ontimize-jee-hessian-common</module>
+		<module>ontimize-jee-hessian-client</module>
+		<module>ontimize-jee-hessian-server</module>
+	</modules>
+	<dependencyManagement>
+        <dependencies>
+			<dependency>
+				<groupId>com.ontimize.labs</groupId>
+				<artifactId>ontimize-jee-hessian-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

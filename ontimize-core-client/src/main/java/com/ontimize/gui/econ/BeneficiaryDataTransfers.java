@@ -1,32 +1,33 @@
 package com.ontimize.gui.econ;
 
+import java.util.List;
 import java.util.Vector;
 
 public class BeneficiaryDataTransfers {
 
-    protected Vector data = new Vector();
+	protected List data = new Vector();
 
-    public BeneficiaryDataTransfers() {
-    }
+	public BeneficiaryDataTransfers() {
+	}
 
-    public void add(String code, double amount, String bankNumber, String branchNumber, String accountNumber, char cost,
-            char concept, String controlDigit, String name,
-            String address, String zipCode, String province, String transferConcep, String dni) {
+	public void add(final String code, final double amount, final String bankNumber, final String branchNumber, final String accountNumber, final char cost,
+			final char concept, final String controlDigit, final String name,
+			final String address, final String zipCode, final String province, final String transferConcep, final String dni) {
 
-        this.data.add(new BeneficiaryDataTransfer(code, amount, bankNumber, branchNumber, accountNumber, cost, concept,
-                controlDigit, name, address, zipCode, province,
-                transferConcep, dni));
-    }
+		this.data.add(new BeneficiaryDataTransfer(code, amount, bankNumber, branchNumber, accountNumber, cost, concept,
+				controlDigit, name, address, zipCode, province,
+				transferConcep, dni));
+	}
 
-    public int getSize() {
-        return this.data.size();
-    }
+	public int getSize() {
+		return this.data.size();
+	}
 
-    public BeneficiaryDataTransfer getTransferData(int index) {
-        if ((index < 0) || (index >= this.getSize())) {
-            return null;
-        }
-        return (BeneficiaryDataTransfer) this.data.get(index);
-    }
+	public BeneficiaryDataTransfer getTransferData(final int index) {
+		if ((index < 0) || (index >= this.getSize())) {
+			return null;
+		}
+		return (BeneficiaryDataTransfer) this.data.get(index);
+	}
 
 }

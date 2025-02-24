@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JList;
@@ -59,7 +59,7 @@ public class SelectableItemRenderer extends JCheckBox implements ListCellRendere
         }
 
         @Override
-        public Vector getTextsToTranslate() {
+        public List getTextsToTranslate() {
             return null;
         }
 

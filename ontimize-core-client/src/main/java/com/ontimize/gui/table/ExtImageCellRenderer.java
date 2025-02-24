@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import com.ontimize.util.remote.BytesBlock;
+import com.ontimize.jee.common.util.remote.BytesBlock;
 
 public class ExtImageCellRenderer extends CellRenderer {
 

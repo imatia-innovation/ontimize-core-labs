@@ -4,9 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 
@@ -37,7 +37,7 @@ public abstract class AbstractFormComponent extends JComponent implements FormCo
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

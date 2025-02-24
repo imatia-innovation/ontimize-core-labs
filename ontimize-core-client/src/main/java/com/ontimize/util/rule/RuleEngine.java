@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
@@ -35,61 +36,61 @@ import com.ontimize.gui.manager.IFormManager;
  */
 public class RuleEngine implements ValueChangeListener, ActionListener, ListSelectionListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
+	private static final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
 
-    protected IFormManager formManager;
+	protected IFormManager formManager;
 
-    protected Hashtable formRules = new Hashtable();
+	protected Map formRules = new Hashtable();
 
-    public RuleEngine() {
+	public RuleEngine() {
 
-    }
+	}
 
-    public RuleEngine(IFormManager formManager) {
-        this.formManager = formManager;
-    }
+	public RuleEngine(final IFormManager formManager) {
+		this.formManager = formManager;
+	}
 
-    public IFormManager getFormManager() {
-        return this.formManager;
-    }
+	public IFormManager getFormManager() {
+		return this.formManager;
+	}
 
-    public void setFormManager(IFormManager formManager) {
-        this.formManager = formManager;
-    }
+	public void setFormManager(final IFormManager formManager) {
+		this.formManager = formManager;
+	}
 
-    @Override
-    public void valueChanged(ValueEvent valueEvent) {
-        if (ValueEvent.USER_CHANGE == valueEvent.getType()) {
-            DataComponent comp = (DataComponent) valueEvent.getSource();
-            Form form = (Form) SwingUtilities.getAncestorOfClass(Form.class, (Component) comp);
-            if (form != null) {
-                String formName = form.getArchiveName();
-                Rules rules = (Rules) this.formRules.get(formName);
-                if (rules != null) {
-                    Hashtable filterEvents = new Hashtable();
-                    List lActions = RuleUtils.findActionsByTypeAndField(rules, RuleParser.Attributes.VALUE_TYPE_EVENT,
-                            filterEvents, comp.getAttribute().toString(), null);
-                    ActionDispatcher.execute(lActions, form);
-                }
-            } else {
-                if (ApplicationManager.DEBUG) {
-                    RuleEngine.logger.debug(this.getClass().getName() + ": rules cannot be set to component:"
-                            + comp.getAttribute() + " due to form parent not detected");
-                }
-            }
-        }
-    }
+	@Override
+	public void valueChanged(final ValueEvent valueEvent) {
+		if (ValueEvent.USER_CHANGE == valueEvent.getType()) {
+			final DataComponent comp = (DataComponent) valueEvent.getSource();
+			final Form form = (Form) SwingUtilities.getAncestorOfClass(Form.class, (Component) comp);
+			if (form != null) {
+				final String formName = form.getArchiveName();
+				final Rules rules = (Rules) this.formRules.get(formName);
+				if (rules != null) {
+					final Map filterEvents = new Hashtable();
+					final List lActions = RuleUtils.findActionsByTypeAndField(rules, RuleParser.Attributes.VALUE_TYPE_EVENT,
+							filterEvents, comp.getAttribute().toString(), null);
+					ActionDispatcher.execute(lActions, form);
+				}
+			} else {
+				if (ApplicationManager.DEBUG) {
+					RuleEngine.logger.debug(this.getClass().getName() + ": rules cannot be set to component:"
+							+ comp.getAttribute() + " due to form parent not detected");
+				}
+			}
+		}
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-    }
+	@Override
+	public void actionPerformed(final ActionEvent actionEvent) {
+	}
 
-    @Override
-    public void valueChanged(ListSelectionEvent listSelectEvent) {
-    }
+	@Override
+	public void valueChanged(final ListSelectionEvent listSelectEvent) {
+	}
 
-    public void setRules(String formName, IRules rules) {
-        this.formRules.put(formName, rules);
-    }
+	public void setRules(final String formName, final IRules rules) {
+		this.formRules.put(formName, rules);
+	}
 
 }

@@ -1,6 +1,6 @@
 package com.ontimize.gui.table;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import com.ontimize.gui.field.SpinnerDataField;
 
@@ -12,8 +12,8 @@ import com.ontimize.gui.field.SpinnerDataField;
  */
 public class SpinnerCellEditor extends CellEditor {
 
-    public SpinnerCellEditor(Hashtable parameters) {
-        super(parameters.get(CellEditor.COLUMN_PARAMETER), new SpinnerDataField(parameters));
-    }
+	public SpinnerCellEditor(final Map parameters) {
+		super(parameters.get(CellEditor.COLUMN_PARAMETER), new SpinnerDataField(parameters));
+	}
 
 }

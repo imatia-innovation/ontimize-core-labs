@@ -5,9 +5,9 @@ import java.util.List;
 
 public class OrderColumns {
 
-    ArrayList columnNameList = new ArrayList();
+    List columnNameList = new ArrayList();
 
-    ArrayList orderColumn = new ArrayList();
+    List orderColumn = new ArrayList();
 
     public void add(String column, String order) {
         this.columnNameList.add(column);

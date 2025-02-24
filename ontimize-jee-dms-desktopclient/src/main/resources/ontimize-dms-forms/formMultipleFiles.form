@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<FormExt entity="a" keys="a" status="no" buttons="no" title="dms.formMultipleFiles">
+	<ObjectDataField visible="no" attr="TRANSFERABLE" />
+	<Column margin="5;5;5;5">
+		<Row>
+			<Button key="HOME" icon="ontimize-dms-images/back_22x22.png"
+				listener="com.ontimize.jee.desktopclient.dms.upload.HomeActionListener" align="left"
+				tip="dms.COME_BACK" />
+			<Column expand="yes" />
+			<Button key="DOWNLOAD_MANAGER" icon="ontimize-jee-images/download_manager_22x22.png"
+				listener="com.ontimize.jee.desktopclient.dms.transfermanager.ui.ShowTaskManagerActionListener"
+				align="right" tip="dms.DOWNLOAD_MANAGER_TIP" />
+		</Row>
+		<Row height="10" expand="no" />
+		<CardPanel attr="cardpanel" animation="slide">
+			<Column attr="mainpanel" margin="0;5;5;10" opaque="true">
+				<Button key="DISK_FILE" text="dms.DISK_FILE" icon="ontimize-dms-images/disk_22x22.png"
+					listener="com.ontimize.jee.desktopclient.dms.upload.disk.LocalDiskUploadableSelectionActionListener"
+					labelsize="23" iconalign="left" textalign="left" icontextgap="3" />
+				<Button key="SCANNER_OR_CAMERA_FILE" text="dms.SCANNER_OR_CAMERA_FILE" icon="ontimize-dms-images/scanner_22x22.png"
+					labelsize="23" iconalign="left" textalign="left" icontextgap="3"
+					listener="com.ontimize.jee.desktopclient.dms.upload.scanner.ScannerUploadableSelectionActionListener" />
+				<Button key="WEB_FILE" text="dms.WEB_FILE" icon="ontimize-dms-images/web_22x22.png"
+					listener="com.ontimize.jee.desktopclient.dms.upload.web.ShowWebPanelActionListener"
+					labelsize="23" iconalign="left" textalign="left" icontextgap="3" />
+				<Button key="HOSTING_SERVICE_FILE" icon="ontimize-dms-images/hosting_22x22.png"
+					text="dms.HOSTING_SERVICE_FILE" listener="com.ontimize.jee.desktopclient.dms.upload.cloud.ShowCloudPanelActionListener"
+					labelsize="23" iconalign="left" textalign="left" icontextgap="3" />
+				<Row height="10" expand="no" />
+				<Button key="CANCEL" text="dms.CANCEL" icon="ontimize-dms-images/cancel_22x22.png"
+					listener="com.ontimize.jee.desktopclient.dms.upload.CancelActionListener" labelsize="23"
+					iconalign="left" textalign="left" icontextgap="3" />
+			</Column>
+
+			<Column attr="webpanel" align="center" valign="center">
+				<MemoDataField attr="URL_DESCRIPTION" text="dms.URL_DESCRIPTION" dim="text"
+					size="20" labelsize="10" />
+				<TextDataField attr="URL" text="dms.URL" dim="text" size="20" labelsize="10" />
+				<Row height="5" expand="no" />
+				<Button key="ADD_URL" text="dms.ADD_URL" align="right"
+					listener="com.ontimize.jee.desktopclient.dms.upload.web.WebUploadableSelectionActionListener" />
+			</Column>
+
+			<Column attr="hostingpanel" align="center" valign="center">
+				<Button key="GOOGLE_DRIVE" text="dms.GOOGLE_DRIVE" icon="ontimize-dms-images/drive_22x22.png"
+					listener="com.ontimize.jee.desktopclient.dms.upload.cloud.gdrive.GoogleDriveUploadableSelectionActionListener"
+					labelsize="20" iconalign="left" textalign="left" icontextgap="3" align="center" />
+
+				<Button key="DROP_BOX" text="dms.DROP_BOX" icon="ontimize-dms-images/dropbox_22x22.png"
+					listener="com.ontimize.jee.desktopclient.dms.upload.cloud.dropbox.DropboxUploadableSelectionActionListener"
+					labelsize="20" iconalign="left" textalign="left" icontextgap="3" align="center" />
+			</Column>
+		</CardPanel>
+	</Column>
+</FormExt>

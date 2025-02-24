@@ -2,10 +2,10 @@ package com.ontimize.gui.login;
 
 import java.awt.Window;
 
-import com.ontimize.db.EntityResult;
 import com.ontimize.gui.Application;
 import com.ontimize.gui.i18n.Internationalization;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 
 public interface IChangePasswordDialog extends Internationalization {
 

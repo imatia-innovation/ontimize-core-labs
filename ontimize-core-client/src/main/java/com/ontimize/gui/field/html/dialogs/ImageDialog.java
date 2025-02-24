@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.Icon;
 
@@ -100,7 +100,7 @@ public class ImageDialog extends HTMLOptionDialog {
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

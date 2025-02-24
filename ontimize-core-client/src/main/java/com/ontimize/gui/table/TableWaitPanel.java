@@ -156,7 +156,7 @@ public class TableWaitPanel extends JPanel {
         }
 
         protected List getImages(ImageIcon panel, int width) {
-            ArrayList images = new ArrayList();
+            List images = new ArrayList();
 
             int number = panel.getIconWidth() / width;
             int height = panel.getIconHeight();

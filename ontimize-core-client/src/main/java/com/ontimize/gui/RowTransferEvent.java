@@ -1,18 +1,18 @@
 package com.ontimize.gui;
 
 import java.util.EventObject;
-import java.util.Vector;
+import java.util.List;
 
 public class RowTransferEvent extends EventObject {
 
-    private Vector transferredRowKey = null;
+    private List transferredRowKey = null;
 
-    public RowTransferEvent(Object source, Vector transferredRows) {
+    public RowTransferEvent(Object source, List transferredRows) {
         super(source);
         this.transferredRowKey = transferredRows;
     }
 
-    public Vector getTransferredRowsKeys() {
+    public List getTransferredRowsKeys() {
         return this.transferredRowKey;
     }
 

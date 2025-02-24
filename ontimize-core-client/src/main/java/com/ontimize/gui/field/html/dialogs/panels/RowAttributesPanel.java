@@ -28,7 +28,7 @@ public class RowAttributesPanel extends HTMLAttributeEditorPanel {
         this(new Hashtable());
     }
 
-    public RowAttributesPanel(Hashtable attr) {
+    public RowAttributesPanel(Map attr) {
         super(attr);
         this.initialize();
         this.alignPanel.setAttributes(this.getAttributes());
@@ -55,7 +55,7 @@ public class RowAttributesPanel extends HTMLAttributeEditorPanel {
         this.alignPanel.updateAttribsFromComponents();
     }
 
-    public void setComponentStates(Hashtable attribs) {
+    public void setComponentStates(Map attribs) {
         if (attribs.containsKey("bgcolor")) {
             this.bgColorPanel.setSelected(true);
             this.bgColorPanel.setColor(attribs.get("bgcolor").toString());

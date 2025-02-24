@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.ontimize.jee.common.report.ReportResource;
+
 public class FileResource implements ReportResource {
 
     protected byte[] bytes = null;

@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -121,7 +121,7 @@ public class GroupColumnListener extends MouseAdapter {
                 SelectableMultipleItem it = (SelectableMultipleItem) this.reportDialog.getGroupList()
                     .getModel()
                     .getElementAt(index);
-                Vector vValues = it.getItemList();
+                List vValues = it.getItemList();
                 for (int i = 0; i < vValues.size(); i++) {
                     SelectableItem actual = (SelectableItem) vValues.get(i);
                     String s = actual.getText();

@@ -1,7 +1,7 @@
 package com.ontimize.gui;
 
 import com.ontimize.gui.field.FormComponent;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 
 /**
  * Interface to be implemented by components that need entity references. These entity references

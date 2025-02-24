@@ -2,7 +2,7 @@ package com.ontimize.util.swing.selectablelist;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class TranslatedItem implements Internationalization {
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

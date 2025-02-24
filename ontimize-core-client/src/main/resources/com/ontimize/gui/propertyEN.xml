@@ -814,7 +814,7 @@
 	</ObjectDataField>
 	
 	<GenerateReportButton extends="Boton">
-		<Property value="entity" required="yes" description="Name of the data entity.This entity must implement PrintDataEntity. The data request send a hashtable object with the values of the form keys in the request moment. It is possible select the values to send as keys in the 'keys' parameter and which of this values are mandatory in the 'required' parameter." default="%entity%"/>
+		<Property value="entity" required="yes" description="Name of the data entity.This entity must implement PrintDataEntity. The data request send a Map object with the values of the form keys in the request moment. It is possible select the values to send as keys in the 'keys' parameter and which of this values are mandatory in the 'required' parameter." default="%entity%"/>
 		<Property value="report" required="yes" description="XML description file path. This is a relative path, i.e. com/ontimize/reports/report.xml." default="%resource%"/>
 		<Property value="preview" required="no" description="Parameter to indicate if a report preview is shown before printing the report."/>
 		<Property value="keys" required="yes" description="Form data fields to use in the report data query." default="%keys%"/>

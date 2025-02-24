@@ -1,6 +1,7 @@
 package com.ontimize.gui;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.jee.common.dto.EntityResult;
+import com.ontimize.jee.common.dto.EntityResultMapImpl;
 
 /**
  * Basic Thread implementation that performs an operation and stores the result into an
@@ -70,7 +71,7 @@ public class OperationThread extends Thread {
         this.cancelled = true;
         // TODO the Cancel status must be changed
         this.status = "Cancelled";
-        this.res = new EntityResult();
+        this.res = new EntityResultMapImpl();
         ((EntityResult) this.res).setCode(EntityResult.OPERATION_WRONG);
         ((EntityResult) this.res).setMessage(OperationThread.OPERATION_CANCELLED);
     }

@@ -2,7 +2,7 @@ package com.ontimize.gui.login;
 
 import com.ontimize.gui.Application;
 import com.ontimize.gui.i18n.Internationalization;
-import com.ontimize.locator.EntityReferenceLocator;
+import com.ontimize.jee.common.locator.EntityReferenceLocator;
 
 public interface ILoginDialog extends Internationalization {
 

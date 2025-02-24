@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.locator.ClientReferenceLocator;
+import com.ontimize.jee.common.locator.ClientReferenceLocator;
 
 public class PreferenceYesNoSelectionDialog {
 

@@ -1,10 +1,7 @@
 package com.ontimize.gui.container;
 
-/**
- * This interface represents a basic group of data components in a panel.
- */
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
+import java.util.Map;
 
 import com.ontimize.gui.field.FormComponent;
 import com.ontimize.gui.field.IdentifiedElement;
@@ -22,20 +19,20 @@ import com.ontimize.gui.field.IdentifiedElement;
  */
 public interface DataComponentGroup extends FormComponent, IdentifiedElement {
 
-    /**
-     * Gets a data set with field values.<br>
-     * @return The key is the attribute of the data field and the value is the data field value
-     */
-    public Hashtable getGroupValue();
+	/**
+	 * Gets a data set with field values.<br>
+	 * @return The key is the attribute of the data field and the value is the data field value
+	 */
+	public Map getGroupValue();
 
-    public void setGroupValue(Hashtable value);
+	public void setGroupValue(Map value);
 
-    public String getLabel();
+	public String getLabel();
 
-    public Vector getAttributes();
+	public List getAttributes();
 
-    public void setAllEnabled(boolean en);
+	public void setAllEnabled(boolean en);
 
-    public void setAllModificable(boolean modif);
+	public void setAllModificable(boolean modif);
 
 }

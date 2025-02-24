@@ -15,7 +15,6 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -44,7 +43,7 @@ import com.ontimize.gui.ApplicationMenuBar;
 import com.ontimize.gui.Menu;
 import com.ontimize.gui.container.EJDialog;
 import com.ontimize.gui.i18n.Internationalization;
-import com.ontimize.locator.ClientReferenceLocator;
+import com.ontimize.jee.common.locator.ClientReferenceLocator;
 
 public class ShortcutDialogConfiguration extends JDialog implements Internationalization {
 
@@ -362,7 +361,7 @@ public class ShortcutDialogConfiguration extends JDialog implements Internationa
     }
 
     @Override
-    public Vector getTextsToTranslate() {
+    public List getTextsToTranslate() {
         return null;
     }
 

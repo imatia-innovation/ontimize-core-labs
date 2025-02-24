@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.PlainDocument;
@@ -157,7 +157,7 @@ public class CustomSpinnerDateModel extends SpinnerDateModel {
         }
 
         @Override
-        public Vector getTextsToTranslate() {
+        public List getTextsToTranslate() {
             return null;
         }
 

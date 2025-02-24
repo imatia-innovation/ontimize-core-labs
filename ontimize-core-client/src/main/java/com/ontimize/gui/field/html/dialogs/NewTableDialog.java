@@ -48,7 +48,7 @@ public class NewTableDialog extends OptionDialog {
 
     protected void init() {
         // default attribs
-        Hashtable ht = new Hashtable();
+        Map ht = new Hashtable();
         ht.put("border", "1");
         ht.put("width", "100%");
         this.propsPanel = new TableAttributesPanel();

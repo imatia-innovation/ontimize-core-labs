@@ -1,5 +1,6 @@
 package com.ontimize.util.swing;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -11,49 +12,49 @@ import com.ontimize.util.swing.list.I18nListCellRenderer;
 
 public class TranslateComboBox extends JComboBox implements Internationalization {
 
-    protected ResourceBundle bundle = null;
+	protected ResourceBundle bundle = null;
 
-    public TranslateComboBox(ResourceBundle bundle) {
-        this.init(bundle);
-    }
+	public TranslateComboBox(final ResourceBundle bundle) {
+		this.init(bundle);
+	}
 
-    public TranslateComboBox(ResourceBundle bundle, Vector v) {
-        super(v);
-        this.init(bundle);
-    }
+	public TranslateComboBox(final ResourceBundle bundle, final Vector v) {
+		super(v);
+		this.init(bundle);
+	}
 
-    private void init(ResourceBundle bundle) {
-        this.bundle = bundle;
-        if (this.bundle != null) {
-            super.setRenderer(new I18nListCellRenderer(this.bundle));
-        }
-    }
+	private void init(final ResourceBundle bundle) {
+		this.bundle = bundle;
+		if (this.bundle != null) {
+			super.setRenderer(new I18nListCellRenderer(this.bundle));
+		}
+	}
 
-    /**
-     * getTextsToTranslate
-     * @return Vector
-     */
-    @Override
-    public Vector getTextsToTranslate() {
-        return null;
-    }
+	/**
+	 * getTextsToTranslate
+	 * @return Vector
+	 */
+	@Override
+	public List getTextsToTranslate() {
+		return null;
+	}
 
-    /**
-     * setLocaleComponente
-     * @param locale Locale
-     */
-    @Override
-    public void setComponentLocale(Locale locale) {
-    }
+	/**
+	 * setLocaleComponente
+	 * @param locale Locale
+	 */
+	@Override
+	public void setComponentLocale(final Locale locale) {
+	}
 
-    /**
-     * setResourceBundle
-     * @param resourceBundle ResourceBundle
-     */
-    @Override
-    public void setResourceBundle(ResourceBundle resourceBundle) {
-        this.bundle = resourceBundle;
-        super.setRenderer(new I18nListCellRenderer(this.bundle));
-    }
+	/**
+	 * setResourceBundle
+	 * @param resourceBundle ResourceBundle
+	 */
+	@Override
+	public void setResourceBundle(final ResourceBundle resourceBundle) {
+		this.bundle = resourceBundle;
+		super.setRenderer(new I18nListCellRenderer(this.bundle));
+	}
 
 }

@@ -33,7 +33,7 @@ import com.ontimize.gui.Form;
 import com.ontimize.gui.images.ImageManager;
 import com.ontimize.gui.preferences.ApplicationPreferences;
 import com.ontimize.gui.preferences.BasicApplicationPreferences;
-import com.ontimize.locator.ClientReferenceLocator;
+import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.util.swing.MenuButton;
 
 public class ChartButton extends TableButtonSelection {
@@ -172,7 +172,7 @@ public class ChartButton extends TableButtonSelection {
     }
 
     protected List getChartConfiguration() {
-        ArrayList configurationList = new ArrayList();
+        List configurationList = new ArrayList();
         try {
             Application ap = ApplicationManager.getApplication();
             String preferenceKey = this.getCustomChartPreferenceKey();
