@@ -51,8 +51,8 @@
     <repositories>
         <repository>
             <id>imatia-artifactory</id>
-            <name>libs-release</name>
-            <url>https://artifactory.imatia.com/artifactory/libs-release</url>
+            <name>libs-imatia-local</name>
+            <url>https://artifactory.imatia.com/artifactory/libs-imatia-local</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
