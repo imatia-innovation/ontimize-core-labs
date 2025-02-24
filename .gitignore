@@ -46,13 +46,13 @@ Thumbs.db
 # Build output directies #
 ##########################
 /target
-*/target
+**/target
 /build
-*/build
+**/build
 /src/generated
-*/src/generated
+**/src/generated
 /bin
-*/bin
+**/bin
 
 # IntelliJ specific files/directories #
 #######################################
