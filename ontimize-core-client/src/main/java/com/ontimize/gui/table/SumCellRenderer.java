@@ -7,7 +7,9 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import com.ontimize.gui.ApplicationManager;
@@ -73,6 +75,51 @@ public class SumCellRenderer extends com.ontimize.gui.table.RealCellRenderer {
 	public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean selected, final boolean hasFocus,
 			final int row, final int column) {
 		final Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
+		final TableCellRenderer mainTableCellRenderer = table.getColumnModel().getColumn(column).getCellRenderer();
+		if (mainTableCellRenderer != null) {
+			if (value != null) {
+				System.out.println();
+			}
+			Component mainTableCellRendererComponent = mainTableCellRenderer.getTableCellRendererComponent(table,
+					value, selected, hasFocus, row, column);
+			if (mainTableCellRendererComponent instanceof JLabel && c instanceof JLabel) {
+				final String text = ((JLabel) mainTableCellRenderer).getText();
+				((JLabel) c).setText(text);
+				final TableModel model = table.getModel();
+				if ((model != null) && (model instanceof SumRowTableModel)) {
+					if ((row == 0) && (table instanceof SumRowTable)) {
+						final JTable dataTable = ((SumRowTable) table).dataTable;
+						final int[] index = dataTable.getSelectedRows();
+
+						final SumRowTableModel sumRowModel = (SumRowTableModel) model;
+
+						final StringBuilder sText = new StringBuilder();
+						// index = checkHasSumRow(index, row);
+						if (index.length > 0) {
+							final Object nameColumn = table.getColumnName(column);
+							for (int j = 0; j < index.length; j++) {
+								index[j] = sumRowModel.convertRowIndexToFilteredModel(index[j]);
+							}
+							final Number n = sumRowModel.getSelectedColumnOperation(nameColumn, index);
+							if (n != null) {
+								mainTableCellRendererComponent = mainTableCellRenderer.getTableCellRendererComponent(
+										table, n, selected, hasFocus, row, column);
+								sText.append("( ");
+								if (mainTableCellRendererComponent instanceof JLabel && c instanceof JLabel) {
+									sText.append(((JLabel) mainTableCellRenderer).getText());
+								} else {
+									sText.append(this.format.format(n));
+								}
+								sText.append(" ) ");
+							}
+							sText.append(text);
+							this.setText(sText.toString());
+						}
+					}
+				}
+			}
+		}
+
 		final Object oHeaderText = table.getColumnModel().getColumn(column).getHeaderValue();
 		if ((value == null) && (c instanceof JComponent)) {
 			((JComponent) c).setBackground(SumCellRenderer.disabledBackgroundColor != null
