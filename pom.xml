@@ -17,6 +17,7 @@
         <module>ontimize-jee-server-hessian-api</module>
         <module>ontimize-jee-callback-websocket</module>
         <module>ontimize-jee-callback-cometd</module>
+        <module>ontimize-jee-desktopclient-testtools</module>
     </modules>
 
     <organization>
@@ -205,6 +206,12 @@
             <dependency>
                 <groupId>com.ontimize.labs</groupId>
                 <artifactId>ontimize-jee-desktopclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ontimize.labs</groupId>
+                <artifactId>ontimize-jee-desktopclient-testtools</artifactId>
+           		<scope>test</scope>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
