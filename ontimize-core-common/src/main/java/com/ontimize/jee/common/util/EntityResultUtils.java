@@ -208,4 +208,10 @@ public class EntityResultUtils {
 		return res;
 	}
 
+	public static EntityResult fromMap(final Map<?, ?> map) {
+		final EntityResult er = new EntityResultMapImpl();
+		er.putAll(map);
+		return er;
+	}
+
 }
