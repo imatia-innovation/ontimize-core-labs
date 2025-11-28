@@ -86,8 +86,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.w3c</groupId>
-			<artifactId>tidy</artifactId>
+			<!-- Replace of org.w3c:tidy:8.0 -->
+			<groupId>net.sf.jtidy</groupId>
+		  	<artifactId>jtidy</artifactId>
 			<optional>true</optional>
 		</dependency>
 

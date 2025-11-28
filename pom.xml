@@ -76,7 +76,7 @@
         <registry.version>3.1.3</registry.version>
         <sam.version>0.0.1</sam.version>
         <jai.version>1.1.2</jai.version>
-        <tidy.version>8.0</tidy.version>
+        <tidy.version>r938</tidy.version>
         <javahelp.version>2.0.05</javahelp.version>
         <jep.version>2.24</jep.version>
         <mail.version>1.4.5</mail.version>
@@ -339,8 +339,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.w3c</groupId>
-                <artifactId>tidy</artifactId>
+		        <!-- Replace of org.w3c:tidy:8.0-->
+				<groupId>net.sf.jtidy</groupId>
+				<artifactId>jtidy</artifactId>
                 <version>${tidy.version}</version>
                 <optional>true</optional>
             </dependency>
