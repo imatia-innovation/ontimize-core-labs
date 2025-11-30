@@ -3088,7 +3088,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		if (column == null) {
 			return false;
 		}
-		return this.hVirtualColumns.containsKey(column) ? true : false;
+		return this.hVirtualColumns.containsValue(column) ? true : false;
 	}
 
 	/**

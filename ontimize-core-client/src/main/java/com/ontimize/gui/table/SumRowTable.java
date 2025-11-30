@@ -36,38 +36,38 @@ public class SumRowTable extends JTable {
 
     protected JTable dataTable;
 
-    public SumRowTable(JTable table) {
+    public SumRowTable(final JTable table) {
         this.dataTable = table;
         this.dataTable.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
 
             @Override
-            public void columnSelectionChanged(ListSelectionEvent e) {
+            public void columnSelectionChanged(final ListSelectionEvent e) {
             }
 
             @Override
-            public void columnRemoved(TableColumnModelEvent e) {
-                TableColumn removeColumn = SumRowTable.this.getColumnModel().getColumn(e.getFromIndex());
+            public void columnRemoved(final TableColumnModelEvent e) {
+                final TableColumn removeColumn = SumRowTable.this.getColumnModel().getColumn(e.getFromIndex());
                 SumRowTable.this.getColumnModel().removeColumn(removeColumn);
             }
 
             @Override
-            public void columnMoved(TableColumnModelEvent e) {
-                int toIndex = e.getToIndex();
-                int fromIndex = e.getFromIndex();
+            public void columnMoved(final TableColumnModelEvent e) {
+                final int toIndex = e.getToIndex();
+                final int fromIndex = e.getFromIndex();
                 SumRowTable.this.getColumnModel().moveColumn(fromIndex, toIndex);
             }
 
             @Override
-            public void columnMarginChanged(ChangeEvent e) {
+            public void columnMarginChanged(final ChangeEvent e) {
                 SumRowTable.this.adjustColumnWidths();
             }
 
             @Override
-            public void columnAdded(TableColumnModelEvent e) {
-                int toIndex = e.getToIndex();
-                TableColumn newSourceColumn = ((TableColumnModel) e.getSource()).getColumn(toIndex);
+            public void columnAdded(final TableColumnModelEvent e) {
+                final int toIndex = e.getToIndex();
+                final TableColumn newSourceColumn = ((TableColumnModel) e.getSource()).getColumn(toIndex);
 
-                TableColumn newColumn = new TableColumn(newSourceColumn.getModelIndex());
+                final TableColumn newColumn = new TableColumn(newSourceColumn.getModelIndex());
                 newColumn.setHeaderValue(newSourceColumn.getHeaderValue());
                 newColumn.setIdentifier(newSourceColumn.getIdentifier());
                 newColumn.setCellRenderer(newSourceColumn.getCellRenderer());
@@ -76,7 +76,7 @@ public class SumRowTable extends JTable {
             }
         });
 
-        FontMetrics fontMetrics = this.getFontMetrics(this.getFont());
+        final FontMetrics fontMetrics = this.getFontMetrics(this.getFont());
 
         this.setFillsViewportHeight(true);
         this.setRowSelectionAllowed(false);
@@ -88,7 +88,7 @@ public class SumRowTable extends JTable {
         } else if (this.dataTable instanceof BlockedTable) {
             return ((BlockedTable) this.dataTable).getJTable().ontimizeTable;
         }
-        Table table = (Table) SwingUtilities.getAncestorOfClass(Table.class, this.dataTable);
+        final Table table = (Table) SwingUtilities.getAncestorOfClass(Table.class, this.dataTable);
         return table;
     }
 
@@ -104,14 +104,14 @@ public class SumRowTable extends JTable {
 
     public void adjustColumnWidths() {
         if (this.dataTable != null) {
-            TableColumnModel dataTableModelColumn = this.dataTable.getColumnModel();
-            int columnCount = this.dataTable.getColumnCount();
+            final TableColumnModel dataTableModelColumn = this.dataTable.getColumnModel();
+            final int columnCount = this.dataTable.getColumnCount();
             for (int i = 0; i < columnCount; i++) {
                 if (this.getColumnModel().getColumnCount() <= i) {
                     SumRowTable.logger.debug(String.valueOf(i));
                 }
-                TableColumn tC = this.getColumnModel().getColumn(i);
-                int width = dataTableModelColumn.getColumn(i).getWidth();
+                final TableColumn tC = this.getColumnModel().getColumn(i);
+                final int width = dataTableModelColumn.getColumn(i).getWidth();
                 tC.setMaxWidth(width);
                 tC.setMinWidth(0);
                 tC.setWidth(width);
@@ -124,20 +124,21 @@ public class SumRowTable extends JTable {
     @Override
     public void createDefaultColumnsFromModel() {
         if (this.dataTable != null) {
-            TableModel m = this.getModel();
+            final TableModel m = this.getModel();
             if (m != null) {
                 // Remove any current columns
-                TableColumnModel cm = this.getColumnModel();
+                final TableColumnModel cm = this.getColumnModel();
                 while (cm.getColumnCount() > 0) {
                     cm.removeColumn(cm.getColumn(0));
                 }
 
-                TableColumnModel datacm = this.dataTable.getColumnModel();
+                final TableColumnModel datacm = this.dataTable.getColumnModel();
                 // Create new columns from the data model info
                 for (int i = 0; i < datacm.getColumnCount(); i++) {
-                    TableColumn newColumn = new TableColumn(datacm.getColumn(i).getModelIndex());
+                    final TableColumn newColumn = new TableColumn(datacm.getColumn(i).getModelIndex());
                     newColumn.setHeaderValue(datacm.getColumn(i).getHeaderValue());
                     newColumn.setIdentifier(datacm.getColumn(i).getIdentifier());
+					newColumn.setCellRenderer(datacm.getColumn(i).getCellRenderer());
                     this.addColumn(newColumn);
                 }
             }
@@ -147,7 +148,7 @@ public class SumRowTable extends JTable {
     }
 
     @Override
-    public void tableChanged(TableModelEvent e) {
+    public void tableChanged(final TableModelEvent e) {
         if (e!=null && (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE)){
             resizeAndRepaint();
             return;
@@ -155,11 +156,11 @@ public class SumRowTable extends JTable {
         super.tableChanged(e);
         if (this.dataTable != null && this.getTable() != null) {
             if ((e == null) || (e.getFirstRow() == TableModelEvent.HEADER_ROW)) {
-                List visibleColumns = getTable().getVisibleColumns();
+                final List visibleColumns = getTable().getVisibleColumns();
                 if ((visibleColumns != null) && !visibleColumns.isEmpty()) {
                     for (int i = 1; i < this.getColumnCount(); i++) {
-                        TableColumn tC = this.getColumnModel().getColumn(i);
-                        String col = (String) tC.getHeaderValue();
+                        final TableColumn tC = this.getColumnModel().getColumn(i);
+                        final String col = (String) tC.getHeaderValue();
                         if (!visibleColumns.contains(col)) {
                             tC.setMinWidth(0);
                             tC.setWidth(0);
@@ -171,12 +172,12 @@ public class SumRowTable extends JTable {
         }
     }
 
-    public String getCellValueAsString(int row, int column) {
+    public String getCellValueAsString(final int row, final int column) {
         String sText = null;
-        TableColumn tc = this.getColumnModel().getColumn(column);
-        Object oValue = this.getValueAt(row, column);
-        TableCellRenderer r = this.getCellRenderer(row, column);
-        Component c = r.getTableCellRendererComponent(this, oValue, false, false, row, column);
+        final TableColumn tc = this.getColumnModel().getColumn(column);
+        final Object oValue = this.getValueAt(row, column);
+        final TableCellRenderer r = this.getCellRenderer(row, column);
+        final Component c = r.getTableCellRendererComponent(this, oValue, false, false, row, column);
         if (c instanceof JLabel) {
             sText = ((JLabel) c).getText();
         } else if (c instanceof JTextComponent) {
@@ -197,43 +198,43 @@ public class SumRowTable extends JTable {
     }
 
     @Override
-    public TableCellRenderer getCellRenderer(int row, int columnIndex) {
-        SumRowTableModel m = (SumRowTableModel) this.getModel();
-        int indexModel = this.convertColumnIndexToModel(columnIndex);
-        String sColumnName = m.getColumnName(indexModel);
+    public TableCellRenderer getCellRenderer(final int row, final int columnIndex) {
+        final SumRowTableModel m = (SumRowTableModel) this.getModel();
+        final int indexModel = this.convertColumnIndexToModel(columnIndex);
+        final String sColumnName = m.getColumnName(indexModel);
 
         if (!ExtendedTableModel.ROW_NUMBERS_COLUMN.equalsIgnoreCase(sColumnName)) {
 
-            if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof CurrencyCellRenderer) {
-                // Configure
-                CurrencyCellRenderer cm = (CurrencyCellRenderer) this.getColumnModel()
-                    .getColumn(columnIndex)
-                    .getCellRenderer();
-                TableCellRenderer sumCellRenderer = m.getSumCellRenderer(true);
-                ((CurrencyCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
-                ((CurrencyCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
-                ((CurrencyCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
-                ((CurrencyCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
-                ((CurrencyCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
+			if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof CurrencyCellRenderer) {
+				// Configure
+				final CurrencyCellRenderer cm = (CurrencyCellRenderer) this.getColumnModel()
+						.getColumn(columnIndex)
+						.getCellRenderer();
+				final TableCellRenderer sumCellRenderer = m.getSumCellRenderer(true);
+				((CurrencyCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
+				((CurrencyCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
+				((CurrencyCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
+				((CurrencyCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
+				((CurrencyCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
 
-                return sumCellRenderer;
-            } else {
+				return sumCellRenderer;
+			} else {
 
-                TableCellRenderer sumCellRenderer = m.getSumCellRenderer(false);
-                if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof RealCellRenderer) {
-                    RealCellRenderer cm = (RealCellRenderer) this.getColumnModel()
-                        .getColumn(columnIndex)
-                        .getCellRenderer();
+				final TableCellRenderer sumCellRenderer = m.getSumCellRenderer(false);
+				if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof RealCellRenderer) {
+					final RealCellRenderer cm = (RealCellRenderer) this.getColumnModel()
+							.getColumn(columnIndex)
+							.getCellRenderer();
 
-                    ((RealCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
-                    ((RealCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
-                    ((RealCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
-                    ((RealCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
-                }
-                ((RealCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
+					((RealCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
+					((RealCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
+					((RealCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
+					((RealCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
+				}
+				((RealCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
 
-                return sumCellRenderer;
-            }
+				return sumCellRenderer;
+			}
         } else {
             return super.getCellRenderer(row, columnIndex);
         }
@@ -245,22 +246,22 @@ public class SumRowTable extends JTable {
 
         protected Insets newInsets;
 
-        public SumRowBorder(Border parentBorder, Insets newInsets) {
+        public SumRowBorder(final Border parentBorder, final Insets newInsets) {
             this.parentBorder = parentBorder;
             this.newInsets = newInsets;
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
             if (this.parentBorder != null) {
                 this.parentBorder.paintBorder(c, g, x, y, width, height);
             }
         }
 
         @Override
-        public Insets getBorderInsets(Component c) {
+        public Insets getBorderInsets(final Component c) {
             if (this.parentBorder != null) {
-                Insets result = this.parentBorder.getBorderInsets(c);
+                final Insets result = this.parentBorder.getBorderInsets(c);
                 if (this.newInsets != null) {
                     if (this.newInsets.top == 0) {
                         result.top = 0;
