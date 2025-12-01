@@ -13,7 +13,6 @@
         <module>ontimize-jee-hessian</module>
         <module>ontimize-jee-desktopclient</module>
         <module>ontimize-jee-dms-desktopclient</module>
-<!--        <module>ontimize-jee-desktopclient-oauth</module>-->
         <module>ontimize-jee-server-hessian-api</module>
         <module>ontimize-jee-callback-websocket</module>
         <module>ontimize-jee-callback-cometd</module>
@@ -168,7 +167,6 @@
                     <encoding>Cp1252</encoding>
 			        <fork>true</fork>
 			        <compilerArgs>
-			            <arg>--add-exports=java.desktop/com.sun.java.swing.plaf.windows=ALL-UNNAMED</arg>
 			            <arg>--add-exports=java.desktop/sun.awt=ALL-UNNAMED</arg>
 			        </compilerArgs>
                 </configuration>

@@ -173,31 +173,9 @@ public class WWWDataField extends TextDataField {
 
 			if (urlEncoded.substring(0, 7).equalsIgnoreCase("http://")
 					|| urlEncoded.substring(0, 8).equalsIgnoreCase("https://")) {
-				if (com.ontimize.util.webstart.WebStartUtilities.isWebStartApplication()) {
-					try {
-						// This is a webstart application. Uses the open browser
-						// utility
-						com.ontimize.util.webstart.WebStartUtilities.openBrowser(urlEncoded.toString());
-					} catch (final Exception e) {
-						WWWDataField.logger.error(null, e);
-						BrowserControl.displayURL(urlEncoded.toString());
-					}
-				} else {
-					BrowserControl.displayURL(urlEncoded.toString());
-				}
+				BrowserControl.displayURL(urlEncoded.toString());
 			} else {
-				if (com.ontimize.util.webstart.WebStartUtilities.isWebStartApplication()) {
-					try {
-						// This is a webstart application. Uses the open browser
-						// utility
-						com.ontimize.util.webstart.WebStartUtilities.openBrowser("http://" + urlEncoded);
-					} catch (final Exception e) {
-						WWWDataField.logger.error(null, e);
-						BrowserControl.displayURL("http://" + urlEncoded);
-					}
-				} else {
-					BrowserControl.displayURL("http://" + urlEncoded);
-				}
+				BrowserControl.displayURL("http://" + urlEncoded);
 			}
 		}
 	}
