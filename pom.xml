@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ontimize.labs</groupId>
     <artifactId>ontimize-core-parent</artifactId>
-    <version>6.1.0-SNAPSHOT</version>
+    <version>6.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>ontimize-core-icon</module>
@@ -81,11 +81,11 @@
         <registry.version>3.1.3</registry.version>
         <sam.version>0.0.1</sam.version>
         <jai.version>1.1.3</jai.version>
-        <tidy.version>8.0</tidy.version>
+        <tidy.version>1.0.5</tidy.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <jep.version>2.24</jep.version>
+        <jep.version>2.4.0</jep.version>
         <mail.version>1.4.5</mail.version>
-        <mesp.version>1.0.2</mesp.version>
+        <exp4j.version>0.4.8</exp4j.version>
         <jna.version>5.16.0</jna.version>
         <core-renderer.version>R8</core-renderer.version>
         <docx4j.version>8.3.13</docx4j.version>
@@ -344,12 +344,12 @@
                 <optional>true</optional>
             </dependency>
 
-            <dependency>
-                <groupId>org.w3c</groupId>
-                <artifactId>tidy</artifactId>
-                <version>${tidy.version}</version>
-                <optional>true</optional>
-            </dependency>
+			<dependency>
+				<groupId>com.github.jtidy</groupId>
+				<artifactId>jtidy</artifactId>
+				<version>${tidy.version}</version>
+				<optional>true</optional>
+			</dependency>
 
             <dependency>
                 <groupId>javax.help</groupId>
@@ -358,12 +358,6 @@
                 <optional>true</optional>
             </dependency>
 
-            <dependency>
-                <groupId>org.nfunk</groupId>
-                <artifactId>jep</artifactId>
-                <version>${jep.version}</version>
-                <optional>true</optional>
-            </dependency>
             <dependency>
 			    <groupId>net.java.dev.jna</groupId>
 			    <artifactId>jna</artifactId>
@@ -382,12 +376,21 @@
                 <optional>true</optional>
             </dependency>
 
-            <dependency>
-                <groupId>mesp</groupId>
-                <artifactId>mesp</artifactId>
-                <version>${mesp.version}</version>
-                <optional>true</optional>
-            </dependency>
+			<dependency>
+				<groupId>net.objecthunter</groupId>
+				<artifactId>exp4j</artifactId>
+				<version>${exp4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
             <dependency>
                 <groupId>org.xhtmlrenderer</groupId>

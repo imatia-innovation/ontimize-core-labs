@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-core-parent</artifactId>
-		<version>6.1.0-SNAPSHOT</version>
+		<version>6.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-core-client</artifactId>
 
@@ -87,20 +87,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.w3c</groupId>
-			<artifactId>tidy</artifactId>
+			<groupId>com.github.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+			
 		<dependency>
 			<groupId>javax.help</groupId>
 			<artifactId>javahelp</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.nfunk</groupId>
-			<artifactId>jep</artifactId>
 			<optional>true</optional>
 		</dependency>
 
@@ -111,9 +105,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mesp</groupId>
-			<artifactId>mesp</artifactId>
-			<optional>true</optional>
+			<groupId>net.objecthunter</groupId>
+			<artifactId>exp4j</artifactId>
 		</dependency>
 
 		<dependency>
