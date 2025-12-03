@@ -15,7 +15,6 @@ import com.ontimize.gui.Form;
 import com.ontimize.gui.ValueChangeListener;
 import com.ontimize.gui.ValueEvent;
 import com.ontimize.jee.common.gui.SearchValue;
-import com.ontimize.util.JEPUtils;
 import com.ontimize.util.math.MathExpressionParser;
 import com.ontimize.util.math.MathExpressionParserFactory;
 
@@ -106,14 +105,6 @@ public class CalculatedCurrencyDataField extends CurrencyDataField implements Va
 	 */
 	public CalculatedCurrencyDataField(final Map parameters) {
 		super(parameters);
-		final Map custom = JEPUtils.getCustomFunctions();
-		for (final String key : ((Map<String, ?>) custom).keySet()) {
-			try {
-				this.parser.addFunction(key, custom.get(key));
-			} catch (final java.lang.NoSuchMethodError e) {
-				CalculatedCurrencyDataField.logger.error(e.getMessage(), e);
-			}
-		}
 		this.dataField.setEnabled(false);
 		this.updateBackgroundColor(false);
 		this.parser.addStandardFunctions();
