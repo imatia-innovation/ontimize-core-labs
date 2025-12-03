@@ -80,7 +80,6 @@ import com.ontimize.gui.field.SelectionListDataField;
 import com.ontimize.gui.i18n.Internationalization;
 import com.ontimize.gui.images.ImageManager;
 import com.ontimize.gui.table.Table.SelectableRenderCell;
-import com.ontimize.util.JEPUtils;
 import com.ontimize.util.math.MathExpressionParser;
 import com.ontimize.util.math.MathExpressionParserFactory;
 import com.ontimize.util.swing.text.ComponentTextPane;
@@ -1463,18 +1462,6 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 
 		final MathExpressionParser parser = MathExpressionParserFactory.getInstance();
 		parser.setTraverse(ApplicationManager.DEBUG);
-		final Map custom = JEPUtils.getCustomFunctions();
-		final Enumeration keys = Collections.enumeration(custom.keySet());
-		while (keys.hasMoreElements()) {
-			final String key = (String) keys.nextElement();
-			CalculatedColumnDialog.logger.debug("Add expression parser function: {} -> {}", key, custom.get(key));
-			try {
-				parser.addFunction(key, custom.get(key));
-			} catch (final java.lang.NoSuchMethodError e) {
-				CalculatedColumnDialog.logger.error(null, e);
-			}
-		}
-
 		for (int i = 0; i < columns.size(); i++) {
 			parser.addVariable(columns.get(i).toString(), 0.0);
 		}

@@ -342,42 +342,43 @@ public class HTMLUtils {
         return depth;
     }
 
-    /**
-     * Inserts an arbitrary chunk of HTML into the JEditorPane at the current caret position.
-     * @param rawHtml
-     * @param editor
-     */
-    public static void insertArbitraryHTML(final String rawHtml, final JEditorPane editor) {
-        HTMLUtils.tidy.setOutputEncoding("UTF-8");
-        HTMLUtils.tidy.setInputEncoding("UTF-8");
+	/**
+	 * Inserts an arbitrary chunk of HTML into the JEditorPane at the current caret position.
+	 *
+	 * @param rawHtml
+	 * @param editor
+	 */
+	public static void insertArbitraryHTML(final String rawHtml, final JEditorPane editor) {
+		HTMLUtils.tidy.setOutputEncoding("UTF-8");
+		HTMLUtils.tidy.setInputEncoding("UTF-8");
 
-        try {
-            final ByteArrayInputStream bin = new ByteArrayInputStream(rawHtml.getBytes("UTF-8"));
-            final Document doc = HTMLUtils.tidy.parseDOM(bin, null);
-            final NodeList nodelist = doc.getElementsByTagName("body");
+		try {
+			final ByteArrayInputStream bin = new ByteArrayInputStream(rawHtml.getBytes("UTF-8"));
+			final Document doc = HTMLUtils.tidy.parseDOM(bin, null);
+			final NodeList nodelist = doc.getElementsByTagName("body");
 
-            if (nodelist != null) {
-                final Node body = nodelist.item(0);
-                final NodeList bodyChildren = body.getChildNodes();
+			if (nodelist != null) {
+				final Node body = nodelist.item(0);
+				final NodeList bodyChildren = body.getChildNodes();
 
-                // for(int i = bodyChildren.getLength() - 1; i >= 0; i--)
-                final int len = bodyChildren.getLength();
-                for (int i = 0; i < len; i++) {
-                    String ml = HTMLUtils.xmlToString(bodyChildren.item(i));
-                    if (ml != null) {
-                        HTML.Tag tag = HTMLUtils.getStartTag(ml);
-                        if (tag == null) {
-                            tag = HTML.Tag.SPAN;
-                            ml = "<span>" + ml + "</span>";
-                        }
-                        HTMLUtils.insertHTML(ml, tag, editor);
-                    }
-                }
-            }
-        } catch (final UnsupportedEncodingException e) {
-            HTMLUtils.logger.error(null, e);
-        }
-    }
+				// for(int i = bodyChildren.getLength() - 1; i >= 0; i--)
+				final int len = bodyChildren.getLength();
+				for (int i = 0; i < len; i++) {
+					String ml = HTMLUtils.xmlToString(bodyChildren.item(i));
+					if (ml != null) {
+						HTML.Tag tag = HTMLUtils.getStartTag(ml);
+						if (tag == null) {
+							tag = HTML.Tag.SPAN;
+							ml = "<span>" + ml + "</span>";
+						}
+						HTMLUtils.insertHTML(ml, tag, editor);
+					}
+				}
+			}
+		} catch (final UnsupportedEncodingException e) {
+			HTMLUtils.logger.error(null, e);
+		}
+	}
 
     protected static String xmlToString(final Node node) {
         try {
