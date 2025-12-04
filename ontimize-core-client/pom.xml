@@ -62,12 +62,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.ice.jni</groupId>
-			<artifactId>registry</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>com.ontimize.labs</groupId>
   			<artifactId>ontimize-core-client-sam</artifactId>
 			<optional>true</optional>

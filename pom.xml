@@ -79,11 +79,9 @@
         <log4j-core.version>2.8.2</log4j-core.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
         <dynamicjasper.version>5.3.9</dynamicjasper.version>
-        <registry.version>3.1.3</registry.version>
         <jai.version>1.1.3</jai.version>
         <tidy.version>1.0.5</tidy.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <jep.version>2.4.0</jep.version>
         <mail.version>1.4.5</mail.version>
         <exp4j.version>0.4.8</exp4j.version>
         <jna.version>5.16.0</jna.version>
@@ -320,17 +318,10 @@
                 <version>${dynamicjasper.version}</version>
                 <scope>compile</scope>
                 <optional>true</optional>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ice.jni</groupId>
-                <artifactId>registry</artifactId>
-                <version>${registry.version}</version>
-                <optional>true</optional>
-            </dependency>
+            </dependency>           
 
             <dependency>        
-        		    <groupId>javax.media</groupId>
+        	<groupId>javax.media</groupId>
                 <artifactId>jai_codec</artifactId>
                 <version>${jai.version}</version>
                 <optional>true</optional>
