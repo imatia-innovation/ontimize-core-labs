@@ -58,6 +58,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <!--Public remote repository to discover new JAI versions-->
+	    <repository>
+		  <id>jai-public</id>
+		  <url>https://repo.osgeo.org/repository/release/</url>
+		</repository>
     </repositories>
 
     <properties>
@@ -75,7 +80,7 @@
         <dynamicjasper.version>5.3.9</dynamicjasper.version>
         <registry.version>3.1.3</registry.version>
         <sam.version>0.0.1</sam.version>
-        <jai.version>1.1.2</jai.version>
+        <jai.version>1.1.3</jai.version>
         <tidy.version>1.0.5</tidy.version>
         <javahelp.version>2.0.05</javahelp.version>
         <jep.version>2.4.0</jep.version>
@@ -324,8 +329,8 @@
                 <optional>true</optional>
             </dependency>
 
-            <dependency>
-                <groupId>com.sun.media</groupId>
+            <dependency>        
+        		<groupId>javax.media</groupId>
                 <artifactId>jai_codec</artifactId>
                 <version>${jai.version}</version>
                 <optional>true</optional>
