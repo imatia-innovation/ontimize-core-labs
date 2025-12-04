@@ -25,7 +25,6 @@ import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.i18n.Internationalization;
 import com.ontimize.jee.common.db.NullValue;
 import com.ontimize.util.CollectionTools;
-import com.ontimize.util.JEPUtils;
 import com.ontimize.util.ObjectTools;
 import com.ontimize.util.math.MathExpressionParser;
 import com.ontimize.util.math.MathExpressionParserFactory;
@@ -231,17 +230,6 @@ public class ExtendedTableModel extends AbstractTableModel {
 
 		final MathExpressionParser parser = MathExpressionParserFactory.getInstance();
 		parser.setTraverse(ApplicationManager.DEBUG);
-		final Map custom = JEPUtils.getCustomFunctions();
-		final Enumeration keys = Collections.enumeration(custom.keySet());
-		while (keys.hasMoreElements()) {
-			final String key = (String) keys.nextElement();
-			ExtendedTableModel.logger.debug("Add expression parser function: {} -> {}", key, custom.get(key));
-			try {
-				parser.addFunction(key, custom.get(key));
-			} catch (final java.lang.NoSuchMethodError e) {
-				ExtendedTableModel.logger.error(null, e);
-			}
-		}
 
 		for (int i = 1; i < this.columnNames.size(); i++) {
 			parser.addVariable(this.columnNames.get(i).toString(), 0.0);
