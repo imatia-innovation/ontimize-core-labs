@@ -74,7 +74,6 @@
 		</dependency>
 
 		<dependency>
-        	<!--<groupId>com.sun.media</groupId>-->
     		<groupId>javax.media</groupId>
 			<artifactId>jai_codec</artifactId>
 			<optional>true</optional>
