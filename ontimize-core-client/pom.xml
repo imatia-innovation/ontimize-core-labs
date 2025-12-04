@@ -69,7 +69,7 @@
 
 		<dependency>
 			<groupId>com.ontimize.labs</groupId>
-  			<artifactId>ontimize-client-sam</artifactId>
+  			<artifactId>ontimize-core-client-sam</artifactId>
 			<optional>true</optional>
 		</dependency>
 

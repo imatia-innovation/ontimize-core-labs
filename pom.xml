@@ -10,7 +10,7 @@
         <module>ontimize-core-icon</module>
         <module>ontimize-core-common</module>
         <module>ontimize-core-client</module>
-    	<module>ontimize-client-sam</module>
+    	<module>ontimize-core-client-sam</module>
         <module>ontimize-jee-hessian</module>
         <module>ontimize-jee-desktopclient</module>
         <module>ontimize-jee-dms-desktopclient</module>
@@ -242,7 +242,7 @@
             <!-- Support to missing external library sam:sam-->
 	      <dependency>
 	    	<groupId>com.ontimize.labs</groupId>
-	        <artifactId>ontimize-client-sam</artifactId>
+	        <artifactId>ontimize-core-client-sam</artifactId>
 	        <version>${project.version}</version>
 	        <optional>true</optional>
 	      </dependency>
