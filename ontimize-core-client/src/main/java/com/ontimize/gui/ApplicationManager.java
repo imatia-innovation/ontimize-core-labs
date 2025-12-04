@@ -119,7 +119,6 @@ import com.ontimize.security.ClientSecurityManager;
 import com.ontimize.util.AWTUtilities;
 import com.ontimize.util.logging.LoggerPanel;
 import com.ontimize.util.remote.IRemoteAdministrationWindow;
-import com.ontimize.util.rmitunneling.StreamInfoComponent;
 import com.ontimize.util.swing.OGlassPanel;
 
 /**
@@ -2269,15 +2268,6 @@ public abstract class ApplicationManager {
 				}
 				ApplicationManager.systemPropertiesW.setVisible(true);
 			}
-		});
-
-		ApplicationManager.httpHTTPSTrafficButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				StreamInfoComponent.setStreamInfoWindowVisible(true);
-			}
-
 		});
 
 		ApplicationManager.window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

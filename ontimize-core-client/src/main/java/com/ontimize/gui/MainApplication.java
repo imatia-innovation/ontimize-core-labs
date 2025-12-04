@@ -1776,31 +1776,6 @@ public class MainApplication extends JFrame implements Application {
 		}
 	}
 
-	private void checkOffline() {
-		try {
-			if (com.ontimize.util.webstart.WebStartUtilities.isWebStartApplication()) {
-				if (com.ontimize.util.webstart.WebStartUtilities.isOffline()) {
-					String sMessage = MainApplication.M_SYSTEM_HAS_NOT_CONNECTION_NETWORK_es_ES;
-					try {
-						if (this.resources != null) {
-							sMessage = this.resources.getString(MainApplication.M_SYSTEM_HAS_NOT_CONNECTION_NETWORK);
-						}
-					} catch (final Exception e) {
-						if (ApplicationManager.DEBUG) {
-							MainApplication.logger.debug(null, e);
-						} else {
-							MainApplication.logger.trace(null, e);
-						}
-					}
-					MessageDialog.showErrorMessage(this, sMessage);
-				}
-			}
-		} catch (final Exception e) {
-			MainApplication.logger.trace(null, e);
-			// Nothing
-		}
-	}
-
 	/**
 	 * Creates the login dialog
 	 * @return the login dialog
@@ -1912,7 +1887,6 @@ public class MainApplication extends JFrame implements Application {
 
 					@Override
 					public void run() {
-						MainApplication.this.checkOffline();
 						MainApplication.this.loggedIn = MainApplication.this.dLogin.login();
 						if (MainApplication.this.loggedIn) {
 							MainApplication.this.currentPassword = MainApplication.this.dLogin.getPasswordValue();

@@ -207,38 +207,6 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 
 	protected ImageIcon deselectIcon = null;
 
-	/**
-	 * This class provides a <CODE>Windows</CODE> checkbox.
-	 * <p>
-	 *
-	 * @author Imatia Innovation
-	 */
-	protected static class CheckBoxUIE extends com.sun.java.swing.plaf.windows.WindowsCheckBoxUI {
-
-		private static CheckBoxUIE ui = new CheckBoxUIE();
-
-		public static ComponentUI createUI(final JComponent b) {
-			return CheckBoxUIE.ui;
-		}
-
-		@Override
-		public synchronized void paint(final Graphics g, final JComponent c) {
-			super.paint(g, c);
-			final AbstractButton b = (AbstractButton) c;
-			if (b.hasFocus() && b.isFocusPainted()) {
-				this.paintFocus(g, null, b.getSize());
-			}
-		}
-
-		@Override
-		protected void paintFocus(final Graphics g, final Rectangle t, final Dimension d) {
-			// super.paintFocus(g,t,d);
-			g.setColor(this.getFocusColor());
-			javax.swing.plaf.basic.BasicGraphicsUtils.drawDashedRect(g, 0, 0, d.width - 1, d.height - 1);
-
-		}
-
-	}
 
 	/**
 	 * The class constructor. Creates the field, inits parameters, sets transparent and adds listeners.
@@ -287,19 +255,6 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 			@Override
 			public void setOpaque(final boolean opaque) {
 				super.setOpaque(false);
-			}
-
-			@Override
-			public void updateUI() {
-				final boolean op = this.isOpaque();
-				super.updateUI();
-				try {
-					if (Class.forName("com.sun.java.swing.plaf.windows.WindowsLookAndFeel").isInstance(UIManager.getLookAndFeel())) {
-						this.setUI(CheckBoxUIE.createUI(this));
-					}
-				} catch (final ClassNotFoundException e) {
-				}
-				this.setOpaque(op);
 			}
 		};
 	}
