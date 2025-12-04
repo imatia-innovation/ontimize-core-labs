@@ -13,39 +13,19 @@ public class MathExpressionParserFactory {
 
     public static MathExpressionParser getInstance() {
         try {
-            String type = System.getProperty(MathExpressionParserFactory.MATH_EXPRESSION_PARSER_PROPERTY);
-            if (MathExpressionParser.JEP.equalsIgnoreCase(type)) {
-                return new JEPMathExpressionParser();
-            } else if (MathExpressionParser.JEP3x.equalsIgnoreCase(type)) {
-                Class jep3x = Class.forName("com.ontimize.util.math.JEP3xMathExpressionParser");
-                return (MathExpressionParser) jep3x.newInstance();
-            } else if (MathExpressionParser.MESP.equalsIgnoreCase(type)) {
-                return new MespMathExpressionParser();
+            final String type = System.getProperty(MathExpressionParserFactory.MATH_EXPRESSION_PARSER_PROPERTY);
+			if (MathExpressionParser.EXP4J.equalsIgnoreCase(type)) {
+				return new Exp4jMathExpressionParser();
             } else {
-                // Detect JEP version
-                try {
-                    Class jep3x = Class.forName("com.singularsys.jep.Jep");
-                    return (MathExpressionParser) jep3x.newInstance();
-                } catch (ClassNotFoundException e) {
-                    MathExpressionParserFactory.LOGGER.trace(null, e);
-                    // This is not version 3.3
-                    try {
-                        Class.forName("org.nfunk.jep.JEP");
-                        return new JEPMathExpressionParser();
-                    } catch (ClassNotFoundException ex) {
-                        MathExpressionParserFactory.LOGGER.trace(null, ex);
-                        Class.forName("com.graphbuilder.math.FuncMap");
-                        return new MespMathExpressionParser();
-                    }
-                }
+				return checkExistingMathParsersInClasspath();
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             MathExpressionParserFactory.LOGGER
                 .error(MathExpressionParserFactory.class.getName() + ": No math parser library found");
             if (ApplicationManager.DEBUG) {
                 MathExpressionParserFactory.LOGGER.error(null, e);
             }
-        } catch (Error e) {
+        } catch (final Error e) {
             MathExpressionParserFactory.LOGGER
                 .error(MathExpressionParserFactory.class.getName() + ": No math parser library found");
             if (ApplicationManager.DEBUG) {
@@ -54,5 +34,21 @@ public class MathExpressionParserFactory {
         }
         return null;
     }
+
+	private static MathExpressionParser checkExistingMathParsersInClasspath() {
+		if (isClassAvailable("net.objecthunter.exp4j.ExpressionBuilder")) {
+			return new Exp4jMathExpressionParser();
+		}
+		throw new IllegalArgumentException("No suitable math parser found");
+	}
+
+	private static boolean isClassAvailable(final String string) {
+		try {
+			Class.forName(string);
+			return true;
+		} catch (final ClassNotFoundException err) {
+			return false;
+		}
+	}
 
 }
