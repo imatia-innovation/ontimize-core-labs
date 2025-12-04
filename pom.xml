@@ -318,12 +318,18 @@
                 <version>${dynamicjasper.version}</version>
                 <scope>compile</scope>
                 <optional>true</optional>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.librepdf</groupId>
+                        <artifactId>openpdf</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- Force this "official" version, to avoid use non-public version "1.3.30.jaspersoft.2" inherited by "jasperreports:6.20.4" nherited by DynamicJasper-->
 		    <dependency>
 				<groupId>com.github.librepdf</groupId>
 				<artifactId>openpdf</artifactId>
-				<version>1.3.30</version>
+				<version>1.4.2</version>
 		  	</dependency>
 
             <dependency>        
