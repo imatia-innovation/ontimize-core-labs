@@ -68,8 +68,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>sam</groupId>
-			<artifactId>sam</artifactId>
+			<groupId>com.ontimize.labs</groupId>
+  			<artifactId>ontimize-core-client-sam</artifactId>
 			<optional>true</optional>
 		</dependency>
 
