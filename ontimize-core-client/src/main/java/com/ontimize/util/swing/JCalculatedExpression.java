@@ -51,7 +51,6 @@ import com.ontimize.gui.actions.RedoAction;
 import com.ontimize.gui.actions.UndoAction;
 import com.ontimize.gui.field.SelectionListDataField.SelectableItem;
 import com.ontimize.gui.images.ImageManager;
-import com.ontimize.util.JEPUtils;
 import com.ontimize.util.math.MathExpressionParser;
 import com.ontimize.util.math.MathExpressionParserFactory;
 import com.ontimize.util.swing.text.ComponentTextPane;
@@ -489,16 +488,6 @@ public class JCalculatedExpression extends JPanel {
 
 		final MathExpressionParser parser = MathExpressionParserFactory.getInstance();
 		parser.setTraverse(ApplicationManager.DEBUG);
-		final Map custom = JEPUtils.getCustomFunctions();
-		final Enumeration keys = Collections.enumeration(custom.keySet());
-		while (keys.hasMoreElements()) {
-			final String key = (String) keys.nextElement();
-			try {
-				parser.addFunction(key, custom.get(key));
-			} catch (final java.lang.NoSuchMethodError e) {
-				JCalculatedExpression.logger.error(e.getMessage(), e);
-			}
-		}
 
 		for (int i = 0; i < columns.size(); i++) {
 			parser.addVariable(columns.get(i).toString(), 0.0);
