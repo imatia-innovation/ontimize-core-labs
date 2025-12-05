@@ -18,7 +18,9 @@ import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.Rectangle;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -379,7 +381,7 @@ public class MainApplication extends JFrame implements Application {
 	protected String packageName = null;
 
 	// Used to minimize the application in the tray when the java version is 1.6
-	protected Object trayIcon;
+	protected TrayIcon	trayIcon;
 
 	protected String name = null;
 
@@ -2010,8 +2012,7 @@ public class MainApplication extends JFrame implements Application {
 
 	public static void systemExit() {
 		try {
-			final Method exitMethod = System.class.getMethod("exit", new Class[] { int.class });
-			exitMethod.invoke(null, new Object[] { 0 });
+			System.exit(0);
 		} catch (final Exception e) {
 			MainApplication.logger.error("", e);
 		}
@@ -3832,54 +3833,40 @@ public class MainApplication extends JFrame implements Application {
 	 */
 	public boolean sendToTray() {
 		try {
-			final Class systemTrayClass = Class.forName("java.awt.SystemTray");
-			if (systemTrayClass != null) {
-				final Method isSupportedMethod = systemTrayClass.getMethod("isSupported", new Class[0]);
-				final Object isSupportedResult = isSupportedMethod.invoke(systemTrayClass, new Object[0]);
-				if ((isSupportedResult != null) && (isSupportedResult instanceof Boolean)) {
-					if (this.trayIcon == null) {
-						this.buildTray();
-					}
+			if (!SystemTray.isSupported()) {
+				logger.warn("System tray is not supported");
+				return false;
+			}
 
-					final Method getSystemTrayMethod = systemTrayClass.getMethod("getSystemTray", new Class[0]);
-					final Object systemTrayObject = getSystemTrayMethod.invoke(systemTrayClass, new Object[0]);
-					final Class trayIconClass = this.trayIcon.getClass();
-					final Method addMethod = systemTrayObject.getClass().getMethod("add", new Class[] { trayIconClass });
-					addMethod.invoke(systemTrayObject, new Object[] { this.trayIcon });
-					this.getFrame().setVisible(false);
-					return true;
-				}
+			if (this.trayIcon == null) {
+				this.buildTray();
 			}
+
+			SystemTray.getSystemTray().add(this.trayIcon);
+			this.getFrame().setVisible(false);
+			return true;
 		} catch (final Exception ex) {
-			if (ApplicationManager.DEBUG) {
-				MainApplication.logger.debug(null, ex);
-			} else {
-				MainApplication.logger.trace(null, ex);
-			}
+			MainApplication.logger.error(null, ex);
 		}
 
 		return false;
 	}
 
 	protected void buildTray() {
-		String sTitle = "";
-		sTitle = this.getTitle();
-		String icon = "iconimatia.png";
-		final String iconStr = this.getIcon();
-		if (iconStr != null) {
-			icon = iconStr;
-		}
-
 		try {
-			final Class trayIconClass = Class.forName("java.awt.TrayIcon");
-			final Constructor trayIconConstructor = trayIconClass
-					.getConstructor(new Class[] { Image.class, String.class, PopupMenu.class });
-			this.trayIcon = trayIconConstructor.newInstance(new Object[] { ImageManager.getIcon(icon).getImage(),
-					sTitle, this.createTrayContextualMenu(sTitle) });
-			final Method setImageAutoSizeMethod = trayIconClass.getMethod("setImageAutoSize", new Class[] { boolean.class });
-			setImageAutoSizeMethod.invoke(this.trayIcon, new Object[] { Boolean.TRUE });
+			String sTitle = "";
+			sTitle = this.getTitle();
+			String icon = "iconimatia.png";
+			final String iconStr = this.getIcon();
+			if (iconStr != null) {
+				icon = iconStr;
+			}
 
-			final Object systemTrayListener = new ActionListener() {
+			this.trayIcon = new TrayIcon(ImageManager.getIcon(icon).getImage(),
+					sTitle, this.createTrayContextualMenu(sTitle));
+			this.trayIcon.setImageAutoSize(true);
+
+			final ActionListener systemTrayListener = new ActionListener() {
 
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -3892,12 +3879,9 @@ public class MainApplication extends JFrame implements Application {
 					}
 				}
 			};
-
-			final Method addActionListenerMethod = trayIconClass.getMethod("addActionListener",
-					new Class[] { ActionListener.class });
-			addActionListenerMethod.invoke(this.trayIcon, new Object[] { systemTrayListener });
-		} catch (final Exception e) {
-			MainApplication.logger.trace(null, e);
+			trayIcon.addActionListener(systemTrayListener);
+		} catch (final Exception err) {
+			MainApplication.logger.error(null, err);
 		}
 	}
 
@@ -3933,13 +3917,7 @@ public class MainApplication extends JFrame implements Application {
 	}
 
 	protected void removeIconFromSystemTray() throws Exception {
-		final Class systemTrayClass = Class.forName("java.awt.SystemTray");
-		final Method getSystemTrayMethod = systemTrayClass.getMethod("getSystemTray", new Class[0]);
-		final Object systemTrayObject = getSystemTrayMethod.invoke(systemTrayClass, new Object[0]);
-		final Class trayIconClass = this.trayIcon.getClass();
-		final Method addMethod = systemTrayObject.getClass().getMethod("remove", new Class[] { trayIconClass });
-		addMethod.invoke(systemTrayObject, new Object[] { this.trayIcon });
-
+		SystemTray.getSystemTray().remove(trayIcon);
 	}
 
 	/**
@@ -3950,11 +3928,7 @@ public class MainApplication extends JFrame implements Application {
 			try {
 				this.removeIconFromSystemTray();
 			} catch (final Exception ex) {
-				if (ApplicationManager.DEBUG) {
-					MainApplication.logger.debug(null, ex);
-				} else {
-					MainApplication.logger.trace(null, ex);
-				}
+				MainApplication.logger.error(null, ex);
 			}
 		}
 	}
