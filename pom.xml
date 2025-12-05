@@ -95,7 +95,6 @@
         <jnlp.version>1.2.2</jnlp.version>
         <jmf.version>2.1.1e</jmf.version>
         <poi.version>5.3.0</poi.version>
-        <systray4j.version>2.4.1</systray4j.version>
         <quartz.version>1.5.2</quartz.version>
         <junit.version>4.11</junit.version>
         <jcommon.version>1.0.15</jcommon.version>
@@ -472,13 +471,6 @@
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
-                <optional>true</optional>
-            </dependency>
-
-            <dependency>
-                <groupId>snoozesoft</groupId>
-                <artifactId>systray4j</artifactId>
-                <version>${systray4j.version}</version>
                 <optional>true</optional>
             </dependency>
 
