@@ -94,7 +94,6 @@
         <morena.version>6.4.0.12</morena.version>
         <morena7.version>7.1.27</morena7.version>
         <comm.version>2.0</comm.version>
-        <jnlp.version>1.2.2</jnlp.version>
         <jmf.version>2.1.1e</jmf.version>
         <poi.version>5.3.0</poi.version>
         <quartz.version>1.5.2</quartz.version>
@@ -459,13 +458,6 @@
                 <groupId>javax.comm</groupId>
                 <artifactId>comm</artifactId>
                 <version>${comm.version}</version>
-                <optional>true</optional>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.jnlp</groupId>
-                <artifactId>jnlp</artifactId>
-                <version>${jnlp.version}</version>
                 <optional>true</optional>
             </dependency>
 

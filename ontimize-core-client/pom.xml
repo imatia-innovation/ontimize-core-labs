@@ -139,12 +139,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.jnlp</groupId>
-			<artifactId>jnlp</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.media</groupId>
 			<artifactId>jmf</artifactId>
 			<optional>true</optional>
