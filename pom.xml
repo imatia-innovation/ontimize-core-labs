@@ -91,8 +91,6 @@
         <commons-text.version>1.10.0</commons-text.version>
         <jooreports.version>2.0.0</jooreports.version>
         <dynclass.version>0.0.1</dynclass.version>
-        <morena.version>6.4.0.12</morena.version>
-        <morena7.version>7.1.27</morena7.version>
         <comm.version>2.0</comm.version>
         <jnlp.version>1.2.2</jnlp.version>
         <jmf.version>2.1.1e</jmf.version>
@@ -438,20 +436,6 @@
                 <groupId>dynclass</groupId>
                 <artifactId>dynclass</artifactId>
                 <version>${dynclass.version}</version>
-                <optional>true</optional>
-            </dependency>
-
-            <dependency>
-                <groupId>morena</groupId>
-                <artifactId>morena</artifactId>
-                <version>${morena.version}</version>
-                <optional>true</optional>
-            </dependency>
-
-            <dependency>
-                <groupId>morena</groupId>
-                <artifactId>morena7</artifactId>
-                <version>${morena7.version}</version>
                 <optional>true</optional>
             </dependency>
 

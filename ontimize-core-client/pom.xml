@@ -127,18 +127,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>morena</groupId>
-			<artifactId>morena</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>morena</groupId>
-			<artifactId>morena7</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.jnlp</groupId>
 			<artifactId>jnlp</artifactId>
 			<optional>true</optional>
