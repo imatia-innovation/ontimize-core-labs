@@ -156,11 +156,5 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>snoozesoft</groupId>
-			<artifactId>systray4j</artifactId>
-			<optional>true</optional>
-		</dependency>
-
 	</dependencies>
 </project>
