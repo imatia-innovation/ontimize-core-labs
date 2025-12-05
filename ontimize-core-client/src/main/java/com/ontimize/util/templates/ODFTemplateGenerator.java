@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -341,59 +342,39 @@ public class ODFTemplateGenerator extends AbstractTemplateGenerator {
 		}
 	}
 
-	private List createTableList(final Map h) {
-		if (h == null) {
+	private List<Map<String, Object>> createTableList(final Map<String, List<?>> h) {
+		if ((h == null) || h.isEmpty()) {
 			return null;
 		}
 
-		final List l = new ArrayList();
-
-		final Set keys = h.keySet();
-		if (keys.isEmpty()) {
-			return l;
+		// Tomamos la primera columna para obtener el número de filas
+		final List<?> firstColumn = h.values().iterator().next();
+		if ((firstColumn == null) || !(firstColumn instanceof List)) {
+			return new ArrayList<>();
 		}
 
-		// Class to represent the bean. Use to avoid memory problems in the
-		// BeanCreator
-		final Class c = dynclass.BeanCreator.createClassForProperties(keys);
+		final int size = firstColumn.size();
+		final List<Map<String, Object>> result = new ArrayList<>(size);
 
-		final Object[] keysA = keys.toArray();
-		Object o = h.get(keysA[0]);
+		// Recorremos filas
+		for (int i = 0; i < size; i++) {
+			final Map<String, Object> row = new HashMap<>();
 
-		// o must be a vector
-		if ((o == null) || !(o instanceof List)) {
-			return l;
-		}
+			// Recorremos columnas
+			for (final Map.Entry<String, List<?>> entry : h.entrySet()) {
+				final String key = entry.getKey();
+				final List<?> column = entry.getValue();
 
-		final List v1 = (List) o;
-		final int size = v1.size();
-
-		for (int i = 0; i < size; i++) { // Row.
-			final Map row = new Hashtable(keysA.length);
-
-			for (int j = 0; j < keysA.length; j++) { // Column.
-				final Object cObj = keysA[j];
-				final Object rObj = h.get(cObj);
-
-				if ((rObj == null) || !(rObj instanceof List) || (((List) rObj).size() == 0)) {
-					continue;
+				if ((column != null) && (i < column.size())) {
+					final Object value = column.get(i);
+					row.put(key, value != null ? value : "");
 				}
-				final List v = (List) rObj;
-
-				o = v.get(i);
-				row.put(cObj, o == null ? new String() : o);
 			}
 
-			try {
-				final Object bean = dynclass.BeanCreator.createBean(c, row);
-				if (bean != null) {
-					l.add(bean);
-				}
-			} catch (final Exception e) {
-				ODFTemplateGenerator.logger.error(null, e);
-			}
+			result.add(row);
 		}
-		return l;
+
+		return result;
 	}
 
 	private byte[] createImageBytes(final Object o) throws Exception {
