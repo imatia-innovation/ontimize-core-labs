@@ -21,6 +21,7 @@ import com.ontimize.gui.table.TableSorter;
 import com.ontimize.jee.common.db.NullValue;
 import com.ontimize.jee.common.dto.EntityResult;
 import com.ontimize.jee.common.dto.EntityResultMapImpl;
+import com.ontimize.jee.common.tools.ImageTools;
 import com.ontimize.jee.common.util.remote.BytesBlock;
 import com.ontimize.util.swing.image.BooleanImage;
 
@@ -73,7 +74,7 @@ public class EntityResultUtils extends com.ontimize.jee.common.util.EntityResult
 							try {
 								final boolean bValue = ((Boolean) v).booleanValue();
 								final Image image = bValue ? EntityResultTableModel.check : EntityResultTableModel.uncheck;
-								final BufferedImage bImage = com.ontimize.util.twain.TwainUtilities.toBufferedImage(image);
+								final BufferedImage bImage = ImageTools.imageToBufferedImage(image);
 								final BooleanImage booleanImage = new BooleanImage(bValue, bImage);
 								vector.set(i, booleanImage);
 							} catch (final Exception ex) {
@@ -286,13 +287,13 @@ public class EntityResultUtils extends com.ontimize.jee.common.util.EntityResult
 		public void sort() {
 			this.compares = 0;
 			final long t = System.currentTimeMillis();
-			logger.debug("Sorting of an array of {} records from 0 up to {}", this.indexes.length,
+			EntityResultUtils.logger.debug("Sorting of an array of {} records from 0 up to {}", this.indexes.length,
 					this.indexes.length - 1);
 			this.shuttleSort(this.indexes.clone(), this.indexes, 0, this.totalRecord);
-			logger.debug(" Indexes result : {}", this.indexes);
+			EntityResultUtils.logger.debug(" Indexes result : {}", this.indexes);
 			this.relocatedRecords();
 			final long t2 = System.currentTimeMillis();
-			logger.trace(" Sorting time ShuttleSort : {} millisecs", t2 - t);
+			EntityResultUtils.logger.trace(" Sorting time ShuttleSort : {} millisecs", t2 - t);
 
 		}
 

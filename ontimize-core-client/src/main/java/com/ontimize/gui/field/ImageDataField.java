@@ -64,8 +64,6 @@ import com.ontimize.util.ObjectTools;
 import com.ontimize.util.ParseUtils;
 import com.ontimize.util.swing.transfer.ImageTransferHandler;
 import com.ontimize.util.templates.ITemplateField;
-import com.ontimize.util.twain.TwainManager;
-import com.ontimize.util.twain.TwainUtilities;
 
 /**
  * The main class to visualize a .gif, .jpeg or .png images.
@@ -101,12 +99,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 
 	/** The tip message over delete data field button. */
 	protected static String DELETE_DATA_FIELD_BUTTON_TIP = "datafield.reset_field";
-
-	/** The tip message over scan button. */
-	protected static String TWAIN_SCAN_BUTTON_TIP = "datafield.scan_twain";
-
-	/** The tip message over preview button. */
-	protected static String TWAIN_PREVIEW_BUTTON_TIP = "datafield.twain_preview";
 
 	/** The tip message over paste from clipboard button. */
 	protected static String CLIPBOARD_PASTE_BUTTON_TIP = "datafield.paste_from_clipboard";
@@ -432,19 +424,9 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 	protected JButton deleteBt = new FieldButton();
 
 	/**
-	 * A reference for a twain button. By default, null.
-	 */
-	protected JButton twainBt = null;
-
-	/**
 	 * An instance of a paste button.
 	 */
 	protected JButton pasteBt = new FieldButton();
-
-	/**
-	 * A reference for a preview twain button. By default, null.
-	 */
-	protected JButton previewTwainBt = null;
 
 	/**
 	 * The last path for file. By default, null.
@@ -541,18 +523,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 					new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0, GridBagConstraints.CENTER,
 							GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
-			if (TwainUtilities.isTwainEnabled()) {
-				this.twainBt = new FieldButton();
-				this.twainBt.setIcon(ImageManager.getIcon(ImageManager.SCANNER));
-				jpButtonsPanel.add(this.twainBt,
-						new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0, GridBagConstraints.CENTER,
-								GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				this.previewTwainBt = new FieldButton();
-				this.previewTwainBt.setIcon(ImageManager.getIcon(ImageManager.SCANNER_PREVIEW));
-				jpButtonsPanel.add(this.previewTwainBt,
-						new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0, GridBagConstraints.CENTER,
-								GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			}
 			final GridBagConstraints constraints = ((GridBagLayout) this.getLayout()).getConstraints(this.dataField);
 			constraints.gridx = 0;
 			constraints.gridy = GridBagConstraints.RELATIVE;
@@ -571,18 +541,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 			jpButtonsPanel.add(this.pasteBt,
 					new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 0, 0.01, GridBagConstraints.NORTH,
 							GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			if (TwainUtilities.isTwainEnabled()) {
-				this.twainBt = new FieldButton();
-				this.twainBt.setIcon(ImageManager.getIcon(ImageManager.SCANNER));
-				jpButtonsPanel.add(this.twainBt,
-						new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 0, 0.01, GridBagConstraints.NORTH,
-								GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				this.previewTwainBt = new FieldButton();
-				this.previewTwainBt.setIcon(ImageManager.getIcon(ImageManager.SCANNER_PREVIEW));
-				jpButtonsPanel.add(this.previewTwainBt,
-						new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 0, 0.01, GridBagConstraints.NORTH,
-								GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			}
 			this.add(jpButtonsPanel,
 					new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0.01, GridBagConstraints.NORTHWEST,
 							GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
@@ -718,85 +676,7 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 			}
 		});
 
-		if (this.twainBt != null) {
-			this.twainBt.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					ByteArrayOutputStream bOut = null;
-					try {
-						final Object oPreviousValue = ImageDataField.this.getValue();
-						if (TwainManager.getTwainSourceCount() > 1) {
-							TwainManager.selectTwainSource();
-						}
-						final java.awt.Image im = TwainManager.acquire();
-
-						bOut = new ByteArrayOutputStream();
-						FileUtils.saveJPEGImage(im, bOut);
-						bOut.flush();
-						ImageDataField.this.bytesImage = bOut.toByteArray();
-						ImageDataField.this.update();
-						ImageDataField.this.fireValueChanged(ImageDataField.this.getValue(), oPreviousValue,
-								ValueEvent.USER_CHANGE);
-					} catch (final Exception ex) {
-						ImageDataField.logger.error(null, ex);
-					} finally {
-						try {
-							if (bOut != null) {
-								bOut.close();
-							}
-						} catch (final Exception ex) {
-							ImageDataField.logger.trace(null, ex);
-						}
-					}
-				}
-			});
-
-			this.previewTwainBt.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					ByteArrayOutputStream bOut = null;
-					try {
-						ImageDataField.this.parentForm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						final Object oPreviousValue = ImageDataField.this.getValue();
-						if (TwainManager.getTwainSourceCount() > 1) {
-							TwainManager.selectTwainSource();
-						}
-						java.awt.Image im = null;
-						final boolean useGUIDevice = ImageDataField.this.parentForm
-								.question("datafield.would_you_like_use_twain_driver");
-						if (useGUIDevice) {
-							im = TwainManager.preview(true);
-						} else {
-							im = TwainManager.showPreviewDialog(ImageDataField.this);
-						}
-
-						bOut = new ByteArrayOutputStream();
-						FileUtils.saveJPEGImage(im, bOut);
-						bOut.flush();
-						ImageDataField.this.bytesImage = bOut.toByteArray();
-						ImageDataField.this.update();
-						ImageDataField.this.fireValueChanged(ImageDataField.this.getValue(), oPreviousValue,
-								ValueEvent.USER_CHANGE);
-					} catch (final Exception ex) {
-						ImageDataField.logger.error(null, ex);
-					} finally {
-						try {
-							if (bOut != null) {
-								bOut.close();
-							}
-						} catch (final Exception ex) {
-							ImageDataField.logger.trace(null, ex);
-						}
-						ImageDataField.this.parentForm.setCursor(Cursor.getDefaultCursor());
-					}
-				}
-			});
-		}
-
 		this.setButtonTips();
-
 	}
 
 	protected void importImage(final Image image) {
@@ -833,14 +713,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		if (this.pasteBt != null) {
 			this.pasteBt.setToolTipText(
 					ApplicationManager.getTranslation(ImageDataField.CLIPBOARD_PASTE_BUTTON_TIP, this.resources));
-		}
-		if (this.twainBt != null) {
-			this.twainBt.setToolTipText(
-					ApplicationManager.getTranslation(ImageDataField.TWAIN_SCAN_BUTTON_TIP, this.resources));
-		}
-		if (this.previewTwainBt != null) {
-			this.previewTwainBt.setToolTipText(
-					ApplicationManager.getTranslation(ImageDataField.TWAIN_PREVIEW_BUTTON_TIP, this.resources));
 		}
 	}
 
@@ -946,9 +818,9 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		}
 		final Object buttons = parameters.get("buttons");
 		if (buttons != null) {
-			if (buttons.equals("no")) {
+			if ("no".equals(buttons)) {
 				this.setVisibleButtons(false);
-			} else if (buttons.equals("right")) {
+			} else if ("right".equals(buttons)) {
 				this.locationButtons = ImageDataField.RIGHT;
 			}
 		}
@@ -1003,8 +875,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		this.changeButton(this.loadButton, borderbuttons, opaquebuttons, listenerHighlightButtons);
 		this.changeButton(this.deleteBt, borderbuttons, opaquebuttons, listenerHighlightButtons);
 		this.changeButton(this.pasteBt, borderbuttons, opaquebuttons, listenerHighlightButtons);
-		this.changeButton(this.twainBt, borderbuttons, opaquebuttons, listenerHighlightButtons);
-		this.changeButton(this.previewTwainBt, borderbuttons, opaquebuttons, listenerHighlightButtons);
 
 		this.keepAspectRatio = ParseUtils.getBoolean((String) parameters.get("keepaspectratio"), this.keepAspectRatio);
 		this.allowZoom = ParseUtils.getBoolean((String) parameters.get("allowzoom"), this.allowZoom);
@@ -1168,12 +1038,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		if (this.pasteBt != null) {
 			this.pasteBt.setEnabled(enabled);
 		}
-		if (this.twainBt != null) {
-			this.twainBt.setEnabled(enabled);
-		}
-		if (this.previewTwainBt != null) {
-			this.previewTwainBt.setEnabled(enabled);
-		}
 
 		super.setEnabled(enabled);
 		this.dataField.setEnabled(enabled);
@@ -1299,12 +1163,6 @@ public class ImageDataField extends DataField implements DataComponent, OpenDial
 		}
 		if (this.pasteBt != null) {
 			this.pasteBt.setVisible(visible);
-		}
-		if (this.twainBt != null) {
-			this.twainBt.setVisible(visible);
-		}
-		if (this.previewTwainBt != null) {
-			this.previewTwainBt.setVisible(visible);
 		}
 	}
 
