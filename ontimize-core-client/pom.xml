@@ -115,9 +115,8 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>net.sf</groupId>
-			<artifactId>jooreports</artifactId>
-			<optional>true</optional>
+			<groupId>net.sf.jodreports</groupId>
+			<artifactId>jodreports</artifactId>
 		</dependency>
 
 		<dependency>
