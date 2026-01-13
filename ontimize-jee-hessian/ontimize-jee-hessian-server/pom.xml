@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-jee-hessian</artifactId>
-		<version>6.1.0</version>
+		<version>6.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-jee-hessian-server</artifactId>
 	<dependencies>

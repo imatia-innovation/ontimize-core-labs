@@ -16,7 +16,6 @@ import com.ontimize.gui.Form;
 import com.ontimize.gui.ValueChangeListener;
 import com.ontimize.gui.ValueEvent;
 import com.ontimize.jee.common.gui.SearchValue;
-import com.ontimize.util.JEPUtils;
 import com.ontimize.util.math.MathExpressionParser;
 import com.ontimize.util.math.MathExpressionParserFactory;
 
@@ -115,15 +114,6 @@ public class CalculatedDataField extends RealDataField implements ValueChangeLis
 	 */
 	public CalculatedDataField(final Map parameters) {
 		super(parameters);
-		final Map<?, ?> custom = JEPUtils.getCustomFunctions();
-		for (final Entry<?, ?> entry : custom.entrySet()) {
-			final String key = (String) entry.getKey();
-			try {
-				this.parser.addFunction(key, entry.getValue());
-			} catch (final java.lang.NoSuchMethodError e) {
-				CalculatedDataField.logger.error(e.getMessage(), e);
-			}
-		}
 		this.dataField.setEnabled(false);
 		this.updateBackgroundColor(false);
 		this.parser.addStandardFunctions();

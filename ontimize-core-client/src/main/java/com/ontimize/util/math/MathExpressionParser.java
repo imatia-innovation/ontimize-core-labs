@@ -2,11 +2,7 @@ package com.ontimize.util.math;
 
 public interface MathExpressionParser {
 
-    public static final String JEP3x = "jep3x";
-
-    public static final String JEP = "jep";
-
-    public static final String MESP = "mesp";
+	public static final String	EXP4J	= "exp4j";
 
     public void addVariable(String var, double value);
 

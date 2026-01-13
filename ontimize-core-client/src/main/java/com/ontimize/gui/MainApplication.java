@@ -18,7 +18,9 @@ import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.Rectangle;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,9 +64,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -380,10 +380,8 @@ public class MainApplication extends JFrame implements Application {
 
 	protected String packageName = null;
 
-	protected Object toolBarIcon = null;
-
 	// Used to minimize the application in the tray when the java version is 1.6
-	protected Object trayIcon;
+	protected TrayIcon	trayIcon;
 
 	protected String name = null;
 
@@ -1037,7 +1035,7 @@ public class MainApplication extends JFrame implements Application {
 		}
 
 		final Object allowrememberpassword = params.get("allowrememberpassword");
-		if ((allowrememberpassword != null) && allowrememberpassword.equals("yes")) {
+		if ((allowrememberpassword != null) && "yes".equals(allowrememberpassword)) {
 			this.allowRememberPassword = true;
 		} else {
 			this.allowRememberPassword = false;
@@ -1055,8 +1053,8 @@ public class MainApplication extends JFrame implements Application {
 
 		Locale locale0 = Locale.getDefault();
 		this.configureApplicationProperties(params);
-		locale0 = setupLocaleParameter(params, locale0);
-		setupResourceParameter(params, locale0);
+		locale0 = this.setupLocaleParameter(params, locale0);
+		this.setupResourceParameter(params, locale0);
 
 
 		if (params.containsKey(MainApplication.LOGIN_DIALOG_CLASS)) {
@@ -1076,11 +1074,11 @@ public class MainApplication extends JFrame implements Application {
 					.getBoolean(params.get(IChangePasswordDialog.SECURITY_BUTTON).toString(), true);
 		}
 
-		setupPreferencesParameter(params);
+		this.setupPreferencesParameter(params);
 
-		setupHelpSetParameter(params);
+		this.setupHelpSetParameter(params);
 
-		setupNameParameter(params);
+		this.setupNameParameter(params);
 	}
 
 	protected void setupNameParameter(final Map params) {
@@ -1163,7 +1161,7 @@ public class MainApplication extends JFrame implements Application {
 	protected void createAndSetStatusBar(final Map params) {
 		boolean setStatusBar = true;
 		final Object status = params.get("status");
-		if ((status != null) && status.equals("no")) {
+		if ((status != null) && "no".equals(status)) {
 			setStatusBar = false;
 		}
 
@@ -1207,7 +1205,7 @@ public class MainApplication extends JFrame implements Application {
 		}
 		final Object encript = params.get("encrypt");
 		if (encript != null) {
-			if (encript.toString().equals("yes")) {
+			if ("yes".equals(encript.toString())) {
 				this.encrypt = true;
 			} else {
 				this.encrypt = false;
@@ -1216,7 +1214,7 @@ public class MainApplication extends JFrame implements Application {
 
 		final Object warnifoffline = params.get("warnifoffline");
 		if (warnifoffline != null) {
-			if (warnifoffline.toString().equals("no")) {
+			if ("no".equals(warnifoffline.toString())) {
 				this.informWhenOffline = false;
 			} else {
 				this.informWhenOffline = true;
@@ -1225,16 +1223,16 @@ public class MainApplication extends JFrame implements Application {
 
 		final Object showdnsoptions = params.get("showdnsoptions");
 		if (showdnsoptions != null) {
-			if (showdnsoptions.toString().equals("no")) {
+			if ("no".equals(showdnsoptions.toString())) {
 				this.showDNSOptions = false;
 			} else {
 				this.showDNSOptions = true;
 			}
 		}
 
-		configureIconApplicationProperty(params);
+		this.configureIconApplicationProperty(params);
 
-		configureSplashApplicationProperty(params);
+		this.configureSplashApplicationProperty(params);
 	}
 
 	protected void configureSplashApplicationProperty(final Map params) {
@@ -1242,7 +1240,7 @@ public class MainApplication extends JFrame implements Application {
 		if (splash != null) {
 			final StringTokenizer st = new StringTokenizer(splash.toString(), ";");
 			final int tokens = st.countTokens();
-			if (((tokens != 1) && (tokens != 2) && (tokens != 3)) || splash.equals("")) {
+			if (((tokens != 1) && (tokens != 2) && (tokens != 3)) || "".equals(splash)) {
 				MainApplication.logger.debug(this.getClass().toString() + " : Error in parameter 'splash'");
 			}
 			String sImageName = splash.toString();
@@ -1776,31 +1774,6 @@ public class MainApplication extends JFrame implements Application {
 		}
 	}
 
-	private void checkOffline() {
-		try {
-			if (com.ontimize.util.webstart.WebStartUtilities.isWebStartApplication()) {
-				if (com.ontimize.util.webstart.WebStartUtilities.isOffline()) {
-					String sMessage = MainApplication.M_SYSTEM_HAS_NOT_CONNECTION_NETWORK_es_ES;
-					try {
-						if (this.resources != null) {
-							sMessage = this.resources.getString(MainApplication.M_SYSTEM_HAS_NOT_CONNECTION_NETWORK);
-						}
-					} catch (final Exception e) {
-						if (ApplicationManager.DEBUG) {
-							MainApplication.logger.debug(null, e);
-						} else {
-							MainApplication.logger.trace(null, e);
-						}
-					}
-					MessageDialog.showErrorMessage(this, sMessage);
-				}
-			}
-		} catch (final Exception e) {
-			MainApplication.logger.trace(null, e);
-			// Nothing
-		}
-	}
-
 	/**
 	 * Creates the login dialog
 	 * @return the login dialog
@@ -1912,7 +1885,6 @@ public class MainApplication extends JFrame implements Application {
 
 					@Override
 					public void run() {
-						MainApplication.this.checkOffline();
 						MainApplication.this.loggedIn = MainApplication.this.dLogin.login();
 						if (MainApplication.this.loggedIn) {
 							MainApplication.this.currentPassword = MainApplication.this.dLogin.getPasswordValue();
@@ -2040,8 +2012,7 @@ public class MainApplication extends JFrame implements Application {
 
 	public static void systemExit() {
 		try {
-			final Method exitMethod = System.class.getMethod("exit", new Class[] { int.class });
-			exitMethod.invoke(null, new Object[] { 0 });
+			System.exit(0);
 		} catch (final Exception e) {
 			MainApplication.logger.error("", e);
 		}
@@ -2799,9 +2770,9 @@ public class MainApplication extends JFrame implements Application {
 								final String sUserDirInPrefs = this.preferences.getPreference(null,
 										MainApplication.APP_USER_DIR);
 								if ((sUserDirInPrefs != null) && (sUserDirInPrefs.length() > 0)) {
-									final String sUserDirInPrefEncrypt = encrypt(sUserDirInPrefs);
+									final String sUserDirInPrefEncrypt = MainApplication.encrypt(sUserDirInPrefs);
 									if (sUserDirectory.equalsIgnoreCase(sUserDirInPrefEncrypt)) {
-										this.lastPassword = encrypt(sLastPass);
+										this.lastPassword = MainApplication.encrypt(sLastPass);
 									} else {
 										this.lastPassword = null;
 									}
@@ -3479,7 +3450,7 @@ public class MainApplication extends JFrame implements Application {
 				constraints = pref;
 			}
 		}
-		if (constraints.equals(BorderLayout.NORTH) || constraints.equals(BorderLayout.SOUTH)) {
+		if (BorderLayout.NORTH.equals(constraints) || BorderLayout.SOUTH.equals(constraints)) {
 			this.toolBar.setOrientation(SwingConstants.HORIZONTAL);
 		} else {
 			this.toolBar.setOrientation(SwingConstants.VERTICAL);
@@ -3534,7 +3505,7 @@ public class MainApplication extends JFrame implements Application {
 
 					// RMIHTTPTunnelingSocketFactory.setStreamInfoWindowVisible(false);
 				} catch (final Exception nfe) {
-					logger.trace("{}", nfe.getMessage(), nfe);
+					MainApplication.logger.trace("{}", nfe.getMessage(), nfe);
 				}
 			} else {
 				ApplicationManager.setApplicationManagerWindowVisible(true);
@@ -3862,55 +3833,40 @@ public class MainApplication extends JFrame implements Application {
 	 */
 	public boolean sendToTray() {
 		try {
-			final Class systemTrayClass = Class.forName("java.awt.SystemTray");
-			if (systemTrayClass != null) {
-				final Method isSupportedMethod = systemTrayClass.getMethod("isSupported", new Class[0]);
-				final Object isSupportedResult = isSupportedMethod.invoke(systemTrayClass, new Object[0]);
-				if ((isSupportedResult != null) && (isSupportedResult instanceof Boolean)) {
-					if (this.trayIcon == null) {
-						this.buildTray();
-					}
+			if (!SystemTray.isSupported()) {
+				logger.warn("System tray is not supported");
+				return false;
+			}
 
-					final Method getSystemTrayMethod = systemTrayClass.getMethod("getSystemTray", new Class[0]);
-					final Object systemTrayObject = getSystemTrayMethod.invoke(systemTrayClass, new Object[0]);
-					final Class trayIconClass = this.trayIcon.getClass();
-					final Method addMethod = systemTrayObject.getClass().getMethod("add", new Class[] { trayIconClass });
-					addMethod.invoke(systemTrayObject, new Object[] { this.trayIcon });
-					this.getFrame().setVisible(false);
-					return true;
-				}
+			if (this.trayIcon == null) {
+				this.buildTray();
 			}
+
+			SystemTray.getSystemTray().add(this.trayIcon);
+			this.getFrame().setVisible(false);
+			return true;
 		} catch (final Exception ex) {
-			if (ApplicationManager.DEBUG) {
-				MainApplication.logger.debug(null, ex);
-			} else {
-				MainApplication.logger.trace(null, ex);
-			}
-			return this.sendToTrayUsingSysTrayLibrary();
+			MainApplication.logger.error(null, ex);
 		}
 
 		return false;
 	}
 
 	protected void buildTray() {
-		String sTitle = "";
-		sTitle = this.getTitle();
-		String icon = "iconimatia.png";
-		final String iconStr = this.getIcon();
-		if (iconStr != null) {
-			icon = iconStr;
-		}
-
 		try {
-			final Class trayIconClass = Class.forName("java.awt.TrayIcon");
-			final Constructor trayIconConstructor = trayIconClass
-					.getConstructor(new Class[] { Image.class, String.class, PopupMenu.class });
-			this.trayIcon = trayIconConstructor.newInstance(new Object[] { ImageManager.getIcon(icon).getImage(),
-					sTitle, this.createTrayContextualMenu(sTitle) });
-			final Method setImageAutoSizeMethod = trayIconClass.getMethod("setImageAutoSize", new Class[] { boolean.class });
-			setImageAutoSizeMethod.invoke(this.trayIcon, new Object[] { Boolean.TRUE });
+			String sTitle = "";
+			sTitle = this.getTitle();
+			String icon = "iconimatia.png";
+			final String iconStr = this.getIcon();
+			if (iconStr != null) {
+				icon = iconStr;
+			}
 
-			final Object systemTrayListener = new ActionListener() {
+			this.trayIcon = new TrayIcon(ImageManager.getIcon(icon).getImage(),
+					sTitle, this.createTrayContextualMenu(sTitle));
+			this.trayIcon.setImageAutoSize(true);
+
+			final ActionListener systemTrayListener = new ActionListener() {
 
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -3923,12 +3879,9 @@ public class MainApplication extends JFrame implements Application {
 					}
 				}
 			};
-
-			final Method addActionListenerMethod = trayIconClass.getMethod("addActionListener",
-					new Class[] { ActionListener.class });
-			addActionListenerMethod.invoke(this.trayIcon, new Object[] { systemTrayListener });
-		} catch (final Exception e) {
-			MainApplication.logger.trace(null, e);
+			trayIcon.addActionListener(systemTrayListener);
+		} catch (final Exception err) {
+			MainApplication.logger.error(null, err);
 		}
 	}
 
@@ -3964,118 +3917,18 @@ public class MainApplication extends JFrame implements Application {
 	}
 
 	protected void removeIconFromSystemTray() throws Exception {
-		final Class systemTrayClass = Class.forName("java.awt.SystemTray");
-		final Method getSystemTrayMethod = systemTrayClass.getMethod("getSystemTray", new Class[0]);
-		final Object systemTrayObject = getSystemTrayMethod.invoke(systemTrayClass, new Object[0]);
-		final Class trayIconClass = this.trayIcon.getClass();
-		final Method addMethod = systemTrayObject.getClass().getMethod("remove", new Class[] { trayIconClass });
-		addMethod.invoke(systemTrayObject, new Object[] { this.trayIcon });
-
-	}
-
-	protected boolean sendToTrayUsingSysTrayLibrary() {
-		try {
-			if (this.toolBarIcon != null) {
-				com.ontimize.windows.systray.SystrayUtils.show(this.toolBarIcon);
-				this.getFrame().setVisible(false);
-			} else {
-				String sTitle = "";
-				sTitle = this.getTitle();
-
-				final JMenu menu = new JMenu(sTitle);
-				final JMenuItem m = new JMenuItem(ApplicationManager.getTranslation("Exit", this.getResourceBundle()));
-				m.setActionCommand("Exit");
-				menu.add(m);
-				menu.addSeparator();
-				final JMenuItem m1 = new JMenuItem(ApplicationManager.getTranslation("mainapplication.show_application",
-						this.getResourceBundle()));
-				m1.setActionCommand("mainapplication.show_application");
-				menu.add(m1);
-				String icon = "iconimatia";
-
-				String iconStr = this.getIcon();
-				if (iconStr != null) {
-					final int pointIndex = iconStr.lastIndexOf(".");
-					if (pointIndex > 0) {
-						iconStr = iconStr.substring(0, pointIndex);
-					}
-					icon = iconStr;
-				}
-
-				final com.ontimize.windows.systray.SystrayUtils.SystrayListener l = new com.ontimize.windows.systray.SystrayUtils.SystrayListener() {
-
-					@Override
-					public void actionPerformed(final ActionEvent e) {
-						if (MainApplication.this.isLocked()) {
-							if (e.getActionCommand().equals("Exit")) {
-								MainApplication.this.dLock.exit.doClick();
-							} else if (e.getActionCommand().equals("mainapplication.show_application")) {
-								MainApplication.this.dLock.toFront();
-							}
-						} else {
-							if (e.getActionCommand().equals("Exit")) {
-								MainApplication.this.exit();
-							} else if (e.getActionCommand().equals("mainapplication.show_application")) {
-								MainApplication.this.showApplication();
-								MainApplication.this.toFront();
-							}
-						}
-					}
-
-					@Override
-					public void iconLeftDoubleClicked() {
-						if (MainApplication.this.isLocked()) {
-							MainApplication.this.dLock.toFront();
-						} else {
-							MainApplication.this.showApplication();
-							MainApplication.this.toFront();
-						}
-					}
-
-					@Override
-					public void iconLeftClicked() {
-					}
-				};
-				try {
-					this.toolBarIcon = com.ontimize.windows.systray.SystrayUtils.addSystemTrayIcon(icon, sTitle, menu,
-							l);
-				} catch (final Exception e) {
-					// If this happen it is probably because the application
-					// logo.ico does not exist.
-					icon = "iconimatia";
-					this.toolBarIcon = com.ontimize.windows.systray.SystrayUtils.addSystemTrayIcon(icon, sTitle, menu,
-							l);
-					MainApplication.logger.error(
-							"WARNING: " + icon + ".ico does not exist to minimize the application in the systray", e);
-				}
-				this.setVisible(false);
-			}
-			return true;
-		} catch (final Exception ex) {
-			if (ApplicationManager.DEBUG) {
-				MainApplication.logger.error(null, ex);
-			} else {
-				MainApplication.logger.trace(null, ex);
-			}
-			return false;
-		}
+		SystemTray.getSystemTray().remove(trayIcon);
 	}
 
 	/**
 	 * Removes the application short cut from the system tray (windows).
 	 */
 	protected void removeFromTray() {
-		if (this.toolBarIcon != null) {
-			com.ontimize.windows.systray.SystrayUtils.hide(this.toolBarIcon);
-		} else if (this.trayIcon != null) {
+		if (this.trayIcon != null) {
 			try {
 				this.removeIconFromSystemTray();
 			} catch (final Exception ex) {
-				if (ApplicationManager.DEBUG) {
-					MainApplication.logger.debug(null, ex);
-				} else {
-					MainApplication.logger.trace(null, ex);
-				}
+				MainApplication.logger.error(null, ex);
 			}
 		}
 	}

@@ -5233,9 +5233,8 @@ IRefreshable, InteractionManagerModeListener {
 
 			// Remove values that not belongs to the table attributes
 			final Map hData = ObjectTools.clone((Map) value);
-			final Enumeration enumKeys = Collections.enumeration(hData.keySet());
-			while (enumKeys.hasMoreElements()) {
-				final Object oKey = enumKeys.nextElement();
+			final List keys = new ArrayList<>(hData.keySet());
+			for (Object oKey : keys) {
 				if ((!this.attributes.contains(oKey)) && !oKey.equals(this.keyField)) {
 					hData.remove(oKey);
 				}
