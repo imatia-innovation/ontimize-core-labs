@@ -252,7 +252,7 @@ public final class OntimizeHessianHttpClientSessionProcessorFactory {
 
 	public static CloseableHttpClient getClient() {
 		if (httpClient == null) {
-			httpClient = createClient(-1);
+			httpClient = createClient(5000);
 		}
 		return httpClient;
 	}

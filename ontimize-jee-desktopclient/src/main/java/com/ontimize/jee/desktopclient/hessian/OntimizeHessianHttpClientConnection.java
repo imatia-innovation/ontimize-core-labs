@@ -214,6 +214,19 @@ public class OntimizeHessianHttpClientConnection extends AbstractHessianConnecti
 	 */
 	@Override
 	public void close() {
+		if (this.request != null) {
+			this.request.abort();
+		}
+		if (this.futureResponse != null) {
+			try {
+				final ClassicHttpResponse response = this.futureResponse.get();
+				if (response != null) {
+					response.close();
+				}
+			} catch (final Exception e) {
+				OntimizeHessianHttpClientConnection.logger.debug("Error closing response", e);
+			}
+		}
 	}
 
 }
