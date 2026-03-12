@@ -19,7 +19,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import com.caucho.hessian.client.HessianConnectionFactory;
-import com.caucho.hessian.client.HessianProxy;
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.caucho.hessian.io.AbstractHessianOutput;
 import com.caucho.hessian.io.HessianRemoteObject;

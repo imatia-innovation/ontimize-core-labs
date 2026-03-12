@@ -27,6 +27,7 @@
 
 package com.caucho.hessian.client;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -146,8 +147,21 @@ public class HessianProxy implements InvocationHandler, Serializable {
 
 			final Object value = in.readReply(method.getReturnType());
 			if (value instanceof InputStream) {
+				final HessianConnection fconn = conn;
+				final InputStream ris = new FilterInputStream((InputStream) value) {
+					@Override
+					public void close() throws IOException {
+						try {
+							super.close();
+						} catch (final Exception e) {
+							HessianProxy.logger.trace(null, e);
+						}
+						fconn.close();
+					}
+				};
 				is = null;
 				conn = null;
+				return ris;
 			}
 			return value;
 		} catch (final HessianProtocolException e) {
