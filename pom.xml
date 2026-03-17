@@ -180,81 +180,126 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-core-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-core-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-core-icons-lgpl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-desktopclient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-desktopclient-testtools</artifactId>
 				<scope>test</scope>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-hessian</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-hessian-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-hessian-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-hessian-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- Support to missing external library sam:sam-->
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-core-client-sam</artifactId>
 				<version>${project.version}</version>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-server-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-server-jdbc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ontimize.labs</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-webclient-addons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-dms-desktopclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-core-icon</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-server-hessian-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-websocket-desktopclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-websocket-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-websocket-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-cometd-desktopclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-cometd-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-callback-cometd-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

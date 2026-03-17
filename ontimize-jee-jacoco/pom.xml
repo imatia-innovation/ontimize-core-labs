@@ -18,67 +18,91 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-server-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-server-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-webclient-addons</artifactId>
         </dependency>		
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
-            <artifactId>ontimize-core-icon</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-core-icons-lgpl</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-core-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-core-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-core-client-sam</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
-            <artifactId>ontimize-jee-hessian</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-hessian-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-hessian-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-hessian-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-desktopclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-dms-desktopclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-server-hessian-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
-            <artifactId>ontimize-jee-callback-websocket</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-websocket-desktopclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
-            <artifactId>ontimize-jee-callback-cometd</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-websocket-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ontimize.labs</groupId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-websocket-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-cometd-desktopclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-cometd-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ontimize-jee-callback-cometd-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ontimize-jee-desktopclient-testtools</artifactId>
         </dependency>
     </dependencies>
