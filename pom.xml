@@ -23,7 +23,6 @@
 		<module>ontimize-jee-server</module>
 		<module>ontimize-jee-server-rest</module>
 		<module>ontimize-jee-server-jdbc</module>
-		<module>ontimize-jee-server-keycloak</module>
 		<module>ontimize-jee-webclient-addons</module>
 		<module>ontimize-jee-jacoco</module>
 	</modules>
