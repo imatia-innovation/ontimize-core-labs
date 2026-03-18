@@ -14,7 +14,7 @@
 		<module>ontimize-core-client-sam</module>
 		<module>ontimize-jee-hessian</module>
 		<module>ontimize-jee-desktopclient</module>
-		<module>ontimize-jee-dms-desktopclient</module>
+		<module>ontimize-jee-dms</module>
 		<module>ontimize-jee-server-hessian-api</module>
 		<module>ontimize-jee-callback-websocket</module>
 		<module>ontimize-jee-callback-cometd</module>
@@ -259,11 +259,6 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>ontimize-jee-dms-desktopclient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-core-icon</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -302,11 +297,28 @@
 				<artifactId>ontimize-jee-callback-cometd-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- Ontimize DMS -->
 			<dependency>
-				<groupId>com.ontimize.jee.dms</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>ontimize-jee-dms-common</artifactId>
-				<version>${ontimize-jee-dms.version}</version>
+				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-dms-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-dms-desktopclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ontimize-jee-dms-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
