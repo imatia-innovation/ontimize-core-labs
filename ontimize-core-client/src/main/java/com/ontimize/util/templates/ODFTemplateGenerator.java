@@ -1,18 +1,10 @@
 package com.ontimize.util.templates;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -20,14 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.jee.common.util.remote.BytesBlock;
 import com.ontimize.util.FileUtils;
 import com.ontimize.windows.office.WindowsUtils;
+
+import net.sf.jooreports.templates.DocumentTemplate;
+import net.sf.jooreports.templates.ZippedDocumentTemplate;
 
 /**
  * Create ODF (Open Document Format) templates (with or without data). This class uses JooReports
@@ -132,12 +124,12 @@ public class ODFTemplateGenerator extends AbstractTemplateGenerator {
 
 	@Override
 	public File fillDocument(final InputStream input, final String nameFile, Map fieldValues, Map valuesTable,
-			Map valuesImages, final Map valuesPivotTable)
+			final Map valuesImages, final Map valuesPivotTable)
 					throws Exception {
 
 		valuesTable = ODFParser.translateTableDotFields(valuesTable);
 		fieldValues = ODFParser.translateDotFields(fieldValues);
-		valuesImages = ODFParser.translateDotFields(valuesImages);
+		// valuesImages = ODFParser.translateDotFields(valuesImages); // Eliminado soporte imágenes
 
 		this.log("Fill ODF document ... " + nameFile);
 		final long init = System.currentTimeMillis();
@@ -149,112 +141,57 @@ public class ODFTemplateGenerator extends AbstractTemplateGenerator {
 
 		// Copy.
 		final String tmp = System.getProperty("java.io.tmpdir");
-		final File directory = (tmp != null) && (tmp.length() != 0) ? new File(tmp) : FileUtils.createTempDirectory(); // Create
-		// it.
+		final File directory = (tmp != null) && (tmp.length() != 0) ? new File(tmp) : FileUtils.createTempDirectory();
 		directory.deleteOnExit();
 		final File template = new File(directory, FileUtils.getFileName(nameFile));
 
-		final ODFFreeMarkerParser ofmp = new ODFFreeMarkerParser(input);
+		// Necesitamos dos InputStreams: uno para ODFParser y otro para ZippedDocumentTemplate
+		final byte[] templateBytes = input.readAllBytes();
 
-		final List templateFields = ofmp.queryTemplateFields();
-		final OpenOfficeTemplateFields ooTF = new OpenOfficeTemplateFields(templateFields);
-
-		fieldValues = ooTF.checkTemplateFieldValues(fieldValues);
-
-		final File templateOut = ofmp.parse(fieldValues, valuesTable, valuesImages, valuesPivotTable);
-		templateOut.deleteOnExit();
-
-		Map allTables = new Hashtable();
-		if (valuesTable != null) {
-			allTables.putAll(valuesTable);
+		// Extraer los campos del template usando ODFParser
+		final List fields = new ArrayList();
+		try (java.io.ByteArrayInputStream parserStream = new java.io.ByteArrayInputStream(templateBytes)) {
+			final ODFParser parser = new ODFParser(parserStream);
+			parser.queryTemplateFields();
 		}
-		if (valuesPivotTable != null) {
-			allTables.putAll(valuesPivotTable);
-		}
-		allTables = ooTF.checkTemplateTableValues(allTables);
+		final OpenOfficeTemplateFields ooFields = new OpenOfficeTemplateFields(fields);
 
-		if (templateOut == null) {
-			throw new Exception("TEMPLATE_NOT_FOUND" + ofmp);
-		}
-		// Fields.
-		final Map h = this.createDateHashtableParsed(fieldValues);
+		try (java.io.ByteArrayInputStream templateStream = new java.io.ByteArrayInputStream(templateBytes)) {
+			// Usar ZippedDocumentTemplate
+			final DocumentTemplate docTemplate = new ZippedDocumentTemplate(templateStream);
 
-		// Tables.
-		if ((allTables != null) && !allTables.isEmpty()) {
-
-			// For each table
-			final Enumeration e = Collections.enumeration(allTables.keySet());
-			final Collection v = allTables.values();
-			final Iterator i = v.iterator();
-
-			while (e.hasMoreElements()) {
-
-				Object o = e.nextElement();
-				if ((o == null) || !(o instanceof String)) {
-					i.next();
-					continue;
-				}
-
-				final String table = (String) o;
-				o = i.next();
-				if ((o == null) || !(o instanceof Map)) {
-					continue;
-				}
-
-				final Map t = (Map) o;
-				final Map p = this.createDateHashtableParsed(t); // p is a Copy
-				if (this.showTableTotals) {
-					this.generateTotalsHashtableRow(p);
-				}
-				final List l = this.createTableList(p);
-				if (l != null) {
-					h.put(table, l);
+			// Preparar los datos para el template
+			final Map<String, Object> data = new HashMap<>();
+			if (fieldValues != null) {
+				data.putAll(fieldValues);
+			}
+			Map allTables = new Hashtable();
+			if (valuesTable != null) {
+				allTables.putAll(valuesTable);
+			}
+			if (valuesPivotTable != null) {
+				allTables.putAll(valuesPivotTable);
+			}
+			allTables = ooFields.checkTemplateTableValues(allTables);
+			if ((allTables != null) && !allTables.isEmpty()) {
+				for (final Object key : allTables.keySet()) {
+					final Object table = allTables.get(key);
+					if (table instanceof Map) {
+						final List l = this.createTableList((Map) table);
+						data.put(key.toString(), l);
+					} else {
+						data.put(key.toString(), table);
+					}
 				}
 			}
+			// Eliminado: soporte a imágenes
+
+			final FileOutputStream fos = new FileOutputStream(template);
+			docTemplate.createDocument(data, fos);
+			fos.close();
 		}
-
-		// Images.
-		final net.sf.jooreports.templates.images.ByteArrayImageProvider imageProvider = new net.sf.jooreports.templates.images.ByteArrayImageProvider();
-		if ((valuesImages != null) && !valuesImages.isEmpty()) {
-
-			final Enumeration e = Collections.enumeration(valuesImages.keySet());
-			final Collection v = valuesImages.values();
-			final Iterator i = v.iterator();
-
-			while (e.hasMoreElements()) {
-
-				Object o = e.nextElement();
-				if ((o == null) || !(o instanceof String)) {
-					i.next();
-					continue;
-				}
-				final String image = (String) o;
-				o = i.next();
-				if (o == null) {
-					continue;
-				}
-
-				// ByteArrayOutputStream, File, Image, Ontimize BytesBlock
-				final byte[] data = this.createImageBytes(o);
-				if (data != null) {
-					imageProvider.setImage(image, data);
-				}
-			}
-		}
-
-		this.log("Sending data to JOOReports using template " + templateOut.getAbsolutePath());
-
-		net.sf.jooreports.templates.DocumentTemplate dt = null;
-		if (templateOut.isDirectory()) {
-			dt = new net.sf.jooreports.templates.UnzippedDocumentTemplate(templateOut);
-		} else {
-			dt = new net.sf.jooreports.templates.ZippedDocumentTemplate(templateOut);
-		}
-
-		dt.createDocument(h, new FileOutputStream(template), imageProvider);
 
 		if (this.showTemplate) {
-			// Open file
 			WindowsUtils.openFile_Script(template);
 		}
 
@@ -375,49 +312,6 @@ public class ODFTemplateGenerator extends AbstractTemplateGenerator {
 		}
 
 		return result;
-	}
-
-	private byte[] createImageBytes(final Object o) throws Exception {
-		byte[] data = null;
-
-		if (o == null) {
-			return data;
-		}
-
-		if (o instanceof ByteArrayOutputStream) {
-			data = ((ByteArrayOutputStream) o).toByteArray();
-		} else if (o instanceof File) {
-			final File f = (File) o;
-			if (f.exists() && f.isFile()) {
-				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ImageIO.write(ImageIO.read(f), ODFTemplateGenerator.DEFAULT_IMAGE_FORMAT, baos);
-				baos.flush();
-
-				data = baos.toByteArray();
-				baos.close();
-			}
-		} else if (o instanceof Image) {
-			final Image img = (Image) o;
-
-			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			if (img instanceof RenderedImage) {
-				ImageIO.write((RenderedImage) img, ODFTemplateGenerator.DEFAULT_IMAGE_FORMAT, baos);
-			} else {
-				final BufferedImage bim = new BufferedImage(img.getWidth(null), img.getHeight(null),
-						BufferedImage.TYPE_INT_RGB);
-				final Graphics g = bim.getGraphics();
-				g.drawImage(img, 0, 0, null);
-				bim.flush();
-				ImageIO.write(bim, ODFTemplateGenerator.DEFAULT_IMAGE_FORMAT, baos);
-			}
-			baos.flush();
-
-			data = baos.toByteArray();
-			baos.close();
-		} else if (o instanceof BytesBlock) {
-			data = ((BytesBlock) o).getBytes();
-		}
-		return data;
 	}
 
 	@Override

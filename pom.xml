@@ -89,7 +89,7 @@
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-text.version>1.10.0</commons-text.version>
-        <jooreports.version>2.0.0</jooreports.version>
+		<jodreports.version>2.4.0</jodreports.version>
         <morena.version>6.4.0.12</morena.version>
         <morena7.version>7.1.27</morena7.version>
         <comm.version>2.0</comm.version>
@@ -424,13 +424,22 @@
 			    <artifactId>httpclient5</artifactId>
 			    <version>${apache-httpcomponents.version}</version>
 			</dependency>
-
-            <dependency>
-                <groupId>net.sf</groupId>
-                <artifactId>jooreports</artifactId>
-                <version>${jooreports.version}</version>
-                <optional>true</optional>
-            </dependency>
+			<dependency>
+				<groupId>net.sf.jodreports</groupId>
+				<artifactId>jodreports</artifactId>
+				<optional>true</optional>
+				<version>${jodreports.version}</version>
+				<exclusions>
+	    			<exclusion>
+	    				<groupId>org.slf4j</groupId>
+	    				<artifactId>slf4j-api</artifactId>
+	    			</exclusion>
+	    			<exclusion>
+	    				<groupId>xom</groupId>
+	    				<artifactId>xom</artifactId>
+	    			</exclusion>
+	    		</exclusions>
+			</dependency>
 
             <dependency>
                 <groupId>morena</groupId>
