@@ -12,6 +12,8 @@
 		<module>ontimize-core-common</module>
 		<module>ontimize-core-client</module>
 		<module>ontimize-core-client-sam</module>
+		<module>ontimize-more-plaf</module>
+		<module>ontimize-more-plaf-styles</module>
 		<module>ontimize-jee-hessian</module>
 		<module>ontimize-jee-desktopclient</module>
 		<module>ontimize-jee-dms</module>
