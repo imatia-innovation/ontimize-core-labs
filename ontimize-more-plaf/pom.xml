@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ontimize.labs</groupId>
+		<artifactId>ontimize-core-parent</artifactId>
+		<version>7.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ontimize-more-plaf</artifactId>
+	<name>ontimize-more-plaf</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<source>11</source>
+					<target>11</target>
+					<compilerArgs>
+						<compilerArg>--add-exports</compilerArg>
+						<compilerArg>java.desktop/sun.swing=ALL-UNNAMED</compilerArg>
+						<compilerArg>--add-exports</compilerArg>
+						<compilerArg>java.desktop/sun.awt=ALL-UNNAMED</compilerArg>
+					</compilerArgs>
+					<compilerArguments>
+						<verbose />
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<failOnError>false</failOnError>
+							<doclint>none</doclint>
+							<source>8</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ontimize.labs</groupId>
+			<artifactId>ontimize-core-client</artifactId>
+		</dependency>
+	</dependencies>
+</project>

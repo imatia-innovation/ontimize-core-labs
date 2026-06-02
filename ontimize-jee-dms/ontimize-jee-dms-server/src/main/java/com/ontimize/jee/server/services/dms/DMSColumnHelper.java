@@ -30,12 +30,16 @@ public class DMSColumnHelper{
 
     private Map<String, String> columnsMapping;
 
-    private INameConvention nameConvention;
+    private final INameConvention nameConvention;
 
-    public DMSColumnHelper(INameConvention nameConvention) {
+    public DMSColumnHelper(final INameConvention nameConvention) {
         this.nameConvention = nameConvention;
         initColumnsMapping();
     }
+
+	public DMSColumnHelper() {
+		this(new NopNameConvention());
+	}
 
 
     protected void initColumnsMapping() {
@@ -94,19 +98,19 @@ public class DMSColumnHelper{
         return this.columnsMapping;
     }
 
-    public void setColumnsMapping(Map<String, String> columnsMapping) {
+    public void setColumnsMapping(final Map<String, String> columnsMapping) {
         this.columnsMapping = columnsMapping;
     }
 
-    public String getColumnEquivalence(String column) {
+    public String getColumnEquivalence(final String column) {
         return this.columnsMapping.containsKey(column) ? this.columnsMapping.get(column) : column;
     }
 
-    public String getColumnSource(String column) {
+    public String getColumnSource(final String column) {
         if (!this.columnsMapping.containsValue(column)) {
             return column;
         }
-        for (Entry<String, String> entry : this.columnsMapping.entrySet()) {
+        for (final Entry<String, String> entry : this.columnsMapping.entrySet()) {
             if (ObjectTools.safeIsEquals(entry.getValue(), column)) {
                 return entry.getKey();
             }
@@ -114,11 +118,11 @@ public class DMSColumnHelper{
         return column;
     }
 
-    public void addColumnMapping(String column, String daoColumn) {
+    public void addColumnMapping(final String column, final String daoColumn) {
         this.addColumnMapping(column, daoColumn, false);
     }
 
-    public void addColumnMapping(String column, String daoColumn, boolean ignoreIfExists) {
+    public void addColumnMapping(final String column, final String daoColumn, final boolean ignoreIfExists) {
         MapTools.safePut(this.columnsMapping, column, daoColumn, ignoreIfExists);
     }
 
@@ -308,21 +312,21 @@ public class DMSColumnHelper{
         return this.getColumnEquivalence(DMSNaming.RELATED_DOCUMENT_ID_DMS_DOCUMENT_CHILD);
     }
 
-    public List<?> translate(List<?> attributes) {
-        List<Object> newAttributes = new ArrayList<>();
+    public List<?> translate(final List<?> attributes) {
+        final List<Object> newAttributes = new ArrayList<>();
         if (attributes != null) {
-            for (Object key : attributes) {
+            for (final Object key : attributes) {
                 newAttributes.add(this.getColumnEquivalence((String) key));
             }
         }
         return newAttributes;
     }
 
-    public Map<?, ?> translate(Map<?, ?> criteria) {
-        Map<Object, Object> newCriteria = new HashMap<>();
+    public Map<?, ?> translate(final Map<?, ?> criteria) {
+        final Map<Object, Object> newCriteria = new HashMap<>();
         if (criteria != null) {
-            BasicExpression expr = (BasicExpression) criteria.get(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY);
-            for (Entry<String, String> entry : this.getColumnsMapping().entrySet()) {
+            final BasicExpression expr = (BasicExpression) criteria.get(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY);
+            for (final Entry<String, String> entry : this.getColumnsMapping().entrySet()) {
                 if (criteria.containsKey(entry.getKey())) {
                     newCriteria.put(entry.getValue(), criteria.get(entry.getKey()));
                 } else if (criteria.containsKey(entry.getValue())) {
@@ -337,14 +341,21 @@ public class DMSColumnHelper{
         return newCriteria;
     }
 
-    public EntityResult translateResult(EntityResult query) {
+    public EntityResult translateResult(final EntityResult query) {
         if (query != null) {
-            List<Object> keys = new ArrayList<>(query.keySet());
-            for (Object key : keys) {
+            final List<Object> keys = new ArrayList<>(query.keySet());
+            for (final Object key : keys) {
                 EntityResultTools.renameColumn(query, (String) key, this.getColumnSource((String) key));
             }
         }
         return query;
     }
+
+	private static class NopNameConvention implements INameConvention {
+		@Override
+		public String convertName(final String name) {
+			return name;
+		}
+	}
 
 }
