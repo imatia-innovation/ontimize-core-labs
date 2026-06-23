@@ -1,6 +1,5 @@
 package com.ontimize.jee.desktopclient.components.taskmanager;
 
-import java.awt.Component;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -13,11 +12,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import com.ontimize.gui.ApplicationManager;
-import com.ontimize.gui.Menu;
 import com.ontimize.gui.i18n.ExtendedPropertiesBundle;
 import com.ontimize.gui.i18n.LocaleEvent;
 import com.ontimize.gui.i18n.LocaleListener;
-import com.ontimize.gui.i18n.MenuLocale;
 import com.ontimize.gui.images.ImageManager;
 import com.ontimize.jee.common.tools.MessageType;
 import com.ontimize.jee.desktopclient.components.WindowTools;
@@ -74,8 +71,6 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
     /** The task table. */
     private TaskTable taskTable;
     
-    private boolean addedToMenuLocale = false;
-
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -98,48 +93,18 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
         this.taskTable.getModel().addTableModelListener(new TableModelListener() {
 
             @Override
-            public void tableChanged(TableModelEvent e) {
+            public void tableChanged(final TableModelEvent e) {
                 TaskManagerGUI.this.updateButtons();
             }
         });
         this.taskTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void valueChanged(final ListSelectionEvent e) {
                 TaskManagerGUI.this.updateButtons();
             }
         });
-        
-        //Gets the components of menu
-        this.addToMenuLocaleListener(ApplicationManager.getApplication().getMenu().getComponents());
     }
-
-    /**
-     * Recursively collect the menus until finds the MenuLocale.
-     * @param components the menu components
-     * 
-     */
-    
-    
-    public void addToMenuLocaleListener(Component[] components) {
-     	
-		for (Component c : components) {
-			if (c instanceof MenuLocale) {
-				((MenuLocale)c).addLocaleListener(this);
-				addedToMenuLocale = true;
-				break;
-			}
-			
-			if (c instanceof Menu) {
-				if (addedToMenuLocale) {
-					break;
-				}
-				this.addToMenuLocaleListener(((Menu)c).getMenuComponents());
-			}
-			
-		}
-		
-	}
 
 	/**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify
@@ -176,7 +141,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
         this.jbnHide.setEnabled(true);
         this.jbnHide.addActionListener(evt -> TaskManagerGUI.this.onHide(evt));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this.getContentPane());
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this.getContentPane());
         this.getContentPane().setLayout(layout);
         layout.setHorizontalGroup(//
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,8 +199,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * @param icon the icon
      * @return the j button
      */
-    protected JButton buildButton(String text, String tooltip, String icon) {
-        JButton btn = new javax.swing.JButton();
+    protected JButton buildButton(final String text, final String tooltip, final String icon) {
+        final JButton btn = new javax.swing.JButton();
         btn.setText(ApplicationManager.getTranslation(text).trim());
         btn.setToolTipText(ApplicationManager.getTranslation(tooltip));
         btn.setIcon(ImageManager.getIcon(icon));
@@ -247,8 +212,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On pause.
      * @param evt the evt
      */
-    protected void onPause(java.awt.event.ActionEvent evt) {
-        ITask task = this.getSelectedTask();
+    protected void onPause(final java.awt.event.ActionEvent evt) {
+        final ITask task = this.getSelectedTask();
         if (task == null) {
             return;
         }
@@ -264,8 +229,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On resume.
      * @param evt the evt
      */
-    protected void onResume(java.awt.event.ActionEvent evt) {
-        ITask task = this.getSelectedTask();
+    protected void onResume(final java.awt.event.ActionEvent evt) {
+        final ITask task = this.getSelectedTask();
         if (task == null) {
             return;
         }
@@ -277,8 +242,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On cancel.
      * @param evt the evt
      */
-    protected void onCancel(java.awt.event.ActionEvent evt) {
-        ITask task = this.getSelectedTask();
+    protected void onCancel(final java.awt.event.ActionEvent evt) {
+        final ITask task = this.getSelectedTask();
         if (task == null) {
             return;
         }
@@ -294,8 +259,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On clean.
      * @param evt the evt
      */
-    protected void onClean(java.awt.event.ActionEvent evt) {
-        ITask task = this.getSelectedTask();
+    protected void onClean(final java.awt.event.ActionEvent evt) {
+        final ITask task = this.getSelectedTask();
         if (!task.isFinished()) {
             Toast.showMessage(new ToastMessage("task.NOT_FINISHED", MessageType.INFORMATION, false));
             return;
@@ -308,7 +273,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On clean completed.
      * @param evt the evt
      */
-    protected void onCleanFinishedTasks(java.awt.event.ActionEvent evt) {
+    protected void onCleanFinishedTasks(final java.awt.event.ActionEvent evt) {
         this.taskTable.getTaskModel().cleanFinishedTasks();
         this.updateButtons();
     }
@@ -317,7 +282,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * On hide.
      * @param evt the evt
      */
-    protected void onHide(java.awt.event.ActionEvent evt) {
+    protected void onHide(final java.awt.event.ActionEvent evt) {
         this.setVisible(false);
     }
 
@@ -326,7 +291,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * @return the selected task
      */
     protected ITask getSelectedTask() {
-        int selectedRow = this.taskTable.getSelectedRow();
+        final int selectedRow = this.taskTable.getSelectedRow();
         if (selectedRow >= 0) {
             return this.taskTable.getTaskModel().getRow(selectedRow);
         }
@@ -337,13 +302,13 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * Update buttons' state.
      */
     protected void updateButtons() {
-        ITask task = this.getSelectedTask();
+        final ITask task = this.getSelectedTask();
         if (task == null) {
             // No download is selected in table.
             this.updateButtons(false, false, false, false);
             return;
         }
-        TaskStatus status = task.getStatus();
+        final TaskStatus status = task.getStatus();
         switch (status) {
             case RUNNING:
                 this.updateButtons(true, false, true, false);
@@ -367,7 +332,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
         }
     }
 
-    private void updateButtons(boolean pause, boolean resume, boolean cancel, boolean clean) {
+    private void updateButtons(final boolean pause, final boolean resume, final boolean cancel, final boolean clean) {
         this.jbnPause.setEnabled(pause);
         this.jbnResume.setEnabled(resume);
         this.jbnCancel.setEnabled(cancel);
@@ -378,7 +343,7 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      * Adds the task.
      * @param task the task
      */
-    public void addTask(ITask task) {
+    public void addTask(final ITask task) {
         if (task == null) {
             return;
         }
@@ -391,8 +356,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      */
     public void showWindow() {
         if (!this.isVisible()) {
-            Rectangle screenBounds = WindowTools.getScreenBounds(WindowTools.getActiveWindow());
-            Dimension size = TaskManagerGUI.getInstance().getSize();
+            final Rectangle screenBounds = WindowTools.getScreenBounds(WindowTools.getActiveWindow());
+            final Dimension size = TaskManagerGUI.getInstance().getSize();
             TaskManagerGUI.getInstance()
                 .setLocation((screenBounds.x + screenBounds.width) - size.width,
                         (screenBounds.height - size.height) + screenBounds.y);
@@ -415,8 +380,8 @@ public class TaskManagerGUI extends javax.swing.JFrame implements LocaleListener
      */
     
 	@Override
-	public void localeChange(LocaleEvent e) {
-		ResourceBundle extendedBundle = ExtendedPropertiesBundle.getExtendedBundle(e.getResourceBundle(), e.getLocale());
+	public void localeChange(final LocaleEvent e) {
+		final ResourceBundle extendedBundle = ExtendedPropertiesBundle.getExtendedBundle(e.getResourceBundle(), e.getLocale());
 		this.setTitle(extendedBundle.getString("task.DOWNLOAD_MANAGER_TITLE"));
 		this.jbnCancel.setText(extendedBundle.getString("task.CANCEL"));
 		this.jbnHide.setText(extendedBundle.getString("task.HIDE"));
