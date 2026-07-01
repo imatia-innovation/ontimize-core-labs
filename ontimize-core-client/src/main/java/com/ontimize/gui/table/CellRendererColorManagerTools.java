@@ -23,7 +23,7 @@ public class CellRendererColorManagerTools {
 		try {
 			return table.convertColumnIndexToView(table.getColumn(columnName).getModelIndex());
 		} catch (final Exception ex) {
-			CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND", ex);
+			CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND__{}", columnName, ex);
 			return -1;
 		}
 	}
