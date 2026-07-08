@@ -1,7 +1,6 @@
 package com.ontimize.jee.desktopclient.dms.transfermanager.ui;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,14 +14,16 @@ import com.ontimize.jee.desktopclient.dms.transfermanager.DmsTransfererManagerFa
 import com.ontimize.jee.desktopclient.dms.transfermanager.events.ITransferQueueListener;
 import com.ontimize.jee.desktopclient.dms.transfermanager.events.TransferQueueChangedEvent;
 import com.ontimize.jee.desktopclient.dms.util.AnimateIconButton;
+import com.utilmize.client.gui.buttons.AbstractActionListenerButton;
+import com.utilmize.client.gui.buttons.UButton;
 
-public class ShowTaskManagerActionListener implements ITransferQueueListener, ActionListener {
+public class ShowTaskManagerActionListener extends AbstractActionListenerButton implements ITransferQueueListener {
 
 	private static final Logger		logger							= LoggerFactory.getLogger(ShowTaskManagerActionListener.class);
-	
+
 	protected static final String	ICO_DOWNLOAD_MANAGER_DEFAULT	= "ontimize-dms-images/download_manager_22x22.png";
 	protected static final String	GIF_DOWNLOAD_MANAGER_PROGRESS	= "ontimize-dms-images/roller_22x22.gif";
-	
+
 	/** Parameter to limit button enable when interaction manager is in INSERT_MODE. By default false. */
 	public static final String	PARAM_ENABLE_FIM_INSERT			= "enable.insert";
 	/** Parameter to limit button enable when interaction manager is in QUERY_MODE. By default false. */
@@ -31,9 +32,9 @@ public class ShowTaskManagerActionListener implements ITransferQueueListener, Ac
 	public static final String	PARAM_ENABLE_FIM_QUERY_INSERT	= "enable.queryinsert";
 	/** Parameter to limit button enable when interaction manager is in UPDATE_MODE. By default false. */
 	public static final String	PARAM_ENABLE_FIM_UPDATE			= "enable.update";
-	
+
 	protected Button button;
-	
+
 	/** Limit button enable when interaction manager is in INSERT_MODE */
 	protected boolean			isInsertModeValidToEnable;
 	/** Limit button enable when interaction manager is in QUERY_MODE */
@@ -43,7 +44,12 @@ public class ShowTaskManagerActionListener implements ITransferQueueListener, Ac
 	/** Limit button enable when interaction manager is in UPDATE_MODE */
 	protected boolean			isUpdateModeValidToEnable;
 
-	protected void init(Map<?, ?> params) throws Exception {
+	public ShowTaskManagerActionListener(final UButton button, final Map params) throws Exception {
+		super(button, params);
+	}
+
+	@Override
+	protected void init(final Map<?, ?> params) throws Exception {
 		this.isInsertModeValidToEnable = ParseUtilsExtended.getBoolean((String) params.get(ShowTaskManagerActionListener.PARAM_ENABLE_FIM_INSERT), true);
 		this.isQueryModeValidToEnable = ParseUtilsExtended.getBoolean((String) params.get(ShowTaskManagerActionListener.PARAM_ENABLE_FIM_QUERY), true);
 		this.isQueryInsertModeValidToEnable = ParseUtilsExtended.getBoolean((String) params.get(ShowTaskManagerActionListener.PARAM_ENABLE_FIM_QUERY_INSERT), true);
@@ -52,13 +58,13 @@ public class ShowTaskManagerActionListener implements ITransferQueueListener, Ac
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		try {
 			if (e.getSource() instanceof Button) {
 				this.button = (Button) e.getSource();
 			}
 			this.toggleDialog();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			MessageManager.getMessageManager().showExceptionMessage(ex, ShowTaskManagerActionListener.logger);
 		}
 	}
@@ -68,7 +74,7 @@ public class ShowTaskManagerActionListener implements ITransferQueueListener, Ac
 	}
 
 	@Override
-	public void onTransferQueueChanged(TransferQueueChangedEvent transferEvent) {
+	public void onTransferQueueChanged(final TransferQueueChangedEvent transferEvent) {
 		if (transferEvent.hasPendingTransfers()) {
 			AnimateIconButton.animateGIF(this.button, ShowTaskManagerActionListener.GIF_DOWNLOAD_MANAGER_PROGRESS);
 		} else {

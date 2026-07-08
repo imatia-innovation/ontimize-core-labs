@@ -10,19 +10,21 @@ import javax.swing.SwingWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.gui.table.Table;
 import com.ontimize.jee.common.naming.DMSNaming;
 import com.ontimize.jee.desktopclient.components.messaging.MessageManager;
 import com.ontimize.jee.desktopclient.dms.transfermanager.DmsTransfererManagerFactory;
+import com.utilmize.client.gui.field.table.IDetailFormOpener;
+import com.utilmize.client.gui.field.table.UTable;
 
-public class DocumentationTableDetailFormOpener {
+public class DocumentationTableDetailFormOpener implements IDetailFormOpener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentationTableDetailFormOpener.class);
 
 	public DocumentationTableDetailFormOpener(final Map<String, Object> av) {
 	}
 
-	public boolean openDetailForm(final Table table, final int row) {
+	@Override
+	public boolean openDetailForm(final UTable table, final int row) {
 		new SwingWorker<Path, Void>() {
 
 			@Override
@@ -47,7 +49,8 @@ public class DocumentationTableDetailFormOpener {
 		return true;
 	}
 
-	public boolean openInsertForm(final Table table) {
+	@Override
+	public boolean openInsertForm(final UTable table) {
 		return false;
 	}
 }

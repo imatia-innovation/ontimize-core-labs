@@ -9,6 +9,16 @@
 	
 	<artifactId>ontimize-jee-dms-desktopclient</artifactId>
 
+
+	<properties>
+		<utilmize.version>5.0.0-SNAPSHOT</utilmize.version>
+		
+		<!--scanner support-->
+		<twain.version>1.0</twain.version> 
+		<lti-civil.version>20130308-custom</lti-civil.version>
+		<dropbox.version>1.7.7</dropbox.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -20,11 +30,53 @@
 			<artifactId>ontimize-jee-dms-common</artifactId>
 		</dependency>
 		
+		<!--Utilmize client - support to UI components  - must ensure sub-dependencies in project -->
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilmize-client</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilmize-common</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- TODO separate each implementation (fileSystem, scanner, cloud-gdrive, cloud-dropbox, ...) in separated modules, each one with its dependencies -->
+		<!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
+		
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilcapturer</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Scanner - TWAIN -->
+		<dependency>
+			<groupId>uk.co.mmscomputing.device</groupId>
+			<artifactId>twain</artifactId>
+			<version>${twain.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Scanner ¿Morena? -->
+		
+		<!-- lti-civil -->
+		<dependency>
+			<groupId>com.lti.civil</groupId>
+			<artifactId>lti-civil</artifactId>
+			<version>${lti-civil.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- Google Drive API -->
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
 			<version>1.35.2</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -36,32 +88,39 @@
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client-gson</artifactId>
 			<version>1.35.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client-jackson2</artifactId>
 			<version>1.35.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 		    <groupId>com.google.http-client</groupId>
 		    <artifactId>google-http-client-jackson2</artifactId>
 		    <version>1.47.1</version>
+		    <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-drive</artifactId>
 			<version>v2-rev135-1.18.0-rc</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-oauth2</artifactId>
 			<version>v2-rev74-1.18.0-rc</version>
+			<scope>provided</scope>
 		</dependency>
+		
 		<!-- dropbox api -->
 		<dependency>
 			<groupId>com.dropbox.core</groupId>
 			<artifactId>dropbox-core-sdk</artifactId>
-			<version>1.7.7</version>
+			<version>${dropbox.version}</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>com.fasterxml.jackson.core</groupId>
