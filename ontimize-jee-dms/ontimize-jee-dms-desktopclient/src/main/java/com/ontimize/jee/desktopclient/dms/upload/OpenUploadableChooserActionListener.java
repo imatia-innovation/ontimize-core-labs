@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -69,7 +68,7 @@ public class OpenUploadableChooserActionListener extends AbstractActionListenerB
 		super(button, formComponent, params);
 	}
 
-	public OpenUploadableChooserActionListener(final UButton button, final Hashtable params) throws Exception {
+	public OpenUploadableChooserActionListener(final UButton button, final Map params) throws Exception {
 		super(button, params);
 	}
 
