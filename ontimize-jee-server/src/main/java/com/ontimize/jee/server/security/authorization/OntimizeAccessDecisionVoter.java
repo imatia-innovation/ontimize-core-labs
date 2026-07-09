@@ -95,16 +95,20 @@ public class OntimizeAccessDecisionVoter implements AccessDecisionVoter<Object>,
             if ((findAnnotation == null) || containsCustomRole) {
                 final String methodName = rmi.getMethod().getName();
                 String property = "";
-                for (Class<?> i : apiClass.getInterfaces()) {
-                
-                	for ( Method method : i.getMethods()) {
-                		if (methodName.equals(method.getName())) {
-                			property = i.getCanonicalName() + "/" + methodName;
-                			break;
-                		}
+
+                if (apiClass.isInterface()) {
+                    property = apiClass.getCanonicalName() + "/" + methodName;
+                } else {
+                	for (Class<?> i : apiClass.getInterfaces()) {
+                	    for (Method method : i.getMethods()) {
+                	        if (methodName.equals(method.getName())) {
+                	            property = i.getCanonicalName() + "/" + methodName;
+                	            break;
+                	        }
+                	    }
                 	}
-                	
                 }
+
                 final List<String> roles = new ArrayList<>();
                 for (final GrantedAuthority ga : authentication.getAuthorities()) {
                     roles.add(ga.getAuthority());
