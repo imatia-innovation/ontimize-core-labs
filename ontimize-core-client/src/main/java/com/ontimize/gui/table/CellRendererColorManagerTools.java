@@ -1,6 +1,7 @@
 package com.ontimize.gui.table;
 
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,21 @@ public class CellRendererColorManagerTools {
 	 * @return
 	 */
 	public static int getColumnIndex(final JTable table, final String columnName) {
+		return CellRendererColorManagerTools.getColumnIndex(table, columnName, false);
+	}
+
+	public static int getColumnIndex(final JTable table, final String columnName, final boolean silent) {
 		try {
-			return table.convertColumnIndexToView(table.getColumn(columnName).getModelIndex());
+			final TableColumn column = table.getColumn(columnName);
+			if ((column == null) && !silent) {
+				CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND__{}", columnName);
+				return -1;
+			}
+			return table.convertColumnIndexToView(column.getModelIndex());
 		} catch (final Exception ex) {
-			CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND__{}", columnName, ex);
+			if (!silent) {
+				CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND__{}", columnName, ex);
+			}
 			return -1;
 		}
 	}
@@ -38,9 +50,15 @@ public class CellRendererColorManagerTools {
 	 * @return
 	 */
 	public static Object getValueAt(final JTable table, final int row, final String columnName) {
-		final int columnIndex = CellRendererColorManagerTools.getColumnIndex(table, columnName);
+		return CellRendererColorManagerTools.getValueAt(table, row, columnName, false);
+	}
+
+	public static Object getValueAt(final JTable table, final int row, final String columnName, final boolean silent) {
+		final int columnIndex = CellRendererColorManagerTools.getColumnIndex(table, columnName, silent);
 		if (columnIndex < 0) {
-			CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND_TO_RESCUE_VALUE", columnName);
+			if (!silent) {
+				CellRendererColorManagerTools.logger.warn("W_COLUMN_NOT_FOUND_TO_RESCUE_VALUE", columnName);
+			}
 			return null;
 		}
 		return table.getValueAt(row, columnIndex);
