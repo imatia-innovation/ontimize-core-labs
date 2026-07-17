@@ -41,10 +41,6 @@
 			<artifactId>javax.websocket-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.cometd.java</groupId>
-			<artifactId>cometd-java-annotations</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>

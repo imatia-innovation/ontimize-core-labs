@@ -149,6 +149,11 @@
 			<artifactId>poi-ooxml</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+		</dependency>
 
 	</dependencies>
 </project>

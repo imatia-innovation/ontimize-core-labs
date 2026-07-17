@@ -1,9 +1,16 @@
 package com.ontimize.jee.webclient.export.base;
 
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfPage;
-import com.itextpdf.layout.Document;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.lowagie.text.Document;
 import com.ontimize.jee.webclient.export.ExportColumn;
 import com.ontimize.jee.webclient.export.HeadExportColumn;
 import com.ontimize.jee.webclient.export.exception.ExportException;
@@ -16,15 +23,6 @@ import com.ontimize.jee.webclient.export.support.BaseExportColumnProvider;
 import com.ontimize.jee.webclient.export.support.exporter.DefaultPdfExporter;
 import com.ontimize.jee.webclient.export.support.styleprovider.DefaultPdfExportStyleProvider;
 import com.ontimize.jee.webclient.export.util.ExportOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Servicio de exportación en formato CSV.
@@ -55,15 +53,15 @@ public class PdfExportService extends BaseExportService {
             if (!(exportParam instanceof AdvancedExportQueryParameters)) {
                 throw new IllegalArgumentException();
             }
-            AdvancedExportQueryParameters advExportParam = (AdvancedExportQueryParameters) exportParam;
+            final AdvancedExportQueryParameters advExportParam = (AdvancedExportQueryParameters) exportParam;
             pdfFile = createTempFile(".pdf");
             generatePdf(advExportParam, pdfFile);
         } catch (final ExportException e) {
             throw e;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.error("{}", e.getMessage(), e);
             throw new ExportException("Error creating PDF file!", e);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             throw new ExportException("Invalid export configuration parameters", e);
         }
         return pdfFile;
@@ -75,21 +73,21 @@ public class PdfExportService extends BaseExportService {
      * @param exportParam The export configuration parameters
      * @param pdfFile     The tempfile
      */
-    public void generatePdf(final AdvancedExportQueryParameters exportParam, File pdfFile) throws ExportException {
+    public void generatePdf(final AdvancedExportQueryParameters exportParam, final File pdfFile) throws ExportException {
         try {
             // ColumnProvider
-            ExportColumnProvider columnProvider = getColumnProvider();
+            final ExportColumnProvider columnProvider = getColumnProvider();
 
             // DataProvider
-            ExportDataProvider dataProvider = getDataProvider();
+            final ExportDataProvider dataProvider = getDataProvider();
 
             // StyleProvider
-            ExportStyleProvider styleProvider = getStyleProvider();
+            final ExportStyleProvider styleProvider = getStyleProvider();
 
             // ExportOptions
-            ExportOptions exportOptions = this.createExportOptions(exportParam, new ArrayList<>() /*orderColumns*/);
+            final ExportOptions exportOptions = this.createExportOptions(exportParam, new ArrayList<>() /*orderColumns*/);
 
-            Boolean landscape = exportParam.getLandscape();
+            final Boolean landscape = exportParam.getLandscape();
 
             generatePdfDocument(pdfFile, columnProvider, dataProvider, styleProvider, exportOptions, landscape);
 
@@ -111,8 +109,8 @@ public class PdfExportService extends BaseExportService {
      * @param styleProvider  The styles provider
      * @param exportOptions  Is null, it creates it in the BaseExcelExporter
      */
-    public Document generatePdfDocument(File pdfFile, ExportColumnProvider columnProvider, ExportDataProvider dataProvider,
-                                        ExportStyleProvider<PdfCellStyle, PdfDataFormat> styleProvider, ExportOptions exportOptions, Boolean landscape) throws ExportException {
+    public Document generatePdfDocument(final File pdfFile, final ExportColumnProvider columnProvider, final ExportDataProvider dataProvider,
+                                        final ExportStyleProvider<PdfCellStyle, PdfDataFormat> styleProvider, final ExportOptions exportOptions, final Boolean landscape) throws ExportException {
 
     	 return new DefaultPdfExporter(pdfFile).export(columnProvider, dataProvider, styleProvider, exportOptions, landscape);
 
@@ -120,11 +118,11 @@ public class PdfExportService extends BaseExportService {
     }
 
     @Override
-    protected void createProviders(ExportQueryParameters exportParam) throws ExportException {
+    protected void createProviders(final ExportQueryParameters exportParam) throws ExportException {
         super.createProviders(exportParam);
 
         if (exportParam instanceof AdvancedExportQueryParameters) {
-            AdvancedExportQueryParameters advExportParam = (AdvancedExportQueryParameters) exportParam;
+            final AdvancedExportQueryParameters advExportParam = (AdvancedExportQueryParameters) exportParam;
             // create specific providers...
             this.createPdfProviders(advExportParam);
         }
@@ -140,12 +138,12 @@ public class PdfExportService extends BaseExportService {
      * algoritmo recursivo addParentColumn, que agrega a la lista una columna y todas sus hijas en profundidad.
      */
     protected ExportColumnProvider createColumnProvider(final AdvancedExportQueryParameters exportParam) {
-        List<HeadExportColumn> headerColumns = new ArrayList<>();
-        List<ExportColumn> bodyColumns = new ArrayList<>();
-        Map<String, Object> columns = exportParam.getColumns();
-        Map<String, String> columnTitles = exportParam.getColumnTitles();
+        final List<HeadExportColumn> headerColumns = new ArrayList<>();
+        final List<ExportColumn> bodyColumns = new ArrayList<>();
+        final Map<String, Object> columns = exportParam.getColumns();
+        final Map<String, String> columnTitles = exportParam.getColumnTitles();
         addChildrenColumns(bodyColumns, headerColumns, columns, columnTitles);
-        ExportColumnProvider ret = new BaseExportColumnProvider(headerColumns, bodyColumns);
+        final ExportColumnProvider ret = new BaseExportColumnProvider(headerColumns, bodyColumns);
         return ret;
     }
 
@@ -154,7 +152,7 @@ public class PdfExportService extends BaseExportService {
     }
 
 
-    protected ExportOptions createExportOptions(final AdvancedExportQueryParameters exportParam, List<String> columns) {
+    protected ExportOptions createExportOptions(final AdvancedExportQueryParameters exportParam, final List<String> columns) {
         // TODO: de momento no hay opciones
         return null;
     }
