@@ -791,6 +791,8 @@
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-bom</artifactId>
 				<version>${cxf.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.lingala.zip4j</groupId>
