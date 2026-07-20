@@ -10,63 +10,6 @@
 		<version>7.0.0-SNAPSHOT</version>
 	</parent>
 	<packaging>pom</packaging>
-	<properties>
-		<cometd-version>3.1.2</cometd-version>
-	</properties>
-
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.ontimize.labs</groupId>
-				<artifactId>ontimize-jee-callback-cometd-common</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.ontimize.labs</groupId>
-				<artifactId>ontimize-jee-callback-cometd-server</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.ontimize.labs</groupId>
-				<artifactId>ontimize-jee-callback-cometd-desktopclient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>bayeux-api</artifactId>
-				<version>${cometd-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>cometd-java-server</artifactId>
-				<version>${cometd-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>cometd-java-annotations</artifactId>
-				<version>${cometd-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>cometd-java-websocket-javax-server</artifactId>
-				<version>${cometd-version}</version>
-				<optional>true</optional>
-			</dependency>
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>cometd-java-client</artifactId>
-				<version>${cometd-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.cometd.java</groupId>
-				<artifactId>cometd-java-websocket-javax-client</artifactId>
-				<version>${cometd-version}</version>
-				<optional>true</optional>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -74,7 +17,6 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.10.4</version>
 					<executions>
 						<execution>
 							<id>attach-javadocs</id>

@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -87,18 +87,18 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 	@Override
 	public void compile(final Path inputZip, final Path outputFolder) throws ReportStoreCompileException {
 		try {
-			ZipFile zipFile = new ZipFile(inputZip.toFile());
+			final ZipFile zipFile = new ZipFile(inputZip.toFile());
 			final Path temporaryFolder = Files.createTempDirectory(JasperReportsCompilerFiller.TMP_PREFIX);
 			zipFile.extractAll(temporaryFolder.toString());
 
 			Files.walkFileTree(temporaryFolder, new SimpleFileVisitor<Path>() {
 
 				@Override
-				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
 					if (file.getFileName().toString().endsWith(JasperReportsCompilerFiller.JRXML)) {
 						try {
 							JasperCompileManager.compileReportToFile(file.toString(), outputFolder.resolve(file.getFileName() + JasperReportsCompilerFiller.JASPER).toString());
-						} catch (JRException e) {
+						} catch (final JRException e) {
 							throw new IOException(e);
 						}
 
@@ -111,10 +111,10 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 			});
 			try {
 				PathTools.deleteFolder(temporaryFolder);
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				JasperReportsCompilerFiller.logger.error("error deleting temporary folder", ex);
 			}
-		} catch (Exception error) {
+		} catch (final Exception error) {
 			throw new ReportStoreCompileException(error);
 		}
 	}
@@ -125,8 +125,8 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 	 * com.ontimize.jee.server.services.reportstore.ReportOutputType, java.lang.String, java.util.ResourceBundle, java.util.Locale)
 	 */
 	@Override
-	public InputStream fillReport(IReportDefinition reportDefinition, Path compiledReportFolder, Map<String, Object> reportParameters, ReportOutputType outputType,
-	        String otherType, ResourceBundle bundle, Locale locale, String datasourceName) throws ReportStoreException {
+	public InputStream fillReport(final IReportDefinition reportDefinition, final Path compiledReportFolder, Map<String, Object> reportParameters, final ReportOutputType outputType,
+	        final String otherType, final ResourceBundle bundle, final Locale locale, final String datasourceName) throws ReportStoreException {
 		Connection con = null;
 		DataSource dataSource = null;
 		try {
@@ -152,9 +152,9 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 			this.fillParameters(con, bundle, locale, params);// Extra parameters: Connection, bundle, locale...
 
 			// TODO tal vez sea mejor a fichero por temas de memoria si se dispara un informe
-			Path reportCompiled = compiledReportFolder.resolve(reportDefinition.getMainReportFileName() + JasperReportsCompilerFiller.JASPER);
+			final Path reportCompiled = compiledReportFolder.resolve(reportDefinition.getMainReportFileName() + JasperReportsCompilerFiller.JASPER);
 			CheckingTools.failIf(!Files.exists(reportCompiled), "E_REQUIRED_VALID_COMPILEDREPORTFILE", new Object[0]);
-			JasperPrint fillReport = JasperFillManager.fillReport(reportCompiled.toString(), params);
+			final JasperPrint fillReport = JasperFillManager.fillReport(reportCompiled.toString(), params);
 			return this.convertReport(outputType, otherType, fillReport);
 		} catch (JRException | IOException error) {
 			throw new ReportStoreException(error);
@@ -170,12 +170,12 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 	 * java.util.ResourceBundle, java.util.Locale)
 	 */
 	@Override
-	public InputStream fillReport(IReportDefinition definition, Path compiledReportFolder, IReportAdapter service, Map<String, Object> parameters, ReportOutputType outputType,
-	        String otherType, ResourceBundle bundle, Locale locale, String datasourceName) throws ReportStoreException {
+	public InputStream fillReport(final IReportDefinition definition, final Path compiledReportFolder, final IReportAdapter service, final Map<String, Object> parameters, final ReportOutputType outputType,
+	        final String otherType, final ResourceBundle bundle, final Locale locale, final String datasourceName) throws ReportStoreException {
 		try {
 			service.beforeReportBegins(definition, parameters);
 			return this.fillReport(definition, compiledReportFolder, parameters, outputType, otherType, bundle, locale, datasourceName);
-		} catch (ReportStoreException ex) {
+		} catch (final ReportStoreException ex) {
 			service.onReportError(definition, parameters, ex);
 			throw ex;
 		} finally {
@@ -204,7 +204,7 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 		final PipedOutputStream os = new PipedOutputStream(in);
 
 		// Try to do in another thread, due to PipedStreams may deadlock in same thread when buffer is full
-		Thread thread = new Thread("convertReportThread") {
+		final Thread thread = new Thread("convertReportThread") {
 
 			@Override
 			public void run() {
@@ -214,7 +214,7 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 							JRSaver.saveObject(fillReport, os);
 							break;
 						case PDF:
-							JRPdfExporter pdfExp = new JRPdfExporter();
+							final JRPdfExporter pdfExp = new JRPdfExporter();
 							pdfExp.setParameter(JRExporterParameter.JASPER_PRINT_LIST, Arrays.asList(new JasperPrint[] { fillReport }));
 							pdfExp.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
 
@@ -224,19 +224,19 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 							pdfExp.exportReport();
 							break;
 						case DOCX:
-							JRDocxExporter docxExp = new JRDocxExporter();
+							final JRDocxExporter docxExp = new JRDocxExporter();
 							docxExp.setParameter(JRExporterParameter.JASPER_PRINT_LIST, Arrays.asList(new JasperPrint[] { fillReport }));
 							docxExp.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
 							docxExp.exportReport();
 							break;
 						case XLSX:
-							JRXlsxExporter xlsxExp = new JRXlsxExporter();
+							final JRXlsxExporter xlsxExp = new JRXlsxExporter();
 							xlsxExp.setParameter(JRExporterParameter.JASPER_PRINT_LIST, Arrays.asList(new JasperPrint[] { fillReport }));
 							xlsxExp.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
 							xlsxExp.exportReport();
 							break;
 						case HTML:
-							JRHtmlExporter htmlExp = new JRHtmlExporter();
+						final HtmlExporter htmlExp = new HtmlExporter();
 							htmlExp.setParameter(JRExporterParameter.JASPER_PRINT_LIST, Arrays.asList(new JasperPrint[] { fillReport }));
 							htmlExp.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
 							htmlExp.exportReport();
@@ -245,13 +245,13 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 							// TODO
 							break;
 					}
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					JasperReportsCompilerFiller.logger.error("E_EXPORTING_REPORT", ex);
 					throw new RuntimeException(ex);
 				} finally {
 					try {
 						os.close();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 					}
 				}
 
@@ -273,7 +273,7 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 	 * @param params
 	 *            the params
 	 */
-	private void fillParameters(Connection con, ResourceBundle bundle, Locale locale, Map<String, Object> params) {
+	private void fillParameters(final Connection con, final ResourceBundle bundle, final Locale locale, final Map<String, Object> params) {
 		if (!params.containsKey(JasperReportsCompilerFiller.PARAMETER_REPORT_CONNECTION) && (con != null)) {
 			params.put(JasperReportsCompilerFiller.PARAMETER_REPORT_CONNECTION, con);
 		}
@@ -287,7 +287,7 @@ public class JasperReportsCompilerFiller implements IReportCompiler, IReportFill
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 }

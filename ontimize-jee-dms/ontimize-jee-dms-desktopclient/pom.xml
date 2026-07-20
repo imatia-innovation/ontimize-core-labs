@@ -37,12 +37,6 @@
 			<version>${utilmize.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.imatia.utilmize</groupId>
-			<artifactId>utilmize-common</artifactId>
-			<version>${utilmize.version}</version>
-			<scope>provided</scope>
-		</dependency>
 		
 		<!-- TODO separate each implementation (fileSystem, scanner, cloud-gdrive, cloud-dropbox, ...) in separated modules, each one with its dependencies -->
 		<!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
