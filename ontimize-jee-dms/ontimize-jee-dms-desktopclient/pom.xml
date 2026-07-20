@@ -16,7 +16,6 @@
 		<!--scanner support-->
 		<twain.version>1.0</twain.version> 
 		<lti-civil.version>20130308-custom</lti-civil.version>
-		<dropbox.version>1.7.7</dropbox.version>
 	</properties>
 	
 	<dependencies>
@@ -38,7 +37,7 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- TODO separate each implementation (fileSystem, scanner, cloud-gdrive, cloud-dropbox, ...) in separated modules, each one with its dependencies -->
+		<!-- TODO separate each implementation (fileSystem, scanner, ...) in separated modules, each one with its dependencies -->
 		<!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
 		
 		<dependency>
