@@ -64,12 +64,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-<!--		<dependency>-->
-<!--			<groupId>org.openjfx</groupId>-->
-<!--			<artifactId>javafx-web</artifactId>-->
-<!--			<classifier>win</classifier>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-swing</artifactId>

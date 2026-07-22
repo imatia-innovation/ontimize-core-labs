@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
@@ -30,7 +32,7 @@
 			<groupId>com.ontimize.labs</groupId>
 			<artifactId>ontimize-core-icons-lgpl</artifactId>
 		</dependency>
-  
+
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
@@ -63,12 +65,12 @@
 
 		<dependency>
 			<groupId>com.ontimize.labs</groupId>
-  			<artifactId>ontimize-core-client-sam</artifactId>
+			<artifactId>ontimize-core-client-sam</artifactId>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
-    		<groupId>javax.media</groupId>
+			<groupId>javax.media</groupId>
 			<artifactId>jai_codec</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -84,16 +86,16 @@
 			<artifactId>jtidy</artifactId>
 			<optional>true</optional>
 		</dependency>
-			
+
 		<dependency>
 			<groupId>javax.help</groupId>
 			<artifactId>javahelp</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
+			<groupId>jakarta.mail</groupId>
+			<artifactId>jakarta.mail-api</artifactId>
 			<optional>true</optional>
 		</dependency>
 
@@ -113,7 +115,7 @@
 			<artifactId>docx4j-core</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>net.sf</groupId>
 			<artifactId>jooreports</artifactId>
@@ -149,7 +151,7 @@
 			<artifactId>poi-ooxml</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.librepdf</groupId>
 			<artifactId>openpdf</artifactId>

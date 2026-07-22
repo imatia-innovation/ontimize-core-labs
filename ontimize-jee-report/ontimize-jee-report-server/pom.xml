@@ -22,11 +22,10 @@
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- Jasper Report -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
