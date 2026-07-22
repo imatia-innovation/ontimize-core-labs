@@ -35,9 +35,9 @@
 		<jmf.version>2.1.1e</jmf.version>
 		<jna.version>5.17.0</jna.version>
 		<jooreports.version>2.0.0</jooreports.version>
-		<slf4j.version>2.0.18</slf4j.version>
-		<log4j2.version>2.26.1</log4j2.version>
-		<logback.version>1.5.38</logback.version>
+		<slf4j.version>1.7.36</slf4j.version>
+		<logback.version>1.2.13</logback.version>
+		<log4j2.version>2.17.2</log4j2.version>
 		<mail.version>1.4.5</mail.version>
 		<morena.version>6.4.0.12</morena.version>
 		<morena7.version>7.1.27</morena7.version>
@@ -280,7 +280,7 @@
 				<artifactId>ontimize-jee-callback-websocket-desktopclient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<!-- starters loggers-->
 			<dependency>
 				<groupId>com.ontimize.labs</groupId>
@@ -307,11 +307,65 @@
 			<!-- LOGGERS-->
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-bom</artifactId>
+				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-nop</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-jdk14</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-jdk-platform-logging</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-reload4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-ext</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>osgi-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-access</artifactId>
