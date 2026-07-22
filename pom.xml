@@ -33,6 +33,8 @@
 		<module>ontimize-jee-server-jdbc</module>
 		<module>ontimize-jee-webclient-addons</module>
 		<module>ontimize-jee-jacoco</module>
+		<module>ontimize-starter-log4j</module>
+		<module>ontimize-starter-logback</module>
 	</modules>
 
 	<organization>
