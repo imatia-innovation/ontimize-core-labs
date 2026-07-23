@@ -11,6 +11,25 @@
 	<name>Ontimize BOM</name>
 	<description>Ontimize dependencies.</description>
 
+	<scm>
+		<connection>
+			smc:git:git://github.com/imatia-innovation/ontimize-core-labs.git</connection>
+		<url>https://github.com/imatia-innovation/ontimize-core-labs/tree/main</url>
+	</scm>
+	
+    <distributionManagement>
+        <snapshotRepository>
+            <id>imatia-artifactory</id>
+            <name>libs-snapshot-local</name>
+            <url>https://artifactory.imatia.com/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+        <repository>
+            <id>imatia-artifactory</id>
+            <name>libs-release-local</name>
+            <url>https://artifactory.imatia.com/artifactory/libs-imatia-local</url>
+        </repository>
+    </distributionManagement>
+
 	<properties>
 		<!--=====================================-->
 		<!--        Dependencies version         -->

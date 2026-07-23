@@ -48,25 +48,6 @@
 	</description>
 	<url>https://www.ontimize.com</url>
 
-	<scm>
-		<connection>
-			smc:git:git://github.com/imatia-innovation/ontimize-core-labs.git</connection>
-		<url>https://github.com/imatia-innovation/ontimize-core-labs/tree/main</url>
-	</scm>
-
-	<distributionManagement>
-		<snapshotRepository>
-			<id>imatia-artifactory</id>
-			<name>libs-snapshot-local</name>
-			<url>https://artifactory.imatia.com/artifactory/libs-snapshot-local</url>
-		</snapshotRepository>
-		<repository>
-			<id>imatia-artifactory</id>
-			<name>libs-imatia-local</name>
-			<url>https://artifactory.imatia.com/artifactory/libs-imatia-local</url>
-		</repository>
-	</distributionManagement>
-
 	<repositories>
 		<repository>
 			<id>imatia-artifactory</id>
