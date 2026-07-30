@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-jee-callback-cometd</artifactId>
-		<version>6.3.0-SNAPSHOT</version>
+		<version>7.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-jee-callback-cometd-common</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.ontimize.jee</groupId>
+			<groupId>com.ontimize.labs</groupId>
 			<artifactId>ontimize-jee-common</artifactId>
 		</dependency>
 	</dependencies>

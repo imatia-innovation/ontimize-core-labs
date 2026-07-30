@@ -25,6 +25,9 @@ public abstract class TwainUtilities {
         } catch (ClassNotFoundException e) {
             TwainUtilities.logger.trace("TwainUtilities: No JavaTwain classes found " + e.getMessage(), e);
             TwainUtilities.twainEnabled = false;
+        }catch (NoClassDefFoundError error) {
+        	TwainUtilities.logger.trace("TwainUtilities: No JavaTwain classes found " + error.getMessage(), error);
+            TwainUtilities.twainEnabled = false;
         }
     }
 

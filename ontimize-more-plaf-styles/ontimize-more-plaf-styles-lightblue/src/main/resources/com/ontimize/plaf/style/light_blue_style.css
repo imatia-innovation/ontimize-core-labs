@@ -1,0 +1,1009 @@
+/*
+BLUE PURE	#2E8ECB
+BLUE PURE LIGHT	#B0D0E0
+BLUE BLACK	#203740
+BLUE DARKEST	#304550
+BLUE DARK: 	#1575A7
+BLUE MIDDARK	#539DC4
+BLUE MID: 	#96CADB
+BLUE MIDLIGHT	#C6E0F5
+BLUE ALMOST-LIGHT 	#E7E9EE
+BLUE LIGHT: 	#EEF0F5 
+BLUE LIGHTER	#F3F9FB
+BLACK: 	#000000
+GREY ALMOST BLACK: 	#0A0A0A
+GREY DARKER: 	#333333
+GREY DARK	#606060
+GREY MIDDARK	#9D9D9D
+GREY MID	#A0A0A0
+GREY MIDLIGHT	#BDBDBD
+GREY LIGHT 	#E6E6E6
+GREY ALMOST WHITE	#F5F5F5
+WHITE: 	#FFFFFF
+ORANGE LIGHTER	#FAE080
+ORANGE LIGHT	#EECC80
+ORANGE DARK	#F0B70A
+ORANGE DARKEST	#CA9010
+ORANGE BLACK	#A7700A
+ORANGE COLD	#EBD77A
+ORANGE COLD LIGHT	#EAE0C7
+ORANGE BLUEISH	#CAC0A7
+GREENISH	#97B067
+REDDISH	#A05C30
+*/
+Application{
+/*	font: Arial-PLAIN-10;*/
+	radius: 5.7;
+}
+
+Button{
+	contentMargins:5 5 5 5;
+/*	font:Tahoma-PLAIN-11;*/
+	background:#C6E0F5;
+	textForeground:#203740; /* BLUE BLACK */
+
+	[Default].alphaTransparency:0.5;
+	[Default+Focused].alphaTransparency:0.5;
+	[Default+MouseOver].alphaTransparency:0.1;
+	[Default+Focused+MouseOver].alphaTransparency:0.1;
+	[Default+Pressed].alphaTransparency:0.5;
+	[Default+Focused+Pressed].alphaTransparency:0.5;
+
+	[Enabled].border:#00000000; /* BLACK */
+	[Enabled].alphaTransparency:0.5;
+
+	[Disabled].textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].alphaTransparency:0.1;
+
+	[Focused].alphaTransparency:0.3;
+	[Focused+MouseOver].alphaTransparency:0.1;
+	[Focused+Pressed].alphaTransparency:0.5;
+
+	[MouseOver].textForeground:#FFFFFF; /* WHITE */
+	[MouseOver].alphaTransparency:0.1;
+
+	[Pressed].alphaTransparency:0.5;
+}
+
+CheckBox{
+	contentMargins: 4 14 4 14;
+	[Enabled].textForeground:#0A0A0A;
+	[Disabled].textForeground:#0A0A0A;
+	[Focused].textForeground:#0A0A0A;
+	[Selected].textForeground:#0A0A0A;
+}
+
+CheckBoxMenuItem{
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	[Enabled].background:#FFFFFF01; /* WHITE */
+	[Disabled].textForeground:#FFFFFF7D; /* WHITE */
+	[Disabled].background:#FFFFFF01; /* WHITE */
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[MouseOver].textForeground:#1575A7; /* BLUE DARK */
+	[MouseOver+Selected].textForeground:#1575A7; /* BLUE DARK */
+	[Selected].background:#FFFFFF01; /* WHITE */
+	[MouseOver].background:#FFFFFF; /* WHITE */
+	[MouseOver+Selected].background:#FFFFFF; /* WHITE */
+}
+
+CollapsiblePanel{
+	foreground:#FFFFFF; /* WHITE */
+	foregroundShadow:#539DC4; /* BLUE MIDDARK */
+	titleBackground:#539DC4; /* BLUE MIDDARK */
+	background:#E7E9EE; /* BLUE ALMOST LIGHT */
+	backgroundGradientInit:#E7E9EE; /* BLUE ALMOST LIGHT */
+	backgroundGradientEnd:#96CADB; /* BLUE MID */
+}
+
+"Column"{
+	background:#dce8f2; /* BLUE LIGHT + DD transp */
+	contentMargins:2 0 2 0;
+}
+
+ComboBox{
+/*	font:Tahoma-PLAIN-11;*/
+
+	[Enabled].textForeground:#606060; /* GREY DARK */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Enabled].border:#E7E9EE; 
+
+	[Disabled].textForeground:#1575A7; /* BLUE DARK */
+	[Disabled].background:#d1dae2; /* GREY DARK */
+	[Disabled].border:#C6E0F5; /* BLUE MIDLIGHT */
+
+	[Disabled+Required].textForeground:#203740; /* BLUE BLACK */
+	[Disabled+Required].background:#eae3b8; /* GREY DARK */
+	[Disabled+Required].border:#C6E0F56D; /* BLUE MIDLIGHT */
+
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Focused+MouseOver].background:#FFFFFF; /* WHITE */
+	[Focused+Pressed].background:#FFFFFF; /* WHITE */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+
+	[MouseOver].background:#FFFFFF; /* WHITE */
+	[Pressed].background:#FFFFFF; /* WHITE */
+
+	[Required].background:#fae080;
+}
+
+ComboBox:"ComboBox.textField"{
+/*	font:Tahoma-PLAIN-11;*/
+	[Enabled].textForeground:#606060; /* GREY DARK */
+	[Enabled].background:#FFFFFF; /* WHITE */
+
+	[Disabled].textForeground:#1575A7; /* BLUE DARK */
+	[Disabled].background:#FFFFFF7D; /* WHITE + 7D TRANSP */
+
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[Selected].background:#FFFFFF; /* WHITE */
+}
+
+ComboBox:"ComboBox.arrowButton"{
+	[Enabled].foreground:#FFFFFF; /* WHITE */
+	[Enabled].background:#539DC4; /* BLUE MIDDARK */
+
+	[Disabled].foreground:#FFFFFF; /* WHITE */
+	[Disabled].background:#539DC4; /* BLUE MIDDARK */
+
+	[MouseOver].foreground:#000000; /* BLACK */
+	[MouseOver].background:#539DC4; /* BLUE MIDDARK */
+
+	[Pressed].foreground:#000000; /* BLACK */
+	[Pressed].background:#539DC4; /* BLUE MIDDARK */
+	[Selected].foreground:#000000; /* BLACK */
+	[Selected].background:#539DC4; /* BLUE MIDDARK */
+	[Focused].background:#539DC4; /* BLUE MIDDARK */
+	[Disabled+Editable].background:#539DC4; /* BLUE MIDDARK */
+	[Editable+Enabled].background:#539DC4; /* BLUE MIDDARK */
+	[Editable+MouseOver].background:#539DC4; /* BLUE MIDDARK */
+	[Editable+Pressed].background:#539DC4; /* BLUE MIDDARK */
+	[Editable+Focused].background:#539DC4; /* BLUE MIDDARK */
+}
+
+ComboBox:"ComboBox.listRenderer"{
+	[Required].textForeground:#0A0A0A;
+	[Disabled].textForeground:#203740;
+	[Disabled+Required].textForeground:#203740;
+	[Selected].textForeground:#ffffff;
+	[Selected].background:#FAE080;
+}
+
+/* READY ??? */
+/* STILL A BLACK TOOLBAR!!! */
+Diagram{
+	background:#FFFFFF; /* WHITE */
+	border:#96CADB; /* BLUE MID */
+}
+
+EditorPane{
+	[Enabled].textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].textForeground:#FFFFFF; /* WHITE */
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Disabled].background:#C6E0F56D; /* BLUE MIDLIGHT */
+	[Selected].background:#FFFFFF; /* WHITE */
+}
+
+"ELabel"{
+/*	font:Tahoma-PLAIN-11;*/
+	foreground: #0A0A0A; /* GREY ALMOST BLACK */
+	[Enabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Disabled].textForeground:#0A0A0A; /* BLUE ALMOSTBLACK*/
+	disabledText:#304550; /* BLUE DARKEST */ 
+}
+
+"FieldButton"{
+/*	font:;*/
+	textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].textForeground:#539DC4; /* BLUE MIDDARK */
+	[Focused].background : #304550;
+	[Focused].alphaTransparency : 0.25;
+	[MouseOver].background : #304550;
+	[MouseOver].alphaTransparency : 0.25;
+	[Focused+MouseOver].background : #304550;
+	[Focused+MouseOver].alphaTransparency : 0.25;
+}
+
+"FormBodyPanel"{
+	bgpaint: linear-gradient(to bottom, #c0ddf3 0%, #ffffff 100%);
+	contentMargins:0 0 0 0;
+}
+
+"FormButton"{
+	textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].textForeground:#539DC4; /* BLUE MIDDARK */
+
+	[Focused].background:#304550; /* BLUE DARKEST */
+	[Focused].alphaTransparency:0.5;
+}
+
+"FormButtonPanel"{
+	topBackgroundColor:#C6E0F5; /* BLUE MIDLIGHT */
+	bottomBackgroundColor:#1575A7; /* BLUE MIDDARK */
+}
+
+"FormHeaderButton"{
+	textForeground:#FFFFFF; 
+	[Disabled].textForeground:#FFFFFF7F; 
+	[MouseOver].textForeground:#1575A7;
+	[Disabled].background:#FFFFFF01;
+	[Enabled].background:#FFFFFF01;
+	[MouseOver].background:#304550;
+	[Focused].alphaTransparency:0.5;
+}
+
+FormTabbedPane{
+	background:#A0A0A0; /* GREY MID */
+	[Enabled].border:#805000; /* ORANGE BLACKER */
+	[Disabled].border:#000000; /* BLACK */
+}
+
+FormTabbedPane:TabbedPaneContent{
+	contentMargins:1 1 1 1;
+	[Enabled].background:#F5F5F5; /* GREY ALMOST WHITE */
+	[Disabled].background:#1575A7; /* BLUE DARK */
+}
+
+FormTabbedPane:TabbedPaneTab{
+	contentMargins:1 1 1 1;
+/*	font:Tahoma-BOLD-11;*/
+
+	/*text foreground */
+	[Enabled].textForeground:#000000; /* BLACK */
+	[Enabled].background:#F5F5F5; /* GREY ALMOST WHITE */
+	[Enabled+Pressed].background:#F0B70A; /* ORANGE DARK */
+	[Enabled+MouseOver].background:#539DC4; /* BLUE MIDDARK */
+
+	[Disabled].textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].background:#E6E6E6; /* GREY LIGHT */
+	[Disabled+Selected].background:#539DC4; /* BLUE MIDDARK */
+
+	[Selected].textForeground:#000000; /* BLACK */
+	[Selected].background:#C6E0F5; /* BLUE MIDLIGHT*/
+	[MouseOver+Selected].background:#539DC4; /* BLUE MIDDARK */
+	[Pressed+Selected].background:#539DC4; /* BLUE MIDDARK */
+
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused+Selected].background:#539DC4; /* BLUE MIDDARK */
+	[Focused+MouseOver+Selected].background:#539DC4; /* BLUE MIDDARK */ 
+	[Focused+Pressed+Selected].background:#539DC4; /* BLUE MIDDARK */
+}
+
+"FormTabbedPaneTab.Label"{
+	foreground : #000000;
+	textForeground : #000000;
+	[Enabled].textForeground : #000000;
+	[Disabled].textForeground : #304550;
+	[Selected].textForeground : #000000;
+	[Focused].textForeground : #FFFFFF;
+}
+
+FormTabbedPane:TabbedPaneTabArea{
+	contentMargins: 0 0 0 0;
+	[Enabled].background:#F5F5F522;
+	[Disabled].background:#1575A733;
+}
+
+FormTabbedPane:TabbedPaneTabArea:"TabbedPaneTabArea.button"{
+	contentMargins:1 1 1 1;
+	[Enabled].foreground: #BDBDBD; /* GREY MIDLIGHT */
+	[Disabled].foreground: #E7E9EE; /* BLUE ALMOST-LIGHT */
+	[Pressed].foreground: #A0A0A0; /* GREY MID */
+	[MouseOver].foreground: #FFFFFF; /* WHITE */
+}
+
+"FormTitle"{
+/*	background: #EAE0C7; /* ORANGE COLD LIGHT */
+	background: #EEF0F5; /* BLUE LIGHT */
+
+	shadow:#EEF0F5; /* BLUE LIGHT */ 
+	textForeground:#304550; /* BLUE DARKEST */
+/*	textForegroundShadow:#CA9010; /* ORANGE DARKEST */
+	textForegroundShadow:#FFFFFF; /* WHITE */
+}
+
+"Grid"{
+	background:#EEF0F5; /* BLUE LIGHT */
+	contentMargins:0 0 0 0;
+	opaque:false;
+}
+
+Label{
+	foreground:#0A0A0A; /* GREY ALMOST BLACK */
+	disabledText:#0A0A0A; /* GREY ALMOST BLACK */
+
+	[Enabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Disabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Focused].textForeground: "#0A0A0A"; /* GREY ALMOST BLACK */
+	[Selected].textForeground": "#304550"; /* BLUE DARKEST */
+}
+
+List{
+/*	contentMargins:0 0 0 0;*/
+/*	font:Tahoma-PLAIN-11;*/
+	background:#FFFFFF; /* WHITE */
+	textForeground:#000000; /* BLACK */
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[Selected].textBackground:#539DC4; /* BLUE MIDDARK */
+/*	[Disabled].textForeground:;*/
+/*	[Disabled].background:;*/
+}
+
+List:\"List.cellRenderer\"{
+	contentMargins:2 60 2 60;
+	[Disabled].textForeground:#539DC4; /* BLUE MIDDARK */
+	[Disabled].background:#C6E0F5; /* BLUE MIDLIGHT */
+}
+
+Menu{
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	[Enabled].arrowBackground:#FFFFFF7D; /* WHITE */
+
+	[Enabled+Selected].textForeground:#1575A7; /* BLUE DARK */
+	[Enabled+Selected].background:#96CADB; /* BLUE MID */
+	[Enabled+Selected].border:#96CADB; /* BLUE MIDLIGHT */
+	[Enabled+Selected].arrowBackground:#0000004C; /* BLACK */
+
+	[Disabled].textForeground:#FFFFFF7D; /* WHITE */
+	[Disabled].arrowBackground:#0000007D; /* BLACK */
+}
+
+MenuBar{
+	contentMargins:0 0 0 0;
+
+	[Enabled].background:#203740; /* BLUE BLACK */
+	[Enabled].border:#203740; /* BLUE BLACK */
+}
+
+MenuBar:Menu{
+	contentMargins:3 15 0 15;
+
+	[Enabled].textForeground:#F3F9FB; /* BLUE LIGHTER */
+	[Disabled].textForeground:#F3F9FB7D; /* BLUE LIGHTER + 50% TRANSP */
+	[Selected].textForeground:#304550; /* BLUE DARKEST */
+
+	[Selected].background:#96CADB; /* BLUE MID */
+	[Selected].border:#96CADB; /* BLUE MIDLIGHT */
+}
+
+MenuItem{
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	[Enabled].background:#FFFFFF01; /* WHITE */
+
+	[Disabled].textForeground:#FFFFFF7F; /* WHITE */
+	[Disabled].background:#FFFFFF01; /* WHITE */
+
+	[MouseOver].textForeground:#1575A7; /* BLUE DARK */
+	[MouseOver].background:#FFFFFF; /* WHITE */
+}
+
+MenuItem:MenuItemAccelerator{
+	[Enabled].textForeground:#FFFFFF7F; /* WHITE */
+	[Disabled].textForeground:#FFFFFF7F; /* WHITE */
+	[MouseOver].textForeground:#1575A7; /* BLUE DARK */
+}
+
+OptionPane{
+	background:#EEF0F5; /* BLUE LIGHT */
+	messageForeground:#0A0A0A;
+	buttonMinimumWidth:90;
+}
+
+Panel{
+	background:#EEF0F5; /* BLUE LIGHT */
+}
+
+Planning:TaskView{
+/*	taskViewPath: com/ontimize/multiidioma/plaf/newTaskViewForPlanning.html;*/
+}
+
+Planning:LCalendar{
+/*	componentBackground: #FFFFFF;*/
+/*	monthBorderColor: #000000;*/
+	monthHeaderBackground: #366581; 
+	monthHeaderForeground: #FFFFFF;
+/*	monthWeekBackground: #FFFFFF;*/
+/*	monthWeekForeground: #000000;*/
+/*	monthOddDaysBackground: #F3F3F0;*/
+/*	monthEvenDaysBackground: #FFFFFF;*/
+/*	monthDayBackgroundSelected: #5CB1EA;*/
+/*	monthDaysForeground: #000000;*/
+/*	monthDaysAccomplisehdAppointments: #FF0000;*/
+/*	monthDaysPendingAppointments: #00FF00;*/
+}
+
+Planning:DayPlanningComponent{
+/*	ownersBarWidth: 50; 50 */
+/*	schedulerpanelBgcolor: #FFFFFF;*/
+	scrollPanelBgcolor: #EEF0F5;
+	defaultSlotBackgroundColor: #ABC7D8; 
+/*	defaultSlotBackgroundselectedColor: #E4EDF0;*/
+/*	defaultSlotBorderColor: #000000;*/
+/*	defaultSlotSelectedBorderColor: #FF0000;*/
+/*	defaultEmptySelectedSlotColor: #C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor: #000000;*/
+/*	defaultUnschedulableSlotColor: #FF0000;*/
+/*	schedulerpanelLastlineColor: #000000;*/
+/*	schedulerpanelLastlineStrokeWidth: 1.0f;*/
+/*	schedulerpanelLinesColor: #C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth: 1.0f;*/
+/*	schedulerpanelMiddlelineColor: #FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth: 1.0f;*/
+/*	schedulerpanelVerticallinesColor: #000000;*/
+/*	schedulerpanelVerticallinesStroke: 1.0f;*/
+	ownersbarNamesBackgroundColor: #366581;
+	ownersbarNamesFontColor: #FFFFFF;
+/*	ownersbarNamesFontStyle: 1;*/
+/*	ownersbarNamesFontSize: 11.0f;*/
+	ownersbarHoursBorderColor: #CBE3F5;
+	ownersbarHoursBackgroundColor: #366581;
+	ownersbarHoursFontColor: #FFFFFF;
+/*	ownersbarHoursFontStyle: 1;*/
+/*	ownersbarHoursFontSize: 11.0f;*/
+/*	slotHeaderFontname: Tahoma;*/
+/*	slotHeaderFontcolor: #000000;*/
+/*	slotHeaderFontsize: 9;	 */
+}
+
+Planning:WeekPlanningComponent{
+/*	ownersBarWidth: 60;*/
+/*	schedulerpanelBgcolor: #FFFFFF;*/
+	scrollPanelBgcolor: #EEF0F5;
+	defaultSlotBackgroundColor: #ABC7D8; 
+/*	defaultSlotBackgroundselectedColor: #E4EDF0;*/
+/*	defaultSlotBorderColor: #000000;*/
+/*	defaultSlotSelectedBorderColor: #FF0000;*/
+/*	defaultEmptySelectedSlotColor: #C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor: #000000;*/
+/*	defaultUnschedulableSlotColor: #FF0000;*/
+/*	schedulerpanelLastlineColor: #000000;*/
+/*	schedulerpanelLastlineStrokeWidth: 1.0f;*/
+/*	schedulerpanelLinesColor: #C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth: 1.0f;*/
+/*	schedulerpanelMiddlelineColor: #FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth: 1.0f;*/
+/*	schedulerpanelVerticallinesColor: #000000;*/
+/*	schedulerpanelVerticallinesStroke: 1.0f;*/
+	weekdaysbarBackgroundColor: #366581;
+	weekdaysbarBorderColor:#CBE3F5;
+	weekdaysbarFontColor: #FFFFFF;
+/*	weekdaysbarFontStyle: 1;*/
+/*	weekdaysbarFontSize: 12.0f;*/
+	ownersbarNamesBackgroundColor: #366581; 
+	ownersbarNamesFontColor: #FFFFFF;
+/*	ownersbarNamesFontStyle: 1;*/
+/*	ownersbarNamesFontSize: 11.0f;*/
+/*	ownersbarHoursBackgroundColor: #366581;*/
+/*	ownersbarHoursFontColor: #000000;*/
+/*	ownersbarHoursFontStyle: 1;*/
+/*	ownersbarHoursFontSize: 9.0f;*/
+/*	ownersbarHoursLinesColor: #404040;*/
+/*	ownersbarHoursLinesStrokeWidth: 1.0f;*/
+/*	ownersbarHoursMiddlelineColor: #FF0000;*/
+/*	ownersbarHoursLastlineColor: #000000;*/
+/*	ownersbarHoursLastlineStrokeWidth: 1.0f;*/
+/*	slotHeaderFontname: Tahoma;*/
+/*	slotHeaderFontcolor: #000000;*/
+/*	slotHeaderFontsize: 9;	 */
+}
+
+Planning:MonthPlanningComponent{
+/*	ownersBarWidth: 80;*/
+/*	schedulerpanelBgcolor: #FFFFFF;*/
+	defaultSlotBackgroundColor: #ABC7D8;
+/*	defaultSlotBackgroundselectedColor: #E4EDF0;*/
+/*	defaultSlotBorderColor: #000000;*/
+/*	defaultSlotSelectedBorderColor: #FF0000;*/
+/*	defaultEmptySelectedSlotColor: #C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor: #000000;*/
+/*	defaultMarkerSlotColor: #0000FF;*/
+/*	defaultMarkerSlotBorderColor: #00FF00;*/
+/*	defaultUnschedulableSlotColor: #FF0000;*/
+/*	schedulerpanelLastlineColor: #000000;*/
+/*	schedulerpanelLastlineStrokeWidth: 1.0f;*/
+/*	schedulerpanelLinesColor: #C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth: 1.0f;*/
+/*	schedulerpanelMiddlelineColor: #FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth: 1.0f;*/
+/*	schedulerpanelVerticallinesColor: #000000;*/
+/*	schedulerpanelVerticallinesStroke: 1.0f;*/
+	weekdaysbarBackgroundColor: #366581; 
+	weekdaysbarBorderColor:#CBE3F5;
+	weekdaysbarFontColor: #FFFFFF;
+/*	weekdaysbarFontStyle: 1;*/
+/*	weekdaysbarFontSize: 9.0f;*/
+/*	minimunWeekdaysbarWidth: 100;*/
+	ownersbarNamesBackgroundColor: #366581;
+ 	ownersbarNamesFontColor: #FFFFFF;
+/*	ownersbarNamesFontStyle: 1;*/
+/*	ownersbarNamesFontSize: 11.0f;*/
+/*	slotHeaderFontname: Tahoma;*/
+/*	slotHeaderFontcolor: #000000;*/
+/*	slotHeaderFontsize: 9;*/
+}
+
+"PopupItem"{
+	[Enabled].background:#FFFFFF01; /* WHITE */
+	[Disabled].background:#FFFFFF01; /* WHITE */
+	[MouseOver].background:#FFFFFF; /* WHITE */
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	[Disabled].textForeground:#FFFFFF7F; /* WHITE */
+	[MouseOver].textForeground:#1575A7; /* BLUE DARK */
+}
+
+PopupMenu{
+	/*
+	[Disabled].background:#8cbec6;
+	[Enabled].background:#86adbf;
+	[Disabled].border:#c6dfe3;
+	[Enabled].border:#c6dfe3;
+	*/
+	[Disabled].background:#96CADB; /* BLUE MID */
+	[Disabled].border:#96CADB; /* BLUE MID */
+
+	[Enabled].background:#96CADB; /* BLUE MID */
+	[Enabled].border:#96CADB; /* BLUE MID */
+}
+
+RadioButton{
+	contentMargins: 4 14 4 14;
+/*	[Disabled].icon:;*/
+/*	[Enabled].icon:;*/
+/*	[Focused].icon:;*/
+/*	[MouseOver].icon:;*/
+/*	[Focused+MouseOver].icon:;*/
+/*	[Pressed].icon:;*/
+/*	[Focused+Pressed].icon:;*/
+/*	[Selected].icon:;*/
+/*	[Focused+Selected].icon:;*/
+/*	[Pressed+Selected].icon:;*/
+/*	[Focused+Pressed+Selected].icon:;*/
+/*	[MouseOver+Selected].icon:;*/
+/*	[Focused+MouseOver+Selected].icon:;*/
+/*	[Disabled+Selected].icon:;*/
+/*	contentMargins:;*/
+	[Enabled].textForeground:#0A0A0A;
+	[Disabled].textForeground:#0A0A0A7D;
+	[Focused].textForeground:#0A0A0A;
+	[Selected].textForeground:#0A0A0A;
+}
+
+RadioButtonMenuItem{
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	[Disabled].textForeground:#FFFFFF7D; /* WHITE */
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[MouseOver].textForeground:#1575A7; /* BLUE DARK */
+	[MouseOver+Selected].textForeground:#1575A7; /* BLUE DARK */ 
+	[Enabled].background:#FFFFFF01; /* WHITE */
+	[Disabled].background:#FFFFFF01; /* WHITE */
+	[Selected].background:#FFFFFF01; /* WHITE */
+	[MouseOver].background:#FFFFFF; /* WHITE */
+	[MouseOver+Selected].background:#FFFFFF; /* WHITE */
+/*	contentMargins:;*/
+/*	[Disabled].icon:;*/
+/*	[Enabled].icon:;*/
+/*	[Focused].icon:;*/
+/*	[MouseOver].icon:;*/
+/*	[Focused+MouseOver].icon:;*/
+/*	[Pressed].icon:;*/
+/*	[Focused+Pressed].icon:;*/
+/*	[Selected].icon:;*/
+/*	[Focused+Selected].icon:;*/
+/*	[Pressed+Selected].icon:;*/
+/*	[Focused+Pressed+Selected].icon:;*/
+/*	[MouseOver+Selected].icon:;*/
+/*	[Focused+MouseOver+Selected].icon:;*/
+/*	[Disabled+Selected].icon:;*/
+}
+
+
+"Row"{
+	background:#dce8f2; /* BLUE LIGHT + DD transp */
+	contentMargins:2 0 2 0;
+}
+
+ScrollBar{
+	contentMargins:6 6 6 6;
+	thumbHeight:12;
+	[Enabled].border:#EEF0F5; /* BLUE LIGHT */
+	[Disabled].border:#EEF0F5; /* BLUE LIGHT */
+}
+
+ScrollBar:"ScrollBar.button"{
+	size:25;
+
+	[Enabled].background:#539DC4; /* BLUE MIDDARK */
+	[Enabled].arrowBackground:#FFFFFF; /* WHITE */
+
+	[Disabled].background:#EEF0F5; /* BLUE LIGHT */
+	[Disabled].arrowBackground:#FFFFFF; /* WHITE */
+
+	[MouseOver].background:#BDBDBD; /* GREY MIDLIGHT */
+	[MouseOver].arrowBackground:#FFFFFF; /* WHITE */
+
+	[Pressed].background:#9D9D9D; /* GREY MIDDARK */
+	[Pressed].arrowBackground:#FFFFFF; /* WHITE */
+}
+
+ScrollBar:ScrollBarThumb{
+	[Enabled].background:#539DC4; /* BLUE MIDDARK */
+	[Enabled].backgroundShadow:#FFFFFF25;	 /* WHITE */
+	[Enabled].border:#539DC4; /* BLUE MIDDARK */
+
+	[MouseOver].background:#539DC4; /* BLUE MIDDARK */
+	[MouseOver].backgroundShadow:#FFFFFF25; /* WHITE */
+	[MouseOver].border:#539DC4; /* BLUE MIDDARK */
+
+	[Pressed].background:#539DC4; /* BLUE MIDDARK */
+	[Pressed].backgroundShadow:#FFFFFF25; /* WHITE */
+	[Pressed].border:#539DC4; /* BLUE MIDDARK */
+}
+
+ScrollBar:ScrollBarTrack{
+	[Enabled].background:#E6E6E6; /* GREY LIGHT */
+	[Disabled].background:#EEF0F5; /* BLUE LIGHT */
+}
+
+ScrollPane {
+	opaque:false;
+}
+
+"SelectableItem"{
+	foreground:#0A0A0A;
+	textForeground:#0A0A0A;
+	[Enabled].textForeground:#0A0A0A;
+	[Disabled].textForeground:#0A0A0A;
+	[Selected].textForeground:#0A0A0A;
+	[Focused].textForeground:#0A0A0A;
+}
+
+SplitPane{
+	contentMargins:0 0 0 0;
+	size:12;
+	dividerSize:12;
+}
+
+SplitPane:SplitPaneDivider{
+	contentMargins:0 0 0 0;
+
+	[Enabled].foreground:#96CADB; /* BLUEMID */
+	[Enabled].foregroundBorder:#EAE0C7; /* ORANGE COLD LIGHT */
+
+	[Enabled].background:#E6E6E6; /* GREY LIGHT */
+
+	[Enabled+Vertical].foreground:#96CADB; /* BLUE MID */
+	[Enabled+Vertical].foregroundBorder:#EAE0C7; /* ORANGE COLD LIGHT */
+
+	[Focused].background:#E6E6E6; /* GREYLIGHT */
+}
+
+TabbedPane{
+	contentMargins: 5 10 5 10;
+	opaque:false;
+	background:#A0A0A0; /* GREY MID */
+	[Enabled].border:#805000; /* ORANGE BLACKER */
+	[Disabled].border:#000000; /* BLACK */
+}
+
+TabbedPane:TabbedPaneContent{
+	contentMargins: 4 2 2 2;
+	[Enabled].background:#F5F5F5; /* GREY ALMOST WHITE */
+	[Disabled].background:#1575A7; /* BLUE DARK */
+}
+
+TabbedPane:TabbedPaneTab{
+	contentMargins:2 2 2 2;
+/*	font:Tahoma-BOLD-11;*/
+	/* text foreground */
+	[Enabled].textForeground:#000000; /* BLACK */
+	[Enabled].background:#F5F5F5; /* GREY ALMOST WHITE */
+	[Enabled+Pressed].background:#F0B70A; /* ORANGE DARK */
+	[Enabled+MouseOver].background:#539DC4; /* BLUE MIDDARK */
+
+	[Disabled].textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].background:#E6E6E6; /* GREY LIGHT */
+	[Disabled+Selected].background:#539DC4; /* BLUE MIDDARK */
+
+	[Selected].textForeground:#000000; /* BLACK */
+	[Selected].background:#C6E0F5; /* BLUE MIDLIGHT*/
+	[MouseOver+Selected].background:#539DC4; /* BLUE MIDDARK */
+	[Pressed+Selected].background:#539DC4; /* BLUE MIDDARK */
+
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused+Selected].background:#539DC4; /* BLUE MIDDARK */
+	[Focused+MouseOver+Selected].background:#539DC4; /* BLUE MIDDARK */ 
+	[Focused+Pressed+Selected].background:#539DC4; /* BLUE MIDDARK */
+}
+
+TabbedPane:TabbedPaneTabArea:"TabbedPaneTabArea.button"{
+	contentMargins:1 1 1 1;
+	[Enabled].foreground: #BDBDBD; /* GREY MIDLIGHT */
+	[Disabled].foreground: #E7E9EE; /* BLUE ALMOST-LIGHT */
+	[Pressed].foreground: #A0A0A0; /* GREY MID */
+	[MouseOver].foreground: #FFFFFF; /* WHITE */
+}
+
+Table{
+	background:#F5F5F5; /* GREY ALMOST LIGHT */
+	foreground:#304550;
+	textForeground:#304550;
+	border:#96CADB; /* BLUE MID */
+	useOddEvenAlternateRowColor:true;
+	alternateOddRowColor:#F3F9FB; /*#F3F9FB;*/
+	alternateEvenRowColor:#EEF0F5; /*#EEF0F5;*/
+
+	selectionBackground:#C6E0F5;
+	selectionForeground:#203740;
+	[Enabled+Selected].textForeground:#203740;
+	[Enabled+Selected].textBackground:#C6E0F5;
+}
+
+Table:"Table.cellEditor"{
+	foreground:#2E8ECB; /* BLUE DARKEST */
+	[Enabled].textForeground:#2E8ECB; /* PURE LIGHT */
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	border:#2E8ECB; /* BLUE PURE */
+}
+
+Table:"Table.cellRenderer"{
+	foreground:#304550; /* BLUE DARKEST */
+	evenRowBackground:#EEF0F5; /* BLUE LIGHT */
+	oddRowBackground:#F3F9FB; /* BLUE LIGHTER */
+
+	[Editable].foreground:#304550; /* GREY DARKER */
+	[Editable].evenEditableBackground:#E7E9EE; /* BLUE ALMOST-LIGHT */
+	[Editable].oddEditableBackground:#E7E9EE7D; /* BLUE ALMOST-LIGHT */
+
+	[Selected].foreground:#203740; /* BLUE BLACK*/
+	[Selected].background:#C6E0F5; /* BLUE MIDLIGHT */
+	[Selected+Editable].background:#96CADB; /* BLUE MID */
+	[Selected].border:#EECC80; /* ORANGE LIGHT */
+}
+
+Table:"Table.rowHeadCellRenderer"{
+/*	font:Tahoma-PLAIN-11;*/
+	foreground:#304550; /* BLUE DARKEST */
+	[Enabled].background:#E7E9EE; /* BLUE ALMOST LIGHT */
+	border:#FFFFFF; /* WHITE */
+}
+
+Table:"Table.sumCellRenderer"{
+	foreground:#FFFFFF; /* WHITE */
+	[Enabled].background:#1575A7; /* BLUE DARK */
+	[Disabled].background:#EEF0F5; /* BLUE LIGHT */
+}
+
+Table:"Table.QuickFilter"{
+	[Enabled].textForeground:#304550; /* BLUE DARKEST */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Enabled].border:#EEF0F5; /* BLUE LIGHT */
+
+	[Disabled].textForeground:#539DC4; /* BLUE MIDDARK */
+	[Disabled].background:#FFFFFF; /* WHITE */
+	[Disabled].border:#E7E9EE6D; /* BLUE ALMOST-LIGHT*/
+
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+
+	[Required].background:#FFFFFF; /* WHITE */
+
+	icon:com/ontimize/plaf/images/queryfilter.png;
+}
+
+"TableButton"{
+	contentMargins: 5 5 5 5;
+	textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].textForeground:#539DC4; /* BLUE MIDDARK */
+
+	[Focused].background:#304550; /* BLUE DARKEST */
+	[Focused].alphaTransparency:0.5;
+}
+
+"TableButtonPanel"{
+	topBackgroundColor:#EEF0F500; /* BLUE LIGHT */
+	bottomBackgroundColor:#96CADB00; /* BLUE MID */
+	opaque: false;
+}
+
+TableHeader{
+	foregroundFilter: #CA9010; /* ORANGE darkest */
+	ascendingSortIconBackground:#97B067; /* GREENISH */
+	descendingSortIconBackground:#A05C30; /* REDDISH */
+}
+
+TableHeader:"TableHeader.renderer"{
+	contentMargins:2 5 2 5;
+	opaque:false;
+	textForeground:#000000; /* WHITE */
+
+/*	backgroundDegraded:#304550 #96CADB; /*top bottom*/ /* BLUE DARKEST -- BLUE MID */
+/*	backgroundDegraded: #C6E0F5 #1575A7; /*top bottom*/ /* BLUE MIDLIGHT -- BLUE DARK */
+	backgroundDegraded: #C6E0F5 #EEF0F5; /*top bottom*/ /* BLUE LIGHT -- BLUE MIDLIGHT */
+	outsideRightBorder:#C6E0F5; /* BLUE MIDLIGHT */
+	insideRightBorder:#EEF0F5; /* BLUE LIGHT */
+	bottomBorder:#C6E0F5; /* BLUE MIDLIGHT */
+}
+
+TableHeader:"VisualCalendar:TableHeader.renderer"{
+	[Enabled].textForeground:#FFFFFF; /* WHITE */
+	foregroundShadow:#00000033; /* BLACK */
+	topBorder:#C6E0F5; /* BLUE MID-LIGHT */
+	bottomBorder:#96CADB; /* BLUE MID */
+}
+
+TextArea{
+	[Enabled].textForeground:#203740; /* BLUE BLACK */
+	[Disabled].textForeground:#203740; /* BLUE BLACK */
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	/*[Selected].textForeground:#FFFFFF; /* WHITE */
+	[Selected].textForeground:#000000; /* WHITE */
+	[Required].textForeground:#203740; /* BLUE BLACK */
+	[Disabled+Required].textForeground:#203740; /* BLUE BLACK */
+
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Disabled].background:#d1dae2; /* WHITE */
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Required].background:#FAE080; /* ORANGE COLD*/
+	[Disabled+Required].background:#eae3b8; /* GREY DARK */
+
+
+	[Enabled].border:#E7E9EE; /* BLUE ALMOST LIGHT
+	[Disabled].border:#E7E9EE6D; /* BLUE ALMOST LIGHT 6D% TRANSP */
+/*	[Focused].border:#B0D0E0FF #B0D0E0B3 #B0D0E066 #B0D0E019; /* BLUE PURE LIGHT */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+}
+
+TextField{
+/*	font:Tahoma-PLAIN-11;*/
+
+	[Enabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Enabled].border:#E7E9EE; /* BLUE ALMOST LIGHT */
+
+	[Disabled].textForeground:#203740; /* BLUE BLACK */
+	[Disabled].background:#d1dae2; /* GREY DARK */
+	[Disabled].border:#C6E0F56D; /* BLUE MIDLIGHT */
+
+	[Disabled+Required].textForeground:#203740; /* BLUE BLACK */
+	[Disabled+Required].background:#eae3b8; /* GREY DARK */
+	[Disabled+Required].border:#C6E0F56D; /* BLUE MIDLIGHT */
+
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+
+	/*[Focused].innerShadow:#CACACA;*/
+
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+
+	[Required].textForeground:#203740; /* BLUE BLACK */
+	[Required].background:#FAE080; /* ORANGE COLD*/
+}
+
+TextField:"TextField.ReferenceExt"{
+/*	font:Tahoma-PLAIN-11;*/
+	[Enabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Enabled].border:#E7E9EE; /* BLUE ALMOST LIGHT */
+	[Disabled].textForeground:#203740; /* BLUE BLACK */
+	[Disabled].background:#d1dae2; /* GREY DARK */
+	[Disabled].border:#C6E0F56D; /* BLUE MIDLIGHT */
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+	/*[Focused].innerShadow:#CACACA;*/
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+
+	[Required].textForeground:#203740; /* BLUE BLACK */
+	[Required].background:#FAE080; /* ORANGE COLD*/
+}
+
+TextField:"TextField.ReferenceExtCode"{
+/*	font:Tahoma-PLAIN-11;*/
+	[Enabled].textForeground:#0A0A0A; /* GREY ALMOST BLACK */
+	[Enabled].background:#FFFFFF; /* WHITE */
+	[Enabled].border:#E7E9EE; /* BLUE ALMOST LIGHT */
+	[Disabled].textForeground:#203740; /* BLUE BLACK */
+	[Disabled].background:#d1dae2; /* GREY DARK */
+	[Disabled].border:#C6E0F56D; /* BLUE MIDLIGHT */
+	[Focused].textForeground:#FFFFFF; /* WHITE */
+	[Focused].background:#FFFFFF; /* WHITE */
+	[Focused].border:#EECC80FF #EECC80B3 #EECC8066 #EECC8019; /* ORANGE LIGHT */
+	/*[Focused].innerShadow:#CACACA;*/
+	[Selected].textForeground:#FFFFFF; /* WHITE */
+
+	[Required].textForeground:#203740; /* BLUE BLACK */
+	[Required].background:#FAE080; /* ORANGE COLD*/
+}
+
+TitledBorder{
+	contentMargins: 2 2 2 2;
+	radius: 8;
+	titleSize: 10;
+}
+
+ToggleButton{
+	contentMargins:7 7 7 7;
+	textForeground:#304550; /* BLUE DARKEST */
+	[Disabled].textForeground:#1575A7; /* BLUE DARK */
+
+	[Selected].alphaTransparency:0.3;
+	[Disabled+Selected].alphaTransparency:0.5;
+	[Focused+Selected].alphaTransparency:0.3;
+	[MouseOver+Selected].alphaTransparency:0.5;
+	[Focused+MouseOver+Selected].alphaTransparency:0.5;
+	[Pressed+Selected].alphaTransparency:0.5;
+	[Focused+Pressed+Selected].alphaTransparency:0.5;
+
+	[Disabled].alphaTransparency:0.5;
+	[Enabled].alphaTransparency:0.3;
+	[Focused].alphaTransparency:0.3;
+	[MouseOver].alphaTransparency:0.5;
+	[Focused+MouseOver].alphaTransparency:0.5;
+	[Pressed].alphaTransparency:0.5;
+	[Focused+Pressed].alphaTransparency:0.5;
+}
+
+ToolBar{
+	contentMargins:0 0 0 0;
+	opaque:true;
+	useTextureImage:true;
+	backgroundImage: com/ontimize/plaf/images/toolbarbackground.png;
+/*	backgroundImage: com/cividas/client/utils/images/logos/toolbarbgcividas2.png;*/
+	foreground:#FFFFFF; /* WHITE */
+/*	disabledText:;*/
+	 /*background:#000000;*/
+/*	disabled:;*/
+}
+
+ToolBar:Button{
+	contentMargins:0 6 0 6;
+	textForeground:#FFFFFF; /* WHITE */
+	[Enabled].alphaTransparency:0;
+}
+
+ToolBarSeparator{
+	[Enabled].background:#FFFFFF4C; /* WHITE */
+	contentMargins:0 0 0 0;
+}
+
+ToolTip{
+	textForeground:#FFFFFF; /* WHITE */
+	background:#539DC4; /* BLUE MIDDARK */
+	border:#E7E9EE; /* BLUE ALMOST LIGHT */
+}
+
+Tree{
+	lineColor: #E7E9EE; /* BLUE ALMOST LIGHT */
+	lineSelectionColor: #1575A7; /* BLUE DARK */
+	textForeground: #1575A7; /* BLUE MID */
+	selectionForeground: #EEF0F5; /* BLUE LIGHT */
+	selectionBackground: #539DC4; /* BLUE MID DARK*/
+	expandedIcon: com/ontimize/plaf/images/11x11_tree_open.png;
+	collapsedIcon: com/ontimize/plaf/images/11x11_tree_close.png;
+}
+
+Tree:"Tree.cellRenderer"{
+	textForeground: #1575A7; /* BLUE DARK */
+	rootForeground: #1575A7; /* BLUE DARK */
+	rootSelectionForeground: #539DC4; /* BLUE MIDDARK */
+	background: #EEF0F5; /* BLUE LIGHT */
+	backgroundSelectionParent: #E7E9EE; /* BLUE ALMOST-LIGHT */
+	backgroundSelection: #539DC4; /* BLUE MIDDARK */
+	topBackgroundSelection: #96CADB; /* BLUE MIDDARK */
+	bottomBackgroundSelection: #539DC4; /* BLUE MIDDARK */
+	foregroundSelectionChildCount: #1575A7; /* BLUE DARK */
+	backgroundSelectionCount: #EEF0F5; /* BLUE LIGHT */
+	foregroundChildCount: #EEF0F5; /* BLUE LIGHT */
+	backgroundChildCount: #304550; /* BLUE DARKEST */
+}
+

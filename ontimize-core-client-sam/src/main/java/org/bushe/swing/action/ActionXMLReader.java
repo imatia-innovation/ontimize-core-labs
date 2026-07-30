@@ -15,6 +15,7 @@
  */
 package org.bushe.swing.action;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,20 +29,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.awt.Dimension;
+
 import javax.swing.Action;
 import javax.swing.KeyStroke;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.w3c.dom.Document;
 
 /**
  * The ActionXMLReader reads sets of properties describing
@@ -140,19 +141,19 @@ public class ActionXMLReader {
     private boolean debug = false;
     private boolean printValidationErrors;
 
-    private ActionManager actionManager;
+    private final ActionManager actionManager;
 
     /**
      * Creates an action XML reader
      */
-    public ActionXMLReader(ActionManager manager) {
+    public ActionXMLReader(final ActionManager manager) {
         this.actionManager = manager;
     }
 
     /**
      * @param debug whether to not to output debug messages
      */
-    public void setDebug(boolean debug) {
+    public void setDebug(final boolean debug) {
         this.debug = debug;
     }
 
@@ -162,7 +163,7 @@ public class ActionXMLReader {
      * (though this can be avoided with XML's '&' entity includes)
      * @param printValidationErrors boolean
      */
-    public void setPrintValidationErrors(boolean printValidationErrors) {
+    public void setPrintValidationErrors(final boolean printValidationErrors) {
         this.printValidationErrors = printValidationErrors;
     }
 
@@ -174,13 +175,13 @@ public class ActionXMLReader {
      * @throws IOException
      * @throws SAXException
      */
-    public void loadActions(File f) throws IOException, SAXException {
+    public void loadActions(final File f) throws IOException, SAXException {
         if (debug) {
             System.out.println("loadActions(" + f.getAbsolutePath() + ")");
         }
-        SAXParser parser = getParser();
-        FileInputStream fis = new FileInputStream(f);
-        InputSource is = new InputSource(fis);
+        final SAXParser parser = getParser();
+        final FileInputStream fis = new FileInputStream(f);
+        final InputSource is = new InputSource(fis);
         is.setSystemId(new File(f.getParent()).toURL().toExternalForm());
         loadActions(is, parser);
     }
@@ -195,14 +196,14 @@ public class ActionXMLReader {
      * @throws IllegalArgumentException If url param is null
      * @throws IOException If there is an error in parsing
      */
-    public void loadActions(URL url) throws IOException, SAXException {
+    public void loadActions(final URL url) throws IOException, SAXException {
         if (debug) {
             System.out.println("loadActions(" + url + ")");
         }
         if (url == null) {
             throw new IllegalArgumentException("URL is null.");
         }
-        InputStream stream = url.openStream();
+        final InputStream stream = url.openStream();
         try {
             loadActions(new InputSource(stream), getParser());
         } finally {
@@ -217,21 +218,21 @@ public class ActionXMLReader {
      * @param stream InputStream containing an actionSet document
      * @throws IOException If there is an error in parsing
      */
-    public void loadActions(InputStream stream) throws IOException, SAXException {
-        SAXParser parser = getParser();
+    public void loadActions(final InputStream stream) throws IOException, SAXException {
+        final SAXParser parser = getParser();
         loadActions(new InputSource(stream), parser);
     }
 
-    public void loadActions(InputSource is, SAXParser parser) throws IOException {
+    public void loadActions(final InputSource is, final SAXParser parser) throws IOException {
         try {
             if (handler == null) {
                 handler = new ActionHandler();
             }
             parser.parse(is, handler);
-        } catch (SAXException ex) {
+        } catch (final SAXException ex) {
             printException("SAXException: " + ex.getMessage(), ex);
             throw new IOException("Error parsing: " + ex.getMessage());
-        } catch (IOException ex2) {
+        } catch (final IOException ex2) {
             printException("IOException: " + ex2.getMessage(), ex2);
             throw ex2;
         }
@@ -244,7 +245,7 @@ public class ActionXMLReader {
         }
         try {
             return parserfactory.newSAXParser();
-        } catch (ParserConfigurationException ex3) {
+        } catch (final ParserConfigurationException ex3) {
             printException("ParserConfigurationException: " + ex3.getMessage(), ex3);
             throw new SAXException("Error parsing: " + ex3.getMessage());
         }
@@ -257,8 +258,8 @@ public class ActionXMLReader {
      * @param attrs the Attributes for an action
      * @param actionset the parent action-set id for the action
      */
-    private void addAttributes(Attributes attrs, String actionset) {
-        String id = attrs.getValue(ATTRIBUTE_ID);
+    private void addAttributes(final Attributes attrs, final String actionset) {
+        final String id = attrs.getValue(ATTRIBUTE_ID);
 
         actionManager.registerActionPrototype(id, xmlAttrsToActionAttrs(attrs));
 
@@ -271,8 +272,8 @@ public class ActionXMLReader {
      * @param attrs the XML Attributes of the action tag.
      * @return a new set of action attrbiutes
      */
-    public ActionAttributes xmlAttrsToActionAttrs(Attributes attrs) {
-        ActionAttributes actionAttrs = new ActionAttributes();
+    public ActionAttributes xmlAttrsToActionAttrs(final Attributes attrs) {
+        final ActionAttributes actionAttrs = new ActionAttributes();
         updateAttributes(actionAttrs, attrs);
         return actionAttrs;
     }
@@ -285,7 +286,7 @@ public class ActionXMLReader {
      * @param actionAttrs the attributes to update
      * @param attrs the XML to use to change the actionAttrs
      */
-    public void updateAttributes(ActionAttributes actionAttrs, Attributes attrs) {
+    public void updateAttributes(final ActionAttributes actionAttrs, final Attributes attrs) {
         Object value = attrs.getValue(ActionXMLReader.ATTRIBUTE_NAME);
         if (value != null) {
             actionAttrs.putValue(Action.NAME, value);
@@ -297,7 +298,7 @@ public class ActionXMLReader {
             //Use the id as the command key unless it was explicitly set
             actionAttrs.putValue(Action.ACTION_COMMAND_KEY, value);
         }
-        String commandKey = (String) attrs.getValue(ActionXMLReader.ATTRIBUTE_COMMAND);
+        final String commandKey = attrs.getValue(ActionXMLReader.ATTRIBUTE_COMMAND);
         if (commandKey != null) {
             actionAttrs.putValue(Action.ACTION_COMMAND_KEY, commandKey);
         }
@@ -307,18 +308,18 @@ public class ActionXMLReader {
             // BasicAction.getValue(LONG_DESCRIPTION) will fallback to SHORT_DESCRIPTION if needed
             actionAttrs.putValue(Action.SHORT_DESCRIPTION, value);
         }
-        String longDesc = (String) attrs.getValue(ActionXMLReader.ATTRIBUTE_LONG_DESC);
+        final String longDesc = attrs.getValue(ActionXMLReader.ATTRIBUTE_LONG_DESC);
         if (longDesc != null) {
             actionAttrs.putValue(Action.LONG_DESCRIPTION, longDesc);
         }
 
-        String mnemonic = (String) attrs.getValue(ActionXMLReader.ATTRIBUTE_MNEMONIC);
+        final String mnemonic = attrs.getValue(ActionXMLReader.ATTRIBUTE_MNEMONIC);
         if (mnemonic != null && !mnemonic.equals("")) {
-            actionAttrs.putValue(Action.MNEMONIC_KEY, new Integer(mnemonic.charAt(0)));
+			actionAttrs.putValue(Action.MNEMONIC_KEY, Integer.valueOf(mnemonic.charAt(0)));
         }
-        String accel = (String) attrs.getValue(ActionXMLReader.ATTRIBUTE_ACCEL);
+        final String accel = attrs.getValue(ActionXMLReader.ATTRIBUTE_ACCEL);
         if (accel != null && !accel.equals("")) {
-            KeyStroke keyStroke = KeyStroke.getKeyStroke(accel.trim());
+            final KeyStroke keyStroke = KeyStroke.getKeyStroke(accel.trim());
             actionAttrs.putValue(Action.ACCELERATOR_KEY, keyStroke);
         }
 
@@ -366,8 +367,8 @@ public class ActionXMLReader {
         }
     }
 
-    public void addRoles(String action, List roles) {
-        ActionAttributes actionAttrs = actionManager.getPrototype(action);
+    public void addRoles(final String action, final List roles) {
+        final ActionAttributes actionAttrs = actionManager.getPrototype(action);
         if (actionAttrs == null) {
             return;
         }
@@ -384,10 +385,10 @@ public class ActionXMLReader {
      * @param overridenAttrs the SAX Attributes to overwrite with
      * @param actionset the parent action-set id for the action
      */
-    private void addAttributes(String actionId, ActionAttributes inheritedAttrs,
-                               Attributes overridenAttrs, String actionset) {
-        String id = overridenAttrs.getValue(ATTRIBUTE_ID);
-        ActionAttributes attrs = new ActionAttributes(inheritedAttrs);
+    private void addAttributes(final String actionId, final ActionAttributes inheritedAttrs,
+                               final Attributes overridenAttrs, final String actionset) {
+        final String id = overridenAttrs.getValue(ATTRIBUTE_ID);
+        final ActionAttributes attrs = new ActionAttributes(inheritedAttrs);
         attrs.putValue(ActionManager.ID, id);
         //by default the command matches the id, the xml can override command
         //if necessary, the derived action can redefine the command.
@@ -406,7 +407,7 @@ public class ActionXMLReader {
      * @param id the id of the action set
      * @param actionset the action set to remember.
      */
-    private void addActionIdToActionSet(String id, String actionset) {
+    private void addActionIdToActionSet(final String id, final String actionset) {
         // Add this action id to the actionset
         if (actionset != null && !actionset.equals("")) {
             List list = getActionSet(actionset);
@@ -440,7 +441,7 @@ public class ActionXMLReader {
      * @param id the action-set id
      * @return a List of action ids in the set
      */
-    private List getActionSet(Object id) {
+    private List getActionSet(final Object id) {
         if (actionSetMap == null) {
             actionSetMap = new HashMap();
         }
@@ -452,14 +453,14 @@ public class ActionXMLReader {
      * @param key the action-set id
      * @param set the action set for the key
      */
-    private void addActionSet(String key, List set) {
+    private void addActionSet(final String key, final List set) {
         if (actionSetMap == null) {
             actionSetMap = new HashMap();
         }
         actionSetMap.put(key, set);
     }
 
-    private void printException(String message, Exception ex) {
+    private void printException(final String message, final Exception ex) {
         System.out.println(message);
         if (debug) {
             ex.printStackTrace();
@@ -473,7 +474,7 @@ public class ActionXMLReader {
      * @param stream the stream to print to
      * @param actionAttributes the attribtues to print
      */
-    static void printActionAttributes(PrintStream stream, ActionAttributes actionAttributes) {
+    static void printActionAttributes(final PrintStream stream, final ActionAttributes actionAttributes) {
         stream.println("Attributes for " + actionAttributes.getValue(Action.ACTION_COMMAND_KEY)
                        + actionAttributes);
     }
@@ -499,7 +500,8 @@ public class ActionXMLReader {
         private String group; // current group id
         private List roles; //the list of role names defined for the action
 
-        public void startDocument() {
+        @Override
+		public void startDocument() {
             element = "";
             actionListStack = new Stack();
             actionSetStack = new Stack();
@@ -511,12 +513,13 @@ public class ActionXMLReader {
             roles = null;
         }
 
-        public void startElement(String nameSpace, String localName,
-                                 String name, Attributes attributes) {
+        @Override
+		public void startElement(final String nameSpace, final String localName,
+                                 final String name, final Attributes attributes) {
             if (debug) {
                 System.out.print("startElement(" + nameSpace + ","
                                  + localName + "," + name + ",...)");
-                String id = attributes.getValue(ATTRIBUTE_ID);
+                final String id = attributes.getValue(ATTRIBUTE_ID);
                 System.out.println("id=" + id);
                 if (id != null && id.equals("inherit-action")) {
                     System.out.println("in");
@@ -525,17 +528,17 @@ public class ActionXMLReader {
             element = name;
 
             if (ELEMENT_ACTION_SET.equals(name)) {
-                String newSet = attributes.getValue(ATTRIBUTE_ID);
+                final String newSet = attributes.getValue(ATTRIBUTE_ID);
                 if (actionset != null) {
                     actionSetStack.push(actionset);
                 }
                 actionset = newSet;
 
-                String strWidth = attributes.getValue(ATTRIBUTE_TOOLBAR_BUTTON_PREF_WIDTH);
-                String strHeight = attributes.getValue(ATTRIBUTE_TOOLBAR_BUTTON_PREF_HEIGHT);
+                final String strWidth = attributes.getValue(ATTRIBUTE_TOOLBAR_BUTTON_PREF_WIDTH);
+                final String strHeight = attributes.getValue(ATTRIBUTE_TOOLBAR_BUTTON_PREF_HEIGHT);
                 if (strWidth != null && strHeight != null) {
-                    int width = Integer.parseInt(strWidth);
-                    int height = Integer.parseInt(strHeight);
+                    final int width = Integer.parseInt(strWidth);
+                    final int height = Integer.parseInt(strHeight);
                     if (width > -1 && height > -1) {
                         ActionUIFactory.getInstance().setToolbarButtonPreferredSize(new Dimension(width, height));
                     }
@@ -551,8 +554,8 @@ public class ActionXMLReader {
 //                   <action idref="exit-action"/>
 //                 </action-list>
                 //checkForId
-                String listId = attributes.getValue(ATTRIBUTE_ID);
-                String actionListRefId = attributes.getValue(ATTRIBUTE_IDREF);
+                final String listId = attributes.getValue(ATTRIBUTE_ID);
+                final String actionListRefId = attributes.getValue(ATTRIBUTE_IDREF);
                 if (listId == null && actionListRefId == null) {
                     throw new IllegalArgumentException("Action lists require either an id or an idref.");
                 }
@@ -569,7 +572,7 @@ public class ActionXMLReader {
                     //Make a new action for the action list's triggering action
                     //whose id is the id of the action-list
                     triggerActionRefId = listId;
-                    ActionAttributes actionAtts = actionManager.getPrototype(listId);
+                    final ActionAttributes actionAtts = actionManager.getPrototype(listId);
                     if (actionAtts == null) {
                         addAttributes(attributes, actionset);
                     }
@@ -580,7 +583,7 @@ public class ActionXMLReader {
                 if (actionListRefId == null) {
                     //No, just create a new ActionList
                     newOrReferredToList = new ActionList(listId, triggerActionRefId);
-                    String weight = attributes.getValue(ATTRIBUTE_WEIGHT);
+                    final String weight = attributes.getValue(ATTRIBUTE_WEIGHT);
                     if (weight != null) {
                         newOrReferredToList.setWeight(Double.valueOf(weight));
                     }
@@ -614,7 +617,7 @@ public class ActionXMLReader {
                 // If this action is not within an action-list element then
                 // handle its attributes.
                 action = attributes.getValue(ATTRIBUTE_ID);
-                String inheritedAction = attributes.getValue(ATTRIBUTE_IDREF);
+                final String inheritedAction = attributes.getValue(ATTRIBUTE_IDREF);
                 validateAction(attributes, inheritedAction);
                 //Add attributes for the new action
                 if (action != null) {
@@ -629,14 +632,14 @@ public class ActionXMLReader {
                         actionlist.add(action);
                     }
                     if (group != null) {
-                        ActionAttributes actionAttrs = actionManager.getPrototype(action);
+                        final ActionAttributes actionAttrs = actionManager.getPrototype(action);
                         if (actionAttrs != null) {
                             actionAttrs.putValue(ActionManager.GROUP, group);
                         }
                     }
                 }
             } else if (ELEMENT_NAME_VALUE_PAIR.equals(name)) {
-                ActionAttributes actionAttrs = actionManager.getPrototype(action);
+                final ActionAttributes actionAttrs = actionManager.getPrototype(action);
                 if (actionAttrs != null) {
                     actionAttrs.putValue(attributes.getValue("name"), attributes.getValue("value"));
                 }
@@ -657,28 +660,28 @@ public class ActionXMLReader {
                         if (weightStr != null) {
                             weight = Integer.valueOf(weightStr);
                         }
-                    } catch (NumberFormatException ex) {
+                    } catch (final NumberFormatException ex) {
                         try {
                             weight = Double.valueOf(weightStr);
-                        } catch (NumberFormatException ex2) {
+                        } catch (final NumberFormatException ex2) {
                         }
                     }
                     boolean isLineVisible = true;
                     if (attributes.getValue(ATTRIBUTE_LINE_VISIBLE) != null) {
                         isLineVisible = Boolean.getBoolean(attributes.getValue(ATTRIBUTE_LINE_VISIBLE));
                     }
-                    Separator separator = new Separator(attributes.getValue(ATTRIBUTE_ID), weight, isLineVisible);
+                    final Separator separator = new Separator(attributes.getValue(ATTRIBUTE_ID), weight, isLineVisible);
                     actionlist.add(separator);
                 }
             }
         }
 
-        private void addAttributesFromInheritedAction(Attributes attributes, String inheritedAction) throws
+        private void addAttributesFromInheritedAction(final Attributes attributes, final String inheritedAction) throws
             RuntimeException {
             if (inheritedAction == null) {
                 addAttributes(attributes, actionset);
             } else {
-                ActionAttributes inheritedActionAtts = actionManager.getPrototype(inheritedAction);
+                final ActionAttributes inheritedActionAtts = actionManager.getPrototype(inheritedAction);
                 if (inheritedActionAtts == null) {
                     throw new RuntimeException("Action " + action
                         + " inherits from action " + inheritedAction + " but it is not yet defined.  Actions that inherit from others must be declared after the action they inherit from.");
@@ -687,7 +690,7 @@ public class ActionXMLReader {
             }
         }
 
-        private void validateAction(Attributes attributes, String inheritedAction) throws RuntimeException {
+        private void validateAction(final Attributes attributes, final String inheritedAction) throws RuntimeException {
             if (action == null && inheritedAction == null) {
                 throw new RuntimeException("Actions must have an id or an idref defined. Element name:"+element+"Attributes:"+stringForAttributes(attributes));
             }
@@ -707,7 +710,7 @@ public class ActionXMLReader {
             }
         }
 
-        private String stringForAttributes(Attributes attributes) {
+        private String stringForAttributes(final Attributes attributes) {
             if (attributes == null) {
                 return "null";
             }
@@ -718,7 +721,8 @@ public class ActionXMLReader {
             return result;
         }
 
-        public void endElement(String nameSpace, String localName, String name) {
+        @Override
+		public void endElement(final String nameSpace, final String localName, final String name) {
             if (debug) {
                 System.out.println("endElement(" + nameSpace + ","
                                    + localName + "," + name + ")");
@@ -727,7 +731,7 @@ public class ActionXMLReader {
             if (ELEMENT_ACTION_SET.equals(name)) {
                 try {
                     actionset = (String) actionSetStack.pop();
-                } catch (EmptyStackException ex) {
+                } catch (final EmptyStackException ex) {
                     actionset = null;
                 }
             } else if (ELEMENT_ACTION_LIST.equals(name)) {
@@ -737,7 +741,7 @@ public class ActionXMLReader {
                     }
                     roles = null;
                     actionlist = (ActionList) actionListStack.pop();
-                } catch (EmptyStackException ex) {
+                } catch (final EmptyStackException ex) {
                     actionlist = null;
                 }
             } else if (ELEMENT_ACTION.equals(name)) {
@@ -750,7 +754,8 @@ public class ActionXMLReader {
             }
         }
 
-        public void endDocument() {
+        @Override
+		public void endDocument() {
             element = "";
             actionListStack = new Stack();
             actionSetStack = new Stack();
@@ -765,28 +770,31 @@ public class ActionXMLReader {
         // Overloaded ErrorHandler methods for Validating parser.
         //
 
-        public void error(SAXParseException ex) throws SAXException {
+        @Override
+		public void error(final SAXParseException ex) throws SAXException {
             if (printValidationErrors) {
                 System.out.println("**** validation error");
                 reportException(ex);
             }
         }
 
-        public void warning(SAXParseException ex) throws SAXException {
+        @Override
+		public void warning(final SAXParseException ex) throws SAXException {
             if (printValidationErrors) {
                 System.out.println("**** validation warning");
                 reportException(ex);
             }
         }
 
-        public void fatalError(SAXParseException ex) throws SAXException {
+        @Override
+		public void fatalError(final SAXParseException ex) throws SAXException {
             if (printValidationErrors) {
                 System.out.println("**** validation fatalError");
                 reportException(ex);
             }
         }
 
-        private void reportException(SAXParseException ex) {
+        private void reportException(final SAXParseException ex) {
             if (printValidationErrors) {
                 System.out.println(ex.getLineNumber() + ":" + ex.getColumnNumber() + " "
                                    + ex.getMessage());
@@ -808,9 +816,9 @@ public class ActionXMLReader {
     * @throws IOException
     * @throws SAXException
     */
-   public static Document parseXMLDocument(File file) throws ParserConfigurationException, IOException, SAXException {
+   public static Document parseXMLDocument(final File file) throws ParserConfigurationException, IOException, SAXException {
        // Create a builder factory
-       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
        factory.setValidating(true);
 
        // Create the builder and parse the file

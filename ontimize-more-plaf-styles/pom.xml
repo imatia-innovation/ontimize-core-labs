@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ontimize.labs</groupId>
+		<artifactId>ontimize-core-parent</artifactId>
+		<version>7.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ontimize-more-plaf-styles</artifactId>
+	<packaging>pom</packaging>
+
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
+	
+	<profiles>
+		<profile>
+			<id>generate_version</id>
+			<build>
+				<plugins>
+					<!-- Manifest -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<configuration>
+							<archive>
+								<addMavenDescriptor>false</addMavenDescriptor>
+								<manifest>
+									<mainClass>com.ontimize.plaf.style.jar.JarUtil</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Built-By>${project.organization.name}</Built-By>
+									<Ontimize-plaf-version-number>${project.version}</Ontimize-plaf-version-number>
+									<Version-number>${project.parent.version}</Version-number>
+									<Version-date>${maven.build.timestamp}</Version-date>
+									<Component-name>${project.artifactId}</Component-name>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	<modules>
+		<module>ontimize-more-plaf-styles-white</module>
+		<module>ontimize-more-plaf-styles-black</module>
+		<module>ontimize-more-plaf-styles-lightblue</module>
+		<module>ontimize-more-plaf-styles-brown</module>
+	</modules>
+</project>

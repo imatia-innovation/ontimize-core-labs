@@ -413,7 +413,7 @@ public class BasicDeserializer extends AbstractDeserializer {
             ArrayList<Float> list = new ArrayList<>();
 
             while (!in.isEnd()) {
-                list.add(new Float(in.readDouble()));
+                list.add(Float.valueOf((float)in.readDouble()));
             }
 
             in.readEnd();

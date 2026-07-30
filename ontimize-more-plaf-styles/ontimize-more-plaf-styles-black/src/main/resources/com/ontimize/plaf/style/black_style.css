@@ -1,0 +1,987 @@
+/*Application{*/
+/*	font:Verdana-PLAIN-11;*/
+/*	radius:5.5;*/
+/*}*/
+
+/*Button{*/
+/*	contentMargins:12 12 12 12;*/
+/*	font:Verdana-PLAIN-11;*/
+/*	background:#FFFFFF;*/
+/*	textForeground:#333333;*/
+/*	[Disabled].textForeground:#646464;*/
+/*	[Default].alphaTransparency:0.1;*/
+/*	[Default+Focused].alphaTransparency:0.5;*/
+/*	[Default+MouseOver].alphaTransparency:0.5;*/
+/*	[Default+Focused+MouseOver].alphaTransparency:0.5;*/
+/*	[Default+Pressed].alphaTransparency:0.5;*/
+/*	[Default+Focused+Pressed].alphaTransparency:0.5;*/
+/*	[Disabled].alphaTransparency:0.1;*/
+/*	[Enabled].alphaTransparency:0.2;*/
+/*	[Focused].alphaTransparency:0.3;*/
+/*	[MouseOver].alphaTransparency:0.5;*/
+/*	[Focused+MouseOver].alphaTransparency:0.5;*/
+/*	[Pressed].alphaTransparency:0.5;*/
+/*	[Focused+Pressed].alphaTransparency:0.5;*/
+
+/*	[MouseOver].textForeground:#FFFFFF;*/
+/*	[Enabled].border:#00000000;*/
+/*}*/
+
+Button{
+	contentMargins:7 7 7 7;
+/*	font:Verdana-BOLD-12;*/
+	background:#000000;
+	textForeground:#FFFFFF;
+	[Disabled].textForeground:#646464;
+
+	[Default].alphaTransparency:0.1;
+	[Default+Focused].alphaTransparency:0.5;
+	[Default+MouseOver].alphaTransparency:0.8;
+	[Default+Focused+MouseOver].alphaTransparency:0.8;
+	[Default+Pressed].alphaTransparency:1.0;
+	[Default+Focused+Pressed].alphaTransparency:1.0;
+	[Disabled].alphaTransparency:0.1;
+	[Enabled].alphaTransparency:1.0;
+	[Focused].alphaTransparency:0.5;
+	[MouseOver].alphaTransparency:0.8;
+	[Focused+MouseOver].alphaTransparency:0.8;
+	[Pressed].alphaTransparency:1.0;
+	[Focused+Pressed].alphaTransparency:1.0;
+	[MouseOver].textForeground:#ffffff;
+	[Enabled].border:#ffffff;
+}
+
+"ButtonSelection"{
+	[Focused].background:#ffffff;
+	[Focused].alphaTransparency:0.5;
+}
+
+CheckBox{
+	foreground:#333333;
+	textForeground:#333333;
+	[Enabled].textForeground:#333333;
+	[Disabled].textForeground:#637a88;
+	[Selected].textForeground:#333333;
+	[Focused].textForeground:#333333;
+}
+
+CheckBoxMenuItem{
+	[Enabled].textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7D;
+	[Selected].textForeground:#FFFFFF;
+	[MouseOver].textForeground:#6b6b6b;
+	[MouseOver+Selected].textForeground:#6b6b6b;
+	[Enabled].background:#FFFFFF01;
+	[Disabled].background:#FFFFFF01;
+	[Selected].background:#FFFFFF01;
+	[MouseOver].background:#FFFFFF;
+	[MouseOver+Selected].background:#FFFFFF;
+}
+
+CollapsiblePanel{
+/*	font:VERDANA-BOLD-14;*/
+	foreground:#a1a1a1;
+	foregroundShadow:#f8f8f8;
+	titleBackground:#e6e6e6;
+	background:#e6e6e6;
+	backgroundGradientInit:#e6e6e6;
+	backgroundGradientEnd:#e6e6e6;
+}
+
+"Column"{
+	background:#f8fafb;
+	contentMargins:0 0 0 0;
+}
+
+ComboBox{
+/*	font:Verdana-PLAIN-11;*/
+	foreground:#6b6b6b;
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Disabled+Required].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+	[Required].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Disabled+Required].background:#d1d2d3;
+	[Focused].background:#FFFFFF;
+	[Focused+MouseOver].background:#FFFFFF;
+	[MouseOver].background:#FFFFFF;
+	[Pressed].background:#FFFFFF;
+	[Focused+Pressed].background:#FFFFFF;
+	[Required].background:#aaaaaa;
+
+	[Enabled].border:#D2D4D5;
+	[Disabled].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;
+}
+
+ComboBox:"ComboBox.textField"{
+/*	font:Verdana-PLAIN-11;*/
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Selected].background:#FFFFFF;
+
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Selected].textForeground:#FFFFFF;
+}
+
+ComboBox:"ComboBox.arrowButton"{
+	[Disabled].background:#8888887D;
+	[Disabled+Required].background:#8888887D;
+	[Enabled].background:#888888;
+	[MouseOver].background:#888888;
+	[Pressed].background:#888888;
+	[Selected].background:#888888;
+	[Focused].background:#888888;
+	[Focused+Required].background:#888888;
+	[Required].background:#888888;
+
+	[Disabled+Editable].background:#888888;
+	[Editable+Enabled].background:#888888;
+	[Editable+MouseOver].background:#888888;
+	[Editable+Pressed].background:#888888;
+	[Editable+Focused].background:#888888;
+
+	[Enabled].foreground:#ffffff;
+	[MouseOver].foreground:#000000;
+	[MouseOver+Required].foreground:#000000;
+	[Disabled].foreground:#ffffff7D;
+	[Disabled+Required].foreground:#ffffff7D;
+	[Pressed].foreground:#000000;
+	[Selected].foreground:#000000;
+	[Required].foreground:#ffffff;
+}
+
+ComboBox:"ComboBox.listRenderer"{
+	[Required].textForeground:#FFFFFF;
+	[Disabled].textForeground:#637a88;
+	[Disabled+Required].textForeground:#637a88;
+	[Selected].textForeground:#FFFFFF;
+	[Selected].background:#FFFFFF;
+}
+
+Diagram{
+	background:#FFFFFF;
+	border:#adc0ce;
+}
+
+EditorPane{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#C4CED46D;
+	[Selected].background:#FFFFFF;
+}
+
+"ELabel"{
+/*	font:Verdana-PLAIN-11;*/
+	[Enabled].textForeground:#333333;
+	[Disabled].textForeground:#637a88;
+	disabledText:#637a88;
+}
+
+"FieldButton"{
+	textForeground:#FFFFFF;
+	[Disabled].textForeground:#637a88;
+
+	[Focused].background:#000000;
+	[Focused].alphaTransparency:0.25;
+	[MouseOver].background:#000000;
+	[MouseOver].alphaTransparency:0.25;
+	[Focused+MouseOver].background:#000000;
+	[Focused+MouseOver].alphaTransparency:0.25;
+}
+
+"FormBodyPanel"{
+	bgpaint:linear-gradient(to bottom, #ffffff 0%, #ffffff 100%);
+	contentMargins:0 0 0 0;
+}
+
+"FormButton"{
+/*	font:;*/
+	textForeground:#FFFFFF;
+	[Disabled].textForeground:#637a88;
+
+	[Focused].background:#ffffff;
+	[Focused].alphaTransparency:0.5;
+
+	[MouseOver].background:#ffffff;
+	[MouseOver].alphaTransparency:0.5;
+
+	[Focused+MouseOver].background:#ffffff;
+	[Focused+MouseOver].alphaTransparency:0.5;
+}
+
+"FormButtonPanel"{
+	topBackgroundColor:#000000;
+	bottomBackgroundColor:#000000;
+}
+
+"FormHeaderButton"{
+	textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7F;
+	[MouseOver].textForeground:#6b6b6b;
+	[Enabled].background:#FFFFFF01;
+	[Disabled].background:#FFFFFF01;
+	[MouseOver].background:#FFFFFF;
+}
+
+FormTabbedPane{
+	background:#9B9B9B;
+	[Enabled].border:#000000;
+	[Disabled].border:#000000;
+}
+
+FormTabbedPane:TabbedPaneContent{
+	contentMargins:1 1 1 1;
+	[Enabled].background:#FAFAFA;
+	[Disabled].background:#517286;
+}
+
+FormTabbedPane:TabbedPaneTab{
+	contentMargins:1 1 1 1;
+/*	font:Verdana-BOLD-11;*/
+	[Enabled].textForeground:#000000;
+	[Disabled].textForeground:#263945;
+	[Selected].textForeground:#FFFFFF;
+	[Focused].textForeground:#FFFFFF;
+	[Enabled].background:#FAFAFA;
+
+	[Enabled+Pressed].background:#505050;
+	[Disabled].background:#d7d7d7;
+	[Disabled+Selected].background:#505050;
+	[Selected].background:#505050;
+	[MouseOver+Selected].background:#505050;
+	[Pressed+Selected].background:#505050;
+	[Focused+Selected].background:#505050;
+	[Focused+MouseOver+Selected].background:#505050;
+	[Focused+Pressed+Selected].background:#505050;
+	[Enabled+MouseOver].background:#505050;
+}
+
+"FormTabbedPaneTab.Label"{
+	foreground:#000000;
+	textForeground:#000000;
+	[Enabled].textForeground:#000000;
+	[Disabled].textForeground:#263945;
+	[Selected].textForeground:#FFFFFF;
+	[Focused].textForeground:#FFFFFF;
+}
+
+FormTabbedPane:TabbedPaneTabArea{
+	contentMargins:0 0 0 0;
+	[Enabled].background:#FAFAFA22;
+	[Disabled].background:#51728633;
+}
+
+FormTabbedPane:TabbedPaneTabArea:"TabbedPaneTabArea.button"{
+	contentMargins:1 1 1 1;
+	[Enabled].foreground:#BDBDBD;
+	[Disabled].foreground:#D0DAE2;
+	[Pressed].foreground:#9D9D9D;
+	[MouseOver].foreground:#FFFFFF;
+}
+
+"FormTitle"{
+	background:#4d4d4d;
+	shadow:#838383;
+	textForeground:#f2f2f2;
+	textForegroundShadow:#000000;
+}
+
+"Grid"{
+	background:#cbd7e020;
+	contentMargins:0 0 0 0;
+	opaque:false;
+}
+
+Label{
+/*	font:Verdana-PLAIN-11;*/
+	foreground:#6b6b6b;
+	disabledText:#637a88;
+
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:"#61BEE8";
+	[Selected].textForeground":"#FFFFFF";
+}
+
+List{
+	/*contentMargins:0 0 0 0;*/
+/*	font:Verdana-PLAIN-11;*/
+	background:#ffffff;
+/*	textForeground:#1d1d1d;*/
+	textForeground:#000000;
+	[Selected].textForeground:#ffffff;
+	[Selected].textBackground:#888888;
+/*	[Disabled].textForeground:;*/
+/*	[Disabled].background:;*/
+}
+
+List:\"List.cellRenderer\"{
+	contentMargins:2 6 2 6;
+	[Disabled].textForeground:#8e8f91;
+	[Disabled].background:#c9cfd3;
+	textForeground:#000000;
+}
+
+Menu{
+	[Enabled].textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7D;
+	[Enabled+Selected].textForeground:#FFFFFF;
+	[Enabled+Selected].background:#4c4c4c;
+	[Enabled+Selected].border:#e5e5e5;
+	[Enabled].arrowBackground:#FFFFFF7D;
+	[Disabled].arrowBackground:#0000007D;
+	[Enabled+Selected].arrowBackground:#0000004C;
+}
+
+MenuBar{
+	contentMargins:1 5 0 5;
+
+	[Enabled].background:#4c4c4c;
+	[Enabled].border:#4c4c4c;
+}
+
+MenuBar:Menu{
+	contentMargins:3 15 0 15;
+	[Enabled].textForeground:#e5e5e5;
+	[Disabled].textForeground:#e5e5e57D;
+	[Selected].textForeground:#eeeeee;
+
+	[Selected].background:#4c4c4c;
+	[Selected].border:#e5e5e5;
+}
+
+"MenuButtonSelection"{
+	[Focused].background:#ffffff;
+	[Focused].alphaTransparency:0.5;
+	[MouseOver].background:#ffffff;
+	[MouseOver].alphaTransparency:0.5;
+	[Focused+MouseOver].background:#ffffff;
+	[Focused+MouseOver].alphaTransparency:0.5;
+}
+
+MenuItem{
+	[Enabled].textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7F;
+	[MouseOver].textForeground:#6b6b6b;
+	[Enabled].background:#FFFFFF01;
+	[Disabled].background:#FFFFFF01;
+	[MouseOver].background:#FFFFFF;
+}
+
+MenuItem:MenuItemAccelerator{
+	[Enabled].textForeground:#FFFFFF7F;
+	[Disabled].textForeground:#FFFFFF7F;
+	[MouseOver].textForeground:#6b6b6b;
+}
+
+OptionPane{
+	background:#ebf0f3;
+	messageForeground:#6b6b6b;
+	buttonMinimumWidth:90;
+}
+
+Panel{
+	background:#ebf0f3;
+}
+
+Planning:TaskView{
+/*	taskViewPath:com/ontimize/multiidioma/plaf/newTaskViewForPlanning.html;*/
+}
+
+Planning:LCalendar{
+/*	componentBackground:#FFFFFF;*/
+/*	monthBorderColor:#000000;*/
+	monthHeaderBackground:#4D4D4D;
+	monthHeaderForeground:#FFFFFF;
+/*	monthWeekBackground:#FFFFFF;*/
+/*	monthWeekForeground:#000000;*/
+/*	monthOddDaysBackground:#F3F3F0;*/
+/*	monthEvenDaysBackground:#FFFFFF;*/
+/*	monthDayBackgroundSelected:#5CB1EA;*/
+/*	monthDaysForeground:#000000;*/
+/*	monthDaysAccomplisehdAppointments:#FF0000;*/
+/*	monthDaysPendingAppointments:#00FF00;*/
+}
+
+Planning:DayPlanningComponent{
+/*	ownersBarWidth:50; 50*/
+/*	schedulerpanelBgcolor:#FFFFFF;*/
+	scrollPanelBgcolor:#EBF0F3;
+	defaultSlotBackgroundColor:#888888;
+	defaultSlotBackgroundselectedColor:#C0C2C3;
+/*	defaultSlotBorderColor:#000000;*/
+/*	defaultSlotSelectedBorderColor:#FF0000;*/
+/*	defaultEmptySelectedSlotColor:#C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor:#000000;*/
+/*	defaultUnschedulableSlotColor:#FF0000;*/
+/*	schedulerpanelLastlineColor:#000000;*/
+/*	schedulerpanelLastlineStrokeWidth:1.0f;*/
+/*	schedulerpanelLinesColor:#C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth:1.0f;*/
+/*	schedulerpanelMiddlelineColor:#FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth:1.0f;*/
+/*	schedulerpanelVerticallinesColor:#000000;*/
+/*	schedulerpanelVerticallinesStroke:1.0f;*/
+	ownersbarNamesBackgroundColor:#4D4D4D;
+	ownersbarNamesFontColor:#FFFFFF;
+/*	ownersbarNamesFontStyle:1;*/
+/*	ownersbarNamesFontSize:11.0f;*/
+	ownersbarHoursBorderColor:#FFFFFF;
+	ownersbarHoursBackgroundColor:#4D4D4D;
+	ownersbarHoursFontColor:#FFFFFF;
+/*	ownersbarHoursFontStyle:1;*/
+/*	ownersbarHoursFontSize:11.0f;*/
+/*	slotHeaderFontname:Tahoma;*/
+/*	slotHeaderFontcolor:#000000;*/
+/*	slotHeaderFontsize:9;	*/
+}
+
+Planning:WeekPlanningComponent{
+/*	ownersBarWidth:60;*/
+/*	schedulerpanelBgcolor:#FFFFFF;*/
+	scrollPanelBgcolor:#EBF0F3;
+	defaultSlotBackgroundColor:#888888;
+	defaultSlotBackgroundselectedColor:#C0C2C3;
+/*	defaultSlotBorderColor:#000000;*/
+/*	defaultSlotSelectedBorderColor:#FF0000;*/
+/*	defaultEmptySelectedSlotColor:#C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor:#000000;*/
+/*	defaultUnschedulableSlotColor:#FF0000;*/
+/*	schedulerpanelLastlineColor:#000000;*/
+/*	schedulerpanelLastlineStrokeWidth:1.0f;*/
+/*	schedulerpanelLinesColor:#C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth:1.0f;*/
+/*	schedulerpanelMiddlelineColor:#FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth:1.0f;*/
+/*	schedulerpanelVerticallinesColor:#000000;*/
+/*	schedulerpanelVerticallinesStroke:1.0f;*/
+	weekdaysbarBackgroundColor:#4D4D4D;
+	weekdaysbarBorderColor:#FFFFFF;
+	weekdaysbarFontColor:#FFFFFF;
+/*	weekdaysbarFontStyle:1;*/
+/*	weekdaysbarFontSize:12.0f;*/
+	ownersbarNamesBackgroundColor:#4D4D4D;
+	ownersbarNamesFontColor:#FFFFFF;
+/*	ownersbarNamesFontStyle:1;*/
+/*	ownersbarNamesFontSize:11.0f;*/
+	ownersbarHoursBackgroundColor:#C0C2C3;
+/*	ownersbarHoursFontColor:#000000;*/
+/*	ownersbarHoursFontStyle:1;*/
+/*	ownersbarHoursFontSize:9.0f;*/
+/*	ownersbarHoursLinesColor:#404040;*/
+/*	ownersbarHoursLinesStrokeWidth:1.0f;*/
+/*	ownersbarHoursMiddlelineColor:#FF0000;*/
+/*	ownersbarHoursLastlineColor:#000000;*/
+/*	ownersbarHoursLastlineStrokeWidth:1.0f;*/
+/*	slotHeaderFontname:Tahoma;*/
+/*	slotHeaderFontcolor:#000000;*/
+/*	slotHeaderFontsize:9;	*/
+}
+
+Planning:MonthPlanningComponent{
+/*	ownersBarWidth:80;*/
+/*	schedulerpanelBgcolor:#FFFFFF;*/
+	defaultSlotBackgroundColor:#888888;
+	defaultSlotBackgroundselectedColor:#C0C2C3;
+/*	defaultSlotBorderColor:#000000;*/
+/*	defaultSlotSelectedBorderColor:#FF0000;*/
+/*	defaultEmptySelectedSlotColor:#C0C0C0;*/
+/*	defaultEmptySelectedSlotBorderColor:#000000;*/
+/*	defaultMarkerSlotColor:#0000FF;*/
+/*	defaultMarkerSlotBorderColor:#00FF00;*/
+/*	defaultUnschedulableSlotColor:#FF0000;*/
+/*	schedulerpanelLastlineColor:#000000;*/
+/*	schedulerpanelLastlineStrokeWidth:1.0f;*/
+/*	schedulerpanelLinesColor:#C0C0C0;*/
+/*	schedulerpanelLinesStrokeWidth:1.0f;*/
+/*	schedulerpanelMiddlelineColor:#FF0000;*/
+/*	schedulerpanelMiddlelineStrokeWidth:1.0f;*/
+/*	schedulerpanelVerticallinesColor:#000000;*/
+/*	schedulerpanelVerticallinesStroke:1.0f;*/
+	weekdaysbarBackgroundColor:#4D4D4D;
+	weekdaysbarBorderColor:#FFFFFF;
+	weekdaysbarFontColor:#FFFFFF;
+/*	weekdaysbarFontStyle:1;*/
+/*	weekdaysbarFontSize:9.0f;*/
+/*	minimunWeekdaysbarWidth:100;*/
+	ownersbarNamesBackgroundColor:#4D4D4D;
+ 	ownersbarNamesFontColor:#FFFFFF;
+/*	ownersbarNamesFontStyle:1;*/
+/*	ownersbarNamesFontSize:11.0f;*/
+/*	slotHeaderFontname:Tahoma;*/
+/*	slotHeaderFontcolor:#000000;*/
+/*	slotHeaderFontsize:9;*/
+}
+
+"PopupItem"{
+	[Enabled].background:#FFFFFF01;
+	[Disabled].background:#FFFFFF01;
+	[MouseOver].background:#FFFFFF;
+	[Enabled].textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7F;
+	[MouseOver].textForeground:#6b6b6b;
+}
+
+PopupMenu{
+	[Disabled].background:#4c4c4c;
+	[Enabled].background:#4c4c4c;
+	[Disabled].border:#e5e5e5;
+	[Enabled].border:#e5e5e5;
+}
+
+RadioButton{
+/*	[Disabled].icon:;*/
+/*	[Enabled].icon:;*/
+/*	[Focused].icon:;*/
+/*	[MouseOver].icon:;*/
+/*	[Focused+MouseOver].icon:;*/
+/*	[Pressed].icon:;*/
+/*	[Focused+Pressed].icon:;*/
+/*	[Selected].icon:;*/
+/*	[Focused+Selected].icon:;*/
+/*	[Pressed+Selected].icon:;*/
+/*	[Focused+Pressed+Selected].icon:;*/
+/*	[MouseOver+Selected].icon:;*/
+/*	[Focused+MouseOver+Selected].icon:;*/
+/*	[Disabled+Selected].icon:;*/
+/*	contentMargins:;*/
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:#6b6b6b;
+	[Selected].textForeground:#6b6b6b;
+}
+
+RadioButtonMenuItem{
+	[Enabled].textForeground:#FFFFFF;
+	[Disabled].textForeground:#FFFFFF7D;
+	[Selected].textForeground:#FFFFFF;
+	[MouseOver].textForeground:#6b6b6b;
+	[MouseOver+Selected].textForeground:#6b6b6b;
+	[Enabled].background:#FFFFFF01;
+	[Disabled].background:#FFFFFF01;
+	[Selected].background:#FFFFFF01;
+	[MouseOver].background:#FFFFFF;
+	[MouseOver+Selected].background:#FFFFFF;
+/*	contentMargins:;*/
+/*	[Disabled].icon:;*/
+/*	[Enabled].icon:;*/
+/*	[Focused].icon:;*/
+/*	[MouseOver].icon:;*/
+/*	[Focused+MouseOver].icon:;*/
+/*	[Pressed].icon:;*/
+/*	[Focused+Pressed].icon:;*/
+/*	[Selected].icon:;*/
+/*	[Focused+Selected].icon:;*/
+/*	[Pressed+Selected].icon:;*/
+/*	[Focused+Pressed+Selected].icon:;*/
+/*	[MouseOver+Selected].icon:;*/
+/*	[Focused+MouseOver+Selected].icon:;*/
+/*	[Disabled+Selected].icon:;*/
+}
+
+
+"Row"{
+	background:#f8fafb;
+	contentMargins:0 0 0 0;
+}
+
+ScrollBar{
+	contentMargins:6 6 6 6;
+	thumbHeight:12;
+	[Enabled].border:#FFFFFF;
+	[Disabled].border:#FFFFFF;
+}
+
+ScrollBar:"ScrollBar.button"{
+	size:25;
+	[Enabled].background:#BDBDBD;
+	[Disabled].background:#D0DAE2;
+	[MouseOver].background:#BDBDBD;
+	[Pressed].background:#9D9D9D;
+	[Enabled].arrowBackground:#FFFFFF;
+	[Disabled].arrowBackground:#FFFFFF;
+	[MouseOver].arrowBackground:#FFFFFF;
+	[Pressed].arrowBackground:#FFFFFF;
+}
+
+ScrollBar:ScrollBarThumb{
+	[Enabled].background:#4c4c4c;
+	[MouseOver].background:#4c4c4c;
+	[Pressed].background:#4c4c4c;
+	[Enabled].backgroundShadow:#FFFFFF25;
+	[MouseOver].backgroundShadow:#FFFFFF25;
+	[Pressed].backgroundShadow:#FFFFFF25;
+	[Enabled].border:#4c4c4c;
+	[MouseOver].border:#4c4c4c;
+	[Pressed].border:#4c4c4c;
+}
+
+ScrollBar:ScrollBarTrack{
+	[Enabled].background:#E6E6E6;
+	[Disabled].background:#EEF1F4;
+}
+
+ScrollPane{
+	opaque:false;
+}
+
+"SelectableItem"{
+	foreground:#333333;
+	textForeground:#333333;
+	[Enabled].textForeground:#333333;
+	[Disabled].textForeground:#637a88;
+	[Selected].textForeground:#333333;
+	[Focused].textForeground:#333333;
+}
+
+SplitPane{
+	contentMargins:0 0 0 0;
+	size:12;
+	dividerSize:12;
+}
+
+SplitPane:SplitPaneDivider{
+	contentMargins:0 0 0 0;
+	[Enabled].background:#E6E6E6;
+	[Focused].background:#E6E6E6;
+	[Enabled].foreground:#AAAAAA7D;
+	[Enabled+Vertical].foreground:#AAAAAA7D;
+	[Enabled].foregroundBorder:#FFFFFF;
+	[Enabled+Vertical].foregroundBorder:#FFFFFF;
+}
+
+TabbedPane{
+	contentMargins:8 12 12 12;
+	opaque:false;
+	background:#9B9B9B;
+	[Enabled].border:#000000;
+	[Disabled].border:#000000;
+}
+
+TabbedPane:TabbedPaneContent{
+	contentMargins:5 2 5 2;
+	[Enabled].background:#FAFAFA;
+	[Disabled].background:#517286;
+}
+
+TabbedPane:TabbedPaneTab{
+	contentMargins:1 1 1 1;
+/*	font:Verdana-BOLD-11;*/
+	[Enabled].textForeground:#000000;
+	[Disabled].textForeground:#263945;
+	[Selected].textForeground:#FFFFFF;
+	[Focused].textForeground:#FFFFFF;
+	[Enabled].background:#FAFAFA;
+	[Enabled+Pressed].background:#505050;
+	[Disabled].background:#d7d7d7;
+	[Disabled+Selected].background:#505050;
+	[Selected].background:#505050;
+	[MouseOver+Selected].background:#505050;
+	[Pressed+Selected].background:#505050;
+	[Focused+Selected].background:#505050;
+	[Focused+MouseOver+Selected].background:#505050;
+	[Focused+Pressed+Selected].background:#505050;
+	[Enabled+MouseOver].background:#505050;
+}
+
+TabbedPane:TabbedPaneTabArea:"TabbedPaneTabArea.button"{
+	contentMargins:1 1 1 1;
+	[Enabled].foreground:#BDBDBD;
+	[Disabled].foreground:#D0DAE2;
+	[Pressed].foreground:#9D9D9D;
+	[MouseOver].foreground:#FFFFFF;
+}
+
+Table{
+	foreground:#333333;
+	textForeground:#333333;
+	background:#f5f5f5;
+	border:#a7a7a7;
+	useOddEvenAlternateRowColor:true;
+	alternateOddRowColor:#d7d7d7;/*#d7d7d7;*/
+	alternateEvenRowColor:#cccbcb;/*#cccbcb;*/
+	selectionBackground:#FFFFFF;
+	selectionForeground:#555555;
+	[Enabled+Selected].textForeground:#555555;
+	[Enabled+Selected].textBackground:#FFFFFF;
+}
+
+Table:"Table.cellEditor"{
+	foreground:#31c7fc;
+	[Enabled].textForeground:#31c7fc;
+	[Selected].textForeground:#FFFFFF;
+	[Enabled].background:#FFFFFF;
+	border:#4cb5d7;
+}
+
+Table:"Table.cellRenderer"{
+	foreground:#333333;
+	evenRowBackground:#cccbcb;
+	oddRowBackground:#d7d7d7;
+	[Editable].foreground:#333333;
+	[Editable].evenEditableBackground:#cccbcb;
+	[Editable].oddEditableBackground:#d7d7d7;
+	[Selected].foreground:#555555;
+	[Selected].background:#FFFFFF;
+	[Selected+Editable].background:#FFFFFF;
+	[Selected].border:#2E8ECB;
+}
+
+Table:"Table.QuickFilter"{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#C4CED46D;
+	[Focused].background:#FFFFFF;
+	[Required].background:#c8e1ec;
+
+	[Enabled].border:#E0EBF2;
+	[Disabled].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;
+	/*[Focused].innerShadow:#CACACA;*/
+	icon:com/ontimize/plaf/images/queryfilter.png;
+}
+
+Table:"Table.rowHeadCellRenderer"{
+	foreground:#FFFFFF;
+	[Enabled].background:#6387a0;
+	border:#FFFFFF;
+}
+
+Table:"Table.sumCellRenderer"{
+	foreground:#FFFFFF;
+	[Enabled].background:#66ccff;
+	[Disabled].background:#EBF0F3;
+}
+
+"TableButton"{
+	contentMargins:0 0 0 0;
+/*	font:;*/
+	textForeground:#335971;
+	[Disabled].textForeground:#637a88;
+
+	[Focused].background:#366581;
+	[Focused].alphaTransparency:0.5;
+}
+
+"TableButtonPanel"{
+	topBackgroundColor:#DAE7ED00;
+	bottomBackgroundColor:#A2ABB000;
+	opaque:false;
+}
+
+TableHeader{
+/*	font:Verdana-PLAIN-11;*/
+/*	background:#00000000;*/
+/*	opaque:false;*/
+	ascendingSortIconBackground:#80b721;
+	descendingSortIconBackground:#e64718;
+}
+
+TableHeader:"TableHeader.renderer"{
+	contentMargins:5 5 5 5;
+/*	font:Verdana-PLAIN-11;*/
+	opaque:true;
+	textForeground:#ffffff;
+	backgroundDegraded:#606060 #3C3C3C; /*top bottom*/
+	outsideRightBorder:#212121;
+	insideRightBorder:#9E9E9E;
+	bottomBorder:#000000;
+}
+
+TableHeader:"VisualCalendar:TableHeader.renderer"{
+	[Enabled].textForeground:#FFFFFF;
+	foregroundShadow:#00000033;
+	topBorder:#959ea3;
+	bottomBorder:#b6bdbf;
+}
+
+TextArea{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Disabled+Required].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+	[Required].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Disabled+Required].background:#d1d2d3;
+	[Focused].background:#FFFFFF;
+	[Required].background:#aaaaaa;/*#c8e1ec;*/
+
+	[Enabled].border:#D2D4D5;
+	[Disabled].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;
+}
+
+TextField{
+/*	font:Verdana-PLAIN-11;*/
+
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Disabled+Required].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Focused+Required].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+	[Required].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Disabled+Required].background:#d1d2d3;
+	[Focused].background:#FFFFFF;
+	[Focused+Required].background:#aaaaaa;
+	[Required].background:#aaaaaa;/*#c8e1ec;*/
+
+	[Enabled].border:#D2D4D5;
+	[Disabled].border:#C4CED46D;
+	[Disabled+Required].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;/*#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819;*/
+
+	/*[Focused].innerShadow:#CACACA;*/
+}
+
+TextField:"TextField.ReferenceExt"{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Focused].background:#FFFFFF;
+	[Required].background:#aaaaaa;/*#c8e1ec;*/
+
+	[Enabled].border:#D2D4D5;
+	[Disabled].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;/*#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819;*/
+}
+
+TextField:"TextField.ReferenceExtCode"{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Focused].textForeground:#FFFFFF;
+	[Selected].textForeground:#FFFFFF;
+
+	[Enabled].background:#FFFFFF;
+	[Disabled].background:#e9ebeb;
+	[Focused].background:#FFFFFF;
+	[Required].background:#aaaaaa;/*#c8e1ec;*/
+
+	[Enabled].border:#D2D4D5;
+	[Disabled].border:#C4CED46D;
+	[Focused].border:#666666FF #666666B3 #66666666 #66666619;/*#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819;*/
+}
+
+TextPane{
+	[Enabled].textForeground:#6b6b6b;
+	[Disabled].textForeground:#637a88;
+	[Selected].textForeground:#FFFFFF;
+}
+
+/*TitledBorder{*/
+/*	radius:8;*/
+/*	contentMargins:2 2 2 2;*/
+/*	titleSize:6;*/
+/*}*/
+
+ToggleButton{
+	contentMargins:7 7 7 7;
+/*	font:;*/
+/*	background:;*/
+	textForeground:#ffffff;
+	[Disabled].textForeground:#637a88;
+
+	[Selected].alphaTransparency:0.3;
+	[Disabled+Selected].alphaTransparency:0.5;
+	[Focused+Selected].alphaTransparency:0.3;
+	[MouseOver+Selected].alphaTransparency:0.5;
+	[Focused+MouseOver+Selected].alphaTransparency:0.5;
+	[Pressed+Selected].alphaTransparency:0.5;
+	[Focused+Pressed+Selected].alphaTransparency:0.5;
+
+	[Disabled].alphaTransparency:0.5;
+	[Enabled].alphaTransparency:0.3;
+	[Focused].alphaTransparency:0.3;
+	[MouseOver].alphaTransparency:0.5;
+	[Focused+MouseOver].alphaTransparency:0.5;
+	[Pressed].alphaTransparency:0.5;
+	[Focused+Pressed].alphaTransparency:0.5;
+}
+
+ToolBar{
+	contentMargins:0 0 0 0;
+	opaque:true;
+	useTextureImage:false;
+/*	backgroundImage:com/imatia/rcontratacion/client/laf/toolbarbackground.png;*/
+	bgpaint:linear-gradient(to bottom, #000000 0%, #000000 100%);
+	foreground:#FFFFFF;
+/*	disabledText:;*/
+	/*background:#000000;*/
+/*	disabled:;*/
+}
+
+ToolBar:Button{
+	contentMargins:0 8 0 8;
+	textForeground:#FFFFFF;
+}
+
+ToolBarSeparator{
+	[Enabled].background:#FFFFFF4C;
+	contentMargins:0 0 0 0;
+}
+
+"ToolbarNavigatorMenuButtonSelection"{
+	[Focused].background:#ffffff;
+	[Focused].alphaTransparency:0.5;
+	[MouseOver].background:#ffffff;
+	[MouseOver].alphaTransparency:0.5;
+	[Focused+MouseOver].background:#ffffff;
+	[Focused+MouseOver].alphaTransparency:0.5;
+}
+
+ToolTip{
+	textForeground:#FFFFFF;
+	background:#888888;
+	border:#e5e5e5;
+}
+
+Tree{
+/*	font:Verdana-BOLD-11;*/
+	lineColor:#C5D1DA;
+	lineSelectionColor:#090707;
+	selectionBackground:#090707cc;
+	selectionForeground:#f5f7f7;
+	textForeground:#f5f7f7;
+	expandedIcon:com/ontimize/plaf/images/11x11_tree_open.png;
+	collapsedIcon:com/ontimize/plaf/images/11x11_tree_close.png;
+}
+
+Tree:"Tree.cellRenderer"{
+/*	font:Verdana-BOLD-11;*/
+	textForeground:#FFFFFF;
+	rootForeground:#333333;
+	rootSelectionForeground:#517286;
+	background:#888888;
+	backgroundSelectionParent:#c0c2c3;
+	backgroundSelection:#090707cc;
+	topBackgroundSelection:#50505086;
+	bottomBackgroundSelection:#50505086;
+	backgroundChildCount:#dddddd;
+	foregroundChildCount:#333333;
+	backgroundSelectionCount:#E4EDF0;
+	foregroundSelectionChildCount:#517286;
+}
+
