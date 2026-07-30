@@ -35,7 +35,7 @@ public class AbstractClientPermission implements RestrictedClientPermission {
 	}
 
 	@Override
-	public void setRestricted(boolean restricted) {
+	public void setRestricted(final boolean restricted) {
 		this.restricted = restricted;
 	}
 
@@ -69,7 +69,7 @@ public class AbstractClientPermission implements RestrictedClientPermission {
 	}
 
 	@Override
-	public void setAttribute(String attr) {
+	public void setAttribute(final String attr) {
 		this.attr = attr;
 	}
 
@@ -79,14 +79,14 @@ public class AbstractClientPermission implements RestrictedClientPermission {
 	}
 
 	@Override
-	public void setPeriod(TimePeriod period) {
+	public void setPeriod(final TimePeriod period) {
 		this.period = period;
 	}
 
 	@Override
 	public String toString() {
-		String aux = this.getClass().toString() + " " + this.attr;
-		StringBuilder sb = new StringBuilder(aux);
+		final String aux = this.getClass().toString() + " " + this.attr;
+		final StringBuilder sb = new StringBuilder(aux);
 		sb.append(" ");
 		sb.append(this.name);
 		sb.append(" " + this.period);
@@ -96,10 +96,10 @@ public class AbstractClientPermission implements RestrictedClientPermission {
 
 	public long getTime() {
 		try {
-			Class<?> clazz = Class.forName("com.ontimize.jee.common.gui.ApplicationManager");
-			Method method = clazz.getMethod("getTime");
+			final Class<?> clazz = Class.forName("com.ontimize.gui.ApplicationManager");
+			final Method method = clazz.getMethod("getTime");
 			return (Long) method.invoke(null);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			AbstractClientPermission.logger.error(e.getMessage(), e);
 		}
 

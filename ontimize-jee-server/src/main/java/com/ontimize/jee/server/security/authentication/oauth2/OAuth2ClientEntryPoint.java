@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.util.Assert;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public class OAuth2ClientEntryPoint implements AuthenticationEntryPoint, InitializingBean {
 
@@ -94,23 +94,23 @@ public class OAuth2ClientEntryPoint implements AuthenticationEntryPoint, Initial
         return result;
     }
 
-    private URI redirectUriUsing(HttpServletRequest request) {
-        URI redirect;
+	private URI redirectUriUsing(HttpServletRequest request) {
 
-        URI redirectUri = this.oAuth2ClientProperties.getRedirectUri();
-        if (!redirectUri.isAbsolute()) {
-            redirect = UriBuilder.fromPath(request.getContextPath())
-                .path(redirectUri.toString())
-                .scheme(request.getScheme())
-                .host(request.getServerName())
-                .port(request.getServerPort())
-                .build();
-        } else {
-            redirect = redirectUri;
-        }
+		URI redirectUri = this.oAuth2ClientProperties.getRedirectUri();
 
-        return redirect;
-    }
+		if (redirectUri.isAbsolute()) {
+			return redirectUri;
+		}
+
+		return UriComponentsBuilder
+				.fromHttpUrl(request.getRequestURL().toString())
+				.replacePath(request.getContextPath())
+				.path(redirectUri.toString())
+				.replaceQuery(null)
+				.build()
+				.toUri();
+
+	}
 
     /**
      * @throws Exception

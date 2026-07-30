@@ -9,6 +9,15 @@
 	
 	<artifactId>ontimize-jee-dms-desktopclient</artifactId>
 
+
+	<properties>
+		<utilmize.version>5.0.0-SNAPSHOT</utilmize.version>
+		
+		<!--scanner support-->
+		<twain.version>1.0</twain.version> 
+		<lti-civil.version>20130308-custom</lti-civil.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -20,70 +29,41 @@
 			<artifactId>ontimize-jee-dms-common</artifactId>
 		</dependency>
 		
-		<!-- Google Drive API -->
+		<!--Utilmize client - support to UI components  - must ensure sub-dependencies in project -->
 		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.18.0-rc</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client-gson</artifactId>
-			<version>1.18.0-rc</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client-jackson2</artifactId>
-			<version>1.18.0-rc</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-drive</artifactId>
-			<version>v2-rev135-1.18.0-rc</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-oauth2</artifactId>
-			<version>v2-rev74-1.18.0-rc</version>
-		</dependency>
-		<!-- dropbox api -->
-		<dependency>
-			<groupId>com.dropbox.core</groupId>
-			<artifactId>dropbox-core-sdk</artifactId>
-			<version>1.7.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
-		<!--JAVAFX-->
-<!--		<dependency>-->
-<!--			<groupId>org.openjfx</groupId>-->
-<!--			<artifactId>javafx-controls</artifactId>-->
-<!--			<classifier>win</classifier>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-web</artifactId>
-			<classifier>win</classifier>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilmize-client</artifactId>
+			<version>${utilmize.version}</version>
 			<scope>provided</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.openjfx</groupId>-->
-<!--			<artifactId>javafx-graphics</artifactId>-->
-<!--			<classifier>win</classifier>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
+		
+		<!-- TODO separate each implementation (fileSystem, scanner, ...) in separated modules, each one with its dependencies -->
+		<!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
+		
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilcapturer</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Scanner - TWAIN -->
+		<dependency>
+			<groupId>uk.co.mmscomputing.device</groupId>
+			<artifactId>twain</artifactId>
+			<version>${twain.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Scanner ¿Morena? -->
+		
+		<!-- lti-civil -->
+		<dependency>
+			<groupId>com.lti.civil</groupId>
+			<artifactId>lti-civil</artifactId>
+			<version>${lti-civil.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-swing</artifactId>

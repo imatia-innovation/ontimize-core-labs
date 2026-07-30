@@ -1,44 +1,46 @@
 package com.ontimize.jee.webclient.export.style.support;
 
-import com.itextpdf.kernel.colors.Color;
-import com.itextpdf.layout.properties.TextAlignment;
-import com.itextpdf.layout.properties.VerticalAlignment;
-import com.ontimize.jee.webclient.export.style.PdfCellStyle;
-
+import java.awt.Color;
 import java.text.Format;
 
+import com.ontimize.jee.webclient.export.style.PdfCellStyle;
+
+/**
+ * Implementación por defecto de PdfCellStyle usando tipos compatibles con OpenPDF. - Alineaciones: Integer (constantes
+ * com.lowagie.text.Element.ALIGN_*) - Color: java.awt.Color
+ */
 public class DefaultPdfPCellStyle implements PdfCellStyle {
 
-    private TextAlignment horizontalAlignment;
+	private Integer	horizontalAlignment;
 
-    private VerticalAlignment verticalAlignment;
+	private Integer	verticalAlignment;
 
     private Color backgroundColor;
 
     private Format formatter;
 
     @Override
-    public void setHorizontalAlignment(TextAlignment horizontalAlignment) {
+	public void setHorizontalAlignment(final Integer horizontalAlignment) {
         this.horizontalAlignment = horizontalAlignment;
     }
 
     @Override
-    public TextAlignment getHorizontalAlignment() {
+	public Integer getHorizontalAlignment() {
         return this.horizontalAlignment;
     }
 
     @Override
-    public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
+	public void setVerticalAlignment(final Integer verticalAlignment) {
         this.verticalAlignment = verticalAlignment;
     }
 
     @Override
-    public VerticalAlignment getVerticalAlignment() {
+	public Integer getVerticalAlignment() {
         return this.verticalAlignment;
     }
 
     @Override
-    public void setBackgroundColor(Color backgroundColor) {
+    public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
@@ -58,7 +60,7 @@ public class DefaultPdfPCellStyle implements PdfCellStyle {
     }
 
     @Override
-    public void cloneStyleFrom(PdfCellStyle source) {
+    public void cloneStyleFrom(final PdfCellStyle source) {
         if (source != null) {
             this.setBackgroundColor(source.getBackgroundColor());
             this.setHorizontalAlignment(source.getHorizontalAlignment());

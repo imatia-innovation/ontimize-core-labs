@@ -46,12 +46,13 @@ import com.ontimize.jee.desktopclient.components.messaging.MessageManager;
 import com.ontimize.jee.desktopclient.components.taskmanager.ByteSizeTableCellRenderer;
 import com.ontimize.jee.desktopclient.dms.upload.OpenUploadableChooserActionListener;
 import com.ontimize.jee.desktopclient.spring.BeansFactory;
+import com.utilmize.client.gui.field.table.UTable;
 
 
 /**
  * The Class DocumentationTable.
  */
-public class DocumentationTable extends Table implements InteractionManagerModeListener {
+public class DocumentationTable extends UTable implements InteractionManagerModeListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentationTable.class);
 	protected static final String AVOID_PARENT_KEYS_NULL = "avoidparentkeysnull";
@@ -514,6 +515,6 @@ public class DocumentationTable extends Table implements InteractionManagerModeL
 
 	@Override
 	public void openDetailForm(final int rowIndex) {
-		opener.openDetailForm(this, rowIndex);
+		this.opener.openDetailForm(this, rowIndex);
 	}
 }

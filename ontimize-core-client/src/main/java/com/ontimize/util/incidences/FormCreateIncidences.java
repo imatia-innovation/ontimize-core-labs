@@ -27,9 +27,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.StaticLoggerBinder;
 
 import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.MainApplication;
@@ -209,9 +209,9 @@ public class FormCreateIncidences extends EJDialog implements Internationalizati
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				if (!FormCreateIncidences.this.subjectDataField.isEmpty()) {
-					final StaticLoggerBinder binder = StaticLoggerBinder.getSingleton();
-					final IIncidenceLogger logger = IncidenceLoggerFactory
-							.incidenceLoggerInstance(binder.getLoggerFactoryClassStr());
+					ILoggerFactory factory = LoggerFactory.getILoggerFactory();
+					IIncidenceLogger logger = IncidenceLoggerFactory.incidenceLoggerInstance(factory.getClass().getName());
+
 					final ByteArrayOutputStream output = logger.getCompressClientLogger();
 					if ((output != null) && (FormCreateIncidences.this.bufferedImage != null)
 							&& (FormCreateIncidences.this.descriptionDataField != null)) {

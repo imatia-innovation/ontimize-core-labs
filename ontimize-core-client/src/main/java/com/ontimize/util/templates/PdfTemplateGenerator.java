@@ -8,13 +8,13 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.AcroFields.Item;
 import com.lowagie.text.pdf.PdfReader;
 import com.ontimize.util.FileUtils;
 import com.ontimize.util.pdf.PdfFiller;
@@ -84,9 +84,9 @@ public class PdfTemplateGenerator extends AbstractTemplateGenerator implements T
 		final byte buffer[] = baOut.toByteArray();
 		final PdfReader reader = new PdfReader(buffer);
 		final AcroFields form = reader.getAcroFields();
-		final HashMap fields = form.getFields();
-		final Iterator names = fields.keySet().iterator();
-		final List result = new Vector();
+		final Map<String, Item> fields = form.getAllFields();
+		final Iterator<String> names = fields.keySet().iterator();
+		final List<String> result = new Vector();
 		while (names.hasNext()) {
 			result.add(names.next());
 		}

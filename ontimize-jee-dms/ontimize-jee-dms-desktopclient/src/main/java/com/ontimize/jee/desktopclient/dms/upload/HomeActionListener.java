@@ -1,24 +1,23 @@
 package com.ontimize.jee.desktopclient.dms.upload;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Map;
 
 import com.ontimize.gui.button.Button;
+import com.utilmize.client.gui.buttons.AbstractActionListenerButton;
+import com.utilmize.client.gui.buttons.UButton;
 
-public class HomeActionListener implements ActionListener {
+public class HomeActionListener extends AbstractActionListenerButton {
 
-	protected Button button;
-	
-	public HomeActionListener(Button button) throws Exception {
-		super();
-		this.button = button;
+	public HomeActionListener(final UButton button, final Map params) throws Exception {
+		super(button, params);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() instanceof Button) {
 			this.button = (Button) e.getSource();
-			((IMMultipleFiles) this.button.getParentForm().getInteractionManager()).showCardPanel("mainpanel");
+			((IMMultipleFiles) this.getForm().getInteractionManager()).showCardPanel("mainpanel");
 		}
 	}
 
