@@ -38,7 +38,7 @@ public class FloatHandle implements Serializable {
 
     private final float value;
 
-    public FloatHandle(float value) {
+    public FloatHandle(final float value) {
         this.value = value;
     }
 
@@ -47,7 +47,7 @@ public class FloatHandle implements Serializable {
     }
 
     public Object readResolve() {
-        return new Float(this.value);
+		return Float.valueOf(this.value);
     }
 
     @Override

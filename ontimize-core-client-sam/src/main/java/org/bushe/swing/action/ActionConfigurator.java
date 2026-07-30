@@ -15,11 +15,12 @@
  */
 package org.bushe.swing.action;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -34,6 +35,7 @@ import javax.swing.KeyStroke;
  * @author Michael Bushe
  * @version 1.0
  */
+@Deprecated
 public class ActionConfigurator {
 
     public static final String ACTION_NEW = "New";
@@ -60,50 +62,50 @@ public class ActionConfigurator {
                                                 getResource(
             "/toolbarButtonGraphics/general/New16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_N));
+				Integer.valueOf(KeyEvent.VK_N));
         addLookAndFeelActionEntry(ACTION_SAVE, "Save", "Save", "Save",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Save16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_S));
+				Integer.valueOf(KeyEvent.VK_S));
         addLookAndFeelActionEntry(ACTION_SAVE_AS, "Save As", "Save As", "Save As",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/SaveAs16.gif")),
                                   null,
-                                  new Integer(KeyEvent.VK_A));
+				Integer.valueOf(KeyEvent.VK_A));
         addLookAndFeelActionEntry(ACTION_EXIT, "Exit", "Exit", "Exit",
                                   null,
                                   null,
-                                  new Integer(KeyEvent.VK_X));
+				Integer.valueOf(KeyEvent.VK_X));
         addLookAndFeelActionEntry(ACTION_PREFERENCES, "Preferences", "Preferences", "Preferences",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Preferences16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_R));
+				Integer.valueOf(KeyEvent.VK_R));
         addLookAndFeelActionEntry(ACTION_PRINT, "Print", "Print", "Print",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Print16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_P));
+				Integer.valueOf(KeyEvent.VK_P));
         addLookAndFeelActionEntry(ACTION_COPY, "Copy", "Copy", "Copy",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Copy16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_C));
+				Integer.valueOf(KeyEvent.VK_C));
         addLookAndFeelActionEntry(ACTION_DELETE, "Delete", "Delete", "Delete",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Delete16.gif")),
                                   KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK),
-                                  new Integer(KeyEvent.VK_D));
+				Integer.valueOf(KeyEvent.VK_D));
         addLookAndFeelActionEntry(ACTION_ABOUT, "About", "About", "About",
                                   null,
                                   null,
-                                  new Integer(KeyEvent.VK_A));
+				Integer.valueOf(KeyEvent.VK_A));
         addLookAndFeelActionEntry(ACTION_REFRESH, "Refresh", "Refresh", "Refresh",
                                   new ImageIcon(ActionConfigurator.class.getResource(
             "/toolbarButtonGraphics/general/Refresh16.gif")),
                                   KeyStroke.getKeyStroke((char) KeyEvent.VK_F5),
-                                  new Integer(KeyEvent.VK_R));
+				Integer.valueOf(KeyEvent.VK_R));
     }
 
     /**
@@ -118,10 +120,10 @@ public class ActionConfigurator {
      * @param acc the action's accelerator key (shortcut)
      * @param mnemonic the action's mnemonic (underlined letter in a menu)
      */
-    public static void addLookAndFeelActionEntry(String name, String cmd, String desc,
-                                                 String longDesc,
-                                                 ImageIcon icon, KeyStroke acc, Integer mnemonic) {
-        HashMap valuesMap = new HashMap();
+    public static void addLookAndFeelActionEntry(final String name, final String cmd, final String desc,
+                                                 final String longDesc,
+                                                 final ImageIcon icon, final KeyStroke acc, final Integer mnemonic) {
+        final HashMap valuesMap = new HashMap();
         valuesMap.put(Action.NAME, name);
         valuesMap.put(Action.ACTION_COMMAND_KEY, cmd);
         valuesMap.put(Action.SHORT_DESCRIPTION, desc);
@@ -149,7 +151,7 @@ public class ActionConfigurator {
      * the values are Maps - name-value pairs that are used to configure a
      * action by calling putValue with the name and the value of the action.
      */
-    public ActionConfigurator(Map lookAndFeel) {
+    public ActionConfigurator(final Map lookAndFeel) {
         mLookAndFeel = lookAndFeel;
     }
 
@@ -165,7 +167,7 @@ public class ActionConfigurator {
      * @return true is successful, false if no values were specifed in the
      * look and feel for the actionConstant
      */
-    public boolean configureActionRespectLookAndFeel(String actionConstant, Action action) {
+    public boolean configureActionRespectLookAndFeel(final String actionConstant, final Action action) {
         return configureAction(mLookAndFeel, actionConstant, action);
     }
 
@@ -178,7 +180,7 @@ public class ActionConfigurator {
      * @param action and action to modify
      * @return an action configured to the look and feel set statically
      */
-    public static boolean configureAction(String actionConstant, Action action) {
+    public static boolean configureAction(final String actionConstant, final Action action) {
         return configureAction(sLookAndFeel, actionConstant, action);
     }
 
@@ -196,18 +198,18 @@ public class ActionConfigurator {
      * @return true is successful, false if no values were specifed in the
      * look and feel for the actionConstant
      */
-    public static boolean configureAction(Map lookAndFeel, String actionConstant, Action action) {
+    public static boolean configureAction(Map lookAndFeel, final String actionConstant, final Action action) {
         if (lookAndFeel == null) {
             lookAndFeel = sLookAndFeel;
         }
-        Map values = (Map) lookAndFeel.get(actionConstant);
+        final Map values = (Map) lookAndFeel.get(actionConstant);
         if (values == null) {
             return false;
         } else {
-            Iterator iter = values.keySet().iterator();
+            final Iterator iter = values.keySet().iterator();
             while (iter.hasNext()) {
-                String key = (String) iter.next();
-                Object value = values.get(key);
+                final String key = (String) iter.next();
+                final Object value = values.get(key);
                 action.putValue(key, value);
             }
             return true;

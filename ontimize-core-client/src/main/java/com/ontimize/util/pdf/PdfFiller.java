@@ -27,6 +27,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.AcroFields.Item;
 import com.lowagie.text.pdf.BarcodePDF417;
 import com.lowagie.text.pdf.PRAcroForm;
 import com.lowagie.text.pdf.PRIndirectReference;
@@ -180,9 +181,9 @@ public abstract class PdfFiller {
 				if (annots == null) {
 					continue;
 				}
-				final List ali = annots.getArrayList();
+				final List<PdfObject> ali = annots.getElements();
 				for (int annot = 0; annot < ali.size(); ++annot) {
-					PdfObject refObj = (PdfObject) ali.get(annot);
+					PdfObject refObj = ali.get(annot);
 					PRIndirectReference ref = null;
 					PdfDictionary an = (PdfDictionary) PdfReader.getPdfObject(refObj);
 					final PdfName name = (PdfName) an.get(PdfName.SUBTYPE);
@@ -210,14 +211,14 @@ public abstract class PdfFiller {
 
 					final FieldProp fieldProp = new FieldProp(fName);
 					fieldProp.page = page;
-					final List arr = rect.getArrayList();
-					PdfNumber num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(0));
+					final List<PdfObject> arr = rect.getElements();
+					PdfNumber num = (PdfNumber) PdfReader.getPdfObject(arr.get(0));
 					fieldProp.x1 = num.floatValue();
-					num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(1));
+					num = (PdfNumber) PdfReader.getPdfObject(arr.get(1));
 					fieldProp.y1 = num.floatValue();
-					num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(2));
+					num = (PdfNumber) PdfReader.getPdfObject(arr.get(2));
 					fieldProp.x2 = num.floatValue();
-					num = (PdfNumber) PdfReader.getPdfObject((PdfObject) arr.get(3));
+					num = (PdfNumber) PdfReader.getPdfObject(arr.get(3));
 					fieldProp.y2 = num.floatValue();
 					res.add(fieldProp);
 				}
@@ -290,9 +291,9 @@ public abstract class PdfFiller {
 
 			if (PdfFiller.DEBUG) {
 				PdfFiller.logger.debug("-----------------pdf fields(start)------------------------------------");
-				final HashMap map = form.getFields();
-				final Set keySet = map.keySet();
-				final Iterator it = keySet.iterator();
+				final Map<String, Item> map = form.getAllFields();
+				final Set<String> keySet = map.keySet();
+				final Iterator<String> it = keySet.iterator();
 				while (it.hasNext()) {
 					final Object oKey = it.next();
 					final Object oValue = map.get(oKey);
