@@ -25,15 +25,10 @@ public class CurrencyDocument extends AdvancedRealDocument {
 	 */
 	public static final double EURO = 166.386;
 
-	public static String defaultCurrencySymbol = String.valueOf("\u20AC");;
+	public static String defaultCurrencySymbol = String.valueOf("\u20AC");
 
-	// public String euro = new String("�");
 
 	public String currencySymbol;
-
-	// public static String pst = "Pta";
-
-	// protected boolean showEuros = true;
 
 	protected boolean showCurrencySymbol = true;
 

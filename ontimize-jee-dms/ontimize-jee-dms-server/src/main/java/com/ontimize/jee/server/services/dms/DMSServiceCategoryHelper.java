@@ -68,7 +68,7 @@ public class DMSServiceCategoryHelper extends AbstractDMSServiceHelper {
 		if (attribs == null) {
 			attribs = new ArrayList<>();
 		}
-
+		attribs = this.getColumnHelper().translate(attribs);
 		ListTools.safeAdd((List<String>) attribs, this.getColumnHelper().getCategoryIdColumn());
 		ListTools.safeAdd((List<String>) attribs, this.getColumnHelper().getCategoryNameColumn());
 		ListTools.safeAdd((List<String>) attribs, this.getColumnHelper().getCategoryParentColumn());
@@ -182,7 +182,7 @@ public class DMSServiceCategoryHelper extends AbstractDMSServiceHelper {
 	 * @param er the er
 	 * @return the DMS category
 	 */
-	private DMSCategory convertCategoryResultSet(final Serializable idDocument, final EntityResult er) {
+	protected DMSCategory convertCategoryResultSet(final Serializable idDocument, final EntityResult er) {
 		final DMSCategory root = new DMSCategory(idDocument, null, "/", null, null);
 		this.expandCategory(root, er, idDocument);
 		return root;
@@ -194,7 +194,7 @@ public class DMSServiceCategoryHelper extends AbstractDMSServiceHelper {
 	 * @param er the er
 	 * @param idDocument the id document
 	 */
-	private void expandCategory(final DMSCategory root, final EntityResult er, final Serializable idDocument) {
+	protected void expandCategory(final DMSCategory root, final EntityResult er, final Serializable idDocument) {
 		final List<DMSCategory> categories = this.removeCategoriesForParentId(er, root, idDocument);
 		root.setChildren(categories);
 		for (final DMSCategory category : root.getChildren()) {
@@ -209,7 +209,7 @@ public class DMSServiceCategoryHelper extends AbstractDMSServiceHelper {
 	 * @param idDocument the id document
 	 * @return the list
 	 */
-	private List<DMSCategory> removeCategoriesForParentId(final EntityResult er, final DMSCategory parentCategory,
+	protected List<DMSCategory> removeCategoriesForParentId(final EntityResult er, final DMSCategory parentCategory,
 			final Serializable idDocument) {
 		final List<Serializable> listIdParentCategory = (List<Serializable>) er.get(this.getColumnHelper().getCategoryParentColumn());
 		final List<DMSCategory> res = new ArrayList<>();
