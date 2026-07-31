@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ontimize.labs</groupId>
 	<artifactId>ontimize-bom</artifactId>
-	<version>7.0.0</version>
+	<version>7.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Ontimize BOM</name>
@@ -304,11 +304,13 @@
 				<groupId>com.ontimize.labs</groupId>
 				<artifactId>ontimize-starter-logback</artifactId>
 				<version>${project.version}</version>
+				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>com.ontimize.labs</groupId>
 				<artifactId>ontimize-starter-log4j</artifactId>
 				<version>${project.version}</version>
+				<type>pom</type>
 			</dependency>
 
 			<dependency>
