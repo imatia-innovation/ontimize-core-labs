@@ -1,5 +1,6 @@
 package com.ontimize.util;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Window;
 import java.lang.reflect.Method;
@@ -14,45 +15,47 @@ public class AWTUtilities {
     private static final Logger logger = LoggerFactory.getLogger(AWTUtilities.class);
 
     // com.sun.awt.AWTUtilities.setWindowOpaque(this, false);
-    public static void setWindowOpaque(Window w, boolean opaque) {
+    public static void setWindowOpaque(final Window w, final boolean opaque) {
+		if (w == null) {
+			return;
+		}
+
         try {
-            Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
-            Method method = awtUtilitites.getMethod("setWindowOpaque", new Class[] { Window.class, boolean.class });
-            method.invoke(null, new Object[] { w, new Boolean(opaque) });
-        } catch (Exception thr) {
-            AWTUtilities.logger.trace(null, thr);
-            try {
-                if (w instanceof RootPaneContainer) {
-                    ((RootPaneContainer) w).getRootPane().putClientProperty("Window.alpha", new Float(opaque ? 1 : 0));
-                }
-            } catch (Exception e) {
-                AWTUtilities.logger.trace(null, e);
+
+			if (opaque) {
+				w.setBackground(new Color(0, 0, 0, 255));
+			} else {
+				w.setBackground(new Color(0, 0, 0, 0));
             }
+
+		} catch (final Exception ex) {
+			logger.trace(null, ex);
         }
     }
 
+
     // com.sun.awt.AWTUtilities.setWindowOpacity(this, 0.8f);
-    public static void setWindowOpacity(Window w, float opacity) {
+    public static void setWindowOpacity(final Window w, final float opacity) {
         try {
             try {
                 // java 7
-                Method method = w.getClass().getMethod("setOpacity", new Class[] { float.class });
-                method.invoke(w, new Object[] { new Float(opacity) });
+                final Method method = w.getClass().getMethod("setOpacity", new Class[] { float.class });
+                method.invoke(w, new Object[] { Float.valueOf(opacity) });
                 return;
-            } catch (Exception thr) {
+            } catch (final Exception thr) {
                 AWTUtilities.logger.trace(null, thr);
             }
 
-            Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
-            Method method = awtUtilitites.getMethod("setWindowOpacity", new Class[] { Window.class, float.class });
-            method.invoke(null, new Object[] { w, new Float(opacity) });
-        } catch (Exception thr) {
+            final Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
+            final Method method = awtUtilitites.getMethod("setWindowOpacity", new Class[] { Window.class, float.class });
+            method.invoke(null, new Object[] { w, Float.valueOf(opacity) });
+        } catch (final Exception thr) {
             AWTUtilities.logger.trace(null, thr);
             try {
                 if (w instanceof RootPaneContainer) {
-                    ((RootPaneContainer) w).getRootPane().putClientProperty("Window.alpha", new Float(opacity));
+                    ((RootPaneContainer) w).getRootPane().putClientProperty("Window.alpha", Float.valueOf(opacity));
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 AWTUtilities.logger.trace(null, e);
             }
         }
@@ -61,22 +64,22 @@ public class AWTUtilities {
     // setWindowShape
     // AWTUtilities.setWindowShape(this, new RoundRectangle2D.Float(0, 0,
     // this.getWidth(), this.getHeight(), 20, 20));
-    public static void setWindowShape(Window w, Shape shape) {
+    public static void setWindowShape(final Window w, final Shape shape) {
         try {
-            Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
-            Method method = awtUtilitites.getMethod("setWindowShape", new Class[] { Window.class, Shape.class });
+            final Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
+            final Method method = awtUtilitites.getMethod("setWindowShape", new Class[] { Window.class, Shape.class });
             method.invoke(null, new Object[] { w, shape });
-        } catch (Exception thr) {
+        } catch (final Exception thr) {
             AWTUtilities.logger.trace(null, thr);
         }
     }
 
     // this.setAlwaysOnTop(true);
-    public static void setAlwaysOnTop(Window w, boolean always) {
+    public static void setAlwaysOnTop(final Window w, final boolean always) {
         try {
-            Method method = w.getClass().getMethod("setAlwaysOnTop", new Class[] { boolean.class });
+            final Method method = w.getClass().getMethod("setAlwaysOnTop", new Class[] { boolean.class });
             method.invoke(null, new Object[] { Boolean.valueOf(always) });
-        } catch (Exception thr) {
+        } catch (final Exception thr) {
             AWTUtilities.logger.trace(null, thr);
         }
     }

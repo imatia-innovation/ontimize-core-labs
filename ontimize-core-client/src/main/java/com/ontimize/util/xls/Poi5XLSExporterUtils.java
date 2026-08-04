@@ -1066,7 +1066,7 @@ public class Poi5XLSExporterUtils extends AbstractXLSExporter implements XLSExpo
 						Poi5XLSExporterUtils.logger.trace(null, e);
 						if (ob != null) {
 							if (!(ob instanceof Number)) {
-								cell.setCellValue(new Double(ob.toString()));
+								cell.setCellValue(Double.valueOf(ob.toString()));
 							}
 						}
 					}

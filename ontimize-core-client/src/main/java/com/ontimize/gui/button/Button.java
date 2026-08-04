@@ -1404,7 +1404,7 @@ MouseListener, SecureElement, HasHelpIdComponent {
 		final Object labelSize = parameters.get("labelsize");
 		if (labelSize != null) {
 			try {
-				final Integer tamInteger = new Integer(labelSize.toString());
+				final Integer tamInteger = Integer.valueOf(labelSize.toString());
 				this.labelSize = tamInteger.intValue();
 			} catch (final Exception e) {
 				Button.logger.error("Error:'labelsize' parameter: {} ", labelSize.toString(), e.getMessage(), e);

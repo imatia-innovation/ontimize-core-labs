@@ -1608,7 +1608,7 @@ HasPreferenceComponent, ValueChangeDataComponent, IDefaultValueComponent, Freeab
 		final Object oLabelSize = parameters.get(DataField.LABELSIZE);
 		if (oLabelSize != null) {
 			try {
-				final Integer integerLabelSizeValue = new Integer(oLabelSize.toString());
+				final Integer integerLabelSizeValue = Integer.valueOf(oLabelSize.toString());
 				this.labelComponent.setLabelSize(integerLabelSizeValue.intValue());
 			} catch (final Exception e) {
 				DataField.logger.error("Error 'labelsize' parameter: {}", oLabelSize.toString(), e);
@@ -1680,7 +1680,7 @@ HasPreferenceComponent, ValueChangeDataComponent, IDefaultValueComponent, Freeab
 	protected void setSizeParameter(final Object oSize) {
 		if (oSize != null) {
 			try {
-				final Integer integerSizeValue = new Integer(oSize.toString());
+				final Integer integerSizeValue = Integer.valueOf(oSize.toString());
 				this.fieldSize = integerSizeValue.intValue();
 			} catch (final Exception e) {
 				DataField.logger.error("Error 'size' parameter: {}", oSize.toString(), e);

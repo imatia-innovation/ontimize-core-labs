@@ -10739,7 +10739,7 @@ IRefreshable, InteractionManagerModeListener {
 												Thread.yield();
 												final EntityResult res = Table.this.deleteEntityRow(iSelectedRow);
 												if (res.getCode() == EntityResult.OPERATION_SUCCESSFUL) {
-													vRemovedRowsIndex.add(new Integer(iSelectedRow));
+													vRemovedRowsIndex.add(Integer.valueOf(iSelectedRow));
 													this.status = deleteText + " " + iSelectedRow;
 												} else {
 													this.status = sErrorDeletingText + " " + iSelectedRow + " "
@@ -11986,7 +11986,7 @@ IRefreshable, InteractionManagerModeListener {
 			final TableColumn rowNumbersColumn = this.blockedTable.getColumn(ExtendedTableModel.ROW_NUMBERS_COLUMN);
 			final TableCellRenderer renderer = this.blockedTable.getDefaultRenderer(Integer.class);
 			final Component rendererComponnt = renderer.getTableCellRendererComponent(this.table,
-					new Integer(this.blockedTable.getRowCount()), false, false, 0, 0);
+					Integer.valueOf(this.blockedTable.getRowCount()), false, false, 0, 0);
 			int preferredWidth = rendererComponnt.getPreferredSize().width;
 			if (rendererComponnt instanceof JTextField) {
 				final FontMetrics fontMetrics = ((JTextField) rendererComponnt)
@@ -12765,7 +12765,7 @@ IRefreshable, InteractionManagerModeListener {
 	public Number getSumColumn(final Object col) {
 		this.checkRefreshThread();
 		if ((this.table == null) || (this.table.getModel() == null)) {
-			return new Double(0.0);
+			return Double.valueOf(0.0);
 		}
 		return ((TableSorter) this.table.getModel()).getColumnSum(col);
 	}

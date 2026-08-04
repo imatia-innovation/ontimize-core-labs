@@ -2667,7 +2667,7 @@ public class DefaultReportDialog {
 					final Integer operation = this.getSelectedDateGroupingColumns().get(v.get(i).toString()) != null
 							? (Integer) this.getSelectedDateGroupingColumns()
 									.get(v.get(i).toString())
-									: new Integer(0);
+									: Integer.valueOf(0);
 					colsGrp.append("#");
 					colsGrp.append(operation.toString());
 				}
@@ -3310,7 +3310,7 @@ public class DefaultReportDialog {
 		for (int i = 0; i < this.functionList.getModel().getSize(); i++) {
 			final SelectableFunctionItem item = (SelectableFunctionItem) this.functionList.getModel().getElementAt(i);
 			if (item.isSelected()) {
-				res.put(item.getText(), new Integer(item.getOperation()));
+				res.put(item.getText(), Integer.valueOf(item.getOperation()));
 			}
 		}
 		return res;
@@ -3332,7 +3332,7 @@ public class DefaultReportDialog {
 			if (this.groupList.getModel().getElementAt(i) instanceof SelectableDateGroupItem) {
 				final SelectableDateGroupItem item = (SelectableDateGroupItem) this.groupList.getModel().getElementAt(i);
 				if (item.isSelected()) {
-					res.put(item.getText(), new Integer(item.getOperation()));
+					res.put(item.getText(), Integer.valueOf(item.getOperation()));
 				}
 			} else {
 				if (this.groupList.getModel().getElementAt(i) instanceof SelectableMultipleItem) {
@@ -3342,7 +3342,7 @@ public class DefaultReportDialog {
 						if (multipleitem.getItemList().get(j) instanceof SelectableDateGroupItem) {
 							final SelectableDateGroupItem item = (SelectableDateGroupItem) multipleitem.getItemList().get(j);
 							if (item.isSelected()) {
-								res.put(item.getText(), new Integer(item.getOperation()));
+								res.put(item.getText(), Integer.valueOf(item.getOperation()));
 							}
 						}
 					}

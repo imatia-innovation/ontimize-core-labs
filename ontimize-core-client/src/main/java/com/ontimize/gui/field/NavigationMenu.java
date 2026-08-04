@@ -940,8 +940,8 @@ public class NavigationMenu extends JPanel {
 		}
 		final Constructor constructors = cMenuGroup.getConstructor(NavigationMenu.params);
 		final Object ob = constructors
-				.newInstance(new Object[] { header, opts, icons, new Integer(x), new Integer(y), new Integer(width),
-						new Integer(height), bgHeader, bgBody, fg, border });
+				.newInstance(new Object[] { header, opts, icons, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(width),
+						Integer.valueOf(height), bgHeader, bgBody, fg, border });
 		return (MenuGroup) ob;
 	}
 

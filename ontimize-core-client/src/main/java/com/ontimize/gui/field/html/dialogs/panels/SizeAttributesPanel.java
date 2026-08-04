@@ -68,7 +68,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 				this.wMeasurementCombo.setSelectedIndex(1);
 			}
 			try {
-				this.widthField.getModel().setValue(new Integer(w));
+				this.widthField.getModel().setValue(Integer.valueOf(w));
 			} catch (final Exception ex) {
 				SizeAttributesPanel.logger.error(null, ex);
 			}
@@ -89,7 +89,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 				this.hMeasurementCombo.setSelectedIndex(1);
 			}
 			try {
-				this.heightField.getModel().setValue(new Integer(h));
+				this.heightField.getModel().setValue(Integer.valueOf(h));
 			} catch (final Exception ex) {
 				SizeAttributesPanel.logger.error(null, ex);
 			}
@@ -135,7 +135,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 				this.wMeasurementCombo.setSelectedIndex(1);
 			}
 			try {
-				this.widthField.getModel().setValue(new Integer(w));
+				this.widthField.getModel().setValue(Integer.valueOf(w));
 			} catch (final Exception ex) {
 				SizeAttributesPanel.logger.error(null, ex);
 			}
@@ -156,7 +156,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 				this.hMeasurementCombo.setSelectedIndex(1);
 			}
 			try {
-				this.heightField.getModel().setValue(new Integer(h));
+				this.heightField.getModel().setValue(Integer.valueOf(h));
 			} catch (final Exception ex) {
 				SizeAttributesPanel.logger.error(null, ex);
 			}

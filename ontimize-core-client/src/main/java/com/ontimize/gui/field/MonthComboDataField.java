@@ -137,7 +137,7 @@ public class MonthComboDataField extends TextComboDataField {
 		if (this.isEmpty()) {
 			return null;
 		}
-		return new Integer(((JComboBox) this.dataField).getSelectedIndex());
+		return Integer.valueOf(((JComboBox) this.dataField).getSelectedIndex());
 	}
 
 }

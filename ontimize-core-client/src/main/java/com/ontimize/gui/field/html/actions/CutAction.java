@@ -31,7 +31,7 @@ public class CutAction extends BasicEditAction {
         this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.COPY));
         this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.COPY));
         this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.cut")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.cut")));
         this.addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate() {
 
             @Override

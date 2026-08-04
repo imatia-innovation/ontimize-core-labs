@@ -464,12 +464,12 @@ public class HtmlHelpField extends IdentifiedAbstractFormComponent implements Hy
 				return new ParameterInfo(Boolean.TYPE, Boolean.FALSE);
 			}
 			try {
-				return new ParameterInfo(Integer.TYPE, new Integer(Integer.parseInt(param)));
+				return new ParameterInfo(Integer.TYPE, Integer.valueOf(Integer.parseInt(param)));
 			} catch (final Exception e) {
 				HtmlHelpField.logger.trace(null, e);
 			}
 			try {
-				return new ParameterInfo(Double.TYPE, new Double(Double.parseDouble(param)));
+				return new ParameterInfo(Double.TYPE, Double.valueOf(Double.parseDouble(param)));
 			} catch (final Exception e) {
 				HtmlHelpField.logger.trace(null, e);
 			}

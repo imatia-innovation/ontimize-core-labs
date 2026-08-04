@@ -13,7 +13,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Method;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -37,6 +36,7 @@ import com.ontimize.gui.MessageDialog;
 import com.ontimize.gui.preferences.ApplicationPreferences;
 import com.ontimize.jee.common.locator.ClientReferenceLocator;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
+import com.ontimize.util.AWTUtilities;
 import com.ontimize.util.incidences.FormCreateIncidences;
 import com.ontimize.util.swing.OGlassPanel;
 
@@ -89,7 +89,7 @@ public class EJDialog extends JDialog implements Freeable {
         class EMaximized extends AbstractAction {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 ApplicationManager.maximize(SwingUtilities.getWindowAncestor((Component) e.getSource()));
             }
 
@@ -98,12 +98,12 @@ public class EJDialog extends JDialog implements Freeable {
         class EAction extends AbstractAction {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (ApplicationManager.DEBUG) {
                     EJDialog.logger.debug("Event " + e);
                 }
                 if (SwingUtilities.getWindowAncestor((Component) e.getSource()) instanceof EJDialog) {
-                    EJDialog ejDialog = (EJDialog) SwingUtilities.getWindowAncestor((Component) e.getSource());
+                    final EJDialog ejDialog = (EJDialog) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     boolean close = true;
                     if (ejDialog.isAskOnEsc() && !ejDialog.isAskOnClose()) {
                         close = ejDialog.askCloseQuestion();
@@ -121,8 +121,8 @@ public class EJDialog extends JDialog implements Freeable {
         class ECreateIncidence extends AbstractAction {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                FormCreateIncidences incidences = new FormCreateIncidences(e.getSource());
+            public void actionPerformed(final ActionEvent e) {
+                final FormCreateIncidences incidences = new FormCreateIncidences(e.getSource());
                 ApplicationManager.center(incidences);
                 incidences.setVisible(true);
             }
@@ -136,7 +136,7 @@ public class EJDialog extends JDialog implements Freeable {
     }
 
     protected boolean askCloseQuestion() {
-        int result = MessageDialog.showMessage(this, EJDialog.closeQuestion, JOptionPane.QUESTION_MESSAGE,
+        final int result = MessageDialog.showMessage(this, EJDialog.closeQuestion, JOptionPane.QUESTION_MESSAGE,
                 ApplicationManager.getApplicationBundle());
         return result == JOptionPane.YES_OPTION;
     }
@@ -144,17 +144,15 @@ public class EJDialog extends JDialog implements Freeable {
     protected void transparent() {
 
         try {
-            if (!EJDialog.opaque) {
-                Class awtUtilitites = Class.forName("com.sun.awt.AWTUtilities");
-                Method method = awtUtilitites.getMethod("setWindowOpaque", new Class[] { Window.class, boolean.class });
-                method.invoke(null, new Object[] { this, new Boolean(false) });
-            }
-        } catch (Exception ex) {
+			if (!EJDialog.opaque) {
+				AWTUtilities.setWindowOpaque(this, false);
+			}
+        } catch (final Exception ex) {
             EJDialog.logger.trace(null, ex);
         }
     }
 
-    public void setSizePositionPreference(String s) {
+    public void setSizePositionPreference(final String s) {
         this.sizePositionPreference = s;
     }
 
@@ -166,26 +164,26 @@ public class EJDialog extends JDialog implements Freeable {
     public void pack() {
         if (this.sizePositionPreference != null) {
             try {
-                ApplicationPreferences prefs = ApplicationManager.getApplication().getPreferences();
+                final ApplicationPreferences prefs = ApplicationManager.getApplication().getPreferences();
                 if (prefs != null) {
                     String user = null;
                     try {
-                        EntityReferenceLocator b = ApplicationManager.getApplication().getReferenceLocator();
+                        final EntityReferenceLocator b = ApplicationManager.getApplication().getReferenceLocator();
                         if (b instanceof ClientReferenceLocator) {
                             user = ((ClientReferenceLocator) b).getUser();
                         }
-                    } catch (Exception ex) {
+                    } catch (final Exception ex) {
                         EJDialog.logger.error(null, ex);
                     }
-                    String s = prefs.getPreference(user, this.sizePositionPreference);
+                    final String s = prefs.getPreference(user, this.sizePositionPreference);
                     if (s != null) {
-                        String[] values = s.split(";");
+                        final String[] values = s.split(";");
                         if (values.length != 4) {
                             EJDialog.logger.debug("Invalid preference: " + this.sizePositionPreference + " : " + s);
                             super.pack();
                             return;
                         }
-                        Dimension d = new Dimension(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+                        final Dimension d = new Dimension(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
                         Point p = new Point(Integer.parseInt(values[2]), Integer.parseInt(values[3]));
                         if ((Double.compare(d.getWidth(), 0) != 0) && (Double.compare(d.getHeight(), 0) != 0)) {
                             this.setSize(d);
@@ -200,7 +198,7 @@ public class EJDialog extends JDialog implements Freeable {
                     super.pack();
                     ApplicationManager.center(this);
                 }
-            } catch (Exception ex1) {
+            } catch (final Exception ex1) {
                 EJDialog.logger.trace(null, ex1);
             }
         } else {
@@ -212,14 +210,14 @@ public class EJDialog extends JDialog implements Freeable {
         this.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowOpened(WindowEvent e) {
+            public void windowOpened(final WindowEvent e) {
                 if (EJDialog.this.autoPackOnOpen) {
                     EJDialog.this.pack();
                 }
             }
 
             @Override
-            public void windowActivated(WindowEvent we) {
+            public void windowActivated(final WindowEvent we) {
                 // When the window is activated, the default component must get
                 // the focus
                 EJDialog.this.setInitialFocus();
@@ -229,7 +227,7 @@ public class EJDialog extends JDialog implements Freeable {
         lafListener = new PropertyChangeListener() {
 
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(final PropertyChangeEvent evt) {
                 if ("lookAndFeel".equalsIgnoreCase(evt.getPropertyName())) {
                     EJDialog.this.changeLAF = true;
                 }
@@ -251,7 +249,7 @@ public class EJDialog extends JDialog implements Freeable {
         }
     }
 
-    public EJDialog(Dialog owner) {
+    public EJDialog(final Dialog owner) {
         super(owner);
         this.registerKeyBindings();
         this.initWindowListener();
@@ -261,77 +259,77 @@ public class EJDialog extends JDialog implements Freeable {
 
     }
 
-    public EJDialog(Dialog owner, boolean modal) {
+    public EJDialog(final Dialog owner, final boolean modal) {
         super(owner, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Dialog owner, String title, boolean modal) {
+    public EJDialog(final Dialog owner, final String title, final boolean modal) {
         super(owner, title, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Dialog owner, String title) {
+    public EJDialog(final Dialog owner, final String title) {
         super(owner, title);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Frame owner) {
+    public EJDialog(final Frame owner) {
         super(owner);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Frame owner, boolean modal) {
+    public EJDialog(final Frame owner, final boolean modal) {
         super(owner, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Frame owner, String title, boolean modal) {
+    public EJDialog(final Frame owner, final String title, final boolean modal) {
         super(owner, title, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Frame owner, String title) {
+    public EJDialog(final Frame owner, final String title) {
         super(owner, title);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Window owner) {
+    public EJDialog(final Window owner) {
         super(owner);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Window owner, boolean modal) {
+    public EJDialog(final Window owner, final boolean modal) {
         super(owner, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Window owner, String title) {
+    public EJDialog(final Window owner, final String title) {
         super(owner, title);
         this.registerKeyBindings();
         this.initWindowListener();
         this.transparent();
     }
 
-    public EJDialog(Window owner, String title, boolean modal) {
+    public EJDialog(final Window owner, final String title, final boolean modal) {
         super(owner, title, modal ? ModalityType.DOCUMENT_MODAL : ModalityType.MODELESS);
         this.registerKeyBindings();
         this.initWindowListener();
@@ -339,7 +337,7 @@ public class EJDialog extends JDialog implements Freeable {
     }
 
     @Override
-    protected void processKeyEvent(KeyEvent e) {
+    protected void processKeyEvent(final KeyEvent e) {
         /*
          * if(e.getKeyCode()==KeyEvent.VK_ESCAPE && e.getID()==KeyEvent.KEY_RELEASED) { e.consume();
          * processWindowEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING)); } else
@@ -380,7 +378,7 @@ public class EJDialog extends JDialog implements Freeable {
                         ((RootPaneContainer) this.getOwner()).setGlassPane(this.previousGlassPane);
                         this.previousGlassPane = null;
                     }
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     EJDialog.logger.trace(null, ex);
                 }
             }
@@ -396,16 +394,16 @@ public class EJDialog extends JDialog implements Freeable {
                 ((RootPaneContainer) this.getOwner()).setGlassPane(this.previousGlassPane);
                 this.previousGlassPane = null;
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             EJDialog.logger.trace(null, ex);
         }
         super.dispose();
     }
 
     @Override
-    protected void processWindowEvent(WindowEvent e) {
+    protected void processWindowEvent(final WindowEvent e) {
         if ((e.getID() == WindowEvent.WINDOW_CLOSING) && this.isAskOnClose()) {
-            boolean close = this.askCloseQuestion();
+            final boolean close = this.askCloseQuestion();
             if (!close) {
                 return;
             }
@@ -421,40 +419,40 @@ public class EJDialog extends JDialog implements Freeable {
     public void savePositionPreference() {
         try {
             if (this.sizePositionPreference != null) {
-                ApplicationPreferences prefs = ApplicationManager.getApplication().getPreferences();
+                final ApplicationPreferences prefs = ApplicationManager.getApplication().getPreferences();
                 if (prefs != null) {
                     String user = null;
                     try {
-                        EntityReferenceLocator b = ApplicationManager.getApplication().getReferenceLocator();
+                        final EntityReferenceLocator b = ApplicationManager.getApplication().getReferenceLocator();
                         if (b instanceof ClientReferenceLocator) {
                             user = ((ClientReferenceLocator) b).getUser();
                         }
-                    } catch (Exception ex) {
+                    } catch (final Exception ex) {
                         EJDialog.logger.trace(null, ex);
                     }
                     prefs.setPreference(user, this.sizePositionPreference,
                             this.getWidth() + ";" + this.getHeight() + ";" + this.getX() + ";" + this.getY());
                 }
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             EJDialog.logger.trace(null, ex);
         }
     }
 
-    public static void setActionForKey(int keyCode, int modifiers, Action action, String key) {
-        KeyStroke ks = KeyStroke.getKeyStroke(keyCode, modifiers, false);
-        Action[] a = new Action[EJDialog.actions.length + 1];
+    public static void setActionForKey(final int keyCode, final int modifiers, final Action action, final String key) {
+        final KeyStroke ks = KeyStroke.getKeyStroke(keyCode, modifiers, false);
+        final Action[] a = new Action[EJDialog.actions.length + 1];
         for (int i = 0; i < EJDialog.actions.length; i++) {
             a[i] = EJDialog.actions[i];
         }
         a[a.length - 1] = action;
-        KeyStroke[] k = new KeyStroke[EJDialog.keyStrokes.length + 1];
+        final KeyStroke[] k = new KeyStroke[EJDialog.keyStrokes.length + 1];
         for (int i = 0; i < EJDialog.keyStrokes.length; i++) {
             k[i] = EJDialog.keyStrokes[i];
         }
         k[k.length - 1] = ks;
 
-        String[] ke = new String[EJDialog.keys.length + 1];
+        final String[] ke = new String[EJDialog.keys.length + 1];
         for (int i = 0; i < EJDialog.keys.length; i++) {
             ke[i] = EJDialog.keys[i];
         }
@@ -465,33 +463,33 @@ public class EJDialog extends JDialog implements Freeable {
         EJDialog.keyStrokes = k;
     }
 
-    public void setAction(int keyCode, int modifiers, Action action, String key) {
-        KeyStroke ks = KeyStroke.getKeyStroke(keyCode, modifiers, true);
+    public void setAction(final int keyCode, final int modifiers, final Action action, final String key) {
+        final KeyStroke ks = KeyStroke.getKeyStroke(keyCode, modifiers, true);
 
         try {
-            InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-            ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
+            final InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            final ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
             inMap.put(ks, key);
             actMap.put(key, action);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             EJDialog.logger.error("Error setting keybindings", e);
         }
     }
 
     protected void registerKeyBindings() {
         try {
-            InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-            ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
+            final InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            final ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
             for (int i = 0; i < EJDialog.actions.length; i++) {
                 inMap.put(EJDialog.keyStrokes[i], EJDialog.keys[i]);
                 actMap.put(EJDialog.keys[i], EJDialog.actions[i]);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             EJDialog.logger.error("Error setting keybindings", e);
         }
     }
 
-    public void setAutoPackOnOpen(boolean auto) {
+    public void setAutoPackOnOpen(final boolean auto) {
         this.autoPackOnOpen = auto;
     }
 
@@ -503,7 +501,7 @@ public class EJDialog extends JDialog implements Freeable {
      * Sets the condition to ask a question before closing the dialog when the user press the ESC key
      * @param askQuestionOnEsc
      */
-    public void setAskOnEsc(boolean askQuestionOnEsc) {
+    public void setAskOnEsc(final boolean askQuestionOnEsc) {
         this.askQuestionOnEsc = askQuestionOnEsc;
     }
 
@@ -515,7 +513,7 @@ public class EJDialog extends JDialog implements Freeable {
      * Sets the condition to ask a question before closing the dialog in any situation
      * @param askQuestionOnClose
      */
-    public void setAskOnClose(boolean askQuestionOnClose) {
+    public void setAskOnClose(final boolean askQuestionOnClose) {
         this.askQuestionEverOnClose = askQuestionOnClose;
     }
 
@@ -525,8 +523,8 @@ public class EJDialog extends JDialog implements Freeable {
         if (lafListener != null) {
             UIManager.removePropertyChangeListener(lafListener);
         }
-        InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
+        final InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        final ActionMap actMap = ((JComponent) this.getContentPane()).getActionMap();
         for (int i = 0; i < EJDialog.actions.length; i++) {
             inMap.remove(EJDialog.keyStrokes[i]);
             actMap.remove(EJDialog.keys[i]);

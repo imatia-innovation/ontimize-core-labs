@@ -26,7 +26,7 @@ public class MaxGroupOperation implements GroupOperation {
         if (Double.compare(d, Double.MIN_VALUE) == 0) {
             return null;
         }
-        return new Double(d);
+        return Double.valueOf(d);
     }
 
     /**

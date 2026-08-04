@@ -327,7 +327,7 @@ public class SortTableCellRenderer extends DefaultTableCellRenderer {
 			final int func = sorter.getGroupedColumnFunction(this.currentTable.convertColumnIndexToModel(column));
 			String funcStr = null;
 			if (func >= 0) {
-				final GroupOperation operation = (GroupOperation) sorter.getOperations().get(new Integer(func));
+				final GroupOperation operation = (GroupOperation) sorter.getOperations().get(Integer.valueOf(func));
 				funcStr = " (" + operation.getHeaderText() + ")";
 			}
 			if (funcStr != null) {

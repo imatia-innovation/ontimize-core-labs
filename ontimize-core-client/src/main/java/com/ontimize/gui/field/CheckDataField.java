@@ -55,7 +55,7 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 	 * @see selectedValue
 	 */
 	@Deprecated
-	public static final Integer UNO = new Integer(1);
+	public static final Integer UNO = Integer.valueOf(1);
 
 	/**
 	 * The disable value (0).
@@ -63,7 +63,7 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 	 * @see deselectedValue
 	 */
 	@Deprecated
-	public static final Integer ZERO = new Integer(0);
+	public static final Integer ZERO = Integer.valueOf(0);
 
 	/**
 	 * Key for selected icon.
@@ -144,7 +144,7 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 					} else if (CheckDataField.this.returnBoolean) {
 						this.innerValue = Boolean.FALSE;
 					} else {
-						this.innerValue = new Integer(0);
+						this.innerValue = Integer.valueOf(0);
 					}
 				} else {
 					if (CheckDataField.this.returnString) {
@@ -152,7 +152,7 @@ public class CheckDataField extends DataField implements AdvancedDataComponent, 
 					} else if (CheckDataField.this.returnBoolean) {
 						this.innerValue = Boolean.TRUE;
 					} else {
-						this.innerValue = new Integer(1);
+						this.innerValue = Integer.valueOf(1);
 					}
 				}
 				CheckDataField.this.fireValueChanged(CheckDataField.this.getValue(), this.innerValue,

@@ -85,7 +85,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 			this.widthField.setEnabled(true);
 
 			try {
-				this.widthField.getModel().setValue(new Integer(w));
+				this.widthField.getModel().setValue(Integer.valueOf(w));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -108,7 +108,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 			this.borderCB.setSelected(true);
 			this.borderField.setEnabled(true);
 			try {
-				this.borderField.getModel().setValue(new Integer(this.attribs.get("border").toString()));
+				this.borderField.getModel().setValue(Integer.valueOf(this.attribs.get("border").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -121,7 +121,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 			this.cellPaddingCB.setSelected(true);
 			this.cellPaddingField.setEnabled(true);
 			try {
-				this.cellPaddingField.getModel().setValue(new Integer(this.attribs.get("cellpadding").toString()));
+				this.cellPaddingField.getModel().setValue(Integer.valueOf(this.attribs.get("cellpadding").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -134,7 +134,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 			this.cellSpacingCB.setSelected(true);
 			this.cellSpacingField.setEnabled(true);
 			try {
-				this.cellSpacingField.getModel().setValue(new Integer(this.attribs.get("cellspacing").toString()));
+				this.cellSpacingField.getModel().setValue(Integer.valueOf(this.attribs.get("cellspacing").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -204,7 +204,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 				this.widthCombo.setSelectedIndex(1);
 			}
 			try {
-				this.widthField.getModel().setValue(new Integer(w));
+				this.widthField.getModel().setValue(Integer.valueOf(w));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -225,7 +225,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 		if (attribs.containsKey("border")) {
 			this.borderCB.setSelected(true);
 			try {
-				this.borderField.getModel().setValue(new Integer(attribs.get("border").toString()));
+				this.borderField.getModel().setValue(Integer.valueOf(attribs.get("border").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -237,7 +237,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 		if (attribs.containsKey("cellpadding")) {
 			this.cellPaddingCB.setSelected(true);
 			try {
-				this.cellPaddingField.getModel().setValue(new Integer(attribs.get("cellpadding").toString()));
+				this.cellPaddingField.getModel().setValue(Integer.valueOf(attribs.get("cellpadding").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}
@@ -249,7 +249,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 		if (attribs.containsKey("cellspacing")) {
 			this.cellSpacingCB.setSelected(true);
 			try {
-				this.cellSpacingField.getModel().setValue(new Integer(attribs.get("cellspacing").toString()));
+				this.cellSpacingField.getModel().setValue(Integer.valueOf(attribs.get("cellspacing").toString()));
 			} catch (final Exception ex) {
 				TableAttributesPanel.logger.error(null, ex);
 			}

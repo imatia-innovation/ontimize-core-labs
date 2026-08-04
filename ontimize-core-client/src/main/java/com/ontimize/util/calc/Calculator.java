@@ -158,7 +158,7 @@ public class Calculator extends JDialog implements com.ontimize.gui.i18n.Interna
 						try {
 							final StringBuilder newText = new StringBuilder(this.getText(0, this.getLength()));
 							final Number number = this.formatter.parse(newText.toString());
-							this.doubleValue = new Double(number.doubleValue());
+							this.doubleValue = Double.valueOf(number.doubleValue());
 
 						} catch (final Exception ex) {
 							if (com.ontimize.gui.ApplicationManager.DEBUG) {
@@ -186,7 +186,7 @@ public class Calculator extends JDialog implements com.ontimize.gui.i18n.Interna
 						try {
 							this.remove(0, this.getLength());
 							super.insertString(0, this.formatter.format(number).toString(), attributes);
-							this.doubleValue = new Double(number.doubleValue());
+							this.doubleValue = Double.valueOf(number.doubleValue());
 						} catch (final BadLocationException e) {
 							if (com.ontimize.gui.ApplicationManager.DEBUG) {
 								Calculator.logger.debug(null, e);

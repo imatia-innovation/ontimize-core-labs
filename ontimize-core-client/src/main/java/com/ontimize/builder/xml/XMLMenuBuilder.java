@@ -205,7 +205,7 @@ public class XMLMenuBuilder extends XMLInterpreter implements MenuBuilder {
 			}
 			final long endTime = System.currentTimeMillis();
 			final double totalTime = (endTime - initTime) / 1000.0;
-			XMLMenuBuilder.logger.trace("Total time building Menu: {} seconds", new Double(totalTime).toString());
+			XMLMenuBuilder.logger.trace("Total time building Menu: {} seconds", Double.valueOf(totalTime).toString());
 		} catch (final Exception e) {
 			XMLMenuBuilder.logger.error("Error building Menu", e);
 		}
@@ -256,7 +256,7 @@ public class XMLMenuBuilder extends XMLInterpreter implements MenuBuilder {
 			}
 			final long endTime = System.currentTimeMillis();
 			final double totalTime = (endTime - initTime) / 1000.0;
-			XMLMenuBuilder.logger.trace("Total time building Menu: {} seconds.", new Double(totalTime).toString());
+			XMLMenuBuilder.logger.trace("Total time building Menu: {} seconds.", Double.valueOf(totalTime).toString());
 		} catch (final Exception e) {
 			XMLMenuBuilder.logger.error("Error building Menu {}", e);
 			throw e;

@@ -110,7 +110,7 @@ public class XMLFormBuilder extends XMLInterpreter implements FormBuilder {
 			final long endTime = System.currentTimeMillis();
 			final double tiempoTranscurrido = (endTime - initTime) / 1000.0;
 			XMLFormBuilder.logger.trace("Total time building UI: {}  seconds.",
-					new Double(tiempoTranscurrido).toString());
+					Double.valueOf(tiempoTranscurrido).toString());
 			return (Form) parentContainer.getComponent(0);
 		} catch (final Exception e) {
 			XMLFormBuilder.logger.error("Building form: {}", fileURI, e);
@@ -132,7 +132,7 @@ public class XMLFormBuilder extends XMLInterpreter implements FormBuilder {
 			final long endTime = System.currentTimeMillis();
 			final double totalTime = (endTime - initTime) / 1000.0;
 			XMLFormBuilder.logger.trace("Total time building UI from InputStream: {} seconds.",
-					new Double(totalTime).toString());
+					Double.valueOf(totalTime).toString());
 			return (Form) parentContainer.getComponent(0);
 		} catch (final Exception e) {
 			XMLFormBuilder.logger.error("Building form from InputStream ", e);
@@ -153,7 +153,7 @@ public class XMLFormBuilder extends XMLInterpreter implements FormBuilder {
 			final long endTime = System.currentTimeMillis();
 			final double totalTime = (endTime - initTime) / 1000.0;
 			XMLFormBuilder.logger.trace("Total time building UI from StringBuilder: {} seconds.",
-					new Double(totalTime).toString());
+					Double.valueOf(totalTime).toString());
 			return (Form) parentContainer.getComponent(0);
 		} catch (final Exception e) {
 			XMLFormBuilder.logger.error("Building form from StringBuilder ", e);

@@ -29,7 +29,7 @@ public class ClearStylesAction extends HTMLTextEditAction {
         super("HTMLShef.clear_styles");
         this.putValue("ID", "HTMLShef.clear_styles");
         this.putValue(Action.NAME, HTMLTextEditAction.i18n.str("HTMLShef.clear_styles"));
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.clear_styles")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.clear_styles")));
         this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("shift ctrl Y"));
 
     }

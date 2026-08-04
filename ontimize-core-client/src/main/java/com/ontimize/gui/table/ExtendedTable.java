@@ -715,7 +715,7 @@ implements DataComponent, ReferenceComponent, OpenDialog, AccessForm, Freeable {
 			final TableCellRenderer rendererRowNumbers = this.table
 					.getDefaultRenderer(this.table.getColumnClass(rowNumbersColumns.getModelIndex()));
 			final Component rendererRowNumbersComponent = rendererRowNumbers.getTableCellRendererComponent(this.table,
-					new Integer(this.table.getRowCount()), false, false, 0, 0);
+					Integer.valueOf(this.table.getRowCount()), false, false, 0, 0);
 			// Set the column width
 			final Dimension d = rendererRowNumbersComponent.getPreferredSize();
 			rowNumbersColumns.setMaxWidth(d.width + 5);

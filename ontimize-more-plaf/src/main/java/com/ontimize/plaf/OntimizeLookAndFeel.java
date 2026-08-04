@@ -163,9 +163,9 @@ import com.ontimize.plaf.state.OToolBarNorthState;
 import com.ontimize.plaf.state.OToolBarSouthState;
 import com.ontimize.plaf.state.OToolBarWestState;
 import com.ontimize.plaf.state.RequiredState;
+import com.ontimize.plaf.utils.OAppContext;
 import com.ontimize.plaf.utils.OntimizeLAFColorUtils;
 import com.ontimize.plaf.utils.OntimizeLAFParseUtils;
-import com.ontimize.plaf.utils.OAppContext;
 import com.ontimize.plaf.utils.ReflectionUtils;
 import com.ontimize.plaf.utils.StyleUtil;
 import com.ontimize.util.swing.ButtonSelection;
@@ -198,7 +198,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
     /**
      * The radius of component corners.
      */
-    public static double defaultRadius = new Double(7);// Double.MAX_VALUE;
+    public static double defaultRadius = Double.valueOf(7);// Double.MAX_VALUE;
 
     /**
      * The default font that will be used. I store this value so that it can be set in the UIDefaults
@@ -234,7 +234,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    public OntimizeLookAndFeel(Font defaultFont) {
+    public OntimizeLookAndFeel(final Font defaultFont) {
         super();
 
         FontUIResource fUI = null;
@@ -274,7 +274,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         return this.decorated;
     }
 
-    public static Object lookup(String s) {
+    public static Object lookup(final String s) {
         if (UIManager.getDefaults() != null) {
             return UIManager.getDefaults().get(s);
         } else {
@@ -282,62 +282,25 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static boolean isWindowOpacityEnabled(Window window) {
+    public static boolean isWindowOpacityEnabled(final Window window) {
         // boolean flag = !getBoolean("Synthetica.window.opaque", window, true);
-        boolean flag = false;
+        final boolean flag = false;
         // return !isJava6u10OrAbove() && OS.getCurrentOS() != OS.Mac || !flag;
         return !OntimizeLookAndFeel.isJava6u10OrAbove() && !flag;
     }
 
-    public static boolean isWindowShapeEnabled(Window window) {
+    public static boolean isWindowShapeEnabled(final Window window) {
         // String s = getString("Synthetica.window.shape", window);
         // return (isJava6u10OrAbove() || OS.getCurrentOS() == OS.Mac) &&
         // "ROUND_RECT".equals(s);
         return OntimizeLookAndFeel.isJava6u10OrAbove();
     }
 
-    public static void updateWindowShape(Window window) {
-        // if(OS.getCurrentOS() == OS.Mac) {
-        // setWindowOpaque(window, false);
-        // return;
-        // }
-        // if(getJVMCompatibilityMode() != JVMCompatibilityMode.SUN)
-        // return;
-        // boolean flag = (window instanceof Frame) &&
-        // (((Frame)window).getExtendedState() & 6) == 6;
-        // try
-        // {
-        // Class class1 = Class.forName("com.sun.awt.AWTUtilities");
-        // Method method = class1.getMethod("setWindowShape", new Class[] {
-        // java/awt/Window, java/awt/Shape
-        // });
-        // String s = getString("Synthetica.window.shape", window);
-        // java.awt.geom.RoundRectangle2D.Float float1 = null;
-        // if(flag || !isWindowShapeEnabled(window))
-        // float1 = null;
-        // else
-        // if("ROUND_RECT".equals(s))
-        // {
-        // int i = getInt("Synthetica.window.arcW", window, 18);
-        // int j = getInt("Synthetica.window.arcH", window, 18);
-        // float1 = new java.awt.geom.RoundRectangle2D.Float(0.0F, 0.0F,
-        // window.getWidth(), window.getHeight(), i, j);
-        // }
-        // method.invoke(null, new Object[] {
-        // window, float1
-        // });
-        // method = class1.getMethod("getWindowShape", new Class[] {
-        // java/awt/Window
-        // });
-        // }
-        // catch(Exception exception)
-        // {
-        // exception.printStackTrace();
-        // }
+    public static void updateWindowShape(final Window window) {
     }
 
     protected static boolean isJava6u10OrAbove() {
-        String s = System.getProperty("java.version");
+        final String s = System.getProperty("java.version");
         if (s.startsWith("1.5.")) {
             return false;
         }
@@ -371,8 +334,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         return !s.equals("1.6.0");
     }
 
-    public static SynthContext createContext(JComponent component, Region region, int state) {
-        SynthStyle synthstyle = NimbusLookAndFeel.getStyle(component, region);
+    public static SynthContext createContext(final JComponent component, final Region region, final int state) {
+        final SynthStyle synthstyle = NimbusLookAndFeel.getStyle(component, region);
         return new SynthContext(component, region, synthstyle, state);
     }
 
@@ -384,7 +347,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     protected Icon createFrameCloseIcon() {
         if (this.frameCloseIcon == null) {
-            URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/closeIcon.png");
+            final URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/closeIcon.png");
             this.frameCloseIcon = new ImageIcon(url);
         }
         return this.frameCloseIcon;
@@ -392,7 +355,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     protected Icon createFrameIconifyIcon() {
         if (this.frameIconifyIcon == null) {
-            URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/iconifyIcon.png");
+            final URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/iconifyIcon.png");
             this.frameIconifyIcon = new ImageIcon(url);
         }
         return this.frameIconifyIcon;
@@ -400,7 +363,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     protected Icon createFrameMaximizeIcon() {
         if (this.frameMaximizeIcon == null) {
-            URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/maximizeIcon.png");
+            final URL url = this.getClass().getClassLoader().getResource("com/ontimize/plaf/images/maximizeIcon.png");
             this.frameMaximizeIcon = new ImageIcon(url);
         }
         return this.frameMaximizeIcon;
@@ -425,7 +388,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @see UIManager#getColor
      * @throws NullPointerException as described in <a href="#exceptions">exceptions</a>
      */
-    public static void installColors(JComponent c, String defaultBgName, String defaultFgName) {
+    public static void installColors(final JComponent c, final String defaultBgName, final String defaultFgName) {
         if (UIManager.getColor(defaultBgName) != null) { // bg == null || bg
             // instanceof
             // UIResource
@@ -452,8 +415,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @see UIManager#getColor
      * @see UIManager#getFont
      */
-    public static void installColorsAndFont(JComponent c, String defaultBgName, String defaultFgName,
-            String defaultFontName) {
+    public static void installColorsAndFont(final JComponent c, final String defaultBgName, final String defaultFgName,
+            final String defaultFontName) {
         if (UIManager.getFont(defaultFontName) != null) { // original -> f ==
             // null || f
             // instanceof
@@ -469,7 +432,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         return defaultAppFont;
     }
 
-    public static void setDefaultAppFont(Font font){
+    public static void setDefaultAppFont(final Font font){
         defaultAppFont = font;
     }
 
@@ -487,7 +450,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                     // defaultFont = FontManager.getFontConfigFUIR("Arial",
                     // Font.PLAIN, 11);
                     this.defaultFont = new FontUIResource(new Font("Arial", Font.PLAIN, 11));
-                } catch (Throwable e) {
+                } catch (final Throwable e) {
                 }
             }
 
@@ -499,7 +462,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         return this.defaultFont;
     }
 
-    public void reinstallDefaultFont(Font font) {
+    public void reinstallDefaultFont(final Font font) {
         if (font == null) {
             return;
         }
@@ -512,35 +475,35 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         this.defaultFont = fUI;
     }
 
-    protected void defineDefaultFont(UIDefaults d) {
+    protected void defineDefaultFont(final UIDefaults d) {
         if (d != null) {
             d.put("defaultFont", this.getDefaultFont());
         }
     }
 
-    protected LazyPainter createLazyPainter(String className, int which) {
+    protected LazyPainter createLazyPainter(final String className, final int which) {
         return new LazyPainter(className, which);
     }
 
-    protected LazyPainter createLazyPainter(String className, int which, String path) {
+    protected LazyPainter createLazyPainter(final String className, final int which, final String path) {
         return new LazyPainter(className, which, path);
     }
 
-    protected LazyPainter createLazyPainter(String className, int which, PaintContext ctx) {
+    protected LazyPainter createLazyPainter(final String className, final int which, final PaintContext ctx) {
         return new LazyPainter(className, which, ctx);
     }
 
-    protected LazyPainter createLazyPainter(String className, int which, PaintContext ctx, String path) {
+    protected LazyPainter createLazyPainter(final String className, final int which, final PaintContext ctx, final String path) {
         return new LazyPainter(className, which, ctx, path);
     }
 
-    protected void defineTextPane(UIDefaults d) {
+    protected void defineTextPane(final UIDefaults d) {
         // Initialize TextPane
-        String compName = "TextPane";
+        final String compName = "TextPane";
         this.defineTextPane(compName, d);
     }
 
-    protected void defineTextPane(String compName, UIDefaults d) {
+    protected void defineTextPane(String compName, final UIDefaults d) {
         // Initialize TextPane
         if (compName == null) {
             compName = "TextPane";
@@ -562,12 +525,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTextFields(UIDefaults d) {
-        String compName = "TextField";
+    protected void defineTextFields(final UIDefaults d) {
+        final String compName = "TextField";
         this.defineTextFields(compName, d);
     }
 
-    protected void defineTextFields(String compName, UIDefaults d) {
+    protected void defineTextFields(String compName, final UIDefaults d) {
         // TextField:
         if (compName == null) {
             compName = "TextField";
@@ -585,10 +548,10 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textBackground", "#39698a");
 
         // TextForeground:
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");// #8F9CA4
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");// #8F9CA4
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground", "#d4d5d7");
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
         focusedRequiredFgColor = focusedRequiredFgColor != null ? focusedRequiredFgColor : requiredFgColor;
@@ -604,10 +567,10 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         DataField.requiredFieldForegroundColor = requiredFgColor;
 
         // Background:
-        ColorUIResource enabledColor = StyleUtil.getColorUI(compName, "[Enabled].background", "#FFFFFF");
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource enabledColor = StyleUtil.getColorUI(compName, "[Enabled].background", "#FFFFFF");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         ColorUIResource disabledRequiredColor = StyleUtil.getColorUI(compName, "[Disabled+Required].background", "#6a8da5");
         disabledRequiredColor = disabledRequiredColor != null ? disabledRequiredColor
                 : new ColorUIResource(OntimizeLAFColorUtils.setAlpha(requiredColor, 0.5));
@@ -632,7 +595,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -651,8 +614,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "disabled", null);
         OntimizeLookAndFeel.setColorUIResource(d, compName, "disabledText", null);
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextFieldPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextFieldPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "4 14 4 14"), new Dimension(122, 26),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -684,12 +647,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOTextFieldPainter.BORDER_DISABLED_REQUIRED, ctx));
     }
 
-    protected void defineTextArea(UIDefaults d) {
-        String compName = "TextArea";
+    protected void defineTextArea(final UIDefaults d) {
+        final String compName = "TextArea";
         this.defineTextArea(compName, d);
     }
 
-    protected void defineTextArea(String compName, UIDefaults d) {
+    protected void defineTextArea(String compName, final UIDefaults d) {
         // Initialize TextArea
         if (compName == null) {
             compName = "TextArea";
@@ -703,14 +666,14 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         // TextForeground
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].textForeground", "#335971");
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");
         d.put(compName + "[Disabled].textForeground", disabledFgColor);
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground", "#d4d5d7");
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
         d.put(compName + "[Disabled+Required].textForeground", disabledRequiredFgColor);
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].textForeground", "#61BEE8");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#FFFFFF");
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         d.put(compName + "[Required].textForeground", requiredFgColor);
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
@@ -718,9 +681,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].textForeground", focusedRequiredFgColor);
 
         // Background
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         ColorUIResource disabledRequiredColor = StyleUtil.getColorUI(compName, "[Disabled+Required].background", "#6a8da5");
         disabledRequiredColor = disabledRequiredColor != null ? disabledRequiredColor
                 : new ColorUIResource(OntimizeLAFColorUtils.setAlpha(requiredColor, 0.5));
@@ -741,7 +704,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -756,8 +719,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "disabledText", null);
 
         // TextArea in scroll pane
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextAreaPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextAreaPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "6 6 6 6"), new Dimension(122, 24),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -818,12 +781,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTextAreaPainter.BORDER_FOCUSED_REQUIRED_NOTINSCROLLPANE, ctx));
     }
 
-    protected void definePassword(UIDefaults d) {
-        String compName = "PasswordField";
+    protected void definePassword(final UIDefaults d) {
+        final String compName = "PasswordField";
         this.definePassword(compName, d);
     }
 
-    protected void definePassword(String compName, UIDefaults d) {
+    protected void definePassword(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "PasswordField";
         }
@@ -838,7 +801,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textBackground", "#39698a");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].textForeground", "#335971");
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
         d.put(compName + "[Disabled].textForeground", disabledFgColor);
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground",
                 null);
@@ -846,7 +809,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled+Required].textForeground", disabledRequiredFgColor);
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].textForeground", "#61BEE8");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#FFFFFF");
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         d.put(compName + "[Required].textForeground", requiredFgColor);
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
@@ -854,13 +817,13 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].textForeground", focusedRequiredFgColor);
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#FFFFFF");
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
         d.put(compName + "[Disabled].background", disabledColor);
 
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
         d.put(compName + "[Focused].background", focusedColor);
 
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         d.put(compName + "[Required].background", requiredColor);
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused+Required].background", "#89A5B9");
@@ -875,7 +838,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -894,8 +857,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "disabled", null);
         OntimizeLookAndFeel.setColorUIResource(d, compName, "disabledText", null);
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextFieldPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTextFieldPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "4 14 4 14"), new Dimension(122, 26),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -923,12 +886,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOTextFieldPainter.BORDER_DISABLED_REQUIRED, ctx));
     }
 
-    protected void defineReferenceExtComponent(UIDefaults d) {
-        String compName = "TextField:\"TextField.ReferenceExt\"";
+    protected void defineReferenceExtComponent(final UIDefaults d) {
+        final String compName = "TextField:\"TextField.ReferenceExt\"";
         this.defineReferenceExtComponent(compName, d);
     }
 
-    protected void defineReferenceExtComponent(String compName, UIDefaults d) {
+    protected void defineReferenceExtComponent(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "TextField:\"TextField.ReferenceExt\"";
         }
@@ -943,11 +906,11 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         // Background of the selected text
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textBackground", "#39698a");
         // TextForeground
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground",
                 null);
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
         focusedRequiredFgColor = focusedRequiredFgColor != null ? focusedRequiredFgColor : requiredFgColor;
@@ -961,9 +924,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].textForeground", focusedRequiredFgColor);
 
         // Background
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         ColorUIResource disabledRequiredColor = StyleUtil.getColorUI(compName, "[Disabled+Required].background", "#6a8da5");
         disabledRequiredColor = disabledRequiredColor != null ? disabledRequiredColor
                 : new ColorUIResource(OntimizeLAFColorUtils.setAlpha(requiredColor, 0.5));
@@ -983,7 +946,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -993,9 +956,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].border", focusedRequiredBorderColors);
         d.put(compName + "[Focused].innerShadow", StyleUtil.getColor(compName, "[Focused].innerShadow", "#CACACA"));
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OReferenceExtFieldPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "4 14 4 14"), new Dimension(122, 26),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1024,12 +987,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineReferenceExtCodeComponent(UIDefaults d) {
-        String compName = "TextField:\"TextField.ReferenceExtCode\"";
+    protected void defineReferenceExtCodeComponent(final UIDefaults d) {
+        final String compName = "TextField:\"TextField.ReferenceExtCode\"";
         this.defineReferenceExtCodeComponent(compName, d);
     }
 
-    protected void defineReferenceExtCodeComponent(String compName, UIDefaults d) {
+    protected void defineReferenceExtCodeComponent(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "TextField:\"TextField.ReferenceExtCode\"";
         }
@@ -1044,11 +1007,11 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         // Background of the selected text
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textBackground", "#39698a");
         // TextForeground
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground",
                 null);
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
         focusedRequiredFgColor = focusedRequiredFgColor != null ? focusedRequiredFgColor : requiredFgColor;
@@ -1062,9 +1025,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].textForeground", focusedRequiredFgColor);
 
         // Background
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         ColorUIResource disabledRequiredColor = StyleUtil.getColorUI(compName, "[Disabled+Required].background", "#6a8da5");
         disabledRequiredColor = disabledRequiredColor != null ? disabledRequiredColor
                 : new ColorUIResource(OntimizeLAFColorUtils.setAlpha(requiredColor, 0.5));
@@ -1084,7 +1047,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -1094,9 +1057,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].border", focusedRequiredBorderColors);
         d.put(compName + "[Focused].innerShadow", StyleUtil.getColor(compName, "[Focused].innerShadow", "#CACACA"));
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OReferenceExtCodeFieldPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "4 14 4 14"), new Dimension(122, 26),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1127,18 +1090,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineQuickFilter(UIDefaults d) {
-        String compName = "Table:\"Table.QuickFilter\"";
+    protected void defineQuickFilter(final UIDefaults d) {
+        final String compName = "Table:\"Table.QuickFilter\"";
         this.defineQuickFilter(compName, d);
     }
 
-    protected void defineQuickFilter(String compName, UIDefaults d) {
+    protected void defineQuickFilter(String compName, final UIDefaults d) {
 
         // QuickFilter...
         if (compName == null) {
             compName = "Table:\"Table.QuickFilter\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OQuickFilterPainter");
 
         OntimizeLookAndFeel.setFontUIResource(d, compName, "font",
@@ -1151,9 +1114,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#FFFFFF");
 
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#FFFFFF7D");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#FFFFFF7D");
         d.put(compName + "[Disabled].background", disabledColor);
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
         d.put(compName + "[Focused].background", focusedColor);
 
         d.put(compName + "[Enabled].border", StyleUtil.getArrayColorUI(compName, "[Enabled].border", "#E5E5E57D"));
@@ -1164,7 +1127,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         d.put(compName + ".icon", StyleUtil.getProperty(compName, "icon", "com/ontimize/plaf/images/queryfilter.png"));
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(4, 14, 4, 30),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(4, 14, 4, 30),
                 new Dimension(122, 26), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1184,12 +1147,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         QuickFieldText.paintFindText = false;
     }
 
-    protected void defineEditorPane(UIDefaults d) {
-        String compName = "EditorPane";
+    protected void defineEditorPane(final UIDefaults d) {
+        final String compName = "EditorPane";
         this.defineEditorPane(compName, d);
     }
 
-    protected void defineEditorPane(String compName, UIDefaults d) {
+    protected void defineEditorPane(String compName, final UIDefaults d) {
         // Initialize EditorPane
         if (compName == null) {
             compName = "EditorPane";
@@ -1215,8 +1178,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused].border",
                 StyleUtil.getArrayColorUI(compName, "[Focused].border", "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819"));
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OEditorPanePainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(10, 10, 10, 10),
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OEditorPanePainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(10, 10, 10, 10),
                 new Dimension(122, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1235,12 +1198,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineFileChooser(UIDefaults d) {
-        String compName = "FileChooser";
+    protected void defineFileChooser(final UIDefaults d) {
+        final String compName = "FileChooser";
         this.defineFileChooser(compName, d);
     }
 
-    protected void defineFileChooser(String compName, UIDefaults d) {
+    protected void defineFileChooser(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "FileChooser";
         }
@@ -1254,9 +1217,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#366581");
         OntimizeLookAndFeel.setColor(d, compName, "background", "#366581");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFileChooserPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(10, 10, 10, 10),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(10, 10, 10, 10),
                 new Dimension(122, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1265,12 +1228,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineOptionPane(UIDefaults d) {
-        String compName = "OptionPane";
+    protected void defineOptionPane(final UIDefaults d) {
+        final String compName = "OptionPane";
         this.defineOptionPane(compName, d);
     }
 
-    protected void defineOptionPane(String compName, UIDefaults d) {
+    protected void defineOptionPane(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "OptionPane";
         }
@@ -1284,19 +1247,19 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineScrollPane(UIDefaults d) {
-        String compName = "ScrollPane";
+    protected void defineScrollPane(final UIDefaults d) {
+        final String compName = "ScrollPane";
         this.defineScrollPane(compName, d);
     }
 
-    protected void defineScrollPane(String compName, UIDefaults d) {
+    protected void defineScrollPane(String compName, final UIDefaults d) {
 
         // Initialize ScrollPane
         if (compName == null) {
             compName = "ScrollPane";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OScrollPanePainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(4, 4, 4, 4),
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OScrollPanePainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(4, 4, 4, 4),
                 new Dimension(122, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1326,8 +1289,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ".cornerPainter", this.createLazyPainter(pClass, OScrollPanePainter.CORNER_ENABLED, ctx));
     }
 
-    protected void defineFormScrollPanel(UIDefaults d) {
-        String compName = "\"FormScrollPane\"";
+    protected void defineFormScrollPanel(final UIDefaults d) {
+        final String compName = "\"FormScrollPane\"";
         this.defineScrollPane(d);
 
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
@@ -1335,8 +1298,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff01");
     }
 
-    protected void defineTreeScrollPanel(UIDefaults d) {
-        String compName = "\"TreeScrollPane\"";
+    protected void defineTreeScrollPanel(final UIDefaults d) {
+        final String compName = "\"TreeScrollPane\"";
         this.defineScrollPane(d);
 
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
@@ -1344,19 +1307,19 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff01");
     }
 
-    protected void defineViewport(UIDefaults d) {
+    protected void defineViewport(final UIDefaults d) {
 
         // // Initialize Viewport
         d.put("Viewport.contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put("Viewport.opaque", Boolean.FALSE);
     }
 
-    protected void defineScrollBar(UIDefaults d) {
-        String compName = "ScrollBar";
+    protected void defineScrollBar(final UIDefaults d) {
+        final String compName = "ScrollBar";
         this.defineScrollBar(compName, d);
     }
 
-    protected void defineScrollBar(String compName, UIDefaults d) {
+    protected void defineScrollBar(String compName, final UIDefaults d) {
         // ScrollBar:
         if (compName == null) {
             compName = "ScrollBar";
@@ -1379,8 +1342,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].border", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].border", "#FFFFFF");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OScrollBarPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OScrollBarPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "6 6 6 6"), new Dimension(122, 24),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1392,17 +1355,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineScrollBarButton(UIDefaults d) {
-        String compName = "ScrollBar:\"ScrollBar.button\"";
+    protected void defineScrollBarButton(final UIDefaults d) {
+        final String compName = "ScrollBar:\"ScrollBar.button\"";
         this.defineScrollBarButton(compName, d);
     }
 
-    protected void defineScrollBarButton(String compName, UIDefaults d) {
+    protected void defineScrollBarButton(String compName, final UIDefaults d) {
         // ScrollBar button:
         if (compName == null) {
             compName = "ScrollBar:\"ScrollBar.button\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OScrollBarButtonPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
@@ -1418,7 +1381,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[MouseOver].arrowBackground", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Pressed].arrowBackground", "#FFFFFF");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"), new Dimension(25, 16),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + "[Enabled].foregroundPainter",
@@ -1431,17 +1394,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OScrollBarButtonPainter.FOREGROUND_PRESSED, ctx));
     }
 
-    protected void defineScrollBarThumb(UIDefaults d) {
-        String compName = "ScrollBar:ScrollBarThumb";
+    protected void defineScrollBarThumb(final UIDefaults d) {
+        final String compName = "ScrollBar:ScrollBarThumb";
         this.defineScrollBarThumb(compName, d);
     }
 
-    protected void defineScrollBarThumb(String compName, UIDefaults d) {
+    protected void defineScrollBarThumb(String compName, final UIDefaults d) {
         // ScrollBar thumb :
         if (compName == null) {
             compName = "ScrollBar:ScrollBarThumb";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OScrollBarThumbPainter");
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "2 2 2 2");
 
@@ -1455,7 +1418,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[MouseOver].backgroundShadow", "#FFFFFF25");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Pressed].backgroundShadow", "#FFFFFF25");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "2 2 2 2"), new Dimension(38, 15),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, 2.0);
         d.put(compName + "[Enabled].backgroundPainter",
@@ -1466,17 +1429,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OScrollBarThumbPainter.BACKGROUND_PRESSED, ctx));
     }
 
-    protected void defineScrollBarTrack(UIDefaults d) {
-        String compName = "ScrollBar:ScrollBarTrack";
+    protected void defineScrollBarTrack(final UIDefaults d) {
+        final String compName = "ScrollBar:ScrollBarTrack";
         this.defineScrollBarTrack(compName, d);
     }
 
-    protected void defineScrollBarTrack(String compName, UIDefaults d) {
+    protected void defineScrollBarTrack(String compName, final UIDefaults d) {
         // ScrollBar track :
         if (compName == null) {
             compName = "ScrollBar:ScrollBarTrack";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OScrollBarTrackPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "5 5 5 5");
@@ -1484,7 +1447,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#E6E6E6");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].background", "#EEF1F4");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5"), new Dimension(18, 15),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, 2.0);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -1493,12 +1456,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OScrollBarTrackPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTable(UIDefaults d) {
-        String compName = "Table";
+    protected void defineTable(final UIDefaults d) {
+        final String compName = "Table";
         this.defineTable(compName, d);
     }
 
-    protected void defineTable(String compName, UIDefaults d) {
+    protected void defineTable(String compName, final UIDefaults d) {
         // Table:
         if (compName == null) {
             compName = "Table";
@@ -1530,8 +1493,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         d.put(compName + ".cellNoFocusBorder", new BorderUIResource(BorderFactory.createEmptyBorder(2, 5, 2, 5)));
         Color borderColor = StyleUtil.getColor(compName, "[Selected].border", "#2E8ECB");
-        Border outsideBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
-        Border insideBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
+        final Border outsideBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
+        final Border insideBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
         d.put(compName + ".focusCellHighlightBorder",
                 new BorderUIResource(BorderFactory.createCompoundBorder(outsideBorder, insideBorder)));
 
@@ -1546,7 +1509,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         Table.defaultTableBackgroundColor = StyleUtil.getColor("Table", "background", "#9CB2C1");
         Table.MIN_ROW_HEIGHT = StyleUtil.getInteger(compName, "minRowHeight", "22");
         borderColor = StyleUtil.getColorUI("Table", "border", "#ADC0CE");
-        BorderUIResource tBorder = new BorderUIResource(BorderFactory.createLineBorder(borderColor, 2));
+        final BorderUIResource tBorder = new BorderUIResource(BorderFactory.createLineBorder(borderColor, 2));
         BorderManager.putBorder(BorderManager.DEFAULT_TABLE_BORDER_KEY, tBorder);
         d.put(compName + ".scrollPaneBorder", tBorder);
 
@@ -1581,12 +1544,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTableCellRenderer(UIDefaults d) {
-        String compName = "Table:\"Table.cellRenderer\"";
+    protected void defineTableCellRenderer(final UIDefaults d) {
+        final String compName = "Table:\"Table.cellRenderer\"";
         this.defineTableCellRenderer(compName, d);
     }
 
-    protected void defineTableCellRenderer(String compName, UIDefaults d) {
+    protected void defineTableCellRenderer(String compName, final UIDefaults d) {
         // Table:"Table.cellRenderer
         if (compName == null) {
             compName = "Table:\"Table.cellRenderer\"";
@@ -1613,20 +1576,20 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         CellRenderer.selectedEditableBackgroundColor = StyleUtil.getColor(compName, "[Selected+Editable].background",
                 "#ffffff");
         CellRenderer.selectedBackgroundColor = StyleUtil.getColor(compName, "[Selected].background", "#ffffff");
-        Color borderColor = StyleUtil.getColor(compName, "[Selected].border", "#2E8ECB");
-        Border outsideBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
-        Border insideBorder = BorderFactory.createEmptyBorder(0, 6, 0, 6);
+        final Color borderColor = StyleUtil.getColor(compName, "[Selected].border", "#2E8ECB");
+        final Border outsideBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
+        final Border insideBorder = BorderFactory.createEmptyBorder(0, 6, 0, 6);
         CellRenderer.focusBorder = BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
         CellRenderer.focusBorderColor = borderColor;
 
     }
 
-    protected void defineTableRowHeadCellRenderer(UIDefaults d) {
-        String compName = "Table:\"Table.rowHeadCellRenderer\"";
+    protected void defineTableRowHeadCellRenderer(final UIDefaults d) {
+        final String compName = "Table:\"Table.rowHeadCellRenderer\"";
         this.defineTableRowHeadCellRenderer(compName, d);
     }
 
-    protected void defineTableRowHeadCellRenderer(String compName, UIDefaults d) {
+    protected void defineTableRowHeadCellRenderer(String compName, final UIDefaults d) {
         // Row number column...
         if (compName == null) {
             compName = "Table:\"Table.rowHeadCellRenderer\"";
@@ -1640,12 +1603,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         RowHeadCellRenderer.rowNumberBorder = BorderFactory.createEmptyBorder();
     }
 
-    protected void defineTableSumCellRenderer(UIDefaults d) {
-        String compName = "Table:\"Table.sumCellRenderer\"";
+    protected void defineTableSumCellRenderer(final UIDefaults d) {
+        final String compName = "Table:\"Table.sumCellRenderer\"";
         this.defineTableSumCellRenderer(compName, d);
     }
 
-    protected void defineTableSumCellRenderer(String compName, UIDefaults d) {
+    protected void defineTableSumCellRenderer(String compName, final UIDefaults d) {
         // SumCell Renderer
         if (compName == null) {
             compName = "Table:\"Table.sumCellRenderer\"";
@@ -1655,23 +1618,23 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         SumCellRenderer.disabledBackgroundColor = StyleUtil.getColor(compName, "[Disabled].background", "#9CB2C1");
     }
 
-    protected void defineTableVisualCalendarCellRenderer(UIDefaults d) {
-        String compName = "Table:\"VisualCalendar:Table.cellRenderer\"";
+    protected void defineTableVisualCalendarCellRenderer(final UIDefaults d) {
+        final String compName = "Table:\"VisualCalendar:Table.cellRenderer\"";
         this.defineTableVisualCalendarCellRenderer(compName, d);
     }
 
-    protected void defineTableVisualCalendarCellRenderer(String compName, UIDefaults d) {
+    protected void defineTableVisualCalendarCellRenderer(String compName, final UIDefaults d) {
         // VisualCalendar Component...
         if (compName == null) {
             compName = "Table:\"VisualCalendar:Table.cellRenderer\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableVisualCalendarCellRendererPainter");
 
         d.put(compName + ".States", "Enabled");
         d.put(compName + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
         d.put(compName + ".opaque", Boolean.TRUE);
-        Color fgColor = StyleUtil.getColor(compName, "foreground", "#6b7e75");
+        final Color fgColor = StyleUtil.getColor(compName, "foreground", "#6b7e75");
         d.put(compName + "[Enabled].textForeground", fgColor);
         d.put(compName + ".foreground", fgColor);
         d.put(compName + ".TextForeground", fgColor);
@@ -1688,7 +1651,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "evenColumnBackground", "#ffffff");
         OntimizeLookAndFeel.setColor(d, compName, "oddColumnBackground", "#F3F3F0");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
                 new Dimension(22, 20), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1696,17 +1659,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTableHeaderRendererPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTableCellEditor(UIDefaults d) {
-        String compName = "\"Table.editor\"";
+    protected void defineTableCellEditor(final UIDefaults d) {
+        final String compName = "\"Table.editor\"";
         this.defineTableCellEditor(compName, d);
     }
 
-    protected void defineTableCellEditor(String compName, UIDefaults d) {
+    protected void defineTableCellEditor(String compName, final UIDefaults d) {
 
         if (compName == null) {
             compName = "\"Table.editor\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableCellEditorPainter");
 
         d.put(compName + ".States", "Enabled,Disabled,Focused,Selected");
@@ -1734,7 +1697,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 StyleUtil.getArrayColorUI(compName, "[Focused].border", "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819"));
         d.put(compName + "[Focused].innerShadow", StyleUtil.getColor(compName, "[Focused].innerShadow", "#CACACA"));
 
-        PaintContext ctx = new PaintContext(new Insets(1, 1, 1, 1), new Dimension(31, 17), false,
+        final PaintContext ctx = new PaintContext(new Insets(1, 1, 1, 1), new Dimension(31, 17), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
 
         d.put(compName + "[Disabled].backgroundPainter",
@@ -1752,9 +1715,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         // ************Ontimize Table Configuration***********
         compName = "Table:\"Table.cellEditor\"";
-        Color borderColor = StyleUtil.getColor(compName, ".border", "#4cb5d7");
-        Border insideBorder = BorderFactory.createEmptyBorder(0, 6, 0, 6);
-        Border outsideBorder = BorderFactory.createLineBorder(borderColor);
+        final Color borderColor = StyleUtil.getColor(compName, ".border", "#4cb5d7");
+        final Border insideBorder = BorderFactory.createEmptyBorder(0, 6, 0, 6);
+        final Border outsideBorder = BorderFactory.createLineBorder(borderColor);
         CellEditor.focusBorder = BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
         CellEditor.fontColor = StyleUtil.getColor(compName, "foreground", "#31c7fc");
         CellEditor.backgroundColor = StyleUtil.getColor(compName, "background", "#FFFFFF");
@@ -1768,7 +1731,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         protected Border delegate_;
 
-        public TableCellEditorBorder(Border delegate) {
+        public TableCellEditorBorder(final Border delegate) {
             super(delegate);
             this.delegate_ = delegate;
         }
@@ -1779,12 +1742,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTableHeader(UIDefaults d) {
-        String compName = "TableHeader";
+    protected void defineTableHeader(final UIDefaults d) {
+        final String compName = "TableHeader";
         this.defineTableHeader(compName, d);
     }
 
-    protected void defineTableHeader(String compName, UIDefaults d) {
+    protected void defineTableHeader(String compName, final UIDefaults d) {
         // TableHeader:
         if (compName == null) {
             compName = "TableHeader";
@@ -1816,9 +1779,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "ascendingSortIconBackground", "#80b721");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "descendingSortIconBackground", "#e64718");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableHeaderPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
                 new Dimension(31, 17), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put(compName + "[Enabled].ascendingSortIconPainter",
@@ -1828,12 +1791,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTableHeaderRenderer(UIDefaults d) {
-        String compName = "TableHeader:\"TableHeader.renderer\"";
+    protected void defineTableHeaderRenderer(final UIDefaults d) {
+        final String compName = "TableHeader:\"TableHeader.renderer\"";
         this.defineTableHeaderRenderer(compName, d);
     }
 
-    protected void defineTableHeaderRenderer(String compName, UIDefaults d) {
+    protected void defineTableHeaderRenderer(String compName, final UIDefaults d) {
 
         // TableHeader: renderer :
         if (compName == null) {
@@ -1844,7 +1807,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ".Sorted", new OTableHeaderTableHeaderRendererSortedState());
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "2 2 2 2");
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "2 2 2 2");
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "2 2 2 2");
         // 4 is the default VerticalHeaderMargin in Ontimize
         SortTableCellRenderer.defaultVerticalHeaderMargin = 4 + insets.top + insets.bottom;
 
@@ -1860,9 +1823,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "insideRightBorder", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "bottomBorder", "#858d92");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableHeaderRendererPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(22, 20), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1885,18 +1848,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineVisualCalendarTableHeaderRenderer(UIDefaults d) {
-        String compName = "TableHeader:\"VisualCalendar:TableHeader.renderer\"";
+    protected void defineVisualCalendarTableHeaderRenderer(final UIDefaults d) {
+        final String compName = "TableHeader:\"VisualCalendar:TableHeader.renderer\"";
         this.defineVisualCalendarTableHeaderRenderer(compName, d);
     }
 
-    protected void defineVisualCalendarTableHeaderRenderer(String compName, UIDefaults d) {
+    protected void defineVisualCalendarTableHeaderRenderer(String compName, final UIDefaults d) {
 
         // VisualCalendar Component...
         if (compName == null) {
             compName = "TableHeader:\"VisualCalendar:TableHeader.renderer\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableHeaderVisualCalendarRendererPainter");
 
         d.put(compName + ".States", "Enabled");
@@ -1908,7 +1871,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "topBorder", "#959ea3");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "bottomBorder", "#b6bdbf");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5"), new Dimension(22, 20),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -1917,12 +1880,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineLabel(UIDefaults d) {
-        String compName = "Label";
+    protected void defineLabel(final UIDefaults d) {
+        final String compName = "Label";
         this.defineLabel(compName, d);
     }
 
-    protected void defineLabel(String compName, UIDefaults d) {
+    protected void defineLabel(String compName, final UIDefaults d) {
         // Label
         if (compName == null) {
             compName = "Label";
@@ -1937,7 +1900,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
          * Note: Colors with state ([Enables]...) are used on renderers of Combos, Lists, etc. Due to,
          * background of this components is white, the color of the font is #335971
          */
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#243b4aCC");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#243b4aCC");
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground",
                 null);
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
@@ -1959,17 +1922,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineELabel(UIDefaults d) {
-        String compName = "\"ELabel\"";
+    protected void defineELabel(final UIDefaults d) {
+        final String compName = "\"ELabel\"";
         this.defineELabel(compName, d);
     }
 
-    protected void defineResultCountLabel(UIDefaults d) {
-        String compName = "\"ResultCountLabel\"";
+    protected void defineResultCountLabel(final UIDefaults d) {
+        final String compName = "\"ResultCountLabel\"";
         this.defineELabel(compName, d);
     }
 
-    protected void defineELabel(String compName, UIDefaults d) {
+    protected void defineELabel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"ELabel\"";
         }
@@ -1984,17 +1947,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineButton(UIDefaults d) {
-        String compName = "Button";
+    protected void defineButton(final UIDefaults d) {
+        final String compName = "Button";
         this.defineButton(compName, d);
     }
 
-    protected void defineButton(String compName, UIDefaults d) {
+    protected void defineButton(String compName, final UIDefaults d) {
 
         if (compName == null) {
             compName = "Button";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OButtonPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OButtonPainter");
 
         // Button
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "7 7 7 7");
@@ -2036,7 +1999,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setFloat(d, compName, "[Pressed].alphaTransparency", "0.5");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+Pressed].alphaTransparency", "0.5");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
                 new Dimension(104, 33), false, PaintContext.CacheMode.NO_CACHING,
                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
@@ -2069,12 +2032,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineToggleButton(UIDefaults d) {
-        String compName = "ToggleButton";
+    protected void defineToggleButton(final UIDefaults d) {
+        final String compName = "ToggleButton";
         this.defineToggleButton(compName, d);
     }
 
-    protected void defineToggleButton(String compName, UIDefaults d) {
+    protected void defineToggleButton(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "ToggleButton";
         }
@@ -2120,9 +2083,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setFloat(d, compName, "[Pressed+Selected].alphaTransparency", "0.5");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+Pressed+Selected].alphaTransparency", "0.5");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OToggleButtonPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
                 new Dimension(104, 33), false, PaintContext.CacheMode.NO_CACHING,
                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -2157,18 +2120,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineSelectableItem(UIDefaults d) {
-        String compName = "\"SelectableItem\"";
+    protected void defineSelectableItem(final UIDefaults d) {
+        final String compName = "\"SelectableItem\"";
         this.defineSelectableItem(compName, d);
     }
 
-    protected void defineSelectableItem(String compName, UIDefaults d) {
+    protected void defineSelectableItem(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"SelectableItem\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCheckBoxPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCheckBoxPainter");
 
-        String iconBasePath = "com/ontimize/plaf/images/check/";
+        final String iconBasePath = "com/ontimize/plaf/images/check/";
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff01");
         // setColorUIResource(d, compName, "foreground", null);
@@ -2182,7 +2145,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].textForeground", "#335971");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#335971");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(180, 180), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -2256,18 +2219,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineCheckBox(UIDefaults d) {
-        String compName = "CheckBox";
+    protected void defineCheckBox(final UIDefaults d) {
+        final String compName = "CheckBox";
         this.defineCheckBox(compName, d);
     }
 
-    protected void defineCheckBox(String compName, UIDefaults d) {
+    protected void defineCheckBox(String compName, final UIDefaults d) {
         // //Initialize CheckBox
         if (compName == null) {
             compName = "CheckBox";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCheckBoxPainter");
-        String iconBasePath = "com/ontimize/plaf/images/check/";
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCheckBoxPainter");
+        final String iconBasePath = "com/ontimize/plaf/images/check/";
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff01");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textForeground", "#335971");
@@ -2280,7 +2243,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].textForeground", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#FFFFFF");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(180, 180), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -2352,14 +2315,14 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineComboBox(UIDefaults d) {
+    protected void defineComboBox(final UIDefaults d) {
 
         // Initialize ComboBox
-        String compName = "ComboBox";
+        final String compName = "ComboBox";
         this.defineComboBox(compName, d);
     }
 
-    protected void defineComboBox(String compName, UIDefaults d) {
+    protected void defineComboBox(String compName, final UIDefaults d) {
 
         // Initialize ComboBox
         if (compName == null) {
@@ -2379,7 +2342,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ".popupInsets", new InsetsUIResource(-2, 2, 0, 2));
         d.put(compName + ".padding", new InsetsUIResource(0, 0, 0, 0));
 
-        d.put(compName + ".numBorders", new Integer(4));
+        d.put(compName + ".numBorders", Integer.valueOf(4));
 
         OntimizeLookAndFeel.setColor(d, compName, "background", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "foreground", "#335971");
@@ -2389,10 +2352,10 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "selectionBackground", "#36627F");
 
         // TextForeground:
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");// #8F9CA4
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#616d75");// #8F9CA4
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground", "#d4d5d7");
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
-        ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
+        final ColorUIResource requiredFgColor = StyleUtil.getColorUI(compName, "[Required].textForeground", "#FFFFFF");
         ColorUIResource focusedRequiredFgColor = StyleUtil.getColorUI(compName, "[Focused+Required].textForeground",
                 null);
         focusedRequiredFgColor = focusedRequiredFgColor != null ? focusedRequiredFgColor : requiredFgColor;
@@ -2406,9 +2369,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Focused+Required].textForeground", focusedRequiredFgColor);
 
         // Background:
-        ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
-        ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
-        ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
+        final ColorUIResource disabledColor = StyleUtil.getColorUI(compName, "[Disabled].background", "#a0b5c3");
+        final ColorUIResource focusedColor = StyleUtil.getColorUI(compName, "[Focused].background", "#FFFFFF");
+        final ColorUIResource requiredColor = StyleUtil.getColorUI(compName, "[Required].background", "#89A5B9");
         ColorUIResource disabledRequiredColor = StyleUtil.getColorUI(compName, "[Disabled+Required].background", "#6a8da5");
         disabledRequiredColor = disabledRequiredColor != null ? disabledRequiredColor
                 : new ColorUIResource(OntimizeLAFColorUtils.setAlpha(requiredColor, 0.5));
@@ -2432,7 +2395,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].border", StyleUtil.getArrayColorUI(compName, "[Disabled].border", "#A5B6C0"));
         d.put(compName + "[Disabled+Required].border",
                 StyleUtil.getArrayColorUI(compName, "[Disabled+Required].border", "#E5E5E57D"));
-        ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
+        final ColorUIResource[] focusedBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused].border",
                 "#61BEE8FF #61BEE8B3 #61BEE866 #61BEE819");
         d.put(compName + "[Focused].border", focusedBorderColors);
         ColorUIResource[] focusedRequiredBorderColors = StyleUtil.getArrayColorUI(compName, "[Focused+Required].border",
@@ -2441,8 +2404,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 : focusedBorderColors;
         d.put(compName + "[Focused+Required].border", focusedRequiredBorderColors);
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OComboBoxPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "2 13 2 4"),
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OComboBoxPainter");
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "2 13 2 4"),
                 new Dimension(83, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY, 2.0);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -2490,17 +2453,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled+Required].textForeground", "#FF0000");
     }
 
-    protected void defineComboBoxTextField(UIDefaults d) {
-        String compName = "ComboBox:\"ComboBox.textField\"";
+    protected void defineComboBoxTextField(final UIDefaults d) {
+        final String compName = "ComboBox:\"ComboBox.textField\"";
         this.defineComboBoxTextField(compName, d);
     }
 
-    protected void defineComboBoxTextField(String compName, UIDefaults d) {
+    protected void defineComboBoxTextField(String compName, final UIDefaults d) {
         // ************ComboBox.TextField*******************************
         if (compName == null) {
             compName = "ComboBox:\"ComboBox.textField\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OComboBoxTextFieldPainter");
 
         d.put(compName + ".States", "Enabled,Disabled,Focused,Selected,Required");
@@ -2517,7 +2480,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].background", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Required].background", "#89A5B9");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(64, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY, 2.0);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -2528,12 +2491,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OComboBoxTextFieldPainter.BACKGROUND_SELECTED, ctx));
     }
 
-    protected void defineComboBoxArrow(UIDefaults d) {
-        String compName = "ComboBox:\"ComboBox.arrowButton\"";
+    protected void defineComboBoxArrow(final UIDefaults d) {
+        final String compName = "ComboBox:\"ComboBox.arrowButton\"";
         this.defineComboBoxArrow(compName, d);
     }
 
-    protected void defineComboBoxArrow(String compName, UIDefaults d) {
+    protected void defineComboBoxArrow(String compName, final UIDefaults d) {
         // *************ComboBox.Arrow******************************
         if (compName == null) {
             compName = "ComboBox:\"ComboBox.arrowButton\"";
@@ -2542,7 +2505,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ".States", "Enabled,MouseOver,Pressed,Disabled,Editable,Required");
         d.put(compName + ".Required", new RequiredState());
         d.put(compName + ".Editable", new OComboBoxArrowButtonEditableState());
-        d.put(compName + ".size", new Integer(21));
+        d.put(compName + ".size", Integer.valueOf(21));
 
         /*
          * Note: background arrow button is painted into OComboBoxPainter.
@@ -2572,9 +2535,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "[Pressed].foreground", "#000000");
         OntimizeLookAndFeel.setColor(d, compName, "[Required].foreground", "#FFFFFF");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OComboBoxArrowButtonPainter");
-        PaintContext ctx = new PaintContext(new Insets(1, 1, 1, 1), new Dimension(20, 24), false,
+        final PaintContext ctx = new PaintContext(new Insets(1, 1, 1, 1), new Dimension(20, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING,
                 Double.POSITIVE_INFINITY, 2.0);
         // because it is registered into NimbusDefaults
@@ -2603,12 +2566,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OComboBoxArrowButtonPainter.FOREGROUND_REQUIRED, ctx));
     }
 
-    protected void defineComboBoxListRenderer(UIDefaults d) {
-        String compName = "ComboBox:\"ComboBox.listRenderer\"";
+    protected void defineComboBoxListRenderer(final UIDefaults d) {
+        final String compName = "ComboBox:\"ComboBox.listRenderer\"";
         this.defineComboBoxListRenderer(compName, d);
     }
 
-    protected void defineComboBoxListRenderer(String compName, UIDefaults d) {
+    protected void defineComboBoxListRenderer(String compName, final UIDefaults d) {
         // **************ComboBox.ListRenderer****************
         if (compName == null) {
             compName = "ComboBox:\"ComboBox.listRenderer\"";
@@ -2630,12 +2593,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#ffffff");
     }
 
-    protected void defineComboBoxRenderer(UIDefaults d) {
-        String compName = "ComboBox:\"ComboBox.renderer\"";
+    protected void defineComboBoxRenderer(final UIDefaults d) {
+        final String compName = "ComboBox:\"ComboBox.renderer\"";
         this.defineComboBoxRenderer(compName, d);
     }
 
-    protected void defineComboBoxRenderer(String compName, UIDefaults d) {
+    protected void defineComboBoxRenderer(String compName, final UIDefaults d) {
         // *************ComboBox.Renderer*************************
         if (compName == null) {
             compName = "ComboBox:\"ComboBox.renderer\"";
@@ -2649,7 +2612,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "2 4 2 4");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff");
 
-        ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
+        final ColorUIResource disabledFgColor = StyleUtil.getColorUI(compName, "[Disabled].textForeground", "#8e8f91");
         ColorUIResource disabledRequiredFgColor = StyleUtil.getColorUI(compName, "[Disabled+Required].textForeground",
                 null);
         disabledRequiredFgColor = disabledRequiredFgColor != null ? disabledRequiredFgColor : disabledFgColor;
@@ -2661,28 +2624,28 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Required].textForeground", "#FFFFFF");
     }
 
-    protected void defineComboBoxScrollPane(UIDefaults d) {
-        String compName = "\"ComboBox.scrollPane\"";
+    protected void defineComboBoxScrollPane(final UIDefaults d) {
+        final String compName = "\"ComboBox.scrollPane\"";
         this.defineComboBoxScrollPane(compName, d);
     }
 
-    protected void defineComboBoxScrollPane(String compName, UIDefaults d) {
+    protected void defineComboBoxScrollPane(String compName, final UIDefaults d) {
         // *************ComboBox.scrollPane*************************
         if (compName == null) {
             compName = "\"ComboBox.scrollPane\"";
         }
         d.put(compName + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
-        ColorUIResource borderColor = StyleUtil.getColorUI(compName, "border", "#8CA0AD");
-        Border cBorder = BorderFactory.createLineBorder(borderColor, 2);
+        final ColorUIResource borderColor = StyleUtil.getColorUI(compName, "border", "#8CA0AD");
+        final Border cBorder = BorderFactory.createLineBorder(borderColor, 2);
         d.put(compName + ".border", cBorder);
     }
 
-    protected void defineMenu(UIDefaults d) {
-        String compName = "Menu";
+    protected void defineMenu(final UIDefaults d) {
+        final String compName = "Menu";
         this.defineMenu(compName, d);
     }
 
-    protected void defineMenu(String compName, UIDefaults d) {
+    protected void defineMenu(String compName, final UIDefaults d) {
         // Menu:
         if (compName == null) {
             compName = "Menu";
@@ -2698,7 +2661,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Enabled+Selected].textForeground",
                 StyleUtil.getColorUI(compName, "[Enabled+Selected].textForeground", "#426a84"));
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuPainter");
         // Background...
         d.put(compName + ".contentMargins", StyleUtil.getInsetsUI(compName, "contentMargins", "3 10 3 10"));
         d.put(compName + "[Enabled+Selected].background",
@@ -2735,18 +2698,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OMenuPainter.ARROWICON_ENABLED_SELECTED, ctx));
     }
 
-    protected void defineMenuBar(UIDefaults d) {
-        String compName = "MenuBar";
+    protected void defineMenuBar(final UIDefaults d) {
+        final String compName = "MenuBar";
         this.defineMenuBar(compName, d);
     }
 
-    protected void defineMenuBar(String compName, UIDefaults d) {
+    protected void defineMenuBar(String compName, final UIDefaults d) {
 
         // MenuBar:
         if (compName == null) {
             compName = "MenuBar";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuBarPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuBarPainter");
 
         OntimizeLookAndFeel.setFontUIResource(d, compName, "font",
                 OntimizeLAFParseUtils.fontToString(this.getDefaultFont()));
@@ -2770,17 +2733,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineMenuBarMenu(UIDefaults d) {
-        String compName = "MenuBar:Menu";
+    protected void defineMenuBarMenu(final UIDefaults d) {
+        final String compName = "MenuBar:Menu";
         this.defineMenuBarMenu(compName, d);
     }
 
-    protected void defineMenuBarMenu(String compName, UIDefaults d) {
+    protected void defineMenuBarMenu(String compName, final UIDefaults d) {
         // MenuBar:Menu
         if (compName == null) {
             compName = "MenuBar:Menu";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OMenuBarMenuPainter");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].textForeground", "#B3CAd8");
@@ -2794,19 +2757,19 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 OntimizeLAFParseUtils.fontToString(this.getDefaultFont()));
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "3 15 0 15");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "3 15 0 15"), new Dimension(100, 30),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + "[Selected].backgroundPainter",
                 this.createLazyPainter(pClass, OMenuBarMenuPainter.BACKGROUND_SELECTED, ctx));
     }
 
-    protected void defineMenuItem(UIDefaults d) {
-        String compName = "MenuItem";
+    protected void defineMenuItem(final UIDefaults d) {
+        final String compName = "MenuItem";
         this.defineMenuItem(compName, d);
     }
 
-    protected void defineMenuItem(String compName, UIDefaults d) {
+    protected void defineMenuItem(String compName, final UIDefaults d) {
         // MenuItem:
         if (compName == null) {
             compName = "MenuItem";
@@ -2824,8 +2787,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#FFFFFF01");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[MouseOver].background", "#FFFFFF");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuItemPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OMenuItemPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "2 10 2 10"), new Dimension(100, 3),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".contentMargins", StyleUtil.getInsetsUI(compName, "contentMargins", "2 10 2 10"));
@@ -2845,17 +2808,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 "#426A84");
     }
 
-    protected void definePopupItem(UIDefaults d) {
-        String compName = "\"PopupItem\"";
+    protected void definePopupItem(final UIDefaults d) {
+        final String compName = "\"PopupItem\"";
         this.definePopupItem(compName, d);
     }
 
-    protected void definePopupItem(String compName, UIDefaults d) {
+    protected void definePopupItem(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"PopupItem\"";
         }
         d.put(compName + ".States", "Enabled,MouseOver,Disabled");
-        d.put(compName + ".textIconGap", new Integer(5));
+        d.put(compName + ".textIconGap", Integer.valueOf(5));
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].textForeground", "#FFFFFF7F");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].textForeground", "#FFFFFF");
@@ -2865,8 +2828,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#FFFFFF01");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[MouseOver].background", "#FFFFFF");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OPopupItemPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OPopupItemPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "1 10 1 10"), new Dimension(100, 3),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".contentMargins", StyleUtil.getInsetsUI(compName, "contentMargins", "1 10 1 10"));
@@ -2879,20 +2842,20 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineRadioButtonMenuItem(UIDefaults d) {
+    protected void defineRadioButtonMenuItem(final UIDefaults d) {
         // RadioButtonMenuItem:
-        String compName = "RadioButtonMenuItem";
+        final String compName = "RadioButtonMenuItem";
         this.defineRadioButtonMenuItem(compName, d);
     }
 
-    protected void defineRadioButtonMenuItem(String compName, UIDefaults d) {
+    protected void defineRadioButtonMenuItem(String compName, final UIDefaults d) {
         // RadioButtonMenuItem:
         if (compName == null) {
             compName = "RadioButtonMenuItem";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.ORadioButtonMenuItemPainter");
-        String iconBasePath = "com/ontimize/plaf/images/radio/";
+        final String iconBasePath = "com/ontimize/plaf/images/radio/";
 
         OntimizeLookAndFeel.setFontUIResource(d, compName, "font", null);
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "2 10 2 10");
@@ -3001,22 +2964,22 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineCheckBoxMenuItem(UIDefaults d) {
+    protected void defineCheckBoxMenuItem(final UIDefaults d) {
 
         // CheckBoxMenuItem :
-        String compName = "CheckBoxMenuItem";
+        final String compName = "CheckBoxMenuItem";
         this.defineCheckBoxMenuItem(compName, d);
     }
 
-    protected void defineCheckBoxMenuItem(String compName, UIDefaults d) {
+    protected void defineCheckBoxMenuItem(String compName, final UIDefaults d) {
 
         // CheckBoxMenuItem
         if (compName == null) {
             compName = "CheckBoxMenuItem";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OCheckBoxMenuItemPainter");
-        String iconBasePath = "com/ontimize/plaf/images/check/";
+        final String iconBasePath = "com/ontimize/plaf/images/check/";
 
         OntimizeLookAndFeel.setFontUIResource(d, compName, "font", null);
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "2 10 2 10");
@@ -3122,13 +3085,13 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineList(UIDefaults d) {
+    protected void defineList(final UIDefaults d) {
         // Initialize List
-        String compName = "List";
+        final String compName = "List";
         this.defineList(compName, d);
     }
 
-    protected void defineList(String compName, UIDefaults d) {
+    protected void defineList(String compName, final UIDefaults d) {
         // Initialize List
         if (compName == null) {
             compName = "List";
@@ -3176,12 +3139,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "[Disabled].background", "#39698a");
     }
 
-    protected void definePanel(UIDefaults d) {
-        String compName = "Panel";
+    protected void definePanel(final UIDefaults d) {
+        final String compName = "Panel";
         this.definePanel(compName, d);
     }
 
-    protected void definePanel(String compName, UIDefaults d) {
+    protected void definePanel(String compName, final UIDefaults d) {
         // Panel
         if (compName == null) {
             compName = "Panel";
@@ -3199,12 +3162,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void definePopupMenu(UIDefaults d) {
-        String compName = "PopupMenu";
+    protected void definePopupMenu(final UIDefaults d) {
+        final String compName = "PopupMenu";
         this.definePopupMenu(compName, d);
     }
 
-    protected void definePopupMenu(String compName, UIDefaults d) {
+    protected void definePopupMenu(String compName, final UIDefaults d) {
         // Popup Menu:
         if (compName == null) {
             compName = "PopupMenu";
@@ -3223,8 +3186,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].border", "#c6dfe3");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].border", "#c6dfe3");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OPopupMenuPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OPopupMenuPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "18 9 16 9"), new Dimension(220, 313),
                 false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -3234,12 +3197,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void definePopupMenuSeparator(UIDefaults d) {
-        String compName = "PopupMenuSeparator";
+    protected void definePopupMenuSeparator(final UIDefaults d) {
+        final String compName = "PopupMenuSeparator";
         this.definePopupMenuSeparator(compName, d);
     }
 
-    protected void definePopupMenuSeparator(String compName, UIDefaults d) {
+    protected void definePopupMenuSeparator(String compName, final UIDefaults d) {
         // Popup Menu Separator:
         if (compName == null) {
             compName = "PopupMenuSeparator";
@@ -3255,9 +3218,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "bottomshadowcolor", "#FFFFFF33");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "uppershadowcolor", "#00000033");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OPopupMenuSeparatorPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 0 5 0"), new Dimension(100, 2),
                 true, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -3265,12 +3228,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OPopupMenuSeparatorPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineSeparator(UIDefaults d) {
-        String compName = "Separator";
+    protected void defineSeparator(final UIDefaults d) {
+        final String compName = "Separator";
         this.defineSeparator(compName, d);
     }
 
-    protected void defineSeparator(String compName, UIDefaults d) {
+    protected void defineSeparator(String compName, final UIDefaults d) {
         // Separator:
         if (compName == null) {
             compName = "Separator";
@@ -3280,8 +3243,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "00000033");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].backgroundShadow", "FFFFFF33");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OSeparatorPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OSeparatorPainter");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5"), new Dimension(100, 2),
                 true, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put("Separator[Enabled].backgroundPainter",
@@ -3289,12 +3252,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineProgressBar(UIDefaults d) {
-        String compName = "ProgressBar";
+    protected void defineProgressBar(final UIDefaults d) {
+        final String compName = "ProgressBar";
         this.defineProgressBar(compName, d);
     }
 
-    protected void defineProgressBar(String compName, UIDefaults d) {
+    protected void defineProgressBar(String compName, final UIDefaults d) {
         // JProgressBar...
         if (compName == null) {
             compName = "ProgressBar";
@@ -3304,12 +3267,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineSliders(UIDefaults d) {
-        String compName = "Slider";
+    protected void defineSliders(final UIDefaults d) {
+        final String compName = "Slider";
         this.defineSliders(compName, d);
     }
 
-    protected void defineSliders(String compName, UIDefaults d) {
+    protected void defineSliders(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "Slider";
         }
@@ -3318,12 +3281,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ":SliderTrack.ArrowShape", new OSliderThumbArrowShapeState());
     }
 
-    protected void defineSplitPane(UIDefaults d) {
-        String compName = "SplitPane";
+    protected void defineSplitPane(final UIDefaults d) {
+        final String compName = "SplitPane";
         this.defineSplitPane(compName, d);
     }
 
-    protected void defineSplitPane(String compName, UIDefaults d) {
+    protected void defineSplitPane(String compName, final UIDefaults d) {
         // SplitPane:
         if (compName == null) {
             compName = "SplitPane";
@@ -3349,17 +3312,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineSplitPaneDivider(UIDefaults d) {
-        String compName = "SplitPane:SplitPaneDivider";
+    protected void defineSplitPaneDivider(final UIDefaults d) {
+        final String compName = "SplitPane:SplitPaneDivider";
         this.defineSplitPaneDivider(compName, d);
     }
 
-    protected void defineSplitPaneDivider(String compName, UIDefaults d) {
+    protected void defineSplitPaneDivider(String compName, final UIDefaults d) {
         // SplitPane: SplitPaneDivider :
         if (compName == null) {
             compName = "SplitPane:SplitPaneDivider";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OSplitPaneDividerPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "3 0 3 0");
@@ -3374,7 +3337,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].foregroundBorder", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled+Vertical].foregroundBorder", "#FFFFFF");
 
-        Insets in = StyleUtil.getInsets(compName, "contentMargins", "3 0 3 0");
+        final Insets in = StyleUtil.getInsets(compName, "contentMargins", "3 0 3 0");
         PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(in, new Dimension(68, 10),
                 false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
@@ -3397,12 +3360,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTree(UIDefaults d) {
-        String compName = "Tree";
+    protected void defineTree(final UIDefaults d) {
+        final String compName = "Tree";
         this.defineTree(compName, d);
     }
 
-    protected void defineTree(String compName, UIDefaults d) {
+    protected void defineTree(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "Tree";
         }
@@ -3424,12 +3387,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTreeCellRenderer(UIDefaults d) {
-        String compName = "Tree:\"Tree.cellRenderer\"";
+    protected void defineTreeCellRenderer(final UIDefaults d) {
+        final String compName = "Tree:\"Tree.cellRenderer\"";
         this.defineTreeCellRenderer(compName, d);
     }
 
-    protected void defineTreeCellRenderer(String compName, UIDefaults d) {
+    protected void defineTreeCellRenderer(String compName, final UIDefaults d) {
         // OTreeCellRendererPainter
         if (compName == null) {
             compName = "Tree:\"Tree.cellRenderer\"";
@@ -3455,21 +3418,21 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "backgroundSelectionCount", "#E4EDF0");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "foregroundSelectionChildCount", "#517286");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTreeCellRendererPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 2 0 30"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 2 0 30"),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OTreeCellRendererPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTreeCellEditor(UIDefaults d) {
-        String compName = "\"Tree.cellEditor\"";
+    protected void defineTreeCellEditor(final UIDefaults d) {
+        final String compName = "\"Tree.cellEditor\"";
         this.defineTreeCellEditor(compName, d);
     }
 
-    protected void defineTreeCellEditor(String compName, UIDefaults d) {
+    protected void defineTreeCellEditor(String compName, final UIDefaults d) {
         // Initialize \"Tree.cellEditor\"
         if (compName == null) {
             compName = "\"Tree.cellEditor\"";
@@ -3484,9 +3447,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].textForeground", "#8F9CA4");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#ffffff");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTreeCellEditorPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "2 5 2 5"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "2 5 2 5"),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -3496,9 +3459,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTreeCellEditorPainter.BACKGROUND_ENABLED_FOCUSED, ctx));
     }
 
-    protected void defineDiagramToolBar(UIDefaults d) {
-        String compName = "\"DiagramToolBar\"";
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(1, 1, 1, 1),
+    protected void defineDiagramToolBar(final UIDefaults d) {
+        final String compName = "\"DiagramToolBar\"";
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(1, 1, 1, 1),
                 new Dimension(30, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 3.0, 3.0);
         d.put(compName + "[East].backgroundPainter", this.createLazyPainter(
@@ -3512,13 +3475,13 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 "com.ontimize.plaf.painter.WestOToolBarPainter", AbstractOToolBarPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineToolBar(UIDefaults d) {
+    protected void defineToolBar(final UIDefaults d) {
         this.defineDiagramToolBar(d);
-        String compName = "ToolBar";
+        final String compName = "ToolBar";
         this.defineToolBar(compName, d);
     }
 
-    protected void defineToolBar(String compName, UIDefaults d) {
+    protected void defineToolBar(String compName, final UIDefaults d) {
         // Toolbar:
         if (compName == null) {
             compName = "ToolBar";
@@ -3597,18 +3560,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[West].backgroundPainter",
                 this.createLazyPainter(pClass, AbstractOToolBarPainter.BACKGROUND_ENABLED, ctx));
 
-        Integer height = StyleUtil.getInteger(compName, "height", "50");
+        final Integer height = StyleUtil.getInteger(compName, "height", "50");
         ApplicationToolBar.DEFAULT_TOOLBAR_HEIGHT = height;
 
     }
 
-    protected void defineToolBarButton(UIDefaults d) {
+    protected void defineToolBarButton(final UIDefaults d) {
         // ToolBar: Button:
-        String compName = "ToolBar:Button";
+        final String compName = "ToolBar:Button";
         this.defineToolBarButton(compName, d);
     }
 
-    protected void defineToolBarButton(String compName, UIDefaults d) {
+    protected void defineToolBarButton(String compName, final UIDefaults d) {
         // ToolBar: Button:
         if (compName == null) {
             compName = "ToolBar:Button";
@@ -3636,9 +3599,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setFloat(d, compName, "[Pressed].alphaTransparency", "1.0");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+Pressed].alphaTransparency", "1.0");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OToolBarButtonPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 8 0 8"), new Dimension(32, 32),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 2.0, Double.POSITIVE_INFINITY);
         d.put(compName + "[Focused].backgroundPainter",
@@ -3656,18 +3619,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + "[Disabled].backgroundPainter",
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_DISABLED, ctx));
 
-        Integer size = StyleUtil.getInteger(compName, "size", "32");
+        final Integer size = StyleUtil.getInteger(compName, "size", "32");
         ApplicationToolBar.DEFAULT_BUTTON_SIZE = size;
         ApToolBarNavigator.defaultButtonsBorder = BorderFactory.createEmptyBorder();
     }
 
-    protected void defineToolBarToggleButton(UIDefaults d) {
+    protected void defineToolBarToggleButton(final UIDefaults d) {
         // ToolBar: ToggleButton:
-        String compName = "ToolBar:ToggleButton";
+        final String compName = "ToolBar:ToggleButton";
         this.defineToolBarToggleButton(compName, d);
     }
 
-    protected void defineToolBarToggleButton(String compName, UIDefaults d) {
+    protected void defineToolBarToggleButton(String compName, final UIDefaults d) {
         // ToolBar: ToggleButton:
         if (compName == null) {
             compName = "ToolBar:ToggleButton";
@@ -3694,10 +3657,10 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setFloat(d, compName, "[Pressed+Selected].alphaTransparency", "1.0");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+Pressed+Selected].alphaTransparency", "1.0");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 8 0 8"), new Dimension(32, 32),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 2.0, Double.POSITIVE_INFINITY);
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OToolBarToggleButtonPainter");
 
         d.put(compName + "[Enabled].backgroundPainter",
@@ -3732,24 +3695,24 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineToolBarSeparator(UIDefaults d) {
-        String compName = "ToolBarSeparator";
+    protected void defineToolBarSeparator(final UIDefaults d) {
+        final String compName = "ToolBarSeparator";
         this.defineToolBarSeparator(compName, d);
     }
 
-    protected void defineToolBarSeparator(String compName, UIDefaults d) {
+    protected void defineToolBarSeparator(String compName, final UIDefaults d) {
         // ToolBarSeparator:
         if (compName == null) {
             compName = "ToolBarSeparator";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OToolBarSeparatorPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#FFFFFF4C");
 
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(38, 7), true,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -3757,12 +3720,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OToolBarSeparatorPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineToolTip(UIDefaults d) {
-        String compName = "ToolTip";
+    protected void defineToolTip(final UIDefaults d) {
+        final String compName = "ToolTip";
         this.defineToolTip(compName, d);
     }
 
-    protected void defineToolTip(String compName, UIDefaults d) {
+    protected void defineToolTip(String compName, final UIDefaults d) {
         // ToolTip
         if (compName == null) {
             compName = "ToolTip";
@@ -3780,29 +3743,29 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textForeground", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "border", "#C6DFE3");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 9 6 9"), new Dimension(10, 10),
                 false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OToolTipPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OToolTipPainter");
         d.put(compName + "[Enabled].backgroundPainter",
                 this.createLazyPainter(pClass, OToolTipPainter.BACKGROUND_ENABLED, ctx));
 
     }
 
-    protected void defineRadioButton(UIDefaults d) {
+    protected void defineRadioButton(final UIDefaults d) {
         // Initialize RadioButton
-        String compName = "RadioButton";
+        final String compName = "RadioButton";
         this.defineRadioButton(compName, d);
     }
 
-    protected void defineRadioButton(String compName, UIDefaults d) {
+    protected void defineRadioButton(String compName, final UIDefaults d) {
         // Initialize RadioButton
         if (compName == null) {
             compName = "RadioButton";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.ORadioButtonPainter");
-        String iconBasePath = "com/ontimize/plaf/images/radio/";
+        final String iconBasePath = "com/ontimize/plaf/images/radio/";
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#ffffff01");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "textForeground", "#335971");
@@ -3815,7 +3778,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].textForeground", "#FFFFFF");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Selected].textForeground", "#FFFFFF");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(18, 18), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -3888,24 +3851,24 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, ORadioButtonPainter.ICON_DISABLED_SELECTED, ctx, path));
     }
 
-    protected void defineRow(UIDefaults d) {
-        String compName = "\"Row\"";
+    protected void defineRow(final UIDefaults d) {
+        final String compName = "\"Row\"";
         this.defineRow(compName, d);
     }
 
-    protected void defineRow(String compName, UIDefaults d) {
+    protected void defineRow(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"Row\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.ORowPanelPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.ORowPanelPainter");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#48718c");
         OntimizeLookAndFeel.setPaint(d, compName, "bgpaint", null);
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
 
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -3913,16 +3876,16 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, ORowPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineColumn(UIDefaults d) {
-        String compName = "\"Column\"";
+    protected void defineColumn(final UIDefaults d) {
+        final String compName = "\"Column\"";
         this.defineColumn(compName, d);
     }
 
-    protected void defineColumn(String compName, UIDefaults d) {
+    protected void defineColumn(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"Column\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OColumnPanelPainter");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#48718c");
@@ -3930,8 +3893,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
 
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -3939,24 +3902,24 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OColumnPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineCardPanel(UIDefaults d) {
-        String compName = "\"CardPanel\"";
+    protected void defineCardPanel(final UIDefaults d) {
+        final String compName = "\"CardPanel\"";
         this.defineCardPanel(compName, d);
     }
 
-    protected void defineCardPanel(String compName, UIDefaults d) {
+    protected void defineCardPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"CardPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCardPanelPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OCardPanelPainter");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#FFFFFF14");
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
         OntimizeLookAndFeel.setPaint(d, compName, "bgpaint", null);
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
 
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
 
@@ -3964,16 +3927,16 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OCardPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineGrid(UIDefaults d) {
-        String compName = "\"Grid\"";
+    protected void defineGrid(final UIDefaults d) {
+        final String compName = "\"Grid\"";
         this.defineGrid(compName, d);
     }
 
-    protected void defineGrid(String compName, UIDefaults d) {
+    protected void defineGrid(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"Grid\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OGridPanelPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OGridPanelPainter");
 
         OntimizeLookAndFeel.setColorUIResource(d, compName, "background", "#FFFFFF14");
         OntimizeLookAndFeel.setPaint(d, compName, "bgpaint", null);
@@ -3981,8 +3944,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         Grid.defaultOpaque = StyleUtil.getBoolean(compName, "opaque", "false");
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "5 5 5 5");
 
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(insets,
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
 
@@ -3990,19 +3953,19 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OGridPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTitleBorder(UIDefaults d) {
-        String compName = "TitledBorder";
+    protected void defineTitleBorder(final UIDefaults d) {
+        final String compName = "TitledBorder";
         this.defineTitleBorder(compName, d);
     }
 
-    protected void defineTitleBorder(String compName, UIDefaults d) {
+    protected void defineTitleBorder(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "TitledBorder";
         }
         d.put(compName + ".position", "BELOW_TOP");
-        Insets insets = StyleUtil.getInsets(compName, "contentMargins", "10 10 10 10");
-        Integer radius = StyleUtil.getInteger(compName, "radius", null);
-        Integer titleSize = StyleUtil.getInteger(compName, "titleSize", null);
+        final Insets insets = StyleUtil.getInsets(compName, "contentMargins", "10 10 10 10");
+        final Integer radius = StyleUtil.getInteger(compName, "radius", null);
+        final Integer titleSize = StyleUtil.getInteger(compName, "titleSize", null);
 
         d.put(compName + ".border", new BorderUIResource(new OLoweredBorder(insets, titleSize, radius)));
         Font tBFont = this.getDefaultFont();
@@ -4012,12 +3975,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "titleColor", "#3b3b3b");
     }
 
-    protected void defineTableButton(UIDefaults d) {
-        String compName = "\"TableButton\"";
+    protected void defineTableButton(final UIDefaults d) {
+        final String compName = "\"TableButton\"";
         this.defineTableButton(compName, d);
     }
 
-    protected void defineTableButton(String compName, UIDefaults d) {
+    protected void defineTableButton(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"TableButton\"";
         }
@@ -4039,9 +4002,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].background", "#366581");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused].alphaTransparency", "0.5");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableButtonPainter");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"), new Dimension(33, 33),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4074,83 +4037,83 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineTableButtonPanel(UIDefaults d) {
-        String compName = "\"TableButtonPanel\"";
+    protected void defineTableButtonPanel(final UIDefaults d) {
+        final String compName = "\"TableButtonPanel\"";
         this.defineTableButtonPanel(compName, d);
     }
 
-    protected void defineTableButtonPanel(String compName, UIDefaults d) {
+    protected void defineTableButtonPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"TableButtonPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableButtonPanelPainter");
 
         OntimizeLookAndFeel.setColor(d, compName, "topBackgroundColor", "#DAE7ED");
         OntimizeLookAndFeel.setColor(d, compName, "bottomBackgroundColor", "#A2ABB0");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OTableButtonPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTableButtonFooterPanel(UIDefaults d) {
-        String compName = "\"TableButtonFooterPanel\"";
+    protected void defineTableButtonFooterPanel(final UIDefaults d) {
+        final String compName = "\"TableButtonFooterPanel\"";
         this.defineTableButtonFooterPanel(compName, d);
     }
 
-    protected void defineTableButtonFooterPanel(String compName, UIDefaults d) {
+    protected void defineTableButtonFooterPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"TableButtonFooterPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTableButtonFooterPanelPainter");
 
         OntimizeLookAndFeel.setColor(d, compName, "topBackgroundColor", "#A2ABB0");
         OntimizeLookAndFeel.setColor(d, compName, "bottomBackgroundColor", "#DAE7ED");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(0, 0, 0, 0),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OTableButtonFooterPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineFormButtonPanel(UIDefaults d) {
-        String compName = "\"FormButtonPanel\"";
+    protected void defineFormButtonPanel(final UIDefaults d) {
+        final String compName = "\"FormButtonPanel\"";
         this.defineFormButtonPanel(compName, d);
     }
 
-    protected void defineFormButtonPanel(String compName, UIDefaults d) {
+    protected void defineFormButtonPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"FormButtonPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFormButtonPanelPainter");
 
         OntimizeLookAndFeel.setColor(d, compName, "topBackgroundColor", "#AAB8BF");
         OntimizeLookAndFeel.setColor(d, compName, "bottomBackgroundColor", "#E6EFF2");
         OntimizeLookAndFeel.setColor(d, compName, "background", "#000000");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OFormButtonPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineFormBodyPanel(UIDefaults d) {
-        String compName = "\"FormBodyPanel\"";
+    protected void defineFormBodyPanel(final UIDefaults d) {
+        final String compName = "\"FormBodyPanel\"";
         this.defineFormBodyPanel(compName, d);
     }
 
-    protected void defineFormBodyPanel(String compName, UIDefaults d) {
+    protected void defineFormBodyPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"FormBodyPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFormBodyPanelPainter");
 
         OntimizeLookAndFeel.setPaint(d, compName, "bgpaint", null);
@@ -4158,23 +4121,23 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 "com/ontimize/plaf/images/backgroundDarkBlue.jpg");
         Form.DEFAULT_FORM_MARGIN = StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "5 5 5 5"), new Dimension(100, 30),
                 false, AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OFormBodyPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineFieldButton(UIDefaults d) {
-        String compName = "\"FieldButton\"";
+    protected void defineFieldButton(final UIDefaults d) {
+        final String compName = "\"FieldButton\"";
         this.defineFieldButton(compName, d);
     }
 
-    protected void defineFieldButton(String compName, UIDefaults d) {
+    protected void defineFieldButton(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"FieldButton\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFieldButtonPainter");
 
         FieldButton.defaultContentAreaFilled = true;
@@ -4198,7 +4161,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused+MouseOver].background", "#ffffff");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+MouseOver].alphaTransparency", "0.25");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "3 3 3 3"), new Dimension(33, 33),
                 false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4230,16 +4193,16 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineFormButton(UIDefaults d) {
-        String compName = "\"FormButton\"";
+    protected void defineFormButton(final UIDefaults d) {
+        final String compName = "\"FormButton\"";
         this.defineFormButton(compName, d);
     }
 
-    protected void defineFormButton(String compName, UIDefaults d) {
+    protected void defineFormButton(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"FormButton\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OFormButtonPainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OFormButtonPainter");
 
         Form.defaultFormButtonSize = 26;
         FormButton.defaultContentAreaFilled = true;
@@ -4259,7 +4222,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].background", "#366581");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused].alphaTransparency", "0.5");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"), new Dimension(33, 33),
                 false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4291,7 +4254,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineFormHeader(UIDefaults d) {
+    protected void defineFormHeader(final UIDefaults d) {
 
         ImageManager.INSERT = "com/ontimize/plaf/images/formheader/insert.png";
         ImageManager.CONFIRM_INSERT = "com/ontimize/plaf/images/formheader/confirminsert.png";
@@ -4315,16 +4278,16 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         ImageManager.FUNNEL_NEW = "com/ontimize/plaf/images/formheader/filter.png";
     }
 
-    protected void defineFormHeaderButton(UIDefaults d) {
-        String compName = "\"FormHeaderButton\"";
+    protected void defineFormHeaderButton(final UIDefaults d) {
+        final String compName = "\"FormHeaderButton\"";
         this.defineFormHeaderButton(compName, d);
     }
 
-    protected void defineFormHeaderButton(String compName, UIDefaults d) {
+    protected void defineFormHeaderButton(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"FormHeaderButton\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFormHeaderButtonPainter");
 
         FormHeaderButton.defaultCapable = true;
@@ -4345,7 +4308,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].background", "#366581");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused].alphaTransparency", "0.5");
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(
                 StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"), new Dimension(33, 33),
                 false, AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4378,12 +4341,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineFormHeaderPopupButton(UIDefaults d) {
-        String compName = "\"FormHeaderPopupButton\"";
+    protected void defineFormHeaderPopupButton(final UIDefaults d) {
+        final String compName = "\"FormHeaderPopupButton\"";
         this.defineFormHeaderPopupButton(compName, d);
     }
 
-    protected void defineFormHeaderPopupButton(String compName, UIDefaults d) {
+    protected void defineFormHeaderPopupButton(String compName, final UIDefaults d) {
 
         if (compName == null) {
             compName = "\"FormHeaderPopupButton\"";
@@ -4422,9 +4385,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setFloat(d, compName, "[Pressed+Selected].alphaTransparency", "0.5");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused+Pressed+Selected].alphaTransparency", "0.5");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OFormHeaderPopupButtonPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "7 7 7 7"),
                 new Dimension(104, 33), false, PaintContext.CacheMode.NO_CACHING,
                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         d.put(compName + "[Disabled].backgroundPainter",
@@ -4459,12 +4422,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineButtonSelection(UIDefaults d) {
-        String compName = "\"ButtonSelection\"";
+    protected void defineButtonSelection(final UIDefaults d) {
+        final String compName = "\"ButtonSelection\"";
         this.defineButtonSelection(compName, d);
     }
 
-    protected void defineButtonSelection(String compName, UIDefaults d) {
+    protected void defineButtonSelection(String compName, final UIDefaults d) {
         // ButtonSelection...
         if (compName == null) {
             compName = "\"ButtonSelection\"";
@@ -4487,9 +4450,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused].background", "#366581");
         OntimizeLookAndFeel.setFloat(d, compName, "[Focused].alphaTransparency", "0.5");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OButtonSelectionPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(33, 33), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4522,12 +4485,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineMenuButtonSelection(UIDefaults d) {
-        String compName = "\"MenuButtonSelection\"";
+    protected void defineMenuButtonSelection(final UIDefaults d) {
+        final String compName = "\"MenuButtonSelection\"";
         this.defineMenuButtonSelection(compName, d);
     }
 
-    protected void defineMenuButtonSelection(String compName, UIDefaults d) {
+    protected void defineMenuButtonSelection(String compName, final UIDefaults d) {
         // MenuButtonSelection...
         if (compName == null) {
             compName = "\"MenuButtonSelection\"";
@@ -4560,9 +4523,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "[MouseOver].foreground", "#000000");
         OntimizeLookAndFeel.setColor(d, compName, "[Pressed].foreground", "#000000");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OMenuButtonSelectionPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "10 0 10 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "10 0 10 0"),
                 new Dimension(33, 33), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4595,12 +4558,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineToolbarNavigatorMenuButtonSelection(UIDefaults d) {
-        String compName = "\"ToolbarNavigatorMenuButtonSelection\"";
+    protected void defineToolbarNavigatorMenuButtonSelection(final UIDefaults d) {
+        final String compName = "\"ToolbarNavigatorMenuButtonSelection\"";
         this.defineToolbarNavigatorMenuButtonSelection(compName, d);
     }
 
-    protected void defineToolbarNavigatorMenuButtonSelection(String compName, UIDefaults d) {
+    protected void defineToolbarNavigatorMenuButtonSelection(String compName, final UIDefaults d) {
         // MenuButtonSelection...
         if (compName == null) {
             compName = "\"ToolbarNavigatorMenuButtonSelection\"";
@@ -4633,9 +4596,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColor(d, compName, "[MouseOver].foreground", "#000000");
         OntimizeLookAndFeel.setColor(d, compName, "[Pressed].foreground", "#000000");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OToolbarNavigatorMenuButtonSelectionPainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "8 8 8 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "8 8 8 0"),
                 new Dimension(33, 33), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4668,16 +4631,16 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, AbstractOButtonPainter.BACKGROUND_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineCollapsibleButtonPanel(UIDefaults d) {
-        String compName = "\"CollapsibleButtonPanel\"";
+    protected void defineCollapsibleButtonPanel(final UIDefaults d) {
+        final String compName = "\"CollapsibleButtonPanel\"";
         this.defineCollapsibleButtonPanel(compName, d);
     }
 
-    protected void defineCollapsibleButtonPanel(String compName, UIDefaults d) {
+    protected void defineCollapsibleButtonPanel(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"CollapsibleButtonPanel\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OCollapsibleButtonPanelPainter");
 
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
@@ -4692,8 +4655,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         CollapsibleButtonPanel.rightIconPath = StyleUtil.getIconPath(compName, "arrowRightIcon",
                 "com/ontimize/plaf/images/allrightarrow.png");
 
-        Insets in = StyleUtil.getInsets(compName, "contentMargins", "2 3 1 4");
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(in, new Dimension(20, 30),
+        final Insets in = StyleUtil.getInsets(compName, "contentMargins", "2 3 1 4");
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(in, new Dimension(20, 30),
                 false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
@@ -4701,12 +4664,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineCollapsiblePanel(UIDefaults d) {
-        String compName = "CollapsiblePanel";
+    protected void defineCollapsiblePanel(final UIDefaults d) {
+        final String compName = "CollapsiblePanel";
         this.defineCollapsiblePanel(compName, d);
     }
 
-    protected void defineCollapsiblePanel(String compName, UIDefaults d) {
+    protected void defineCollapsiblePanel(String compName, final UIDefaults d) {
         // Assigning CurveMattedDeployableBorder to collapsible panel.
         if (compName == null) {
             compName = "CollapsiblePanel";
@@ -4737,39 +4700,39 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineComponentToolBar(UIDefaults d) {
-        String compName = "\"ComponentToolBar\"";
+    protected void defineComponentToolBar(final UIDefaults d) {
+        final String compName = "\"ComponentToolBar\"";
         this.defineComponentToolBar(compName, d);
     }
 
-    protected void defineComponentToolBar(String compName, UIDefaults d) {
+    protected void defineComponentToolBar(String compName, final UIDefaults d) {
         if (compName == null) {
             compName = "\"ComponentToolBar\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OComponentToolBarPainter");
 
         d.put(compName + ".topBackgroundColor", OntimizeLAFParseUtils.parseColor("#DAE7ED", Color.black));
         d.put(compName + ".downBackgroundColor", OntimizeLAFParseUtils.parseColor("#A2ABB0", Color.black));
 
-        PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
+        final PaintContext ctx = new com.ontimize.plaf.painter.AbstractRegionPainter.PaintContext(new Insets(5, 5, 5, 5),
                 new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OTableButtonPanelPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineFormTitle(UIDefaults d) {
-        String compName = "\"FormTitle\"";
+    protected void defineFormTitle(final UIDefaults d) {
+        final String compName = "\"FormTitle\"";
         this.defineFormTitle(compName, d);
     }
 
-    protected void defineFormTitle(String compName, UIDefaults d) {
+    protected void defineFormTitle(String compName, final UIDefaults d) {
 
         if (compName == null) {
             compName = "\"FormTitle\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OFormTitlePainter");
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OFormTitlePainter");
 
         d.put(compName + ".contentMargins", new InsetsUIResource(1, 60, 2, 60));
 
@@ -4782,7 +4745,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setPaint(d, compName, "bgpaint", null);
         OntimizeLookAndFeel.setColorUIResource(d, compName, "shadow", "#00000033");
 
-        PaintContext ctx = new PaintContext(new Insets(5, 60, 5, 60), new Dimension(100, 30), false,
+        final PaintContext ctx = new PaintContext(new Insets(5, 60, 5, 60), new Dimension(100, 30), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put(compName + ".backgroundPainter",
                 this.createLazyPainter(pClass, OFormTitlePainter.BACKGROUND_ENABLED, ctx));
@@ -4790,12 +4753,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTabbedPane(UIDefaults d) {
-        String compName = "TabbedPane";
+    protected void defineTabbedPane(final UIDefaults d) {
+        final String compName = "TabbedPane";
         this.defineTabbedPane(compName, d);
     }
 
-    protected void defineTabbedPane(String compName, UIDefaults d) {
+    protected void defineTabbedPane(String compName, final UIDefaults d) {
         // TabbedPane:
         if (compName == null) {
             compName = "TabbedPane";
@@ -4803,7 +4766,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         d.put(compName + ".States", "Enabled,Disabled");
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "8 12 12 12");
-        FontUIResource font = StyleUtil.getFontUIResource(compName, "font",
+        final FontUIResource font = StyleUtil.getFontUIResource(compName, "font",
                 OntimizeLAFParseUtils.fontToString(this.getDefaultFont()));
         d.put(compName + ".font", font);
         OntimizeLookAndFeel.setBoolean(d, compName, "opaque", "false");
@@ -4827,8 +4790,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].border", "#000000");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].border", "#000000");
 
-        String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTabbedPanePainter");
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "8 12 12 12"),
+        final String pClass = StyleUtil.getProperty(compName, "painterClass", "com.ontimize.plaf.painter.OTabbedPanePainter");
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "8 12 12 12"),
                 new Dimension(68, 10), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4839,23 +4802,23 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineTabbedPaneTab(UIDefaults d) {
-        String compName = "TabbedPane:TabbedPaneTab";
+    protected void defineTabbedPaneTab(final UIDefaults d) {
+        final String compName = "TabbedPane:TabbedPaneTab";
         this.defineTabbedPaneTab(compName, d);
     }
 
-    protected void defineTabbedPaneTab(String compName, UIDefaults d) {
+    protected void defineTabbedPaneTab(String compName, final UIDefaults d) {
 
         // Tab...
         if (compName == null) {
             compName = "TabbedPane:TabbedPaneTab";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTabbedPaneTabPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "1 1 1 1");
         // It must be the same font that TabbedPane!
-        FontUIResource font = StyleUtil.getFontUIResource("TabbedPane", "font",
+        final FontUIResource font = StyleUtil.getFontUIResource("TabbedPane", "font",
                 OntimizeLAFParseUtils.fontToString(this.getDefaultFont()));
         d.put("TabbedPane:TabbedPaneTab.font", font);
 
@@ -4876,7 +4839,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused+MouseOver+Selected].background", "#77acd0");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Focused+Pressed+Selected].background", "#77acd0");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "1 1 1 1"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "1 1 1 1"),
                 new Dimension(44, 21), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4904,22 +4867,22 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTabbedPaneTabPainter.BACKGROUND_SELECTED_PRESSED_FOCUSED, ctx));
     }
 
-    protected void defineTabbedPaneTabArea(UIDefaults d) {
-        String compName = "TabbedPane:TabbedPaneTabArea";
+    protected void defineTabbedPaneTabArea(final UIDefaults d) {
+        final String compName = "TabbedPane:TabbedPaneTabArea";
         this.defineTabbedPaneTabArea(compName, d);
     }
 
-    protected void defineTabbedPaneTabArea(String compName, UIDefaults d) {
+    protected void defineTabbedPaneTabArea(String compName, final UIDefaults d) {
         // TabArea...
         if (compName == null) {
             compName = "TabbedPane:TabbedPaneTabArea";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTabbedPaneTabAreaPainter");
 
         OntimizeLookAndFeel.setInsetsUIResource(d, compName, "contentMargins", "0 0 0 0");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "0 0 0 0"),
                 new Dimension(5, 24), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4933,17 +4896,17 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTabbedPaneTabAreaPainter.BACKGROUND_ENABLED, ctx));
     }
 
-    protected void defineTabbedPaneContent(UIDefaults d) {
-        String compName = "TabbedPane:TabbedPaneContent";
+    protected void defineTabbedPaneContent(final UIDefaults d) {
+        final String compName = "TabbedPane:TabbedPaneContent";
         this.defineTabbedPaneContent(compName, d);
     }
 
-    protected void defineTabbedPaneContent(String compName, UIDefaults d) {
+    protected void defineTabbedPaneContent(String compName, final UIDefaults d) {
         // Tab Content...
         if (compName == null) {
             compName = "TabbedPane:TabbedPaneContent";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTabbedPaneContentPainter");
 
         d.put(compName + ".States", "Enabled,Disabled");
@@ -4952,7 +4915,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Enabled].background", "#517286");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Disabled].background", "#517286");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "5 2 5 2"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "5 2 5 2"),
                 new Dimension(68, 10), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4962,18 +4925,18 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTabbedPaneContentPainter.BACKGROUND_DISABLED, ctx));
     }
 
-    protected void defineTabbedPaneTabAreaButton(UIDefaults d) {
-        String compName = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
+    protected void defineTabbedPaneTabAreaButton(final UIDefaults d) {
+        final String compName = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
         this.defineTabbedPaneTabAreaButton(compName, d);
     }
 
-    protected void defineTabbedPaneTabAreaButton(String compName, UIDefaults d) {
+    protected void defineTabbedPaneTabAreaButton(String compName, final UIDefaults d) {
 
         // Tab Buttons...
         if (compName == null) {
             compName = "TabbedPane:TabbedPaneTabArea:\"TabbedPaneTabArea.button\"";
         }
-        String pClass = StyleUtil.getProperty(compName, "painterClass",
+        final String pClass = StyleUtil.getProperty(compName, "painterClass",
                 "com.ontimize.plaf.painter.OTabbedPaneArrowButtonPainter");
 
         d.put(compName + ".States", "Enabled,Pressed,Disabled,MouseOver");
@@ -4982,7 +4945,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[Pressed].foreground", "#9D9D9D");
         OntimizeLookAndFeel.setColorUIResource(d, compName, "[MouseOver].foreground", "#517286");
 
-        PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "1 1 1 1"),
+        final PaintContext ctx = new PaintContext(StyleUtil.getInsets(compName, "contentMargins", "1 1 1 1"),
                 new Dimension(68, 10), false,
                 AbstractRegionPainter.PaintContext.CacheMode.FIXED_SIZES, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY);
@@ -4997,10 +4960,10 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    protected void defineFormTabbedPane(UIDefaults d) {
+    protected void defineFormTabbedPane(final UIDefaults d) {
 
         // TabbedPane:
-        String name = "FormTabbedPane";
+        final String name = "FormTabbedPane";
         String compName = name;
 
         d.put(compName + ".States", "Enabled,Disabled,Selected,Focused");
@@ -5035,7 +4998,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         String pClass = OFormTabbedPaneTabPainter.class.getName();
 
         // It must be the same font that TabbedPane!
-        FontUIResource font = StyleUtil.getFontUIResource("FormTabbedPane", "font",
+        final FontUIResource font = StyleUtil.getFontUIResource("FormTabbedPane", "font",
                 OntimizeLAFParseUtils.fontToString(this.getDefaultFont()));
         d.put("FormTabbedPane:TabbedPaneTab.font", font);
         d.put(compName + ".States", "Enabled,Disabled,Selected,Focused");
@@ -5142,7 +5105,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.createLazyPainter(pClass, OTabbedPaneArrowButtonPainter.FOREGROUND_MOUSEOVER, ctx));
     }
 
-    protected void defineOntimizeComponents(UIDefaults d) {
+    protected void defineOntimizeComponents(final UIDefaults d) {
         ApplicationManager.useOntimizePlaf = true;
 
         DataField.DEFAULT_BOTTOM_MARGIN = 0;
@@ -5178,8 +5141,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         FormHeaderPopupButton.createRolloverIcon = true;
 
         // ImageDataField
-        Color borderColor = StyleUtil.getColorUI("Image", "border", "#ADC0CE");
-        BorderUIResource iBorder = new BorderUIResource(BorderFactory.createLineBorder(borderColor, 2));
+        final Color borderColor = StyleUtil.getColorUI("Image", "border", "#ADC0CE");
+        final BorderUIResource iBorder = new BorderUIResource(BorderFactory.createLineBorder(borderColor, 2));
         BorderManager.putBorder(BorderManager.DEFAULT_IMAGE_BORDER_KEY, iBorder);
 
         // VisualCalendar component...
@@ -5190,7 +5153,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         VisualCalendarComponent.DayRenderer.headerFont = new Font("Arial", Font.PLAIN, 13);
 
         // PopupList
-        Border border = new EmptyBorder(StyleUtil.getInsets("MenuItem", "contentMargins", "0 10 0 10"));
+        final Border border = new EmptyBorder(StyleUtil.getInsets("MenuItem", "contentMargins", "0 10 0 10"));
         AttachmentListPopup.itemsBorder = border;
         AttachmentComponent.componentBorder = border;
 
@@ -5203,7 +5166,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         try {
 			com.ontimize.gui.login.ShapeLoginDialog.opaque = false;
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
 
         }
 
@@ -5215,7 +5178,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         ApToolBarPopupButton.popupArrowIcon = "com/ontimize/plaf/images/popuparrow_white.png";
     }
 
-    protected void defineHTMLDataField(UIDefaults d) {
+    protected void defineHTMLDataField(final UIDefaults d) {
         HTMLDataField.toolBarFiller = true;
         DataField.DEFAULT_PARENT_MARGIN_FOR_SCROLL = 0;
         DataField.DEFAULT_PARENT_MARGIN = 0;
@@ -5234,15 +5197,15 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         try {
             com.ontimize.gui.field.HTMLShefDataField.defaultHTMLToolbarButtonHeight = 32;
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
         }
     }
 
-    protected void defineODMSComponents(UIDefaults d) {
+    protected void defineODMSComponents(final UIDefaults d) {
         try {
             System.setProperty("com.ontimize.dms.client.gui.COLOR_CONFIGURATION_FILE",
                     "com/ontimize/plaf/odms/color.properties");
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
         }
     }
 
@@ -5250,15 +5213,15 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * Initialize the root pane settings.
      * @param d the UI defaults map.
      */
-    protected void defineRootPanes(UIDefaults d) {
+    protected void defineRootPanes(final UIDefaults d) {
 
         this.decorated = true;
 
         // ***********************
         // FROM Ontimize
         // ***********************
-        String compName = "RootPane";
-        String pClass = "com.ontimize.plaf.painter.ORootPainter";
+        final String compName = "RootPane";
+        final String pClass = "com.ontimize.plaf.painter.ORootPainter";
 
         d.put(compName + ".States", "Enabled,WindowFocused,NoFrame");
         d.put(compName + ".contentMargins", new InsetsUIResource(0, 0, 0, 0));
@@ -5266,7 +5229,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         d.put(compName + ".NoFrame", new ORootPaneNoFrameState());
         d.put(compName + ".WindowFocused", new ORootPaneWindowFocusedState());
 
-        PaintContext ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 25), false,
+        final PaintContext ctx = new PaintContext(new Insets(0, 0, 0, 0), new Dimension(100, 25), false,
                 AbstractRegionPainter.PaintContext.CacheMode.NO_CACHING, 1.0, 1.0);
         d.put(compName + "[Enabled+NoFrame].backgroundPainter",
                 this.createLazyPainter(pClass, ORootPainter.BACKGROUND_ENABLED_NOFRAME, ctx));
@@ -5289,13 +5252,13 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         // 2, 2));
         // uidefaults.put("RootPane.border.background",
         // OntimizeLAFColorUtils.colorHexToColor("#E7EFF1"));
-        // uidefaults.put("RootPane.border.arc", new Integer(8));
+        // uidefaults.put("RootPane.border.arc", Integer.valueOf(8));
         //
         d.put("RootPane.titlePane.background", OntimizeLAFColorUtils.colorHexToColor("#05A9C4"));
-        // uidefaults.put("RootPane.titlePane.height", new Integer(25));
+        // uidefaults.put("RootPane.titlePane.height", Integer.valueOf(25));
         // uidefaults.put("RootPane.titlePane.line.background",
         // OntimizeLAFColorUtils.colorHexToColor("#FFFFFF", 102));
-        // uidefaults.put("RootPane.titlePane.arc", new Integer(4));
+        // uidefaults.put("RootPane.titlePane.arc", Integer.valueOf(4));
 
     }
 
@@ -5309,7 +5272,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
     public UIDefaults getDefaults() {
         if (!this.initialized) {
             this.initialized = true;
-            UIDefaults uidefaults = super.getDefaults();
+            final UIDefaults uidefaults = super.getDefaults();
 
             // Define customized UI's...
             this.defineUI(uidefaults, "ComboBox");
@@ -5520,7 +5483,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         return super.getDefaults();
     }
 
-    protected void defineUI(UIDefaults d, String uiName) {
+    protected void defineUI(final UIDefaults d, String uiName) {
         uiName = uiName + "UI";
         d.put(uiName, OntimizeLookAndFeel.UI_PACKAGE_PREFIX + uiName);
     }
@@ -5539,7 +5502,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      *        "MyComboBox", or even something like ToolBar:"MyComboBox":"ComboBox.arrowButton"
      */
     @Override
-    public void register(Region region, String prefix) {
+    public void register(final Region region, final String prefix) {
         super.register(region, prefix);
     }
 
@@ -5561,7 +5524,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param r The region we are looking for a style for. May not be null.
      * @return the style associated with the given region and component.
      */
-    public static SynthStyle getOntimizeStyle(JComponent c, Region r) {
+    public static SynthStyle getOntimizeStyle(final JComponent c, final Region r) {
         return SynthLookAndFeel.getStyle(c, r);
     }
 
@@ -5571,9 +5534,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param ui the UI delegate.
      * @return the new, updated style.
      */
-    public static SynthStyle updateStyle(SynthContext context, SynthUI ui) {
-        SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
-        SynthStyle oldStyle = context.getStyle();
+    public static SynthStyle updateStyle(final SynthContext context, final SynthUI ui) {
+        final SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(), context.getRegion());
+        final SynthStyle oldStyle = context.getStyle();
 
         if (newStyle != oldStyle) {
 
@@ -5597,7 +5560,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * that don't have any special state beyond that of ENABLED, DISABLED or FOCUSED. For example,
      * buttons shouldn't call into this method.
      */
-    public static int getComponentState(Component c) {
+    public static int getComponentState(final Component c) {
         if (c.isEnabled()) {
             if (c.isFocusOwner()) {
                 return SynthConstants.ENABLED | SynthConstants.FOCUSED;
@@ -5612,7 +5575,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param c JComponent to fetch the Region for
      * @return Region corresponding to <code>c</code>
      */
-    public static Region getRegion(JComponent c) {
+    public static Region getRegion(final JComponent c) {
         return OntimizeRegion.getRegion(c);
     }
 
@@ -5622,7 +5585,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param state the SynthContext describing the current component and state.
      * @param g the Graphics context to use to paint the component.
      */
-    public static void update(SynthContext state, Graphics g) {
+    public static void update(final SynthContext state, final Graphics g) {
         OntimizeLookAndFeel.paintRegion(state, g, null);
     }
 
@@ -5633,7 +5596,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param g the Graphics context used to paint the subregion.
      * @param bounds the bounds to paint in.
      */
-    public static void updateSubregion(SynthContext state, Graphics g, Rectangle bounds) {
+    public static void updateSubregion(final SynthContext state, final Graphics g, final Rectangle bounds) {
         OntimizeLookAndFeel.paintRegion(state, g, bounds);
     }
 
@@ -5643,9 +5606,9 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param g the Graphics context used to paint the subregion.
      * @param bounds the bounds to paint in.
      */
-    protected static void paintRegion(SynthContext state, Graphics g, Rectangle bounds) {
-        JComponent c = state.getComponent();
-        SynthStyle style = state.getStyle();
+    protected static void paintRegion(final SynthContext state, final Graphics g, final Rectangle bounds) {
+        final JComponent c = state.getComponent();
+        final SynthStyle style = state.getStyle();
         int x;
         int y;
         int width;
@@ -5664,7 +5627,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
 
         // Fill in the background, if necessary.
-        boolean subregion = state.getRegion().isSubregion();
+        final boolean subregion = state.getRegion().isSubregion();
 
         // TODO Review if fillRect is necessary.
         if ((subregion && style.isOpaque(state)) || (!subregion && c.isOpaque())) {
@@ -5688,8 +5651,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @return {@code true} if the style should be updated as a result of this property change,
      *         {@code false} otherwise.
      */
-    public static boolean shouldUpdateStyle(PropertyChangeEvent event) {
-        String eName = event.getPropertyName();
+    public static boolean shouldUpdateStyle(final PropertyChangeEvent event) {
+        final String eName = event.getPropertyName();
 
         if ("name" == eName) {
 
@@ -5703,7 +5666,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
             // Only update on an ancestor change when getting a valid
             // parent and the LookAndFeel wants this.
-            LookAndFeel laf = UIManager.getLookAndFeel();
+            final LookAndFeel laf = UIManager.getLookAndFeel();
 
             return ((laf instanceof SynthLookAndFeel) && ((SynthLookAndFeel) laf).shouldUpdateStyleOnAncestorChanged());
         }
@@ -5748,7 +5711,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         // create synth style factory
         SynthLookAndFeel.setStyleFactory(new SynthStyleFactory() {
             @Override
-            public SynthStyle getStyle(JComponent c, Region r) {
+            public SynthStyle getStyle(final JComponent c, final Region r) {
                 SynthStyle style = styleFactory.getStyle(c, r);
 
                 if (!(style instanceof OntimizeStyle)) {
@@ -5932,7 +5895,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param klass the class to test against.
      * @return {@code ui} if {@code klass} is an instance of {@code ui}, {@code null} otherwise.
      */
-    public static Object getUIOfType(ComponentUI ui, Class<?> klass) {
+    public static Object getUIOfType(final ComponentUI ui, final Class<?> klass) {
         if (klass.isInstance(ui)) {
             return ui;
         }
@@ -5962,20 +5925,20 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @return the {@code BorderLayout} orientation of the toolbar, or {@code BorderLayout.NORTH} if
      *         none can be determined.
      */
-    public static Object resolveToolbarConstraint(JToolBar toolbar) {
+    public static Object resolveToolbarConstraint(final JToolBar toolbar) {
         /*
          * NOTE: we don't worry about component orientation or PAGE_END etc because the BasicToolBarUI
          * always uses an absolute position of NORTH/SOUTH/EAST/WEST.
          */
         if (toolbar != null) {
-            Container parent = toolbar.getParent();
+            final Container parent = toolbar.getParent();
 
             if (parent != null) {
-                LayoutManager m = parent.getLayout();
+                final LayoutManager m = parent.getLayout();
 
                 if (m instanceof BorderLayout) {
-                    BorderLayout b = (BorderLayout) m;
-                    Object con = b.getConstraints(toolbar);
+                    final BorderLayout b = (BorderLayout) m;
+                    final Object con = b.getConstraints(toolbar);
 
                     if ((con == BorderLayout.SOUTH) || (con == BorderLayout.EAST) || (con == BorderLayout.WEST)) {
                         return con;
@@ -6015,8 +5978,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
      * @param enabled is the component enabled?
      * @param rollover is the component's rollover state enabled?
      */
-    public static void setSelectedUI(ComponentUI uix, boolean selected, boolean focused, boolean enabled,
-            boolean rollover) {
+    public static void setSelectedUI(final ComponentUI uix, final boolean selected, final boolean focused, final boolean enabled,
+            final boolean rollover) {
         int selectedUIState = 0;
 
         if (selected) {
@@ -6046,7 +6009,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
     }
 
     public static int getSelectedUIState() {
-        Integer result = (Integer) OAppContext.get(OntimizeLookAndFeel.SELECTED_UI_STATE_KEY);
+        final Integer result = (Integer) OAppContext.get(OntimizeLookAndFeel.SELECTED_UI_STATE_KEY);
 
         return result == null ? 0 : result.intValue();
     }
@@ -6059,11 +6022,11 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OAppContext.remove(OntimizeLookAndFeel.SELECTED_UI_STATE_KEY);
     }
 
-    public Image getImage(String key) {
-        String path = (String) super.getDefaults().get(key);
+    public Image getImage(final String key) {
+        final String path = (String) super.getDefaults().get(key);
 
         if (path != null) {
-            URL url = OntimizeLookAndFeel.class.getClassLoader().getResource(path);
+            final URL url = OntimizeLookAndFeel.class.getClassLoader().getResource(path);
             return new ImageIcon(url).getImage();
         }
         return null;
@@ -6075,12 +6038,12 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         OLoweredBorder.clearReferences();
         ShapeFactory.clearReferences();
         try {
-            Field map = javax.swing.plaf.synth.SynthContext.class.getDeclaredField("contextMap");
+            final Field map = javax.swing.plaf.synth.SynthContext.class.getDeclaredField("contextMap");
             map.setAccessible(true);
-            Object value = map.get(null);
-            Method m = Map.class.getDeclaredMethod("clear", null);
-            m.invoke(value, null);
-        } catch (Throwable t) {
+            final Object value = map.get(null);
+			final Method m = Map.class.getDeclaredMethod("clear");
+			m.invoke(value);
+        } catch (final Throwable t) {
         }
     }
 
@@ -6092,13 +6055,13 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
         protected String painterKey;
 
-        PainterBorder(String painterKey, Insets insets) {
+        PainterBorder(final String painterKey, final Insets insets) {
             this.insets = insets;
             this.painterKey = painterKey;
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
+        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
             if (this.painter == null) {
                 this.painter = (Painter) UIManager.get(this.painterKey);
                 if (this.painter == null) {
@@ -6111,7 +6074,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
                 this.painter.paint((Graphics2D) g, c, w, h);
             } else {
                 BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-                Graphics2D gfx = img.createGraphics();
+                final Graphics2D gfx = img.createGraphics();
                 this.painter.paint(gfx, c, w, h);
                 gfx.dispose();
                 g.drawImage(img, x, y, null);
@@ -6121,7 +6084,7 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
 
         @Override
-        public Insets getBorderInsets(Component c) {
+        public Insets getBorderInsets(final Component c) {
             return (Insets) this.insets.clone();
         }
 
@@ -6132,8 +6095,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
 
     }
 
-    public static void setColorUIResource(UIDefaults defaults, String name, String key, String defaultValue) {
-        ColorUIResource color = StyleUtil.getColorUI(name, key, defaultValue);
+    public static void setColorUIResource(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final ColorUIResource color = StyleUtil.getColorUI(name, key, defaultValue);
         if (color != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, color);
@@ -6143,8 +6106,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setColor(UIDefaults defaults, String name, String key, String defaultValue) {
-        Color color = StyleUtil.getColor(name, key, defaultValue);
+    public static void setColor(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Color color = StyleUtil.getColor(name, key, defaultValue);
         if (color != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, color);
@@ -6154,8 +6117,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setPaint(UIDefaults defaults, String name, String key, String defaultValue) {
-        Paint paint = StyleUtil.getPaint(name, key, defaultValue);
+    public static void setPaint(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Paint paint = StyleUtil.getPaint(name, key, defaultValue);
         if (paint != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, paint);
@@ -6165,8 +6128,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setBoolean(UIDefaults defaults, String name, String key, String defaultValue) {
-        Boolean boolValue = StyleUtil.getBoolean(name, key, defaultValue);
+    public static void setBoolean(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Boolean boolValue = StyleUtil.getBoolean(name, key, defaultValue);
         if (boolValue != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, boolValue);
@@ -6176,8 +6139,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setInteger(UIDefaults defaults, String name, String key, String defaultValue) {
-        Integer intValue = StyleUtil.getInteger(name, key, defaultValue);
+    public static void setInteger(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Integer intValue = StyleUtil.getInteger(name, key, defaultValue);
         if (intValue != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, intValue);
@@ -6187,8 +6150,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setFloat(UIDefaults defaults, String name, String key, String defaultValue) {
-        Float floatValue = StyleUtil.getFloat(name, key, defaultValue);
+    public static void setFloat(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Float floatValue = StyleUtil.getFloat(name, key, defaultValue);
         if (floatValue != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, floatValue);
@@ -6198,8 +6161,8 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setDouble(UIDefaults defaults, String name, String key, String defaultValue) {
-        Double doubleValue = StyleUtil.getDouble(name, key, defaultValue);
+    public static void setDouble(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Double doubleValue = StyleUtil.getDouble(name, key, defaultValue);
         if (doubleValue != null) {
             if (key.startsWith("[") || key.startsWith(":")) {
                 defaults.put(name + key, doubleValue);
@@ -6209,29 +6172,29 @@ public class OntimizeLookAndFeel extends javax.swing.plaf.nimbus.NimbusLookAndFe
         }
     }
 
-    public static void setInsetsUIResource(UIDefaults defaults, String name, String key, String defaultValue) {
-        InsetsUIResource insets = StyleUtil.getInsetsUI(name, key, defaultValue);
+    public static void setInsetsUIResource(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final InsetsUIResource insets = StyleUtil.getInsetsUI(name, key, defaultValue);
         if (insets != null) {
             defaults.put(name + "." + key, insets);
         }
     }
 
-    public static void setFontUIResource(UIDefaults defaults, String name, String key, String defaultValue) {
-        FontUIResource font = StyleUtil.getFontUIResource(name, key, defaultValue);
+    public static void setFontUIResource(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final FontUIResource font = StyleUtil.getFontUIResource(name, key, defaultValue);
         if (font != null) {
             defaults.put(name + "." + key, font);
         }
     }
 
-    public static void setFont(UIDefaults defaults, String name, String key, String defaultValue) {
-        Font font = StyleUtil.getFont(name, key, defaultValue);
+    public static void setFont(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Font font = StyleUtil.getFont(name, key, defaultValue);
         if (font != null) {
             defaults.put(name + "." + key, font);
         }
     }
 
-    public static void setIcon(UIDefaults defaults, String name, String key, String defaultValue) {
-        Icon icon = StyleUtil.getIcon(name, key, defaultValue);
+    public static void setIcon(final UIDefaults defaults, final String name, final String key, final String defaultValue) {
+        final Icon icon = StyleUtil.getIcon(name, key, defaultValue);
         if (icon != null) {
             defaults.put(name + "." + key, icon);
         }

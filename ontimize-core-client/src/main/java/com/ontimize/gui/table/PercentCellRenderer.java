@@ -95,7 +95,7 @@ public class PercentCellRenderer extends CellRenderer implements Internationaliz
 		final Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
 		try {
 			if ((value != null) && (!(value instanceof NullValue)) && (value instanceof Number)) {
-				this.setText(this.format.format(new Double(((Number) value).doubleValue() / this.max)));
+				this.setText(this.format.format(Double.valueOf(((Number) value).doubleValue() / this.max)));
 			} else {
 				if (value instanceof String) {
 					this.setText((String) value);

@@ -55,7 +55,7 @@ public class ImageRepository {
 			final java.awt.Image image = Toolkit.getDefaultToolkit().getImage(imageURL);
 			ImageRepository.images.put(imageURL, image);
 			final int idImage = ImageRepository.images.size();
-			ImageRepository.ids.put(imageURL, new Integer(idImage));
+			ImageRepository.ids.put(imageURL, Integer.valueOf(idImage));
 			ImageRepository.tracker.addImage(image, idImage);
 			try {
 				ImageRepository.tracker.waitForID(idImage, 1);
@@ -97,7 +97,7 @@ public class ImageRepository {
 			image.getWidth(observer);
 			ImageRepository.images.put(imageURL, image);
 			final int imageId = ImageRepository.images.size();
-			ImageRepository.ids.put(imageURL, new Integer(imageId));
+			ImageRepository.ids.put(imageURL, Integer.valueOf(imageId));
 			ImageRepository.tracker.addImage(image, imageId);
 			try {
 				ImageRepository.tracker.waitForID(imageId);
@@ -147,7 +147,7 @@ public class ImageRepository {
 			final java.awt.Image image = Toolkit.getDefaultToolkit().getImage(imageURL);
 			ImageRepository.images.put(imageURL, image);
 			final int imageId = ImageRepository.images.size();
-			ImageRepository.ids.put(imageURL, new Integer(imageId));
+			ImageRepository.ids.put(imageURL, Integer.valueOf(imageId));
 			ImageRepository.tracker.addImage(image, imageId);
 			try {
 				final long t = System.currentTimeMillis();

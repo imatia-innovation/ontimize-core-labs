@@ -40,7 +40,7 @@ public class SumCurrencyCellRenderer extends com.ontimize.gui.table.CurrencyCell
 				v[1] = transOp;
 				v[2] = this.format.format(value);
 				final double ptas = ((Number) value).doubleValue() * CurrencyCellRenderer.EURO;
-				v[3] = this.pstFormatter.format(new Double(ptas));
+				v[3] = this.pstFormatter.format(Double.valueOf(ptas));
 				final int[] index = table.getSelectedRows();
 				Object oSelValue = null;
 				if (index.length > 0) {
@@ -53,7 +53,7 @@ public class SumCurrencyCellRenderer extends com.ontimize.gui.table.CurrencyCell
 					vS[0] = transOp;
 					vS[1] = this.format.format(oSelValue);
 					vS[2] = this.pstFormatter
-							.format(new Double(((Number) value).doubleValue() * CurrencyCellRenderer.EURO));
+							.format(Double.valueOf(((Number) value).doubleValue() * CurrencyCellRenderer.EURO));
 					v[4] = ApplicationManager.getTranslation("ToolTipSumRowSelectedCurrency", this.bundle, vS);
 				}
 				this.setToolTipText(ApplicationManager.getTranslation("ToolTipSumRowCurrency", this.bundle, v));

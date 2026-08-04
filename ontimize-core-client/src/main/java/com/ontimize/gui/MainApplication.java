@@ -1976,7 +1976,7 @@ public class MainApplication extends JFrame implements Application {
 			int n = 0;
 			if ((n = ApplicationManager.getExtOpThreadsMonitor(this).getAliveThreadsCount()) > 0) {
 				final boolean close = MessageDialog.showQuestionMessage(this, ApplicationManager.getTranslation(processText,
-						this.resources, new Object[] { new Integer(n) }));
+						this.resources, new Object[] { Integer.valueOf(n) }));
 				if (!close) {
 					return;
 				}

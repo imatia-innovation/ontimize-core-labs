@@ -75,7 +75,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
             this.colSpanCB.setSelected(true);
             this.colSpanField.setEnabled(true);
             try {
-                this.colSpanField.getModel().setValue(new Integer(this.attribs.get("colspan").toString()));
+                this.colSpanField.getModel().setValue(Integer.valueOf(this.attribs.get("colspan").toString()));
             } catch (Exception ex) {
                 CellAttributesPanel.logger.error(null, ex);
             }
@@ -88,7 +88,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
             this.rowSpanCB.setSelected(true);
             this.rowSpanField.setEnabled(true);
             try {
-                this.rowSpanField.getModel().setValue(new Integer(this.attribs.get("rowspan").toString()));
+                this.rowSpanField.getModel().setValue(Integer.valueOf(this.attribs.get("rowspan").toString()));
             } catch (Exception ex) {
                 CellAttributesPanel.logger.error(null, ex);
             }

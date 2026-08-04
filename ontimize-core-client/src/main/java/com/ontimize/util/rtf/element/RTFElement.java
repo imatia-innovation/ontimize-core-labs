@@ -70,7 +70,7 @@ public class RTFElement {
 	}
 
 	public void setAttribute(final String key, final int obj) {
-		this.setAttribute(key, new Integer(obj));
+		this.setAttribute(key, Integer.valueOf(obj));
 	}
 
 	public void removeAttribute(final String key) {

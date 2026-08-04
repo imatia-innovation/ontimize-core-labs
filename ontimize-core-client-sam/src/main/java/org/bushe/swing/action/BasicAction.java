@@ -662,7 +662,7 @@ public class BasicAction extends AbstractAction implements Actionable, ItemActio
     }
 
     /**
-     * @param mnemonic  make like so: new Integer(KeyEvent.VK_L)
+     * @param mnemonic  make like so: Integer.valueOf(KeyEvent.VK_L)
      */
     protected void setMnemonic(Integer mnemonic) {
         putValue(MNEMONIC_KEY, mnemonic);

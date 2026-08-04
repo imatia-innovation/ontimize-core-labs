@@ -2607,7 +2607,7 @@ public abstract class SQLStatementBuilder {
      *  	Expression expression1 = new BasicExpression(field1,equalOperator,"filterValue");
      *
      *  	Field field2 = new BasicField("columnName2");
-     *  	Expression expression2 = new BasicExpression(field2,BasicOperator.LESS,new Integer(10));
+     *  	Expression expression2 = new BasicExpression(field2,BasicOperator.LESS,Integer.valueOf(10));
      *
      *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
      *

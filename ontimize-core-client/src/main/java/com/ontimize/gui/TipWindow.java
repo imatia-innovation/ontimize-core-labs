@@ -315,7 +315,7 @@ public class TipWindow extends JDialog implements Internationalization {
 					break;
 				}
 				final String iconString = sNextString.substring(0, padIndex);
-				hIconsIndex.put(new Integer(iconIdIndex), iconString);
+				hIconsIndex.put(Integer.valueOf(iconIdIndex), iconString);
 				sNextString = sNextString.substring(padIndex + 1, sNextString.length());
 				// Add the text to the string buffer
 				sb.append(sPreviousString);

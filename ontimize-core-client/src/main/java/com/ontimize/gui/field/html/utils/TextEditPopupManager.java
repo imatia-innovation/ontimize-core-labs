@@ -293,7 +293,7 @@ public class TextEditPopupManager {
 			super(TextEditPopupManager.i18n.str("redo"));
 			// super(i18n.str("redo"), UIUtils.getIcon(UIUtils.X16,
 			// "redo.png"));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(TextEditPopupManager.i18n.mnem("redo")));
+			this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(TextEditPopupManager.i18n.mnem("redo")));
 		}
 
 		@Override
@@ -318,7 +318,7 @@ public class TextEditPopupManager {
 			super(TextEditPopupManager.i18n.str("undo"));
 			// super(i18n.str("undo"), UIUtils.getIcon(UIUtils.X16,
 			// "undo.png"));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(TextEditPopupManager.i18n.mnem("undo")));
+			this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(TextEditPopupManager.i18n.mnem("undo")));
 		}
 
 		@Override
@@ -344,7 +344,7 @@ public class TextEditPopupManager {
 
 		public NSelectAllAction() {
 			super(TextEditPopupManager.i18n.str("select_all"));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(TextEditPopupManager.i18n.mnem("select_all")));
+			this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(TextEditPopupManager.i18n.mnem("select_all")));
 		}
 
 		@Override

@@ -98,7 +98,7 @@ public class XMLUtil {
             Document document = builder.parse(fileURI);
             long finalTime = System.currentTimeMillis();
             double passTime = (finalTime - initialTime) / 1000.0;
-            XMLUtil.logger.trace("Time parsing xml {} seconds", new Double(passTime).toString());
+            XMLUtil.logger.trace("Time parsing xml {} seconds", Double.valueOf(passTime).toString());
             return document;
         } catch (Exception e) {
             XMLUtil.logger.error("{}", e.getMessage(), e);

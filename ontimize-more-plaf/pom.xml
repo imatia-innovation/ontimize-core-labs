@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-core-parent</artifactId>
-		<version>7.0.2-SNAPSHOT</version>
+		<version>7.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-more-plaf</artifactId>
 	<name>ontimize-more-plaf</name>
@@ -20,40 +20,17 @@
 					<fork>true</fork>
 					<source>11</source>
 					<target>11</target>
-					<compilerArgs>
-						<compilerArg>--add-exports</compilerArg>
-						<compilerArg>java.desktop/sun.swing=ALL-UNNAMED</compilerArg>
-						<compilerArg>--add-exports</compilerArg>
-						<compilerArg>java.desktop/sun.awt=ALL-UNNAMED</compilerArg>
-					</compilerArgs>
 					<compilerArguments>
 						<verbose />
 					</compilerArguments>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<failOnError>false</failOnError>
-							<doclint>none</doclint>
-							<source>8</source>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.ontimize.labs</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontimize-core-client</artifactId>
 		</dependency>
 	</dependencies>

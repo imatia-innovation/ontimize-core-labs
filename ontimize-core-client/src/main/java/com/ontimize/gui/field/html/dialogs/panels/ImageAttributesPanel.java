@@ -128,7 +128,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 			this.widthCB.setSelected(true);
 			this.widthField.setEnabled(true);
 			try {
-				this.widthField.getModel().setValue(new Integer(this.attribs.get("width").toString()));
+				this.widthField.getModel().setValue(Integer.valueOf(this.attribs.get("width").toString()));
 			} catch (final Exception ex) {
 				ImageAttributesPanel.logger.error(null, ex);
 			}
@@ -141,7 +141,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 			this.heightCB.setSelected(true);
 			this.heightField.setEnabled(true);
 			try {
-				this.heightField.getModel().setValue(new Integer(this.attribs.get("height").toString()));
+				this.heightField.getModel().setValue(Integer.valueOf(this.attribs.get("height").toString()));
 			} catch (final Exception ex) {
 				ImageAttributesPanel.logger.error(null, ex);
 			}
@@ -154,7 +154,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 			this.hSpaceCB.setSelected(true);
 			this.hSpaceField.setEnabled(true);
 			try {
-				this.hSpaceField.getModel().setValue(new Integer(this.attribs.get("hspace").toString()));
+				this.hSpaceField.getModel().setValue(Integer.valueOf(this.attribs.get("hspace").toString()));
 			} catch (final Exception ex) {
 				ImageAttributesPanel.logger.error(null, ex);
 			}
@@ -167,7 +167,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 			this.vSpaceCB.setSelected(true);
 			this.vSpaceField.setEnabled(true);
 			try {
-				this.vSpaceField.getModel().setValue(new Integer(this.attribs.get("vspace").toString()));
+				this.vSpaceField.getModel().setValue(Integer.valueOf(this.attribs.get("vspace").toString()));
 			} catch (final Exception ex) {
 				ImageAttributesPanel.logger.error(null, ex);
 			}
@@ -180,7 +180,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 			this.borderCB.setSelected(true);
 			this.borderField.setEnabled(true);
 			try {
-				this.borderField.getModel().setValue(new Integer(this.attribs.get("border").toString()));
+				this.borderField.getModel().setValue(Integer.valueOf(this.attribs.get("border").toString()));
 			} catch (final Exception ex) {
 				ImageAttributesPanel.logger.error(null, ex);
 			}

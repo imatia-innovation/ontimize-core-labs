@@ -392,7 +392,7 @@ public class RealDataField extends TextFieldDataField implements OpenDialog, Fre
 					final double result = RealDataField.this.calc.showCalculator(firstValue,
 							RealDataField.this.getLocationOnScreen().x,
 							RealDataField.this.getLocationOnScreen().y + RealDataField.this.getHeight());
-					RealDataField.this.setValue(new Double(result));
+					RealDataField.this.setValue(Double.valueOf(result));
 				}
 			});
 		}
@@ -555,7 +555,7 @@ public class RealDataField extends TextFieldDataField implements OpenDialog, Fre
 			this.setValue(((SearchValue) value).getValue());
 		} else if (value instanceof Number) {
 			final Number n = (Number) value;
-			this.setValue(new Double(n.doubleValue()));
+			this.setValue(Double.valueOf(n.doubleValue()));
 			// Here no event is fired because this method calls itself
 		} else {
 			// If it is not a number then clear the field

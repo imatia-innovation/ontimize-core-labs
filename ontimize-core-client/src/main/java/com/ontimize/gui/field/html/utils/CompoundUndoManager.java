@@ -201,7 +201,7 @@ public class CompoundUndoManager implements UndoableEditListener {
 			this.putValue("ID", "HTMLShef.undo");
 			this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.UNDO));
 			this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.UNDO));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(CompoundUndoManager.i18n.mnem("HTMLShef.undo")));
+			this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(CompoundUndoManager.i18n.mnem("HTMLShef.undo")));
 
 			this.setEnabled(false);
 			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
@@ -237,7 +237,7 @@ public class CompoundUndoManager implements UndoableEditListener {
 			this.putValue("ID", "HTMLShef.redo");
 			this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.REDO));
 			this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.REDO));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(CompoundUndoManager.i18n.mnem("HTMLShef.redo")));
+			this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(CompoundUndoManager.i18n.mnem("HTMLShef.redo")));
 
 			this.setEnabled(false);
 			final KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK);

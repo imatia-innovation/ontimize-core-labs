@@ -91,20 +91,20 @@ public class HTMLBlockAction extends HTMLTextEditAction {
         this.putValue(Action.NAME, HTMLTextEditAction.i18n.str(HTMLBlockAction.ELEMENT_TYPES[type]));
         this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(HTMLBlockAction.KEYS[type], Event.ALT_MASK));
         if (type == HTMLBlockAction.P) {
-            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("paragraph")));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("paragraph")));
         } else if (type == HTMLBlockAction.PRE) {
-            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("preformatted")));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("preformatted")));
         } else if (type == HTMLBlockAction.BLOCKQUOTE) {
-            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("blockquote")));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("blockquote")));
         } else if (type == HTMLBlockAction.OL) {
             this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_ORDERED));
-            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("ordered_list")));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("ordered_list")));
         } else if (type == HTMLBlockAction.UL) {
             this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_UNORDERED));
-            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("unordered_list")));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("unordered_list")));
         } else {
             String s = type + "";
-            this.putValue(Action.MNEMONIC_KEY, new Integer(s.charAt(0)));
+            this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(s.charAt(0)));
         }
         this.putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);
         this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));

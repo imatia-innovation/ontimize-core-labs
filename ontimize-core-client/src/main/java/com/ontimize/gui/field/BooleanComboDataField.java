@@ -33,12 +33,12 @@ public class BooleanComboDataField extends ComboDataField {
 	/**
 	 * The key for '1' value.
 	 */
-	public static final Integer UNO = new Integer(1);
+	public static final Integer UNO = Integer.valueOf(1);
 
 	/**
 	 * The key for '0' value.
 	 */
-	public static final Integer ZERO = new Integer(0);
+	public static final Integer ZERO = Integer.valueOf(0);
 
 	/**
 	 * The key for default true value. By default, yes.

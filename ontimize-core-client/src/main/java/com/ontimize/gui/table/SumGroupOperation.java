@@ -18,7 +18,7 @@ public class SumGroupOperation implements GroupOperation {
                 d = d + ((Number) v).doubleValue();
             }
         }
-        return new Double(d);
+        return Double.valueOf(d);
     }
 
     /**

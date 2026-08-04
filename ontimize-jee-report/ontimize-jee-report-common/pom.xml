@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-jee-report</artifactId>
-		<version>7.0.2-SNAPSHOT</version>
+		<version>7.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-jee-report-common</artifactId>
 
@@ -12,6 +13,30 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>ontimize-jee-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontimize-jee-server-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontimize-jee-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mpobjects.jasperreports.font</groupId>
+			<artifactId>jasperreports-fonts-liberation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ar.com.fdvs</groupId>
+			<artifactId>DynamicJasper</artifactId>
 		</dependency>
 	</dependencies>
 </project>

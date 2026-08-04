@@ -159,7 +159,7 @@ public class CalendarDialog extends JDialog {
 				if (iValue > lastMonthDay) {
 					return null;
 				}
-				return new Integer(iValue);
+				return Integer.valueOf(iValue);
 			}
 		}
 
@@ -411,7 +411,7 @@ public class CalendarDialog extends JDialog {
 		} else {
 			final GregorianCalendar calendarAux = new GregorianCalendar();
 			calendarAux.setTime(date);
-			this.years.setText(new Integer(calendarAux.get(Calendar.YEAR)).toString());
+			this.years.setText(Integer.valueOf(calendarAux.get(Calendar.YEAR)).toString());
 			this.months.setSelectedIndex(calendarAux.get(Calendar.MONTH));
 		}
 
@@ -536,11 +536,11 @@ public class CalendarDialog extends JDialog {
 		}
 		for (int i = minDay; i < (maxDay + 1); i++) {
 			if (iColumn >= (this.weekDayNameList.size() - 1)) {
-				this.dayTable.setValueAt(new Integer(i), iRow, iColumn);
+				this.dayTable.setValueAt(Integer.valueOf(i), iRow, iColumn);
 				iColumn = 0;
 				iRow++;
 			} else {
-				this.dayTable.setValueAt(new Integer(i), iRow, iColumn);
+				this.dayTable.setValueAt(Integer.valueOf(i), iRow, iColumn);
 				iColumn++;
 			}
 
@@ -555,7 +555,7 @@ public class CalendarDialog extends JDialog {
 
 	protected void addYears() {
 		final GregorianCalendar calendar = new GregorianCalendar();
-		this.years = new JTextField(new YearDocument(), new Integer(calendar.get(Calendar.YEAR)).toString(), 5);
+		this.years = new JTextField(new YearDocument(), Integer.valueOf(calendar.get(Calendar.YEAR)).toString(), 5);
 		this.years.setColumns(5);
 	}
 

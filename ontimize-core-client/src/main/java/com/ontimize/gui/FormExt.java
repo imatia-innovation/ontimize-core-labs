@@ -396,7 +396,7 @@ public class FormExt extends Form {
 	protected void updateDataFields_Internal(final int index) {
 		try {
 			// If the record does not exist yet then query.
-			if (this.queryRecordIndex.contains(new Integer(index)) && !this.existNoQueriedDataField()) {
+			if (this.queryRecordIndex.contains(Integer.valueOf(index)) && !this.existNoQueriedDataField()) {
 				super.updateDataFields_Internal(index);
 				this.updateNavigationButtonState();
 			} else {
@@ -517,7 +517,7 @@ public class FormExt extends Form {
 				this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				if ((this.totalDataList != null) && !this.totalDataList.isEmpty()) {
 					if (this.queryRecordIndex != null) {
-						this.queryRecordIndex.remove(new Integer(this.currentIndex));
+						this.queryRecordIndex.remove(Integer.valueOf(this.currentIndex));
 						this.updateDataFields(this.currentIndex);
 					}
 				}
@@ -622,7 +622,7 @@ public class FormExt extends Form {
 			for (int i = 0; i < this.queryRecordIndex.size(); i++) {
 				final Object ind = this.queryRecordIndex.get(i);
 				if ((ind != null) && (((Number) ind).intValue() > index)) {
-					this.queryRecordIndex.set(i, new Integer(((Number) ind).intValue() - 1));
+					this.queryRecordIndex.set(i, Integer.valueOf(((Number) ind).intValue() - 1));
 				}
 			}
 		}

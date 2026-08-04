@@ -66,8 +66,8 @@ public class XMLView extends PlainView {
             Matcher matcher = currentKey.matcher(text);
 
             while (matcher.find()) {
-                startMap.put(new Integer(matcher.start(1)), new Integer(matcher.end()));
-                colorMap.put(new Integer(matcher.start(1)), XMLView.patternColors.get(currentKey));
+                startMap.put(Integer.valueOf(matcher.start(1)), Integer.valueOf(matcher.end()));
+                colorMap.put(Integer.valueOf(matcher.start(1)), XMLView.patternColors.get(currentKey));
             }
         }
 

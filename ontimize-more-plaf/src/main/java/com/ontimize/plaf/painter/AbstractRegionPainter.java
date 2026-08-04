@@ -836,7 +836,7 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     }
 
     public int intValue(double double_) {
-        return ((Number) new Double(double_)).intValue();
+        return ((Number) Double.valueOf(double_)).intValue();
     }
 
 }

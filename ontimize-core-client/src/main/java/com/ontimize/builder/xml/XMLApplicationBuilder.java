@@ -1,7 +1,6 @@
 package com.ontimize.builder.xml;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,16 +119,6 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 
 	// FIXME DMS
 	public static final String FILE_TRANSFER_CLIENT = "FILE_TRANSFER_CLIENT";
-
-	private static Object iftc = null;
-	static {
-		try {
-			final Class c = Class.forName("com.ontimize.dms.filetransfer.client.LoadTransferClient");
-			XMLApplicationBuilder.iftc = c.newInstance();
-		} catch (final Exception ex) {
-			XMLApplicationBuilder.logger.debug("DMS hasn't been detected", ex);
-		}
-	}
 
 	protected static ExtendedClientApplicationParser clientApplicationParser = new ExtendedClientApplicationParser();
 
@@ -269,7 +258,7 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 				final long endTime = System.currentTimeMillis();
 				final double totalTime = (endTime - initTime) / 1000.0;
 				XMLApplicationBuilder.logger.trace("Time elapsed while creating application: {} seconds.",
-						new Double(totalTime).toString());
+						Double.valueOf(totalTime).toString());
 
 				if ((menuBuilded) && (menuListenerBuilded)) {
 					((Application) application).setMenuListener(menuListener);
@@ -513,31 +502,6 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 
 	/**
 	 * Method to reduce de complexity of {@link #buildApplication(String)}
-	 * @param node
-	 */
-	protected void findAndSetFileTransferClient(final CustomNode node) {
-		if (XMLApplicationBuilder.iftc != null) {
-			final org.w3c.dom.Node current = node.getXMLDocumentNode();
-			try {
-				Method m = XMLApplicationBuilder.iftc.getClass()
-						.getMethod("parseXML", new Class[] { org.w3c.dom.Node.class });
-				final Object map = m.invoke(XMLApplicationBuilder.iftc, new Object[] { current });
-
-				m = XMLApplicationBuilder.iftc.getClass()
-						.getMethod("setConfiguration", new Class[] { Map.class });
-				m.invoke(XMLApplicationBuilder.iftc, new Object[] { map });
-
-				m = XMLApplicationBuilder.iftc.getClass().getMethod("start", null);
-				m.invoke(XMLApplicationBuilder.iftc, null);
-
-			} catch (final Exception ex) {
-				XMLApplicationBuilder.logger.error("Creating DMS", ex);
-			}
-		}
-	}
-
-	/**
-	 * Method to reduce de complexity of {@link #buildApplication(String)}
 	 * @param auxiliar
 	 * @param baseCP
 	 * @param uRIBase
@@ -559,8 +523,6 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 		ToolBarListener toolbarListener = null;
 		JMenuBar menuBar = null;
 		JToolBar toolbar = null;
-
-		boolean fileTransferClient = false;
 
 		for (int i = 0; i < auxiliar.getChildrenNumber(); i++) {
 			Thread.yield();
@@ -597,9 +559,6 @@ public class XMLApplicationBuilder extends XMLInterpreter implements Application
 					final Map<String, Object> mapMenuBarListener = this.findAndSetMenuBarListener(node);
 					menuListener = (MenuListener) mapMenuBarListener.get(XMLApplicationBuilder.MENULISTENER);
 
-				} else if (tag.equalsIgnoreCase(XMLApplicationBuilder.FILE_TRANSFER_CLIENT) && (!fileTransferClient)) {
-					fileTransferClient = true;
-					this.findAndSetFileTransferClient(node);
 				} else if (XMLApplicationBuilder.MODULE.equals(tag)) {
 					final String moduleFile = node.hashtableAttribute().get("archive");
 					this.moduleManager.processModule(moduleFile);

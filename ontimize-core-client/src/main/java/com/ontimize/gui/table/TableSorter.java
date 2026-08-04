@@ -688,11 +688,11 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 		public GroupTableModel(final FilterTableModel m) {
 			TableSorter.this.operations = new Hashtable();
 			// register usual operations
-			TableSorter.this.operations.put(new Integer(TableSorter.SUM), new SumGroupOperation());
-			TableSorter.this.operations.put(new Integer(TableSorter.MIN), new MinGroupOperation());
-			TableSorter.this.operations.put(new Integer(TableSorter.MAX), new MaxGroupOperation());
-			TableSorter.this.operations.put(new Integer(TableSorter.AVG), new AvgGroupOperation());
-			TableSorter.this.operations.put(new Integer(TableSorter.COUNT), new CountGroupOperation());
+			TableSorter.this.operations.put(Integer.valueOf(TableSorter.SUM), new SumGroupOperation());
+			TableSorter.this.operations.put(Integer.valueOf(TableSorter.MIN), new MinGroupOperation());
+			TableSorter.this.operations.put(Integer.valueOf(TableSorter.MAX), new MaxGroupOperation());
+			TableSorter.this.operations.put(Integer.valueOf(TableSorter.AVG), new AvgGroupOperation());
+			TableSorter.this.operations.put(Integer.valueOf(TableSorter.COUNT), new CountGroupOperation());
 			this.setModel(m);
 		}
 
@@ -1174,7 +1174,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 				final List validValues = new ArrayList();
 				final List validIndexes = new ArrayList();
 				final Map requiredColsValues = new HashMap();
-				final List<String> requiredCols = TableSorter.this.operations.get(new Integer(function))
+				final List<String> requiredCols = TableSorter.this.operations.get(Integer.valueOf(function))
 						.getRequiredColumns();
 				if (requiredCols != null) {
 					for (final String col : requiredCols) {
@@ -1245,7 +1245,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 
 					if (rowValueJ.equals(rowValue)) {
 						validValues.add(super.getValueAt(j, column));
-						validIndexes.add(new Integer(j));
+						validIndexes.add(Integer.valueOf(j));
 						if (requiredCols != null) {
 							for (final String col : requiredCols) {
 								final int colIndex = this.getColumnNames().indexOf(col);
@@ -1254,7 +1254,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 						}
 					}
 				}
-				return TableSorter.this.operations.get(new Integer(function))
+				return TableSorter.this.operations.get(Integer.valueOf(function))
 						.getOperationValue(validValues, validIndexes, requiredColsValues);
 				// // Now the function
 				// switch (function) {
@@ -1290,7 +1290,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 					d = d + ((Number) v).doubleValue();
 				}
 			}
-			return new Double(d);
+			return Double.valueOf(d);
 		}
 
 		/**
@@ -1304,7 +1304,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 			if (list != null) {
 				i = list.size();
 			}
-			return new Integer(i);
+			return Integer.valueOf(i);
 		}
 
 		/**
@@ -1321,7 +1321,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 					d = d + ((Number) v).doubleValue();
 				}
 			}
-			return new Double(d / list.size());
+			return Double.valueOf(d / list.size());
 		}
 
 		/**
@@ -1346,7 +1346,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 			if (Double.compare(d, Double.MIN_VALUE) == 0) {
 				return null;
 			}
-			return new Double(d);
+			return Double.valueOf(d);
 		}
 
 		/**
@@ -1371,7 +1371,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 			if (Double.compare(d, Double.MAX_VALUE) == 0) {
 				return null;
 			}
-			return new Double(d);
+			return Double.valueOf(d);
 		}
 
 		public void addGroupedFunction(final int id, final GroupOperation operation) {
@@ -3521,7 +3521,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 				final String colDep = this.getColumnName(i);
 				if (calcNames.contains(colDep) && ExtendedTableModel.expressionContainsColName(colDep, expression,
 						ExtendedTableModel.availableCalculatedColumnNameCharacterPattern)) {
-					result.put(new Integer(i), colDep);
+					result.put(Integer.valueOf(i), colDep);
 				}
 			}
 			return result;
@@ -3562,7 +3562,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 
 	protected void sortByColumn(final int column, final boolean ascending, final boolean fireEvent) {
 
-		final Integer col = new Integer(column);
+		final Integer col = Integer.valueOf(column);
 
 		if (!this.sortingColumns.contains(col)) {
 			this.sortingColumns.add(col);
@@ -3573,7 +3573,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 			}
 		} else {
 			final int index = this.sortingColumns.indexOf(col);
-			this.ascendants.set(index, new Boolean(ascending));
+			this.ascendants.set(index, Boolean.valueOf(ascending));
 		}
 		TableSorter.logger.debug("TableSorter -> ordenando por: {} , {}", this.sortingColumns, this.ascendants);
 		if (this.isLocalSorter()) {
@@ -3858,7 +3858,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 		TableSorter.logger.debug("Reset column order: {}  Current order : {} , {}->", columnIndex, this.sortingColumns,
 				this.ascendants);
 
-		final Integer c = new Integer(columnIndex);
+		final Integer c = Integer.valueOf(columnIndex);
 		if (this.sortingColumns.contains(c)) {
 			if (this.sortingColumns.size() == 1) {
 				this.resetOrder();
@@ -3885,7 +3885,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 	 * @return true is the column is sorted, false otherwise
 	 */
 	public boolean isSorted(final int columnIndex) {
-		final Integer c = new Integer(columnIndex);
+		final Integer c = Integer.valueOf(columnIndex);
 		if (this.sortingColumns.contains(c)) {
 			return true;
 		} else {
@@ -4198,7 +4198,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 					d = d + ((Number) OValue).doubleValue();
 				}
 			}
-			return new Double(d);
+			return Double.valueOf(d);
 		} else {
 			return null;
 		}
@@ -4361,9 +4361,9 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 				if (count == 0) {
 					return null;
 				}
-				return new Double(d / count);
+				return Double.valueOf(d / count);
 			} else {
-				return new Double(d);
+				return Double.valueOf(d);
 			}
 		} else {
 			return null;
@@ -4405,9 +4405,9 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 				if (count == 0) {
 					return null;
 				}
-				return new Double(d / count);
+				return Double.valueOf(d / count);
 			} else {
-				return new Double(d);
+				return Double.valueOf(d);
 			}
 		} else {
 			return null;
@@ -4950,7 +4950,7 @@ public class TableSorter extends TableMap implements Sortable, Freeable, Interna
 	 */
 	public boolean isAscending(final int columnIndex) {
 		if (this.isSorted(columnIndex)) {
-			final int index = this.sortingColumns.indexOf(new Integer(columnIndex));
+			final int index = this.sortingColumns.indexOf(Integer.valueOf(columnIndex));
 			return ((Boolean) this.ascendants.get(index)).booleanValue();
 		} else {
 			return false;

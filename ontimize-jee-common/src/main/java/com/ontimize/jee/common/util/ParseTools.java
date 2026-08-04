@@ -490,13 +490,13 @@ public class ParseTools {
 		}
 		switch (sqlType) {
 			case java.sql.Types.INTEGER:
-				return new Integer(Integer.parseInt(object.toString()));
+				return Integer.valueOf(Integer.parseInt(object.toString()));
 			case java.sql.Types.BIGINT:
 				return new BigInteger(object.toString());
 			case java.sql.Types.DOUBLE:
-				return new Double(Double.parseDouble(object.toString()));
+				return Double.valueOf(Double.parseDouble(object.toString()));
 			case java.sql.Types.FLOAT:
-				return new Float(Float.parseFloat(object.toString()));
+				return Float.valueOf(Float.parseFloat(object.toString()));
 			case java.sql.Types.DATE:
 			case java.sql.Types.TIME:
 			case java.sql.Types.TIMESTAMP:
@@ -540,7 +540,7 @@ public class ParseTools {
 					if (object instanceof Double) {
 						return object;
 					}
-					return new Double(object.toString());
+					return Double.valueOf(object.toString());
 				case LONG_:
 					ParseTools.logger.debug("Using LONG");
 					if (object instanceof Long) {
@@ -551,7 +551,7 @@ public class ParseTools {
 					if (object instanceof Integer) {
 						return object;
 					}
-					return new Integer(object.toString());
+					return Integer.valueOf(object.toString());
 				case SHORT_:
 					ParseTools.logger.debug("Using SHORT");
 					if (object instanceof Short) {
@@ -569,12 +569,12 @@ public class ParseTools {
 					if (object instanceof Float) {
 						return object;
 					}
-					return new Float(object.toString());
+					return Float.valueOf(object.toString());
 				default:
 					if (object instanceof Integer) {
 						return object;
 					}
-					return new Integer(object.toString());
+					return Integer.valueOf(object.toString());
 			}
 		} catch (Exception e) {
 			ParseTools.logger.debug(null, e);

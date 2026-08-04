@@ -289,7 +289,7 @@ public class RTFDataField extends MemoDataField implements AdvancedDataComponent
 	protected void createFontSizeCombo() {
 		final Vector vData = new Vector();
 		for (int i = this.minFontSize; i <= this.maxFontSize; i = i + this.fontSizeStep) {
-			vData.add(new Integer(i));
+			vData.add(Integer.valueOf(i));
 		}
 
 		this.fontsizeCombo = new JComboBox(vData) {
@@ -602,7 +602,7 @@ public class RTFDataField extends MemoDataField implements AdvancedDataComponent
 							RTFDataField.this.lastSelectedFontName = fontTextSelected.getName();
 						}
 						if (fontTextSelected.getSize() != RTFDataField.this.lastSelectedFontSize) {
-							RTFDataField.this.fontsizeCombo.setSelectedItem(new Integer(fontTextSelected.getSize()));
+							RTFDataField.this.fontsizeCombo.setSelectedItem(Integer.valueOf(fontTextSelected.getSize()));
 							RTFDataField.this.lastSelectedFontSize = fontTextSelected.getSize();
 						}
 					}

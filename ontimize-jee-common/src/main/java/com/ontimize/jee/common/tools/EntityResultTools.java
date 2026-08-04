@@ -986,7 +986,7 @@ public final class EntityResultTools extends com.ontimize.jee.common.dto.EntityR
     /**
      * Utility to use with Ontimize entities, to specify filters(keys-values) more fast. <br>
      * Will be received a sequence of objects with <key><value>[<key><value>...]. <br>
-     * Example: query(EntityResultTools.keysvalues("AA", new Integer(1), "BB", identifier), av, ses,
+     * Example: query(EntityResultTools.keysvalues("AA", Integer.valueOf(1), "BB", identifier), av, ses,
      * con).
      * @param objects
      * @return

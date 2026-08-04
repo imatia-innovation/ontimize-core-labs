@@ -79,7 +79,7 @@ public class RealDocument extends PlainDocument implements Internationalization 
 	public Double getDoubleValue(final String s) {
 		try {
 			final Number number = this.formatter.parse(s);
-			return new Double(number.doubleValue());
+			return Double.valueOf(number.doubleValue());
 		} catch (final Exception e) {
 			RealDocument.logger.trace(null, e);
 			return null;
@@ -92,10 +92,10 @@ public class RealDocument extends PlainDocument implements Internationalization 
 		try {
 			final String currentText = this.getText(0, this.getLength());
 			if (currentText.length() == 0) {
-				this.floatValue = new Double(0);
+				this.floatValue = Double.valueOf(0);
 			} else {
 				final Number number = this.formatter.parse(currentText);
-				this.floatValue = new Double(number.doubleValue());
+				this.floatValue = Double.valueOf(number.doubleValue());
 			}
 		} catch (final Exception e) {
 			RealDocument.logger.trace(null, e);
@@ -165,7 +165,7 @@ public class RealDocument extends PlainDocument implements Internationalization 
 					currentText.insert(offset, sringValue);
 					final Number number = this.formatter.parse(currentText.toString());
 					final Double previousValue = this.floatValue;
-					this.floatValue = new Double(number.doubleValue());
+					this.floatValue = Double.valueOf(number.doubleValue());
 
 					try {
 						super.insertString(offset, sringValue, attributes);
@@ -190,7 +190,7 @@ public class RealDocument extends PlainDocument implements Internationalization 
 				try {
 					final Number number = this.formatter.parse(currentText.toString());
 					final Double previousValue = this.floatValue;
-					this.floatValue = new Double(number.doubleValue());
+					this.floatValue = Double.valueOf(number.doubleValue());
 					try {
 						super.insertString(offset, sringValue, attributes);
 					} catch (final BadLocationException e) {
@@ -222,10 +222,10 @@ public class RealDocument extends PlainDocument implements Internationalization 
 			final StringBuilder currentText = new StringBuilder(this.getText(0, this.getLength()));
 			currentText.delete(offset, offset + len);
 			if ((currentText.length() == 0) || currentText.toString().equals("-")) {
-				this.floatValue = new Double(0);
+				this.floatValue = Double.valueOf(0);
 			} else {
 				final Number number = this.formatter.parse(currentText.toString());
-				this.floatValue = new Double(number.doubleValue());
+				this.floatValue = Double.valueOf(number.doubleValue());
 			}
 			try {
 				super.remove(offset, len);
