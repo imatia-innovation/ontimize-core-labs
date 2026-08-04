@@ -3,11 +3,11 @@
   <parent>
     <groupId>com.ontimize.labs</groupId>
     <artifactId>ontimize-jee-dms</artifactId>
-    <version>7.1.0</version>
+    <version>7.1.1-SNAPSHOT</version>
   </parent>
   <artifactId>ontimize-jee-dms-desktopclient</artifactId>
   <properties>
-    <utilmize.version>5.1.0</utilmize.version>
+    <utilmize.version>5.1.1-SNAPSHOT</utilmize.version>
     <!--scanner support-->
     <twain.version>1.0</twain.version>
     <lti-civil.version>20130308-custom</lti-civil.version>
