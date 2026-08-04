@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-jee-dms</artifactId>
-		<version>7.0.1</version>
+		<version>7.0.2-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>ontimize-jee-dms-desktopclient</artifactId>
 
 
 	<properties>
-		<utilmize.version>5.0.0-SNAPSHOT</utilmize.version>
+		<utilmize.version>5.0.2-SNAPSHOT</utilmize.version>
 		
 		<!--scanner support-->
 		<twain.version>1.0</twain.version> 

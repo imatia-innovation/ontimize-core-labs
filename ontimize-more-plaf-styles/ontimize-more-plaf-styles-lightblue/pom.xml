@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-more-plaf-styles</artifactId>
-		<version>7.0.1</version>
+		<version>7.0.2-SNAPSHOT</version>
 	</parent>
   <artifactId>ontimize-more-plaf-styles-lightblue</artifactId>
   <name>ontimize-more-plaf-styles-lightblue</name>
