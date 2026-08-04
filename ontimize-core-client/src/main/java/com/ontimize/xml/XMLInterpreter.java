@@ -48,7 +48,7 @@ public abstract class XMLInterpreter {
 			final Document document = builder.parse(input);
 			final long finalTime = System.currentTimeMillis();
 			final double passTime = (finalTime - tiempoInicial) / 1000.0;
-			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", new Double(passTime).toString());
+			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", Double.valueOf(passTime).toString());
 			return document;
 		} catch (final Exception e) {
 			XMLInterpreter.logger.error("{}", e.getMessage(), e);
@@ -65,7 +65,7 @@ public abstract class XMLInterpreter {
 			final Document document = builder.parse(fileURI);
 			final long finalTime = System.currentTimeMillis();
 			final double passTime = (finalTime - initialTime) / 1000.0;
-			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", new Double(passTime).toString());
+			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", Double.valueOf(passTime).toString());
 			return document;
 		} catch (final Exception e) {
 			XMLInterpreter.logger.error("{}", e.getMessage(), e);
@@ -114,7 +114,7 @@ public abstract class XMLInterpreter {
 			final Document document = builder.parse(new StringBufferInputStream(fileContent.toString()));
 			final long finalTime = System.currentTimeMillis();
 			final double passTime = (finalTime - initialTime) / 1000.0;
-			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", new Double(passTime).toString());
+			XMLInterpreter.logger.trace("Time parsing xml {} seconds.", Double.valueOf(passTime).toString());
 			return document;
 		} catch (final Exception e) {
 			XMLInterpreter.logger.error("{}", e.getMessage(), e);

@@ -38,10 +38,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
-import sun.awt.SunToolkit;
-
 import com.ontimize.plaf.OntimizeLookAndFeel;
 import com.ontimize.plaf.ui.ORootPaneUI;
+import com.ontimize.plaf.utils.ImageScalingHelper;
 
 public class OTitlePane extends JComponent {
 
@@ -175,7 +174,7 @@ public class OTitlePane extends JComponent {
     // MetalLookAndFeel.getControlDarkShadow(),
     // MetalLookAndFeel.getControl() );
 
-    public OTitlePane(JRootPane root, ORootPaneUI ui) {
+    public OTitlePane(final JRootPane root, final ORootPaneUI ui) {
         this.rootPane = root;
         this.rootPaneUI = ui;
 
@@ -278,7 +277,7 @@ public class OTitlePane extends JComponent {
     }
 
     protected void insertMenu() {
-        int decorationStyle = this.getWindowDecorationStyle();
+        final int decorationStyle = this.getWindowDecorationStyle();
         if (decorationStyle == JRootPane.FRAME) {
             this.remove(this.menuBar);
             this.remove(this.iconifyButton);
@@ -298,7 +297,7 @@ public class OTitlePane extends JComponent {
      * Adds any sub-Components contained in the <code>MetalTitlePane</code>.
      */
     protected void installSubcomponents() {
-        int decorationStyle = this.getWindowDecorationStyle();
+        final int decorationStyle = this.getWindowDecorationStyle();
         if (decorationStyle == JRootPane.FRAME) {
             this.createActions();
             this.menuBar = this.createMenuBar();
@@ -325,7 +324,7 @@ public class OTitlePane extends JComponent {
     }
 
     protected void determineArc() {
-        Object arc = OntimizeLookAndFeel.lookup("RootPane.titlePane.arc");
+        final Object arc = OntimizeLookAndFeel.lookup("RootPane.titlePane.arc");
         if (arc instanceof Integer) {
             this.roundArc = ((Integer) arc).intValue();
         }
@@ -401,7 +400,7 @@ public class OTitlePane extends JComponent {
      * Closes the Window.
      */
     protected void close() {
-        Window window = this.getWindow();
+        final Window window = this.getWindow();
 
         if (window != null) {
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
@@ -412,7 +411,7 @@ public class OTitlePane extends JComponent {
      * Iconifies the Frame.
      */
     protected void iconify() {
-        Frame frame = this.getFrame();
+        final Frame frame = this.getFrame();
         if (frame != null) {
             frame.setExtendedState(this.state | Frame.ICONIFIED);
         }
@@ -422,7 +421,7 @@ public class OTitlePane extends JComponent {
      * Maximizes the Frame.
      */
     protected void maximize() {
-        Frame frame = this.getFrame();
+        final Frame frame = this.getFrame();
         if (frame != null) {
             frame.setExtendedState(this.state | Frame.MAXIMIZED_BOTH);
         }
@@ -432,7 +431,7 @@ public class OTitlePane extends JComponent {
      * Restores the Frame size.
      */
     protected void restore() {
-        Frame frame = this.getFrame();
+        final Frame frame = this.getFrame();
 
         if (frame == null) {
             return;
@@ -461,7 +460,7 @@ public class OTitlePane extends JComponent {
      * Returns the <code>JMenu</code> displaying the appropriate menu items for manipulating the Frame.
      */
     protected JMenu createMenu() {
-        JMenu menu = new JMenu("");
+        final JMenu menu = new JMenu("");
         if (this.getWindowDecorationStyle() == JRootPane.FRAME) {
             this.addMenuItems(menu);
         }
@@ -471,7 +470,7 @@ public class OTitlePane extends JComponent {
     /**
      * Adds the necessary <code>JMenuItem</code>s to the passed in menu.
      */
-    protected void addMenuItems(JMenu menu) {
+    protected void addMenuItems(final JMenu menu) {
         // Locale locale = getRootPane().getLocale();
         // JMenuItem mi = menu.add(restoreAction);
         // // int mnemonic = MetalUtils.getInt("MetalTitlePane.restoreMnemonic",
@@ -511,7 +510,7 @@ public class OTitlePane extends JComponent {
      * Returns a <code>JButton</code> appropriate for placement on the TitlePane.
      */
     protected JButton createTitleButton() {
-        JButton button = new JButton() {
+        final JButton button = new JButton() {
             @Override
             public String getName() {
                 return "FrameButton";
@@ -573,8 +572,8 @@ public class OTitlePane extends JComponent {
     /**
      * Updates state dependant upon the Window's active state.
      */
-    protected void setActive(boolean isActive) {
-        Boolean activeB = isActive ? Boolean.TRUE : Boolean.FALSE;
+    protected void setActive(final boolean isActive) {
+        final Boolean activeB = isActive ? Boolean.TRUE : Boolean.FALSE;
 
         this.closeButton.putClientProperty("paintActive", activeB);
         if (this.getWindowDecorationStyle() == JRootPane.FRAME) {
@@ -589,7 +588,7 @@ public class OTitlePane extends JComponent {
     /**
      * Sets the state of the Window.
      */
-    protected void setState(int state) {
+    protected void setState(final int state) {
         this.setState(state, false);
     }
 
@@ -597,17 +596,17 @@ public class OTitlePane extends JComponent {
      * Sets the state of the window. If <code>updateRegardless</code> is true and the state has not
      * changed, this will update anyway.
      */
-    protected void setState(int state, boolean updateRegardless) {
-        Window w = this.getWindow();
+    protected void setState(final int state, final boolean updateRegardless) {
+        final Window w = this.getWindow();
 
         if ((w != null) && (this.getWindowDecorationStyle() == JRootPane.FRAME)) {
             if ((this.state == state) && !updateRegardless) {
                 return;
             }
-            Frame frame = this.getFrame();
+            final Frame frame = this.getFrame();
 
             if (frame != null) {
-                JRootPane rootPane = this.getRootPane();
+                final JRootPane rootPane = this.getRootPane();
 
                 if (((state & Frame.MAXIMIZED_BOTH) != 0)
                         && ((rootPane.getBorder() == null) || (rootPane.getBorder() instanceof UIResource))
@@ -662,7 +661,7 @@ public class OTitlePane extends JComponent {
     /**
      * Updates the toggle button to contain the Icon <code>icon</code>, and Action <code>action</code>.
      */
-    protected void updateToggleButton(Action action, Icon icon) {
+    protected void updateToggleButton(final Action action, final Icon icon) {
         this.toggleButton.setAction(action);
         this.toggleButton.setIcon(icon);
         this.toggleButton.setText(null);
@@ -673,7 +672,7 @@ public class OTitlePane extends JComponent {
      * contained in a <code>Frame</code>.
      */
     protected Frame getFrame() {
-        Window window = this.getWindow();
+        final Window window = this.getWindow();
 
         if (window instanceof Frame) {
             return (Frame) window;
@@ -693,7 +692,7 @@ public class OTitlePane extends JComponent {
      * Returns the String to display as the title.
      */
     protected String getTitle() {
-        Window w = this.getWindow();
+        final Window w = this.getWindow();
 
         if (w instanceof Frame) {
             return ((Frame) w).getTitle();
@@ -707,19 +706,19 @@ public class OTitlePane extends JComponent {
      * Renders the TitlePane.
      */
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         // As state isn't bound, we need a convenience place to check
         // if it has changed. Changing the state typically changes the
         if (this.getFrame() != null) {
             this.setState(this.getFrame().getExtendedState());
         }
-        JRootPane rootPane = this.getRootPane();
-        Window window = this.getWindow();
-        boolean leftToRight = (window == null) ? rootPane.getComponentOrientation().isLeftToRight()
+        final JRootPane rootPane = this.getRootPane();
+        final Window window = this.getWindow();
+        final boolean leftToRight = (window == null) ? rootPane.getComponentOrientation().isLeftToRight()
                 : window.getComponentOrientation().isLeftToRight();
-        boolean isSelected = (window == null) ? true : window.isActive();
-        int width = this.getWidth();
-        int height = this.getHeight();
+        final boolean isSelected = (window == null) ? true : window.isActive();
+        final int width = this.getWidth();
+        final int height = this.getHeight();
 
         Color background;
         Color foreground;
@@ -758,7 +757,7 @@ public class OTitlePane extends JComponent {
             xOffset += leftToRight ? OTitlePane.IMAGE_WIDTH + 5 : -OTitlePane.IMAGE_WIDTH - 5;
         }
 
-        String theTitle = this.getTitle();
+        final String theTitle = this.getTitle();
         // if (theTitle != null) {
         // FontMetrics fm = SwingUtilities2.getFontMetrics(rootPane, g);
         //
@@ -801,8 +800,8 @@ public class OTitlePane extends JComponent {
             bumpLength = xOffset - this.buttonsWidth - 5;
             bumpXOffset = this.buttonsWidth + 5;
         }
-        int bumpYOffset = 3;
-        int bumpHeight = this.getHeight() - (2 * bumpYOffset);
+        final int bumpYOffset = 3;
+        final int bumpHeight = this.getHeight() - (2 * bumpYOffset);
         // bumps.setBumpArea( bumpLength, bumpHeight );
         // bumps.paintIcon(this, g, bumpXOffset, bumpYOffset);
     }
@@ -817,7 +816,7 @@ public class OTitlePane extends JComponent {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             OTitlePane.this.close();
         }
 
@@ -833,7 +832,7 @@ public class OTitlePane extends JComponent {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             OTitlePane.this.iconify();
         }
 
@@ -849,7 +848,7 @@ public class OTitlePane extends JComponent {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             OTitlePane.this.restore();
         }
 
@@ -865,7 +864,7 @@ public class OTitlePane extends JComponent {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             OTitlePane.this.maximize();
         }
 
@@ -878,7 +877,7 @@ public class OTitlePane extends JComponent {
     protected class SystemMenuBar extends JMenuBar {
 
         @Override
-        public void paint(Graphics g) {
+        public void paint(final Graphics g) {
             if (this.isOpaque()) {
                 g.setColor(this.getBackground());
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -887,7 +886,7 @@ public class OTitlePane extends JComponent {
             if (OTitlePane.this.systemIcon != null) {
                 g.drawImage(OTitlePane.this.systemIcon, 0, 0, OTitlePane.IMAGE_WIDTH, OTitlePane.IMAGE_HEIGHT, null);
             } else {
-                Icon icon = UIManager.getIcon("InternalFrame.icon");
+                final Icon icon = UIManager.getIcon("InternalFrame.icon");
 
                 if (icon != null) {
                     icon.paintIcon(this, g, 0, 0);
@@ -904,7 +903,7 @@ public class OTitlePane extends JComponent {
 
         @Override
         public Dimension getPreferredSize() {
-            Dimension size = super.getPreferredSize();
+            final Dimension size = super.getPreferredSize();
 
             return new Dimension(Math.max(OTitlePane.IMAGE_WIDTH, size.width),
                     Math.max(size.height, OTitlePane.IMAGE_HEIGHT));
@@ -915,26 +914,26 @@ public class OTitlePane extends JComponent {
     protected class TitlePaneLayout implements LayoutManager {
 
         @Override
-        public void addLayoutComponent(String name, Component c) {
+        public void addLayoutComponent(final String name, final Component c) {
         }
 
         @Override
-        public void removeLayoutComponent(Component c) {
+        public void removeLayoutComponent(final Component c) {
         }
 
         @Override
-        public Dimension preferredLayoutSize(Container c) {
-            int height = this.computeHeight();
+        public Dimension preferredLayoutSize(final Container c) {
+            final int height = this.computeHeight();
             return new Dimension(height, height);
         }
 
         @Override
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLayoutSize(final Container c) {
             return this.preferredLayoutSize(c);
         }
 
         protected int computeHeight() {
-            FontMetrics fm = OTitlePane.this.rootPane.getFontMetrics(OTitlePane.this.getFont());
+            final FontMetrics fm = OTitlePane.this.rootPane.getFontMetrics(OTitlePane.this.getFont());
             int fontHeight = fm.getHeight();
             fontHeight += 7;
             int iconHeight = 0;
@@ -942,20 +941,20 @@ public class OTitlePane extends JComponent {
                 iconHeight = OTitlePane.IMAGE_HEIGHT;
             }
 
-            int finalHeight = Math.max(fontHeight, iconHeight);
+            final int finalHeight = Math.max(fontHeight, iconHeight);
             return finalHeight;
         }
 
         @Override
-        public void layoutContainer(Container c) {
-            boolean leftToRight = (OTitlePane.this.window == null)
+        public void layoutContainer(final Container c) {
+            final boolean leftToRight = (OTitlePane.this.window == null)
                     ? OTitlePane.this.getRootPane().getComponentOrientation().isLeftToRight() : OTitlePane.this.window
                         .getComponentOrientation()
                         .isLeftToRight();
 
-            int w = OTitlePane.this.getWidth();
+            final int w = OTitlePane.this.getWidth();
             int x;
-            int y = 3;
+            final int y = 3;
             int spacing;
             int buttonHeight;
             int buttonWidth;
@@ -1015,7 +1014,7 @@ public class OTitlePane extends JComponent {
             OTitlePane.this.buttonsWidth = leftToRight ? w - x : x;
 
             if (OTitlePane.this.buttonSeparator != null) {
-                Dimension dimension = OTitlePane.this.buttonSeparator.getPreferredSize();
+                final Dimension dimension = OTitlePane.this.buttonSeparator.getPreferredSize();
                 x += -(spacing * 2) - dimension.width;
                 OTitlePane.this.buttonSeparator.setBounds(x, y, dimension.width, buttonHeight);
             }
@@ -1030,12 +1029,12 @@ public class OTitlePane extends JComponent {
     protected class PropertyChangeHandler implements PropertyChangeListener {
 
         @Override
-        public void propertyChange(PropertyChangeEvent pce) {
-            String name = pce.getPropertyName();
+        public void propertyChange(final PropertyChangeEvent pce) {
+            final String name = pce.getPropertyName();
 
             // Frame.state isn't currently bound.
             if ("resizable".equals(name) || "state".equals(name)) {
-                Frame frame = OTitlePane.this.getFrame();
+                final Frame frame = OTitlePane.this.getFrame();
 
                 if (frame != null) {
                     OTitlePane.this.setState(frame.getExtendedState(), true);
@@ -1065,12 +1064,12 @@ public class OTitlePane extends JComponent {
      * Update the image used for the system icon
      */
     protected void updateSystemIcon() {
-        Window window = this.getWindow();
+        final Window window = this.getWindow();
         if (window == null) {
             this.systemIcon = null;
             return;
         }
-        java.util.List<Image> icons = window.getIconImages();
+        final java.util.List<Image> icons = window.getIconImages();
         assert icons != null;
 
         if (icons.size() == 0) {
@@ -1078,7 +1077,8 @@ public class OTitlePane extends JComponent {
         } else if (icons.size() == 1) {
             this.systemIcon = icons.get(0);
         } else {
-            this.systemIcon = SunToolkit.getScaledIconImage(icons, OTitlePane.IMAGE_WIDTH, OTitlePane.IMAGE_HEIGHT);
+			this.systemIcon = ImageScalingHelper.getScaledIconImage(icons, OTitlePane.IMAGE_WIDTH,
+					OTitlePane.IMAGE_HEIGHT);
         }
     }
 
@@ -1088,12 +1088,12 @@ public class OTitlePane extends JComponent {
     protected class WindowHandler extends WindowAdapter {
 
         @Override
-        public void windowActivated(WindowEvent ev) {
+        public void windowActivated(final WindowEvent ev) {
             OTitlePane.this.setActive(true);
         }
 
         @Override
-        public void windowDeactivated(WindowEvent ev) {
+        public void windowDeactivated(final WindowEvent ev) {
             OTitlePane.this.setActive(false);
         }
 
@@ -1101,11 +1101,11 @@ public class OTitlePane extends JComponent {
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension size = super.getPreferredSize();
+        final Dimension size = super.getPreferredSize();
 
         int currentHeight = size.height;
 
-        Object uiHeight = OntimizeLookAndFeel.lookup("RootPane.titlePane.height");
+        final Object uiHeight = OntimizeLookAndFeel.lookup("RootPane.titlePane.height");
         if (uiHeight instanceof Integer) {
             currentHeight = Math.max(size.height, ((Integer) uiHeight).intValue());
         }

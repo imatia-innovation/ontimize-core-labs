@@ -139,7 +139,7 @@ public class IntegerDocument extends PlainDocument {
                 case LONG:
                     return new Long(number.longValue());
                 default:
-                    return new Integer(number.intValue());
+                    return Integer.valueOf(number.intValue());
             }
         } catch (Exception e) {
             IntegerDocument.logger.debug(null, e);

@@ -262,7 +262,7 @@ public class RTFReader {
 					StyleConstants.setLineSpacing(attr, lineSpacing);
 				} else if (name.equals("\\s")) {
 					final int styleNumber = node.getLength();
-					attr.addAttribute("styleNumber", new Integer(styleNumber));
+					attr.addAttribute("styleNumber", Integer.valueOf(styleNumber));
 				}
 			}
 		}
@@ -564,7 +564,7 @@ public class RTFReader {
 		int colCount = 0;
 		List cellAttributes = new Vector(65);
 		// attr.addAttribute("cellAttributes", cellAttributes);
-		// attr.addAttribute("cellCount", new Integer(cellCount));
+		// attr.addAttribute("cellCount", Integer.valueOf(cellCount));
 		for (int j = i - 1; j >= 0; j--) {
 			final String groupName = node.getParent().getChild(j).getName();
 			if (groupName.indexOf("cellx") != -1) {
@@ -593,12 +593,12 @@ public class RTFReader {
 				// ba.borderRight = 1;
 				cellAttr.addAttribute("BorderAttributes", ba);
 				cellAttr.addAttribute("margins", margins);
-				cellAttr.addAttribute("cellWidth", new Integer(288));
+				cellAttr.addAttribute("cellWidth", Integer.valueOf(288));
 				cellAttributes.add(cellAttr);
 			}
 			final MutableAttributeSet rowAttr = new SimpleAttributeSet();
 			rowAttr.addAttribute("cellAttributes", cellAttributes);
-			rowAttr.addAttribute("cellCount", new Integer(colCount));
+			rowAttr.addAttribute("cellCount", Integer.valueOf(colCount));
 			rowsAttributes.add(rowAttr);
 		}
 
@@ -782,12 +782,12 @@ public class RTFReader {
 			} else {
 				if (nodeName.equals("\\row")) {
 					attr.addAttribute("cellAttributes", cellAttributes);
-					attr.addAttribute("cellCount", new Integer(cellCount));
+					attr.addAttribute("cellCount", Integer.valueOf(cellCount));
 					return;
 				}
 				if (nodeName.equals("\\nestrow")) {
 					attr.addAttribute("cellAttributes", cellAttributes);
-					attr.addAttribute("cellCount", new Integer(cellCount));
+					attr.addAttribute("cellCount", Integer.valueOf(cellCount));
 					return;
 				}
 				if (nodeName.equals("\\clvertalt")) {
@@ -804,7 +804,7 @@ public class RTFReader {
 			}
 		}
 		attr.addAttribute("cellAttributes", cellAttributes);
-		attr.addAttribute("cellCount", new Integer(cellCount));
+		attr.addAttribute("cellCount", Integer.valueOf(cellCount));
 	}
 
 	private void processCellAttributes(final RTFElement startCellNode, final MutableAttributeSet attr, final int index) {
@@ -837,14 +837,14 @@ public class RTFReader {
 			} else if (nodeName.equals("\\clwWidth")) {
 				int width = node.getLength();
 				width = this.convertTwipsToPixels(width);
-				attr.addAttribute("cellWidth", new Integer(width));
+				attr.addAttribute("cellWidth", Integer.valueOf(width));
 			} else if (nodeName.equals("\\cellx")) {
 				attr.addAttribute("BorderAttributes", ba);
 				attr.addAttribute("margins", margins);
 				if (!attr.isDefined("cellWidth")) {
 					int x = node.getLength();
 					x = this.convertTwipsToPixels(x);
-					attr.addAttribute("cellx", new Integer(x));
+					attr.addAttribute("cellx", Integer.valueOf(x));
 				}
 
 				return;

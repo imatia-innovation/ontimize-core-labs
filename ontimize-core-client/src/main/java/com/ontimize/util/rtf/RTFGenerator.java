@@ -214,7 +214,7 @@ public class RTFGenerator {
 		}
 
 		final AttributeSet attr = row.getAttributes();
-		final int indent = new Float(StyleConstants.getLeftIndent(attr)).intValue();
+		final int indent = Float.valueOf(StyleConstants.getLeftIndent(attr)).intValue();
 		out.write("\\tleft-" + Integer.toString(indent));
 
 		out.write("\\trftsWidth1");
@@ -225,7 +225,7 @@ public class RTFGenerator {
 		int x = 1;
 		for (int i = 0; i < row.getElementCount(); i++) {
 			final RTFDocument.CellElement cell = (RTFDocument.CellElement) row.getElement(i);
-			final Double dX = this.convertPixelsToTwips(new Double(x));
+			final Double dX = this.convertPixelsToTwips(Double.valueOf(x));
 			this.writeCell(row.getElement(i), out, dX.intValue(), level);
 			x += cell.getWidth();
 		}
@@ -282,7 +282,7 @@ public class RTFGenerator {
 			out.write("\\clpadfb3");
 			out.write("\\clftsWidth3");
 		}
-		final Double dWidth = this.convertPixelsToTwips(new Double(currentCell.getWidth()));
+		final Double dWidth = this.convertPixelsToTwips(Double.valueOf(currentCell.getWidth()));
 		out.write("\\clwWidth" + Integer.toString(dWidth.intValue()));
 		out.write("\\cellx" + Integer.toString(x) + " ");
 	}
@@ -323,7 +323,7 @@ public class RTFGenerator {
 		result = result + "{\\fonttbl";
 		final int len = fontList.size();
 		for (int i = 0; i < len; i++) {
-			result = result + "{\\f" + new Integer(fontN).toString();
+			result = result + "{\\f" + Integer.valueOf(fontN).toString();
 			fontN++;
 			result = result + "\\fnil\\fcharset1\\fprq2 ";
 			result = result + (String) fontList.get(i) + ";}";
@@ -379,9 +379,9 @@ public class RTFGenerator {
 			final int red = c.getRed();
 			final int green = c.getGreen();
 			final int blue = c.getBlue();
-			result = result + "\\red" + new Integer(red).toString();
-			result = result + "\\green" + new Integer(green).toString();
-			result = result + "\\blue" + new Integer(blue).toString() + ";";
+			result = result + "\\red" + Integer.valueOf(red).toString();
+			result = result + "\\green" + Integer.valueOf(green).toString();
+			result = result + "\\blue" + Integer.valueOf(blue).toString() + ";";
 		}
 		result = result + "}";
 		return result;
@@ -403,7 +403,7 @@ public class RTFGenerator {
 			result = result + "\\sub";
 		}
 		result = result + "\\f" + this.fontList.indexOf(StyleConstants.getFontFamily(attr));
-		result = result + "\\fs" + new Integer(StyleConstants.getFontSize(attr) * 2).toString();
+		result = result + "\\fs" + Integer.valueOf(StyleConstants.getFontSize(attr) * 2).toString();
 
 		boolean openSubgroup = false;
 		if (StyleConstants.isBold(attr)) {
@@ -494,44 +494,44 @@ public class RTFGenerator {
 		if (ts != null) {
 			for (int i = 0; i < ts.getTabCount(); i++) {
 				final TabStop stop = ts.getTab(i);
-				Double f = new Double(stop.getPosition());
+				Double f = Double.valueOf(stop.getPosition());
 				f = this.convertPixelsToTwips(f);
-				result = result + "\\tx" + new Integer(f.intValue()).toString();
+				result = result + "\\tx" + Integer.valueOf(f.intValue()).toString();
 			}
 		}
 		if (Float.compare(StyleConstants.getLeftIndent(attr), 0) != 0) {
-			Double f = new Double(StyleConstants.getLeftIndent(attr));
+			Double f = Double.valueOf(StyleConstants.getLeftIndent(attr));
 			f = this.convertPixelsToTwips(f);
-			result = result + "\\li" + new Integer(f.intValue()).toString();
+			result = result + "\\li" + Integer.valueOf(f.intValue()).toString();
 		} else {
 			result = result + "\\li0";
 		}
 		if (Float.compare(StyleConstants.getRightIndent(attr), 0) != 0) {
-			Double f = new Double(StyleConstants.getRightIndent(attr));
+			Double f = Double.valueOf(StyleConstants.getRightIndent(attr));
 			f = this.convertPixelsToTwips(f);
-			result = result + "\\ri" + new Integer(f.intValue()).toString();
+			result = result + "\\ri" + Integer.valueOf(f.intValue()).toString();
 		} else {
 			result = result + "\\ri0";
 		}
 		if (Float.compare(StyleConstants.getFirstLineIndent(attr), 0) != 0) {
-			Double f = new Double(StyleConstants.getFirstLineIndent(attr));
+			Double f = Double.valueOf(StyleConstants.getFirstLineIndent(attr));
 			f = this.convertPixelsToTwips(f);
-			result = result + "\\fi" + new Integer(f.intValue()).toString();
+			result = result + "\\fi" + Integer.valueOf(f.intValue()).toString();
 		} else {
 			result = result + "\\fi0";
 		}
 
 		if (Float.compare(StyleConstants.getSpaceAbove(attr), 0) != 0) {
-			Double f = new Double(StyleConstants.getSpaceAbove(attr));
+			Double f = Double.valueOf(StyleConstants.getSpaceAbove(attr));
 			f = this.convertPixelsToTwips(f);
-			result = result + "\\sa" + new Integer(f.intValue()).toString();
+			result = result + "\\sa" + Integer.valueOf(f.intValue()).toString();
 		} else {
 			result = result + "\\sa0";
 		}
 		if (Float.compare(StyleConstants.getSpaceBelow(attr), 0) != 0) {
-			Double f = new Double(StyleConstants.getSpaceBelow(attr));
+			Double f = Double.valueOf(StyleConstants.getSpaceBelow(attr));
 			f = this.convertPixelsToTwips(f);
-			result = result + "\\sb" + new Integer(f.intValue()).toString();
+			result = result + "\\sb" + Integer.valueOf(f.intValue()).toString();
 		} else {
 			result = result + "\\sb0";
 		}
@@ -541,7 +541,7 @@ public class RTFGenerator {
 				spacing = 1.0D;
 			}
 			spacing *= 240.0D;
-			result = result + "\\sl" + new Integer(new Double(spacing).intValue()).toString() + "\\slmult1";
+			result = result + "\\sl" + Integer.valueOf(Double.valueOf(spacing).intValue()).toString() + "\\slmult1";
 		} else {
 			result = result + "\\sl240";
 		}
@@ -552,7 +552,7 @@ public class RTFGenerator {
 		double result = value.doubleValue();
 
 		result *= 15.0D;
-		return new Double(result);
+		return Double.valueOf(result);
 	}
 
 	protected String convertString(String source) {

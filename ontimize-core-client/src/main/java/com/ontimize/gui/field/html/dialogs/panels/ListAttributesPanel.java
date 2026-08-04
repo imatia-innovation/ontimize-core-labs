@@ -188,7 +188,7 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 			this.startAtField.setEnabled(true);
 			try {
 				final int n = Integer.parseInt(this.attribs.get("start").toString());
-				this.startAtField.getModel().setValue(new Integer(n));
+				this.startAtField.getModel().setValue(Integer.valueOf(n));
 			} catch (final Exception ex) {
 				ListAttributesPanel.logger.trace(null, ex);
 			}

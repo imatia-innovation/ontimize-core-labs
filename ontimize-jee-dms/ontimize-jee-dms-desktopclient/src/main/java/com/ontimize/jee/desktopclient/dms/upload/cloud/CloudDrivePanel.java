@@ -47,7 +47,9 @@ public class CloudDrivePanel<T extends Serializable> extends Row implements Inte
 		this.setLayout(new BorderLayout());
 		try {
 			this.table = new CloudDriveTable<>(this,
-					(ICloudManager<T>) ReflectionTools.invoke(ParseUtilsExtended.getClazz((String) parameters.get("cloudmanagerclass"), null), "getInstance", null));
+					(ICloudManager<T>) ReflectionTools.invoke(
+							ParseUtilsExtended.getClazz((String) parameters.get("cloudmanagerclass"), null),
+							"getInstance"));
 		} catch (final ClassNotFoundException e1) {
 			throw new DmsRuntimeException(e1);
 		}

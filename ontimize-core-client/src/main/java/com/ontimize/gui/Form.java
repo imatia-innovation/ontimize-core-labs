@@ -821,7 +821,7 @@ HasHelpIdComponent, Freeable {
 				this.form.endButton.setEnabled(false);
 			}
 			this.form.resultCountLabel
-			.setText(new Integer(newIndex + 1).toString() + "/" + new Integer(this.form.vectorSize).toString());
+			.setText(Integer.valueOf(newIndex + 1).toString() + "/" + Integer.valueOf(this.form.vectorSize).toString());
 		}
 
 	}
@@ -855,7 +855,7 @@ HasHelpIdComponent, Freeable {
 			this.form.nextButton.setEnabled(true);
 			this.form.endButton.setEnabled(true);
 			this.form.resultCountLabel
-			.setText(new Integer(newIndex + 1).toString() + "/" + new Integer(this.form.vectorSize).toString());
+			.setText(Integer.valueOf(newIndex + 1).toString() + "/" + Integer.valueOf(this.form.vectorSize).toString());
 		}
 
 	}
@@ -881,7 +881,7 @@ HasHelpIdComponent, Freeable {
 			this.form.nextButton.setEnabled(false);
 			this.form.endButton.setEnabled(false);
 			this.form.resultCountLabel
-			.setText(new Integer(newIndex + 1).toString() + "/" + new Integer(this.form.vectorSize).toString());
+			.setText(Integer.valueOf(newIndex + 1).toString() + "/" + Integer.valueOf(this.form.vectorSize).toString());
 		}
 
 	}
@@ -907,7 +907,7 @@ HasHelpIdComponent, Freeable {
 			this.form.nextButton.setEnabled(true);
 			this.form.endButton.setEnabled(true);
 			this.form.resultCountLabel
-			.setText(new Integer(newIndex + 1).toString() + "/" + new Integer(this.form.vectorSize).toString());
+			.setText(Integer.valueOf(newIndex + 1).toString() + "/" + Integer.valueOf(this.form.vectorSize).toString());
 		}
 
 	}
@@ -2408,7 +2408,7 @@ HasHelpIdComponent, Freeable {
 				this.printButton.setEnabled(true);
 			} else {
 				try {
-					if (new Boolean(printable.toString()).booleanValue()) {
+					if (Boolean.valueOf(printable.toString()).booleanValue()) {
 						this.printButton.setEnabled(true);
 					} else {
 						this.printButton.setEnabled(false);
@@ -3682,7 +3682,7 @@ HasHelpIdComponent, Freeable {
 				this.previousButton.setEnabled(false);
 				this.nextButton.setEnabled(false);
 				this.resultCountLabel.setText(
-						new Integer(this.currentIndex + 1).toString() + "/" + new Integer(this.vectorSize).toString());
+						Integer.valueOf(this.currentIndex + 1).toString() + "/" + Integer.valueOf(this.vectorSize).toString());
 			}
 			return;
 		}
@@ -3779,7 +3779,7 @@ HasHelpIdComponent, Freeable {
 			this.setValueOfComponents(data, vComponentList, i);
 		}
 		this.resultCountLabel
-		.setText(new Integer(this.currentIndex + 1).toString() + "/" + new Integer(this.vectorSize).toString());
+		.setText(Integer.valueOf(this.currentIndex + 1).toString() + "/" + Integer.valueOf(this.vectorSize).toString());
 		final long endTime = System.currentTimeMillis();
 		Form.logger.trace("Time setting form values: {} seconds", (endTime - initialTime) / 1000.0);
 	}
@@ -4133,7 +4133,7 @@ HasHelpIdComponent, Freeable {
 	protected void setCountLabel(final int index) {
 		if (this.resultCountLabel != null) {
 			this.resultCountLabel
-			.setText(new Integer(index + 1).toString() + "/" + new Integer(this.vectorSize).toString());
+			.setText(Integer.valueOf(index + 1).toString() + "/" + Integer.valueOf(this.vectorSize).toString());
 		}
 	}
 
@@ -7594,7 +7594,7 @@ HasHelpIdComponent, Freeable {
 										.getPrintingTemplateEntity(locator.getSessionId());
 								final Map kv = new Hashtable();
 								kv.put(Form.TEMPLATE_FORM, Form.this.fileName);
-								kv.put(Form.TEMPLATE_DEFAULT, new Integer(1));
+								kv.put(Form.TEMPLATE_DEFAULT, Integer.valueOf(1));
 								final List av = new Vector();
 								final EntityResult rs = ePrintTemplatesEntity.query(kv, av, locator.getSessionId());
 								// When there is only one default template then

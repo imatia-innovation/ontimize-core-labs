@@ -18,7 +18,7 @@ public class AvgGroupOperation implements GroupOperation {
                 d = d + ((Number) v).doubleValue();
             }
         }
-        return new Double(d / list.size());
+        return Double.valueOf(d / list.size());
     }
 
     /**

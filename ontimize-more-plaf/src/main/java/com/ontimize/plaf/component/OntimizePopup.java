@@ -3,6 +3,7 @@ package com.ontimize.plaf.component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Window;
@@ -24,8 +25,6 @@ import javax.swing.MenuElement;
 import javax.swing.Popup;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
-import sun.awt.ModalExclude;
 
 import com.ontimize.gui.ExtendedJPopupMenu;
 import com.ontimize.plaf.utils.OAppContext;
@@ -65,8 +64,8 @@ public class OntimizePopup extends Popup {
     /**
      * Returns either a new or recycled <code>Popup</code> containing the specified children.
      */
-    public static Popup getHeavyWeightPopup(Component owner, Component contents, int ownerX, int ownerY) {
-        Window window = (owner != null) ? SwingUtilities.getWindowAncestor(owner) : null;
+    public static Popup getHeavyWeightPopup(final Component owner, final Component contents, final int ownerX, final int ownerY) {
+        final Window window = (owner != null) ? SwingUtilities.getWindowAncestor(owner) : null;
         OntimizePopup popup = null;
 
         if (window != null) {
@@ -77,8 +76,8 @@ public class OntimizePopup extends Popup {
         boolean focusPopup = false;
         if ((contents != null) && contents.isFocusable()) {
             if (contents instanceof JPopupMenu) {
-                JPopupMenu jpm = (JPopupMenu) contents;
-                Component popComps[] = jpm.getComponents();
+                final JPopupMenu jpm = (JPopupMenu) contents;
+                final Component popComps[] = jpm.getComponents();
                 for (int i = 0; i < popComps.length; i++) {
                     if (!(popComps[i] instanceof MenuElement) && !(popComps[i] instanceof JSeparator)) {
                         focusPopup = true;
@@ -99,7 +98,7 @@ public class OntimizePopup extends Popup {
         popup.reset(owner, contents, ownerX, ownerY);
 
         if (focusPopup) {
-            JWindow wnd = (JWindow) popup.getComponent();
+            final JWindow wnd = (JWindow) popup.getComponent();
             wnd.setFocusableWindowState(true);
             // Set window name. We need this in BasicPopupMenuUI
             // to identify focusable popup window.
@@ -111,7 +110,7 @@ public class OntimizePopup extends Popup {
 
     void _dispose() {
         Component component = this.getComponent();
-        Window window = SwingUtilities.getWindowAncestor(component);
+        final Window window = SwingUtilities.getWindowAncestor(component);
 
         if (component instanceof JWindow) {
             ((Window) component).dispose();
@@ -127,7 +126,7 @@ public class OntimizePopup extends Popup {
      * Creates the Component to use as the parent of the <code>Popup</code>. The default implementation
      * creates a <code>Window</code>, subclasses should override.
      */
-    protected Component createComponent(Component owner) {
+    protected Component createComponent(final Component owner) {
         if (GraphicsEnvironment.isHeadless()) {
             // Generally not useful, bail.
             return null;
@@ -139,7 +138,7 @@ public class OntimizePopup extends Popup {
      * Returns the <code>Window</code> to use as the parent of the <code>Window</code> created for the
      * <code>Popup</code>. This creates a new <code>DefaultFrame</code>, if necessary.
      */
-    protected Window getParentWindow(Component owner) {
+    protected Window getParentWindow(final Component owner) {
         Window window = null;
 
         if (owner instanceof Window) {
@@ -153,7 +152,7 @@ public class OntimizePopup extends Popup {
         return window;
     }
 
-    public OntimizePopup(Component owner, Component contents, int ownerX, int ownerY) {
+    public OntimizePopup(final Component owner, final Component contents, final int ownerX, final int ownerY) {
 
         // create a new heavyweight window
         this.popupWindow = new JWindow();
@@ -175,15 +174,15 @@ public class OntimizePopup extends Popup {
     /**
      * Resets the <code>Popup</code> to an initial state.
      */
-    protected void reset(Component owner, Component contents, int ownerX, int ownerY) {
+    protected void reset(final Component owner, final Component contents, final int ownerX, final int ownerY) {
         if (this.getComponent() == null) {
             this.component = this.createComponent(owner);
         }
 
-        Component c = this.getComponent();
+        final Component c = this.getComponent();
 
         if (c instanceof JWindow) {
-            JWindow component = (JWindow) this.getComponent();
+            final JWindow component = (JWindow) this.getComponent();
 
             if (contents instanceof JToolTip) {
                 this.toFade = true;
@@ -226,7 +225,7 @@ public class OntimizePopup extends Popup {
             // AWTUtilities.setWindowOpacity(popupWindow, 0.0f);
             try {
                 this.popupWindow.setOpacity(0.0f);
-            } catch (Exception e) {
+            } catch (final Exception e) {
             }
         }
 
@@ -251,13 +250,13 @@ public class OntimizePopup extends Popup {
             // start fading in
             this.fadeInTimer = new Timer(50, new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     OntimizePopup.this.currOpacity += 20;
                     if (OntimizePopup.this.currOpacity <= 100) {
                         // AWTUtilities.setWindowOpacity(popupWindow, currOpacity / 100.0f);
                         try {
                             OntimizePopup.this.popupWindow.setOpacity(OntimizePopup.this.currOpacity / 100.0f);
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                         }
                         OntimizePopup.this.popupWindow.getContentPane().repaint();
                     } else {
@@ -285,13 +284,13 @@ public class OntimizePopup extends Popup {
             // start fading out
             this.fadeOutTimer = new Timer(50, new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     OntimizePopup.this.currOpacity -= 10;
                     if (OntimizePopup.this.currOpacity >= 0) {
                         // AWTUtilities.setWindowOpacity(popupWindow, currOpacity / 100.0f);
                         try {
                             OntimizePopup.this.popupWindow.setOpacity(OntimizePopup.this.currOpacity / 100.0f);
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                         }
                         // workaround bug 6670649 - should call
                         // popupWindow.repaint() but that will not repaint the
@@ -312,7 +311,7 @@ public class OntimizePopup extends Popup {
             // popupWindow.setVisible(false);
             // popupWindow.removeAll();
             // popupWindow.dispose();
-            Component component = this.getComponent();
+            final Component component = this.getComponent();
 
             if (component instanceof JWindow) {
                 component.hide();
@@ -329,10 +328,10 @@ public class OntimizePopup extends Popup {
      * <code>window</code>. This will return null if there is no <code>OntimizePopup</code> associated
      * with <code>window</code>.
      */
-    protected static OntimizePopup getRecycledOntmizePopup(Window w) {
+    protected static OntimizePopup getRecycledOntmizePopup(final Window w) {
         synchronized (OntimizePopup.class) {
             List cache;
-            Map heavyPopupCache = OntimizePopup.getOntimizePopupCache();
+            final Map heavyPopupCache = OntimizePopup.getOntimizePopupCache();
 
             if (heavyPopupCache.containsKey(w)) {
                 cache = (List) heavyPopupCache.get(w);
@@ -341,7 +340,7 @@ public class OntimizePopup extends Popup {
             }
             int c;
             if ((c = cache.size()) > 0) {
-                OntimizePopup r = (OntimizePopup) cache.get(0);
+                final OntimizePopup r = (OntimizePopup) cache.get(0);
                 cache.remove(0);
                 return r;
             }
@@ -368,11 +367,11 @@ public class OntimizePopup extends Popup {
     /**
      * Recycles the passed in <code>OntmizePopup</code>.
      */
-    protected static void recycleOntmizePopup(OntimizePopup popup) {
+    protected static void recycleOntmizePopup(final OntimizePopup popup) {
         synchronized (OntimizePopup.class) {
             List cache;
-            Object window = SwingUtilities.getWindowAncestor(popup.getComponent());
-            Map heavyPopupCache = OntimizePopup.getOntimizePopupCache();
+            final Object window = SwingUtilities.getWindowAncestor(popup.getComponent());
+            final Map heavyPopupCache = OntimizePopup.getOntimizePopupCache();
 
             if (!((Window) window).isVisible()) {
                 // If the Window isn't visible, we don't cache it as we
@@ -389,11 +388,11 @@ public class OntimizePopup extends Popup {
 
                 w.addWindowListener(new WindowAdapter() {
                     @Override
-                    public void windowClosed(WindowEvent e) {
+                    public void windowClosed(final WindowEvent e) {
                         List popups;
 
                         synchronized (OntimizePopup.class) {
-                            Map heavyPopupCache2 = OntimizePopup.getOntimizePopupCache();
+                            final Map heavyPopupCache2 = OntimizePopup.getOntimizePopupCache();
                             popups = (List) heavyPopupCache2.remove(w);
                         }
                         if (popups != null) {
@@ -417,38 +416,39 @@ public class OntimizePopup extends Popup {
     /**
      * Component used to house window.
      */
-    static class HeavyWeightWindow extends JWindow implements ModalExclude {
+	static class HeavyWeightWindow extends JWindow {
 
-        HeavyWeightWindow(Window parent) {
+        HeavyWeightWindow(final Window parent) {
             super(parent);
+
             this.setFocusableWindowState(false);
             this.setName("###overrideRedirect###");
             this.setType(Window.Type.POPUP);
-            // Popups are typically transient and most likely won't benefit
-            // from true double buffering. Turn it off here.
-            // getRootPane().setUseTrueDoubleBuffering(false);
-            // Try to set "always-on-top" for the popup window.
-            // Applets usually don't have sufficient permissions to do it.
-            // In this case simply ignore the exception.
+
+			try {
+				this.setModalExclusionType(
+						Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+			} catch (final Exception ex) {
+				// ignorar si la plataforma no lo soporta
+			}
+
             try {
                 this.setAlwaysOnTop(true);
-            } catch (SecurityException se) {
-                // setAlwaysOnTop is restricted,
-                // the exception is ignored
+            } catch (final SecurityException se) {
+				// ignored
             }
         }
 
         @Override
-        public void update(Graphics g) {
+        public void update(final Graphics g) {
             this.paint(g);
         }
 
         @Override
         public void show() {
             this.pack();
-            super.show();
+			setVisible(true);
         }
-
     }
 
 }

@@ -15,7 +15,7 @@ public class CountGroupOperation implements GroupOperation {
         if (list != null) {
             i = list.size();
         }
-        return new Integer(i);
+        return Integer.valueOf(i);
     }
 
     /**

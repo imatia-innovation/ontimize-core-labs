@@ -22,7 +22,7 @@ public class SelectAllAction extends BasicEditAction {
     public SelectAllAction() {
         super(HTMLTextEditAction.i18n.str("HTMLShef.select_all"));
         this.putValue("ID", "HTMLShef.select_all");
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.select_all")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.select_all")));
 
         this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 

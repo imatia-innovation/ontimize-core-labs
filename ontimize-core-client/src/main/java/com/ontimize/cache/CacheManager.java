@@ -673,7 +673,7 @@ public class CacheManager {
 
 				if (columnIndex == 3) {
 					final int size = this.getCacheSize(data.get(currentKey));
-					return new Integer(size);
+					return Integer.valueOf(size);
 				}
 				if (columnIndex == 4) {
 					try {
@@ -682,7 +682,7 @@ public class CacheManager {
 						CacheManager.logger.error(null, ex);
 					}
 
-					return new Double(-1);
+					return Double.valueOf(-1);
 				}
 				return null;
 			}

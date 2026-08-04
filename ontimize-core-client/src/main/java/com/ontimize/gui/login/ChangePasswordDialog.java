@@ -54,7 +54,7 @@ public class ChangePasswordDialog extends AbstractChangePasswordDialog {
 
 	protected BackgroundPanel background = null;
 
-	public static final Integer BACKGROUND_LAYER = new Integer(-60000);
+	public static final Integer BACKGROUND_LAYER = Integer.valueOf(-60000);
 
 	protected static class BackgroundPanel extends JPanel implements ComponentListener {
 

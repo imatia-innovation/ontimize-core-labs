@@ -345,7 +345,7 @@ public class PrintingSetupWindow extends EJDialog implements Internationalizatio
 			if (renderer != null) {
 				Object clon = null;
 				try {
-					final Method method = renderer.getClass().getMethod("clone", null);
+					final Method method = renderer.getClass().getMethod("clone");
 					clon = method.invoke(renderer, null);
 				} catch (final Exception e) {
 					PrintingSetupWindow.logger.trace(null, e);
@@ -599,7 +599,7 @@ public class PrintingSetupWindow extends EJDialog implements Internationalizatio
 
 			this.informationPages
 			.setText(ApplicationManager.getTranslation(this.documentPageNumberKey, this.ta.resourcesFile,
-					new Object[] { new Integer(this.totalPagesNumber) }));
+					new Object[] { Integer.valueOf(this.totalPagesNumber) }));
 
 			if (this.printableTable.printingProgressWindow != null) {
 				this.printableTable.printingProgressWindow.toBack();

@@ -83,7 +83,7 @@ public class HTMLInlineAction extends HTMLTextEditAction {
         }
         this.putValue("ID", HTMLInlineAction.INLINE_TYPES[this.type]);
         this.putValue(Action.NAME, HTMLTextEditAction.i18n.str(HTMLInlineAction.INLINE_TYPES[this.type]));
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLInlineAction.MNEMS[this.type]));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLInlineAction.MNEMS[this.type]));
 
         Icon ico = null;
         KeyStroke ks = null;

@@ -514,7 +514,7 @@ IdentifiedElement, HasHelpIdComponent {
 		if (labelSize == null) {
 		} else {
 			try {
-				final Integer tamInteger = new Integer(labelSize.toString());
+				final Integer tamInteger = Integer.valueOf(labelSize.toString());
 				this.labelSize = tamInteger.intValue();
 			} catch (final Exception e) {
 				ToggleButton.logger.error("Error:'labelsize' parameter: " + labelSize.toString(), e);

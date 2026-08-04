@@ -615,7 +615,7 @@ implements FormComponent, Internationalization, IdentifiedElement, AccessForm, F
 		final Object expand = parameters.get("expand");
 		if (expand != null) {
 			try {
-				this.verticalWeight = new Double((String) parameters.get("expand"));
+				this.verticalWeight = Double.valueOf((String) parameters.get("expand"));
 				parameters.remove("expand");
 			} catch (final Exception e) {
 				Row.logger.trace(null, e);

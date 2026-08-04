@@ -78,7 +78,7 @@ public class HTMLAlignAction extends HTMLTextEditAction {
 
         this.putValue("ID", HTMLAlignAction.ALIGNMENT_NAMES[al]);
         this.putValue(Action.NAME, HTMLTextEditAction.i18n.str(HTMLAlignAction.ALIGNMENT_NAMES[al]));
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLAlignAction.MNEMS[al]));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLAlignAction.MNEMS[al]));
 
         this.putValue(Action.SMALL_ICON, ImageManager.getIcon(HTMLAlignAction.IMGS[al]));
         this.putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);

@@ -42,7 +42,7 @@ public class HTMLTableAction extends HTMLTextEditAction {
     public HTMLTableAction() {
         super(HTMLTextEditAction.i18n.str("HTMLShef.table_"));
         this.putValue("ID", "HTMLShef.table_");
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.table_")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.table_")));
 
         this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.HTML_TABLE));
         this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));

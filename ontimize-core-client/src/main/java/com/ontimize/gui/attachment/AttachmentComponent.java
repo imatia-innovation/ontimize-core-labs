@@ -283,7 +283,7 @@ public class AttachmentComponent extends JPanel {
 		if (hRecord.containsKey(Form.PRIVATE_ATTACHMENT)) {
 			final Object o = hRecord.get(Form.PRIVATE_ATTACHMENT);
 			if (o instanceof Number) {
-				bPrivate = new Boolean(((Number) o).intValue() > 0);
+				bPrivate = Boolean.valueOf(((Number) o).intValue() > 0);
 			}
 		}
 

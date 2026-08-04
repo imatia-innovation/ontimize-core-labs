@@ -1,61 +1,74 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.ontimize.labs</groupId>
-    <artifactId>ontimize-jee-dms</artifactId>
-    <version>7.0.3-SNAPSHOT</version>
-  </parent>
-  <artifactId>ontimize-jee-dms-desktopclient</artifactId>
-  <properties>
-    <utilmize.version>5.0.3-SNAPSHOT</utilmize.version>
-    <!--scanner support-->
-    <twain.version>1.0</twain.version>
-    <lti-civil.version>20130308-custom</lti-civil.version>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>ontimize-jee-desktopclient</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>ontimize-jee-dms-common</artifactId>
-    </dependency>
-    <!--Utilmize client - support to UI components  - must ensure sub-dependencies in project -->
-    <dependency>
-      <groupId>com.imatia.utilmize</groupId>
-      <artifactId>utilmize-client</artifactId>
-      <version>${utilmize.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- TODO separate each implementation (fileSystem, scanner, ...) in separated modules, each one with its dependencies -->
-    <!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
-    <dependency>
-      <groupId>com.imatia.utilmize</groupId>
-      <artifactId>utilcapturer</artifactId>
-      <version>${utilmize.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Scanner - TWAIN -->
-    <dependency>
-      <groupId>uk.co.mmscomputing.device</groupId>
-      <artifactId>twain</artifactId>
-      <version>${twain.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Scanner ¿Morena? -->
-    <!-- lti-civil -->
-    <dependency>
-      <groupId>com.lti.civil</groupId>
-      <artifactId>lti-civil</artifactId>
-      <version>${lti-civil.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-swing</artifactId>
-      <classifier>win</classifier>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ontimize.labs</groupId>
+		<artifactId>ontimize-jee-dms</artifactId>
+		<version>7.1.0-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>ontimize-jee-dms-desktopclient</artifactId>
+
+
+	<properties>
+		<utilmize.version>5.1.0-SNAPSHOT</utilmize.version>
+		
+		<!--scanner support-->
+		<twain.version>1.0</twain.version> 
+		<lti-civil.version>20130308-custom</lti-civil.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontimize-jee-desktopclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontimize-jee-dms-common</artifactId>
+		</dependency>
+		
+		<!--Utilmize client - support to UI components  - must ensure sub-dependencies in project -->
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilmize-client</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- TODO separate each implementation (fileSystem, scanner, ...) in separated modules, each one with its dependencies -->
+		<!-- Must dissappear all next dependencies here, or only in scope provided -> Consider to add in your project -->
+		
+		<dependency>
+			<groupId>com.imatia.utilmize</groupId>
+			<artifactId>utilcapturer</artifactId>
+			<version>${utilmize.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Scanner - TWAIN -->
+		<dependency>
+			<groupId>uk.co.mmscomputing.device</groupId>
+			<artifactId>twain</artifactId>
+			<version>${twain.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Scanner ¿Morena? -->
+		
+		<!-- lti-civil -->
+		<dependency>
+			<groupId>com.lti.civil</groupId>
+			<artifactId>lti-civil</artifactId>
+			<version>${lti-civil.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-swing</artifactId>
+			<classifier>win</classifier>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

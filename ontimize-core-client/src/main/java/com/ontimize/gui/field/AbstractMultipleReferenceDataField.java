@@ -565,7 +565,7 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 				if (pos != -1) {
 					this.visibleCods.add(token.substring(0, pos));
 					try {
-						final Integer integer = new Integer(token.substring(pos + 1));
+						final Integer integer = Integer.valueOf(token.substring(pos + 1));
 						this.visiblesize.put(token.substring(0, pos), integer);
 					} catch (final Exception e) {
 						AbstractMultipleReferenceDataField.logger.trace(null, e);
@@ -595,14 +595,14 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 			if (this.typecods.size() != this.cods.size()) {
 				this.typecods.clear();
 				for (int i = 0; i < this.cods.size(); i++) {
-					this.typecods.add(new Integer(java.sql.Types.INTEGER));
+					this.typecods.add(Integer.valueOf(java.sql.Types.INTEGER));
 				}
 			}
 		} else {
 			if (this.typecods.size() != this.keys.size()) {
 				this.typecods.clear();
 				for (int i = 0; i < this.keys.size(); i++) {
-					this.typecods.add(new Integer(java.sql.Types.INTEGER));
+					this.typecods.add(Integer.valueOf(java.sql.Types.INTEGER));
 				}
 			}
 		}
@@ -679,21 +679,21 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 	 */
 	protected Integer getSQLType(final String s) {
 		if ("INTEGER".equalsIgnoreCase(s)) {
-			return new Integer(java.sql.Types.INTEGER);
+			return Integer.valueOf(java.sql.Types.INTEGER);
 		}
 		if ("STRING".equalsIgnoreCase(s)) {
-			return new Integer(java.sql.Types.VARCHAR);
+			return Integer.valueOf(java.sql.Types.VARCHAR);
 		}
 		if ("DOUBLE".equalsIgnoreCase(s)) {
-			return new Integer(java.sql.Types.DOUBLE);
+			return Integer.valueOf(java.sql.Types.DOUBLE);
 		}
 		if ("FLOAT".equalsIgnoreCase(s)) {
-			return new Integer(java.sql.Types.FLOAT);
+			return Integer.valueOf(java.sql.Types.FLOAT);
 		}
 		if ("SHORT".equalsIgnoreCase(s) || "SMALLINT".equalsIgnoreCase(s)) {
-			return new Integer(java.sql.Types.SMALLINT);
+			return Integer.valueOf(java.sql.Types.SMALLINT);
 		}
-		return new Integer(java.sql.Types.INTEGER);
+		return Integer.valueOf(java.sql.Types.INTEGER);
 	}
 
 	/**
@@ -899,13 +899,13 @@ implements DataComponent, ReferenceComponent, OpenDialog, CreateForms, CachedCom
 	protected Object getCodData(final Integer type, final String value) throws Exception {
 		switch (type.intValue()) {
 		case java.sql.Types.INTEGER:
-			return new Integer(value.toString());
+			return Integer.valueOf(value.toString());
 		case java.sql.Types.VARCHAR:
 			return value;
 		case java.sql.Types.DOUBLE:
-			return new Double(value.toString());
+			return Double.valueOf(value.toString());
 		case java.sql.Types.FLOAT:
-			return new Float(value.toString());
+			return Float.valueOf(value.toString());
 		}
 		return value;
 	}

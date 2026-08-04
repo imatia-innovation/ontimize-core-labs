@@ -312,7 +312,7 @@ public class ColorDocument extends PlainDocument {
         if (this.colorValue == null) {
             return null;
         } else {
-            return new Integer(ColorDocument.colorToInt(this.colorValue));
+            return Integer.valueOf(ColorDocument.colorToInt(this.colorValue));
         }
     }
 
@@ -320,7 +320,7 @@ public class ColorDocument extends PlainDocument {
         if (this.colorValue == null) {
             return null;
         } else {
-            return new Integer(this.colorValue.getRGB());
+            return Integer.valueOf(this.colorValue.getRGB());
         }
     }
 

@@ -598,7 +598,7 @@ public class Column extends JPanel implements FormComponent, IdentifiedElement, 
 		final Object expand = parameters.get("expand");
 		if (expand != null) {
 			try {
-				this.horizontalWeight = new Double((String) parameters.get("expand"));
+				this.horizontalWeight = Double.valueOf((String) parameters.get("expand"));
 			} catch (final Exception e) {
 				Column.logger.trace(null, e);
 				this.horizontalWeight = null;

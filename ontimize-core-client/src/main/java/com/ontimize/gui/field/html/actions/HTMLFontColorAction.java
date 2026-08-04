@@ -29,7 +29,7 @@ public class HTMLFontColorAction extends HTMLTextEditAction {
     public HTMLFontColorAction() {
         super(HTMLTextEditAction.i18n.str("HTMLShef.color_"));
         this.putValue("ID", "HTMLShef.color_");
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.color_")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.color_")));
         this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.CHOOSE_COLOR));
     }
 

@@ -55,7 +55,7 @@ public class OntimizeArrowButton extends JButton implements SwingConstants, UIRe
      */
     public void setDirection(int dir) {
         direction = dir;
-        putClientProperty("__arrow_direction__", new Integer(dir));
+        putClientProperty("__arrow_direction__", Integer.valueOf(dir));
         repaint();
     }
 

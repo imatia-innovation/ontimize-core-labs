@@ -313,7 +313,7 @@ public class TableSorter extends TableMap {
 
 	public void sortByColumn(final int column, final boolean ascending) {
 
-		final Integer col = new Integer(column);
+		final Integer col = Integer.valueOf(column);
 
 		if (!this.sortingColumns.contains(col)) {
 			this.sortingColumns.add(col);
@@ -324,7 +324,7 @@ public class TableSorter extends TableMap {
 			}
 		} else {
 			final int iIndex = this.sortingColumns.indexOf(col);
-			this.ascendings.set(iIndex, new Boolean(ascending));
+			this.ascendings.set(iIndex, Boolean.valueOf(ascending));
 		}
 		this.sort(this);
 		this.fireTableChanged(new TableModelEvent(TableSorter.this));
@@ -364,7 +364,7 @@ public class TableSorter extends TableMap {
 	}
 
 	public void resetOrder(final int col) {
-		final Integer c = new Integer(col);
+		final Integer c = Integer.valueOf(col);
 		if (this.sortingColumns.contains(c)) {
 			if (this.sortingColumns.size() == 1) {
 				this.resetOrder();

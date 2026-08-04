@@ -57,7 +57,7 @@ public class NIFDocument extends MaskDocument {
             DNI = DNI.substring(1);
         }
 
-        Integer dniNumber = new Integer(DNI);
+        Integer dniNumber = Integer.valueOf(DNI);
         int pos = dniNumber.intValue() % 23;
         return NIFDocument.letters.charAt(pos);
     }

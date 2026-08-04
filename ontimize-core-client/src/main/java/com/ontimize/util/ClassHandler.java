@@ -248,7 +248,7 @@ public class ClassHandler {
         @Override
         public Object convert(String value) throws IllegalArgumentException {
             boolean b = ParseUtils.getBoolean(value, false);
-            return new Boolean(b);
+            return Boolean.valueOf(b);
         }
 
     }

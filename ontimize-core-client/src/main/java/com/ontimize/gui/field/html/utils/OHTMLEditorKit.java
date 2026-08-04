@@ -379,8 +379,8 @@ public class OHTMLEditorKit extends HTMLEditorKit {
 			if ((v != null) && this.dragStarted) {
 				final Element elem = v.getElement();
 				final SimpleAttributeSet sas = new SimpleAttributeSet(elem.getAttributes());
-				final Integer w = new Integer(v.getSelectionBounds().width);
-				final Integer h = new Integer(v.getSelectionBounds().height);
+				final Integer w = Integer.valueOf(v.getSelectionBounds().width);
+				final Integer h = Integer.valueOf(v.getSelectionBounds().height);
 
 				if (elem.getName().equals("table"))// resize the table
 				{

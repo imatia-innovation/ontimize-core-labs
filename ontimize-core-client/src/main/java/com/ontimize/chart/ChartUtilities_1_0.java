@@ -392,9 +392,9 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 						}
 						if (tSeries.getIndex(period) >= 0) {
 							final TimeSeriesDataItem current = tSeries.getDataItem(tSeries.getIndex(period));
-							current.setValue(new Double(newValue));
+							current.setValue(Double.valueOf(newValue));
 						} else {
-							tSeries.add(period, new Double(newValue));
+							tSeries.add(period, Double.valueOf(newValue));
 						}
 					}
 				}
@@ -412,7 +412,7 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 					if (tSeries.getDataItem(next) == null) {
 						// If not found, add it
 						if (fillZeros) {
-							tSeries.add(next, new Double(0.0));
+							tSeries.add(next, Double.valueOf(0.0));
 						}
 						current = next;
 					} else {
@@ -3057,7 +3057,7 @@ public class ChartUtilities_1_0 implements IChartUtilities {
 				}
 			}
 		}
-		final Object dato = new Double(resY);
+		final Object dato = Double.valueOf(resY);
 		return dato;
 	}
 

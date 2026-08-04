@@ -207,7 +207,7 @@ public class XMLButtonBarBuilder extends XMLInterpreter implements ButtonBarBuil
 			final long endTime = System.currentTimeMillis();
 			final double totalTime = (endTime - initTime) / 1000.0;
 			XMLButtonBarBuilder.logger.trace("Total building time Buttons Bar: {} seconds.",
-					new Double(totalTime).toString());
+					Double.valueOf(totalTime).toString());
 		} catch (final Exception e) {
 			XMLButtonBarBuilder.logger.error("Error building Buttons Bar", e);
 		}

@@ -174,7 +174,7 @@ implements FormComponent, IdentifiedElement, AccessForm, HasPreferenceComponent,
 		final Object dividerSize = parameters.get("dividersize");
 		if (dividerSize != null) {
 			try {
-				final Integer integerSizeValue = new Integer(dividerSize.toString());
+				final Integer integerSizeValue = Integer.valueOf(dividerSize.toString());
 				this.setDividerSize(integerSizeValue.intValue());
 			} catch (final Exception e) {
 				SplitPane.logger.error("Error 'dividersize' parameter: " + dividerSize.toString(), e);

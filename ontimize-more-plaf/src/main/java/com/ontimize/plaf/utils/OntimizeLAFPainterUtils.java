@@ -581,7 +581,7 @@ public class OntimizeLAFPainterUtils {
             return resultFirstOperator + resultSecondOperator;
         }
 
-        return new Float(0.0f);
+        return Float.valueOf(0.0f);
     }
 
     /**
@@ -598,7 +598,7 @@ public class OntimizeLAFPainterUtils {
 
         if (srcValue != null) {
             if (srcValue.indexOf("f") != -1) {
-                return new Float(srcValue);
+                return Float.valueOf(srcValue);
             } else if (srcValue.indexOf("x") != -1) {
                 return x;
             } else if (srcValue.indexOf("y") != -1) {

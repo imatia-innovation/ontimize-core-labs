@@ -3570,7 +3570,7 @@ public abstract class ApplicationManager {
 
 		protected JTable table = null;
 
-		protected List threads = new ArrayList();
+		protected List<ExtendedOperationThread>	threads			= new ArrayList<>();
 
 		protected JButton hideButton = new JButton("applicationmanager.hide");
 
@@ -3658,14 +3658,14 @@ public abstract class ApplicationManager {
 				}
 				// If it has an error then it is red
 				if ((row < ExtOpThreadsMonitorComponent.this.threads.size())
-						&& (((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(row))
+						&& (ExtOpThreadsMonitorComponent.this.threads.get(row)
 								.hasFinished()
-								|| ((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(row))
+								|| ExtOpThreadsMonitorComponent.this.threads.get(row)
 								.isCancelled())
-						&& (((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(row))
+						&& (ExtOpThreadsMonitorComponent.this.threads.get(row)
 								.getResult() instanceof EntityResult)
-						&& (((EntityResult) ((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads
-								.get(row))
+						&& (((EntityResult) ExtOpThreadsMonitorComponent.this.threads
+								.get(row)
 								.getResult()).getCode() == EntityResult.OPERATION_WRONG)) {
 					this.bar.setBackground(Color.red);
 				}
@@ -3735,7 +3735,7 @@ public abstract class ApplicationManager {
 				int removed = 0;
 				synchronized (ExtOpThreadsMonitorComponent.this.threads) {
 					for (int i = 0; i < ExtOpThreadsMonitorComponent.this.threads.size(); i++) {
-						if (((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(i))
+						if (ExtOpThreadsMonitorComponent.this.threads.get(i)
 								.hasFinished()) {
 							ExtOpThreadsMonitorComponent.this.threads.remove(i);
 							removed++;
@@ -3769,21 +3769,19 @@ public abstract class ApplicationManager {
 			 */
 			@Override
 			public int getRowCount() {
-				final int iRows = ExtOpThreadsMonitorComponent.this.threads.size();
+				final int iRows = threads.size();
 				return iRows;
 			}
 
 			@Override
 			public Object getValueAt(final int r, final int c) {
 				if (c == 0) {
-					return ((Thread) ExtOpThreadsMonitorComponent.this.threads.get(r)).getName();
+					return threads.get(r).getName();
 				} else if (c == 1) {
-					return ((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(r)).getStatus();
+					return (threads.get(r)).getStatus();
 				} else if (c == 2) {
-					return new Float(((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(r))
-							.getCurrentPosition()
-							/ (double) ((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(r))
-							.getProgressDivisions());
+					return Float.valueOf((float) (threads.get(r).getCurrentPosition()
+							/ (double) threads.get(r).getProgressDivisions()));
 				} else {
 					return null;
 				}
@@ -3836,12 +3834,9 @@ public abstract class ApplicationManager {
 				public void actionPerformed(final ActionEvent e) {
 					final int[] fS = ExtOpThreadsMonitorComponent.this.table.getSelectedRows();
 					for (int i = 0; i < fS.length; i++) {
-						if (!((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(fS[i]))
-								.hasFinished()) {
-							((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(fS[i])).cancel();
-							ApplicationManager.logger.debug("Cancelled {} ",
-									((ExtendedOperationThread) ExtOpThreadsMonitorComponent.this.threads.get(fS[i]))
-									.getName());
+						if (!threads.get(fS[i]).hasFinished()) {
+							threads.get(fS[i]).cancel();
+							ApplicationManager.logger.debug("Cancelled {} ", threads.get(fS[i]).getName());
 						}
 					}
 				}
@@ -3851,7 +3846,7 @@ public abstract class ApplicationManager {
 
 				@Override
 				public void actionPerformed(final ActionEvent e) {
-					final Window w = SwingUtilities.getWindowAncestor(ExtOpThreadsMonitorComponent.this.hideButton);
+					final Window w = SwingUtilities.getWindowAncestor(hideButton);
 					if (w != null) {
 						w.setVisible(false);
 					}
@@ -3921,7 +3916,7 @@ public abstract class ApplicationManager {
 			int j = 0;
 			synchronized (this.threads) {
 				for (int i = 0; i < this.threads.size(); i++) {
-					if (!((ExtendedOperationThread) this.threads.get(i)).hasFinished()) {
+					if (!this.threads.get(i).hasFinished()) {
 						j++;
 					}
 				}

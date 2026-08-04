@@ -2078,7 +2078,7 @@ ITemplateField {
 			final Object csize = parameters.get("csize");
 			if (csize != null) {
 				try {
-					this.codeField.setColumns(new Integer(csize.toString()).intValue());
+					this.codeField.setColumns(Integer.valueOf(csize.toString()).intValue());
 				} catch (final Exception e) {
 					ReferenceComboDataField.logger.error("Error 'csize' parameter in ReferenceComboDataField: ", e);
 				}
@@ -3692,7 +3692,7 @@ ITemplateField {
 			if (this.integerValue) {
 				Object oIntValue = null;
 				try {
-					oIntValue = new Integer(s.toString());
+					oIntValue = Integer.valueOf(s.toString());
 				} catch (final Exception e) {
 					ReferenceComboDataField.logger.trace(null, e);
 					return s;

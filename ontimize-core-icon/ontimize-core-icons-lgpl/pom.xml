@@ -4,21 +4,10 @@
     <parent>
         <groupId>com.ontimize.labs</groupId>
         <artifactId>ontimize-core-icons</artifactId>
-        <version>7.0.3-SNAPSHOT</version>
+        <version>7.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>ontimize-core-icons-lgpl</artifactId>
 
-    <organization>
-        <name>Imatia Innovation</name>
-        <url>http://imatia.com</url>
-    </organization>
-
     <name>Ontimize Core Icons LGPL</name>
     <description>Ontimize Core Icons LGPL</description>
-    <url>https://www.ontimize.com</url>
-
-    <scm>
-        <connection>scm:git:git://github.com/ontimize/ontimize-core-parent.git</connection>
-        <url>https://github.com/ontimize/ontimize-core-parent/tree/master</url>
-    </scm>
 </project>  

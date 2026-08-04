@@ -182,7 +182,7 @@ public class CalendarWindow extends EJDialog implements Internationalization {
 				if (((additionalCells + 1) < this.minDay) || ((additionalCells + 1) > this.maxDay)) {
 					return null;
 				} else {
-					return new Integer(additionalCells + 1);
+					return Integer.valueOf(additionalCells + 1);
 				}
 			}
 		}
@@ -445,7 +445,7 @@ public class CalendarWindow extends EJDialog implements Internationalization {
 		} else {
 			final GregorianCalendar calendarAux = new GregorianCalendar();
 			calendarAux.setTime(date);
-			this.years.setText(new Integer(calendarAux.get(Calendar.YEAR)).toString());
+			this.years.setText(Integer.valueOf(calendarAux.get(Calendar.YEAR)).toString());
 			this.months.setSelectedIndex(calendarAux.get(Calendar.MONTH));
 			// Selected the day:
 				for (int i = 0; i < this.dayTable.getRowCount(); i++) {
@@ -573,7 +573,7 @@ public class CalendarWindow extends EJDialog implements Internationalization {
 
 	protected void addYears() {
 		final GregorianCalendar calendar = new GregorianCalendar();
-		this.years = new JTextField(new YearDocument(), new Integer(calendar.get(Calendar.YEAR)).toString(), 5);
+		this.years = new JTextField(new YearDocument(), Integer.valueOf(calendar.get(Calendar.YEAR)).toString(), 5);
 		this.years.setColumns(4);
 		this.years.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 	}

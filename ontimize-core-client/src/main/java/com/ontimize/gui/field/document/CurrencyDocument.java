@@ -75,7 +75,7 @@ public class CurrencyDocument extends AdvancedRealDocument {
 				this.removeWithoutCheck(0, this.getLength());
 				this.insertStringWithoutCheck(0, this.formatter.format(this.floatValue.doubleValue()), null);
 			} else {
-				this.floatValue = new Double(0.0);
+				this.floatValue = Double.valueOf(0.0);
 				// Delete and insert
 				this.removeWithoutCheck(0, this.getLength());
 				this.insertStringWithoutCheck(0, this.formatter.format(this.floatValue.doubleValue()), null);
@@ -87,7 +87,7 @@ public class CurrencyDocument extends AdvancedRealDocument {
 				this.insertStringWithoutCheck(0,
 						this.formatter.format(this.floatValue.doubleValue() * CurrencyDocument.EURO), null);
 			} else {
-				this.floatValue = new Double(0.0);
+				this.floatValue = Double.valueOf(0.0);
 				// Delete and insert
 				this.removeWithoutCheck(0, this.getLength());
 				this.insertStringWithoutCheck(0, this.formatter.format(this.floatValue.doubleValue()), null);
@@ -123,20 +123,20 @@ public class CurrencyDocument extends AdvancedRealDocument {
 			if (this.advancedQueryMode) {
 				final SearchValue v = this.getQueryValue();
 				if (v == null) {
-					this.floatValue = new Double(0.0);
+					this.floatValue = Double.valueOf(0.0);
 				} else {
 					if (v.getValue() instanceof List) {
 						final List vs = (List) v.getValue();
 						if ((vs.get(0) != null) && (vs.get(0) instanceof Number)) {
-							this.floatValue = new Double(((Number) vs.get(0)).doubleValue());
+							this.floatValue = Double.valueOf(((Number) vs.get(0)).doubleValue());
 						} else {
-							this.floatValue = new Double(0.0);
+							this.floatValue = Double.valueOf(0.0);
 						}
 					} else {
 						if (v.getValue() instanceof Number) {
-							this.floatValue = new Double(((Number) v.getValue()).doubleValue());
+							this.floatValue = Double.valueOf(((Number) v.getValue()).doubleValue());
 						} else {
-							this.floatValue = new Double(0.0);
+							this.floatValue = Double.valueOf(0.0);
 						}
 					}
 				}
@@ -144,12 +144,12 @@ public class CurrencyDocument extends AdvancedRealDocument {
 			}
 			final String currentText = this.getText(0, this.getLength());
 			if (currentText.length() == 0) {
-				this.floatValue = new Double(0);
+				this.floatValue = Double.valueOf(0);
 			} else {
 				final Number number = this.formatter.parse(currentText);
-				this.floatValue = new Double(number.doubleValue());
+				this.floatValue = Double.valueOf(number.doubleValue());
 				if (!this.showCurrencySymbol) {
-					this.floatValue = new Double(this.floatValue.doubleValue() / CurrencyDocument.EURO);
+					this.floatValue = Double.valueOf(this.floatValue.doubleValue() / CurrencyDocument.EURO);
 				}
 			}
 		} catch (final Exception e) {
@@ -170,9 +170,9 @@ public class CurrencyDocument extends AdvancedRealDocument {
 		try {
 
 			final Number number = this.formatter.parse(s);
-			Double d = new Double(number.doubleValue());
+			Double d = Double.valueOf(number.doubleValue());
 			if (!this.showCurrencySymbol) {
-				d = new Double(this.floatValue.doubleValue() / CurrencyDocument.EURO);
+				d = Double.valueOf(this.floatValue.doubleValue() / CurrencyDocument.EURO);
 			}
 			return d;
 		} catch (final Exception e) {
@@ -194,7 +194,7 @@ public class CurrencyDocument extends AdvancedRealDocument {
 				}
 			} else {
 				if (value != null) {
-					value = new Double(value.doubleValue() * CurrencyDocument.EURO);
+					value = Double.valueOf(value.doubleValue() * CurrencyDocument.EURO);
 				}
 				super.setValue(value);
 				final int length = this.getLength();

@@ -341,7 +341,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 		}
 		this.rowNumbers = new Vector(this.rowsNumber + 10);
 		for (int i = 0; i < this.rowsNumber; i++) {
-			this.rowNumbers.add(new Integer(i + 1));
+			this.rowNumbers.add(Integer.valueOf(i + 1));
 		}
 	}
 
@@ -469,7 +469,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 				final String col = (String) columnKeys.nextElement();
 				final Object oValue = rowValuesForExpression.get(col);
 				if ((oValue != null) && (oValue instanceof Number)) {
-					parser.addVariableAsObject(col.toString(), new Double(((Number) oValue).doubleValue()));
+					parser.addVariableAsObject(col.toString(), Double.valueOf(((Number) oValue).doubleValue()));
 				} else {
 					if (oValue != null) {
 						parser.addVariableAsObject(col.toString(), oValue);
@@ -500,11 +500,11 @@ public class ExtendedTableModel extends AbstractTableModel {
 					ExtendedTableModel.availableCalculatedColumnNameCharacterPattern)) {
 				final Object oValue = this.getValueAt(row, i);
 				if ((oValue != null) && (oValue instanceof Number)) {
-					values.put(col, new Double(((Number) oValue).doubleValue()));
+					values.put(col, Double.valueOf(((Number) oValue).doubleValue()));
 				} else if (oValue != null) {
 					values.put(col, oValue);
 				} else {
-					values.put(col, new Double(0.0));
+					values.put(col, Double.valueOf(0.0));
 				}
 			}
 		}
@@ -1131,7 +1131,7 @@ public class ExtendedTableModel extends AbstractTableModel {
 			final Object col = allColumns.get(i);
 			final Object oValue = rowValues.get(col);
 			if ((oValue != null) && (oValue instanceof Number)) {
-				parser.addVariableAsObject(col.toString(), new Double(((Number) oValue).doubleValue()));
+				parser.addVariableAsObject(col.toString(), Double.valueOf(((Number) oValue).doubleValue()));
 			} else {
 				if ((oValue != null) && !(oValue instanceof NullValue)) {
 					parser.addVariableAsObject(col.toString(), oValue);
@@ -1315,9 +1315,9 @@ public class ExtendedTableModel extends AbstractTableModel {
 			if (count == 0) {
 				return null;
 			}
-			return new Double(total / count);
+			return Double.valueOf(total / count);
 		} else {
-			return new Double(total);
+			return Double.valueOf(total);
 		}
 	}
 

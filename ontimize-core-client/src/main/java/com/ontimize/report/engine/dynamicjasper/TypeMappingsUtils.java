@@ -157,7 +157,7 @@ public class TypeMappingsUtils {
             }
             String value = (String) o;
 
-            newMap.put(key, new Integer(TypeMappingsUtils.getSQLType(value)));
+            newMap.put(key, Integer.valueOf(TypeMappingsUtils.getSQLType(value)));
         }
         return newMap;
     }

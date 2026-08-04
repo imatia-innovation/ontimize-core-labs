@@ -314,8 +314,8 @@ public class PivotTable extends IdentifiedAbstractFormComponent implements DataC
 				}
 				try {
 					final Class comparatorClass = Class.forName(className);
-					final Constructor constr = comparatorClass.getConstructor(null);
-					final Object instance = constr.newInstance(null);
+					final Constructor constr = comparatorClass.getConstructor();
+					final Object instance = constr.newInstance();
 					if (!(instance instanceof Comparator)) {
 						PivotTable.logger.debug(className + " instance doesn't implement Comparator");
 						continue;

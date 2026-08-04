@@ -352,7 +352,7 @@ implements OpenDialog, SelectCurrencyValues, AdvancedDataComponent {
 					final double result = CurrencyDataField.this.calc.showCalculator(initialValue,
 							CurrencyDataField.this.getLocationOnScreen().x,
 							CurrencyDataField.this.getLocationOnScreen().y + CurrencyDataField.this.getHeight());
-					CurrencyDataField.this.setValue(new Double(result));
+					CurrencyDataField.this.setValue(Double.valueOf(result));
 				}
 			});
 		}
@@ -516,7 +516,7 @@ implements OpenDialog, SelectCurrencyValues, AdvancedDataComponent {
 		final Object oPreviousValue = this.getDoubleValue();
 		if (value instanceof Number) {
 			final CurrencyDocument document = (CurrencyDocument) ((JTextField) this.dataField).getDocument();
-			document.setValue(new Double(((Number) value).doubleValue()));
+			document.setValue(Double.valueOf(((Number) value).doubleValue()));
 			this.valueSave = this.getDoubleValue();
 			this.setInnerValue(this.valueSave);
 			this.fireValueChanged(this.valueSave, oPreviousValue, ValueEvent.PROGRAMMATIC_CHANGE);

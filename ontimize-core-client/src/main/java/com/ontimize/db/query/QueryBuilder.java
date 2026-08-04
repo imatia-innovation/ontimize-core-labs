@@ -258,7 +258,7 @@ public class QueryBuilder extends JPanel {
 		protected void setColumnTypes(final Object[] auxcols, final int[] auxtypes) {
 			this.auxcols = java.util.Arrays.asList(auxcols);
 			for (int i = 0, a = auxtypes.length; i < a; i++) {
-				this.auxtypes.add(new Integer(auxtypes[i]));
+				this.auxtypes.add(Integer.valueOf(auxtypes[i]));
 			}
 		}
 
@@ -2934,7 +2934,7 @@ public class QueryBuilder extends JPanel {
 				for (int i = 0, a = QueryBuilder.this.cols.length; i < a; i++) {
 					if (!QueryBuilder.this.cols[i].equals(ContainsExtendedSQLConditionValuesProcessor.ANY_COLUMN)) {
 						l.add(QueryBuilder.this.cols[i]);
-						l2.add(new Boolean(QueryBuilder.this.queryColumns[i]));
+						l2.add(Boolean.valueOf(QueryBuilder.this.queryColumns[i]));
 					}
 				}
 

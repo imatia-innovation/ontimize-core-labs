@@ -10,7 +10,6 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultUtils;
 import com.ontimize.jee.common.db.Entity;
 import com.ontimize.jee.common.locator.EntityReferenceLocator;
 
@@ -81,7 +80,7 @@ public class TreeInteractionManager {
 			} else { // If it is the root, we look for all
 			}
 			try {
-				final Map result = EntityResultUtils
+				final Map result = com.ontimize.jee.common.util.EntityResultUtils
 						.toMap(entity.query(hSearchKeysValues, vAttributes, this.locator.getSessionId()));
 				if (result.isEmpty()) {
 					// If it is empty, remove all children.
@@ -121,7 +120,7 @@ public class TreeInteractionManager {
 					parameters.put(OTreeNode.ATTR, parentNode.getAttr());
 					parameters.put(OTreeNode.ENTITY, vResults.get(j));
 					parameters.put(OTreeNode.FORM, parentNode.getForm());
-					parameters.put(OTreeNode.ORG, new Boolean(false));
+					parameters.put(OTreeNode.ORG, Boolean.FALSE);
 					parameters.put(OTreeNode.SEPARATOR, parentNode.getSeparator());
 					if (parentNode.getKeysString() != null) {
 						parameters.put(OTreeNode.KEYS, parentNode.getKeysString());

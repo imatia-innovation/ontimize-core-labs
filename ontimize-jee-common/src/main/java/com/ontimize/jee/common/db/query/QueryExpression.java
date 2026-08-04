@@ -92,7 +92,7 @@ public class QueryExpression implements Serializable {
     public java.util.List getColumnToQuery() {
         java.util.List v = new java.util.ArrayList();
         for (int i = 0; i < this.queryColumns.length; i++) {
-            v.add(new Boolean(this.queryColumns[i]));
+            v.add(Boolean.valueOf(this.queryColumns[i]));
         }
         return v;
     }
