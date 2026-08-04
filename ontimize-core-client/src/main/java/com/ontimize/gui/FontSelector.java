@@ -160,22 +160,22 @@ public class FontSelector implements Freeable {
 			this.exampleJText.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 			this.exampleJText.setRows(6);
 			final Vector vSizes = new Vector();
-			vSizes.add(new Integer(6));
-			vSizes.add(new Integer(7));
-			vSizes.add(new Integer(8));
-			vSizes.add(new Integer(9));
-			vSizes.add(new Integer(10));
-			vSizes.add(new Integer(11));
-			vSizes.add(new Integer(12));
-			vSizes.add(new Integer(14));
-			vSizes.add(new Integer(16));
-			vSizes.add(new Integer(18));
-			vSizes.add(new Integer(20));
-			vSizes.add(new Integer(24));
-			vSizes.add(new Integer(28));
-			vSizes.add(new Integer(36));
-			vSizes.add(new Integer(46));
-			vSizes.add(new Integer(60));
+			vSizes.add(Integer.valueOf(6));
+			vSizes.add(Integer.valueOf(7));
+			vSizes.add(Integer.valueOf(8));
+			vSizes.add(Integer.valueOf(9));
+			vSizes.add(Integer.valueOf(10));
+			vSizes.add(Integer.valueOf(11));
+			vSizes.add(Integer.valueOf(12));
+			vSizes.add(Integer.valueOf(14));
+			vSizes.add(Integer.valueOf(16));
+			vSizes.add(Integer.valueOf(18));
+			vSizes.add(Integer.valueOf(20));
+			vSizes.add(Integer.valueOf(24));
+			vSizes.add(Integer.valueOf(28));
+			vSizes.add(Integer.valueOf(36));
+			vSizes.add(Integer.valueOf(46));
+			vSizes.add(Integer.valueOf(60));
 			this.sizeCombo = new JComboBox(vSizes);
 			final GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			final String envfonts[] = gEnv.getAvailableFontFamilyNames();
@@ -263,7 +263,7 @@ public class FontSelector implements Freeable {
 		public Font showDialog(final Font f) {
 			if (f != null) {
 				this.fontCombo.setSelectedItem(f.getName());
-				this.sizeCombo.setSelectedItem(new Integer(f.getSize()));
+				this.sizeCombo.setSelectedItem(Integer.valueOf(f.getSize()));
 			}
 			this.setVisible(true);
 			return this.currentFont;

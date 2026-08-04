@@ -1,41 +1,53 @@
 package com.ontimize.icon;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.*;
-import java.lang.reflect.Array;
-import java.net.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.jar.*;
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.text.StyledEditorKit.BoldAction;
-import javax.swing.text.html.HTML;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 
 public class JarUtil {
 
     protected static Properties data;
     static {
-        URL current = JarUtil.class.getResource("data.properties");
+        final URL current = JarUtil.class.getResource("data.properties");
         data = new Properties();
         try {
             data.load(current.openStream());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
@@ -54,7 +66,7 @@ public class JarUtil {
 
         protected String componentName;
 
-        public void setComponentName(String name) {
+        public void setComponentName(final String name) {
             this.componentName = name;
         }
 
@@ -70,7 +82,7 @@ public class JarUtil {
 
         protected int h2 = 0;
 
-        public Header(String name) {
+        public Header(final String name) {
             super(name);
             setFont(getFont().deriveFont(24F));
             setBackground(Color.black);
@@ -79,19 +91,21 @@ public class JarUtil {
             setOpaque(true);
         }
 
-        public Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
+        @Override
+		public Dimension getPreferredSize() {
+            final Dimension d = super.getPreferredSize();
             h2 = d.height / 6;
             d.height = d.height + h2;
             return d;
         }
 
-        protected void paintComponent(Graphics g) {
+        @Override
+		protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
-            Dimension d = getSize();
-            int h = d.height;
-            int h1 = h / 6;
-            Color c = g.getColor();
+            final Dimension d = getSize();
+            final int h = d.height;
+            final int h1 = h / 6;
+            final Color c = g.getColor();
             g.setColor(Color.red);
             g.fillRect(0, h - h1, d.width, h1);
             g.setColor(c);
@@ -102,12 +116,12 @@ public class JarUtil {
 
     protected static class Body extends JPanel {
 
-        public Body(ManifestInfo model) {
+        public Body(final ManifestInfo model) {
             setLayout(new GridBagLayout());
-            Iterator iterator = model.keySet().iterator();
+            final Iterator iterator = model.keySet().iterator();
             int i = 0;
             while (iterator.hasNext()) {
-                Object currentKey = iterator.next();
+                final Object currentKey = iterator.next();
                 add(createTitle(currentKey.toString()), new GridBagConstraints(GridBagConstraints.RELATIVE, i, 1, 1, 1,
                         0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 1, 1), 0, 0));
                 add(createValue(model.get(currentKey)), new GridBagConstraints(GridBagConstraints.RELATIVE, i, 1, 1, 1,
@@ -118,12 +132,13 @@ public class JarUtil {
                     GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         }
 
-        protected JLabel createTitle(Object key) {
+        protected JLabel createTitle(final Object key) {
             JLabel label = null;
             if (data.containsKey(key)) {
                 label = new JLabel(data.getProperty(key.toString()));
-            } else
-                label = new JLabel(key.toString());
+            } else {
+				label = new JLabel(key.toString());
+			}
             label.setOpaque(true);
             Font f = label.getFont().deriveFont(Font.BOLD);
             f = f.deriveFont(f.getSize() + 3F);
@@ -132,8 +147,8 @@ public class JarUtil {
             return label;
         }
 
-        protected JLabel createValue(Object key) {
-            JLabel label = new JLabel(key.toString());
+        protected JLabel createValue(final Object key) {
+            final JLabel label = new JLabel(key.toString());
             label.setOpaque(true);
             label.setHorizontalAlignment(SwingConstants.RIGHT);
             Font f = label.getFont();
@@ -145,19 +160,19 @@ public class JarUtil {
 
     }
 
-    public static ManifestInfo getManifest(Component d) throws Exception {
-        ManifestInfo info = new ManifestInfo();
-        Manifest manifest = retrieveManifest();
+    public static ManifestInfo getManifest(final Component d) throws Exception {
+        final ManifestInfo info = new ManifestInfo();
+        final Manifest manifest = retrieveManifest();
         if (manifest != null) {
             try {
-                Enumeration keys = data.keys();
+                final Enumeration keys = data.keys();
                 while (keys.hasMoreElements()) {
-                    Object current = keys.nextElement();
-                    String currentValue = getAttribute(current, manifest).toString();
+                    final Object current = keys.nextElement();
+                    final String currentValue = getAttribute(current, manifest).toString();
                     info.put(current, currentValue);
                 }
                 info.setComponentName(getAttribute(COMPONENT_NAME, manifest).toString());
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -196,9 +211,9 @@ public class JarUtil {
     // return null;
     // }
 
-    protected static String getAttribute(Object key, Manifest m) {
-        Attributes.Name aN = new Attributes.Name(key.toString());
-        Attributes ats = m.getMainAttributes();
+    protected static String getAttribute(final Object key, final Manifest m) {
+        final Attributes.Name aN = new Attributes.Name(key.toString());
+        final Attributes ats = m.getMainAttributes();
         if (ats.containsKey(aN)) {
             return ats.getValue(key.toString());
         }
@@ -209,35 +224,36 @@ public class JarUtil {
         Enumeration enumeration = null;
         String pattern = null;
         try {
-            URL url = JarUtil.class.getResource("");
+            final URL url = JarUtil.class.getResource("");
             String packageName = JarUtil.class.getPackage().getName();
 
             packageName = packageName.replace('.', '/');
-            String path = url.getFile();
-            int index = path.lastIndexOf(packageName);
+            final String path = url.getFile();
+            final int index = path.lastIndexOf(packageName);
             if (index >= -1) {
                 pattern = path.substring(0, index);
             }
             enumeration = JarUtil.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             return null;
         }
-        if ((enumeration == null) || (pattern == null))
-            return null;
+        if ((enumeration == null) || (pattern == null)) {
+			return null;
+		}
 
         try {
             while (enumeration.hasMoreElements()) {
-                URL url = (URL) enumeration.nextElement();
-                String path = url.getFile();
+                final URL url = (URL) enumeration.nextElement();
+                final String path = url.getFile();
                 if (pattern != null) {
                     if (path.indexOf(pattern) >= 0) {
-                        Manifest m = new Manifest(url.openStream());
+                        final Manifest m = new Manifest(url.openStream());
                         return m;
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -259,11 +275,12 @@ public class JarUtil {
 
         class EAction extends AbstractAction {
 
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(final ActionEvent e) {
                 if (SwingUtilities.getWindowAncestor((Component) e.getSource()) instanceof InformationDialog) {
                     ((InformationDialog) SwingUtilities.getWindowAncestor((Component) e.getSource()))
                         .processWindowEvent(new WindowEvent(
-                                ((InformationDialog) SwingUtilities.getWindowAncestor((Component) e.getSource())),
+                                (SwingUtilities.getWindowAncestor((Component) e.getSource())),
                                 WindowEvent.WINDOW_CLOSING));
                 }
             }
@@ -271,24 +288,25 @@ public class JarUtil {
         }
 
         public static ImageIcon getImatiaIcon() {
-            URL url = JarUtil.class.getResource("iconimatia.gif");
-            if (url == null)
-                return null;
-            ImageIcon icon = new ImageIcon(url);
+            final URL url = JarUtil.class.getResource("iconimatia.gif");
+            if (url == null) {
+				return null;
+			}
+            final ImageIcon icon = new ImageIcon(url);
             return icon;
         }
 
 
-        public InformationDialog(boolean hideFrame) {
+        public InformationDialog(final boolean hideFrame) {
             this.hideFrame = hideFrame;
-            ActionMap aM = ((JComponent) getContentPane()).getActionMap();
-            InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            final ActionMap aM = ((JComponent) getContentPane()).getActionMap();
+            final InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
             aM.put("close", new EAction());
             inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
 
             setTitle("Imatia Innovation");
-            ImageIcon iconImatia = getImatiaIcon();
+            final ImageIcon iconImatia = getImatiaIcon();
             if (iconImatia != null) {
                 setIconImage(iconImatia.getImage());
             }
@@ -297,13 +315,15 @@ public class JarUtil {
             ((JComponent) this.getContentPane()).setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inMap);
             ((JComponent) getContentPane()).setActionMap(aM);
 
-            setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
+                @Override
+				public void windowClosing(final WindowEvent e) {
                     if (InformationDialog.this.hideFrame) {
                         InformationDialog.this.setVisible(false);
-                    } else
-                        System.exit(0);
+                    } else {
+						System.exit(0);
+					}
                 }
             });
 
@@ -313,7 +333,7 @@ public class JarUtil {
             ManifestInfo info = null;
             try {
                 info = getManifest(this);
-            } catch (Exception e1) {
+            } catch (final Exception e1) {
                 e1.printStackTrace();
             }
 
@@ -330,9 +350,9 @@ public class JarUtil {
             getContentPane().setFocusable(true);
             getContentPane().requestFocus();
             pack();
-            Dimension d = getSize();
+            final Dimension d = getSize();
             if (d.width < 250) {
-                int increment = 250 - d.width;
+                final int increment = 250 - d.width;
                 d.width = d.width + increment;
                 d.height = d.height + increment;
             }
@@ -341,16 +361,16 @@ public class JarUtil {
 
     }
 
-    public final static void main(String[] arg) {
+    public final static void main(final String[] arg) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (final InstantiationException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
+        } catch (final UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
 
@@ -361,23 +381,27 @@ public class JarUtil {
         //
         //
         // }
-        InformationDialog id = new InformationDialog(false);
+        final InformationDialog id = new InformationDialog(false);
         center(id);
         id.setVisible(true);
     }
 
-    public static void center(Window f) {
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    public static void center(final Window f) {
+        final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = d.width / 2 - f.getWidth() / 2;
         int y = d.height / 2 - f.getHeight() / 2;
-        if (x < 0)
-            x = 0;
-        if (y < 0)
-            y = 0;
-        if (x > d.width)
-            x = 0;
-        if (y > d.height)
-            y = 0;
+        if (x < 0) {
+			x = 0;
+		}
+        if (y < 0) {
+			y = 0;
+		}
+        if (x > d.width) {
+			x = 0;
+		}
+        if (y > d.height) {
+			y = 0;
+		}
         f.setLocation(x, y);
     }
 

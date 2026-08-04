@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.ontimize.labs</groupId>
 		<artifactId>ontimize-core-parent</artifactId>
-		<version>7.0.2</version>
+		<version>7.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ontimize-core-client</artifactId>
 
@@ -25,12 +25,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.ontimize.labs</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontimize-core-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ontimize.labs</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontimize-core-icons-lgpl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontimize-core-client-sam</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -60,12 +65,6 @@
 		<dependency>
 			<groupId>ar.com.fdvs</groupId>
 			<artifactId>DynamicJasper</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ontimize.labs</groupId>
-			<artifactId>ontimize-core-client-sam</artifactId>
 			<optional>true</optional>
 		</dependency>
 

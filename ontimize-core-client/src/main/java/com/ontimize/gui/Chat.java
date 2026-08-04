@@ -635,10 +635,10 @@ public class Chat extends JPanel {
 		}
 
 		protected void init() {
-			((SimpleAttributeSet) this.atName).addAttribute(StyleConstants.Bold, new Boolean(true));
-			((SimpleAttributeSet) this.atName).addAttribute(StyleConstants.Italic, new Boolean(true));
+			((SimpleAttributeSet) this.atName).addAttribute(StyleConstants.Bold, Boolean.TRUE);
+			((SimpleAttributeSet) this.atName).addAttribute(StyleConstants.Italic, Boolean.TRUE);
 			((SimpleAttributeSet) this.atName).addAttribute(StyleConstants.Size,
-					new Integer(this.getFont().getSize() - 2));
+					Integer.valueOf(this.getFont().getSize() - 2));
 
 			this.receiveText = new JTextPane();
 			this.receiveText.setPreferredSize(new Dimension(200, 300));

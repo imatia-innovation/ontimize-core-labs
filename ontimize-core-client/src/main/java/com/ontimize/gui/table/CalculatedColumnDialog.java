@@ -658,7 +658,7 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 			while (matcher.find(start)) {
 				start = matcher.start();
 				final int idx = matcher.group().indexOf(colName);
-				indices.add(new Integer(start + idx));
+				indices.add(Integer.valueOf(start + idx));
 				start += 1;
 				if (start > (expression.length() - 1)) {
 					break;

@@ -478,7 +478,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	// reportDialog.getSelectedDateGroupingColumns().get(column);
 	// if (operation == null){
 	// //not selected operation
-	// operation = new Integer(0);
+	// operation = Integer.valueOf(0);
 	// }
 	// Calendar calendar = Calendar.getInstance();
 	// for (int i=0;i<originalColumnValues.size();i++){
@@ -558,7 +558,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		Integer operation = (Integer) this.reportDialog.getSelectedDateGroupingColumns().get(column);
 		if (operation == null) {
 			// not selected operation
-			operation = new Integer(0);
+			operation = Integer.valueOf(0);
 		}
 		final Calendar calendar = Calendar.getInstance();
 		for (int i = 0; i < originalColumnValues.size(); i++) {
@@ -760,8 +760,8 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	public void setReportLogo() {
 		if ((DynamicJasperEngine.reportLogoOnlyForFirstPage != null)
 				&& DynamicJasperEngine.useTemplatesWithDefaultLogo) {
-			this.drb.addFirstPageImageBanner(DynamicJasperEngine.reportLogoOnlyForFirstPage, new Integer(175),
-					new Integer(70), ImageBanner.ALIGN_RIGHT);
+			this.drb.addFirstPageImageBanner(DynamicJasperEngine.reportLogoOnlyForFirstPage, Integer.valueOf(175),
+					Integer.valueOf(70), ImageBanner.ALIGN_RIGHT);
 		}
 	}
 
@@ -1047,57 +1047,57 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		if (this.isShowedDateInReportFooter) {
 			final SimpleDateFormat sdf = new SimpleDateFormat(this.getDatePattern());
 			this.parameters.put(new String("currentdate"), sdf.format(new Date()));
-			this.parameters.put(new String("printcurrentdate"), new Boolean(true));
+			this.parameters.put(new String("printcurrentdate"), Boolean.TRUE);
 		} else {
 			this.parameters.put(new String("currentdate"), new String(""));
-			this.parameters.put(new String("printcurrentdate"), new Boolean(false));
+			this.parameters.put(new String("printcurrentdate"), Boolean.FALSE);
 		}
 
 		if (this.isShowedPageInReportFooter()) {
-			this.parameters.put(new String("printNumberPage"), new Boolean(true));
+			this.parameters.put(new String("printNumberPage"), Boolean.TRUE);
 			this.parameters.put(new String("translationPage"), new String(
 					ApplicationManager.getTranslation("DynamicJasperEngine.Page", this.reportDialog.getBundle())));
 			this.parameters.put(new String("translationOf"), new String(
 					ApplicationManager.getTranslation("DynamicJasperEngine.Of", this.reportDialog.getBundle())));
 		} else {
-			this.parameters.put(new String("printNumberPage"), new Boolean(false));
+			this.parameters.put(new String("printNumberPage"), Boolean.FALSE);
 			this.parameters.put(new String("translationPage"), new String(""));
 			this.parameters.put(new String("translationOf"), new String(""));
 		}
 
 		if (this.isShowedTitle()) {
-			this.parameters.put(new String("printtitle"), new Boolean(true));
+			this.parameters.put(new String("printtitle"), Boolean.TRUE);
 			this.parameters.put(new String("title"),
 					((CustomJasperViewerToolbar) this.viewer.getToolbar()).getTitleField().getText());
 		} else {
-			this.parameters.put(new String("printtitle"), new Boolean(false));
+			this.parameters.put(new String("printtitle"), Boolean.FALSE);
 			this.parameters.put(new String("title"), new String(""));
 		}
 
 		if (this.isShowedSubtitle()) {
-			this.parameters.put(new String("printsubtitle"), new Boolean(true));
+			this.parameters.put(new String("printsubtitle"), Boolean.TRUE);
 			this.parameters.put(new String("subtitle"),
 					((CustomJasperViewerToolbar) this.viewer.getToolbar()).getDescriptionField().getText());
 		} else {
-			this.parameters.put(new String("printsubtitle"), new Boolean(false));
+			this.parameters.put(new String("printsubtitle"), Boolean.FALSE);
 			this.parameters.put(new String("subtitle"), new String(""));
 		}
 
 		if (this.isSelectedNumberOfOccurrences()) {
-			this.parameters.put(new String("printTotalNumberOcurrences"), new Boolean(true));
+			this.parameters.put(new String("printTotalNumberOcurrences"), Boolean.TRUE);
 			this.parameters.put(new String("translationNumberOcurrences"),
 					new String(" Total "
 							+ ApplicationManager.getTranslation("NumeroDeOcurrencias", this.reportDialog.getBundle())));
 		} else {
-			this.parameters.put(new String("printTotalNumberOcurrences"), new Boolean(false));
+			this.parameters.put(new String("printTotalNumberOcurrences"), Boolean.FALSE);
 			this.parameters.put(new String("translationNumberOcurrences"), new String(""));
 		}
 
 		if (!DynamicJasperEngine.useTemplatesWithDefaultLogo && (DynamicJasperEngine.reportLogoPath != null)) {
-			this.parameters.put(new String("printCustomLogo"), new Boolean(true));
+			this.parameters.put(new String("printCustomLogo"), Boolean.TRUE);
 			this.parameters.put(new String("customLogo"), DynamicJasperEngine.reportLogoPath);
 		} else {
-			this.parameters.put(new String("printCustomLogo"), new Boolean(false));
+			this.parameters.put(new String("printCustomLogo"), Boolean.FALSE);
 			this.parameters.put(new String("customLogo"), "");
 		}
 	}
@@ -1303,8 +1303,8 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	public void setColumnHeaderStyle() {
 		this.defaultHeaderStyle = new Style();
 		this.defaultHeaderStyle.setFont(this.getDefaultHeaderFont());
-		this.defaultHeaderStyle.setPaddingBottom(new Integer(DynamicJasperStyles.defaultHeaderPaddingBottom));
-		this.defaultHeaderStyle.setPaddingTop(new Integer(DynamicJasperStyles.defaultHeaderPaddingTop));
+		this.defaultHeaderStyle.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultHeaderPaddingBottom));
+		this.defaultHeaderStyle.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultHeaderPaddingTop));
 		this.defaultHeaderStyle.setHorizontalAlign(DynamicJasperStyles.defaultHeaderHorizontalAlignment);
 		this.defaultHeaderStyle.setBorderBottom(DynamicJasperStyles.defaultHeaderBorderBottom);
 		this.defaultHeaderStyle.setVerticalAlign(DynamicJasperStyles.defaultHeaderVerticalAlignment);
@@ -1319,11 +1319,11 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		this.defaultColumnDataStyle = new Style();
 		this.defaultColumnDataStyle.setFont(this.getDefaultColumnDataFont());
 		this.defaultColumnDataStyle.setTextColor(DynamicJasperStyles.defaultColumnDataFontColor);
-		this.defaultColumnDataStyle.setPaddingBottom(new Integer(DynamicJasperStyles.defaultColumnDataPaddingBottom));
-		this.defaultColumnDataStyle.setPaddingTop(new Integer(DynamicJasperStyles.defaultColumnDataPaddingTop));
-		this.defaultColumnDataStyle.setPaddingLeft(new Integer((this.reportDialog.getSelectedGroupItems().size() * 5)
+		this.defaultColumnDataStyle.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingBottom));
+		this.defaultColumnDataStyle.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingTop));
+		this.defaultColumnDataStyle.setPaddingLeft(Integer.valueOf((this.reportDialog.getSelectedGroupItems().size() * 5)
 				+ DynamicJasperStyles.defaultColumnDataPaddingLeft));
-		this.defaultColumnDataStyle.setPaddingRight(new Integer(DynamicJasperStyles.defaultColumnDataPaddingRight));
+		this.defaultColumnDataStyle.setPaddingRight(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingRight));
 		this.defaultColumnDataStyle.setHorizontalAlign(DynamicJasperStyles.defaultColumnDataHorizontalAlignment);
 		this.defaultColumnDataStyle.setBorderBottom(DynamicJasperStyles.defaultColumnDataBorderBottom);
 		this.defaultColumnDataStyle.setBorderTop(DynamicJasperStyles.defaultColumnDataBorderTop);
@@ -1340,11 +1340,11 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		final Style columnDataStyle = new Style();
 		columnDataStyle.setFont(this.getDefaultColumnDataFont());
 		columnDataStyle.setTextColor(DynamicJasperStyles.defaultColumnDataFontColor);
-		columnDataStyle.setPaddingBottom(new Integer(DynamicJasperStyles.defaultColumnDataPaddingBottom));
-		columnDataStyle.setPaddingTop(new Integer(DynamicJasperStyles.defaultColumnDataPaddingTop));
-		columnDataStyle.setPaddingLeft(new Integer((this.reportDialog.getSelectedGroupItems().size() * 5)
+		columnDataStyle.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingBottom));
+		columnDataStyle.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingTop));
+		columnDataStyle.setPaddingLeft(Integer.valueOf((this.reportDialog.getSelectedGroupItems().size() * 5)
 				+ DynamicJasperStyles.defaultColumnDataPaddingLeft));
-		columnDataStyle.setPaddingRight(new Integer(DynamicJasperStyles.defaultColumnDataPaddingRight));
+		columnDataStyle.setPaddingRight(Integer.valueOf(DynamicJasperStyles.defaultColumnDataPaddingRight));
 
 		if (this.reportDialog.getConfiguredColumns().contains(columnName)
 				&& this.reportDialog.getColumnAlignment().containsKey(columnName)) {
@@ -1404,12 +1404,12 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		this.defaultHeaderForGroupStyle.setFont(this.getDefaultHeaderForGroupFont());
 		this.defaultHeaderForGroupStyle.setTextColor(DynamicJasperStyles.defaultHeaderForGroupFontColor);
 		this.defaultHeaderForGroupStyle
-		.setPaddingBottom(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
-		this.defaultHeaderForGroupStyle.setPaddingTop(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
+		.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
+		this.defaultHeaderForGroupStyle.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
 		this.defaultHeaderForGroupStyle
-		.setPaddingLeft(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
+		.setPaddingLeft(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
 		this.defaultHeaderForGroupStyle
-		.setPaddingRight(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
+		.setPaddingRight(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
 		this.defaultHeaderForGroupStyle
 		.setHorizontalAlign(DynamicJasperStyles.defaultHeaderForGroupHorizontalAlignmentValues);
 		this.defaultHeaderForGroupStyle.setBorderBottom(DynamicJasperStyles.defaultHeaderForGroupBorderBottom);
@@ -1431,13 +1431,13 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		this.defaultHeaderForMultiGroupStyle.setFont(this.getDefaultHeaderForGroupFont());
 		this.defaultHeaderForMultiGroupStyle.setTextColor(DynamicJasperStyles.defaultHeaderForGroupFontColor);
 		this.defaultHeaderForMultiGroupStyle
-		.setPaddingBottom(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
+		.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
 		this.defaultHeaderForMultiGroupStyle
-		.setPaddingTop(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
+		.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
 		this.defaultHeaderForMultiGroupStyle
-		.setPaddingLeft(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
+		.setPaddingLeft(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
 		this.defaultHeaderForMultiGroupStyle
-		.setPaddingRight(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
+		.setPaddingRight(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
 		this.defaultHeaderForMultiGroupStyle
 		.setHorizontalAlign(DynamicJasperStyles.defaultHeaderForGroupHorizontalAlignmentValues);
 		this.defaultHeaderForMultiGroupStyle
@@ -1771,7 +1771,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		AbstractColumn columnVirtual = cbVirtual.build();
 		columnVirtual.setName(this.getVirtualColumn(columnName));
 		columnVirtual.setTitle("");
-		columnVirtual.setWidth(new Integer(0));
+		columnVirtual.setWidth(Integer.valueOf(0));
 		columnVirtual = this.setPatterns(columnVirtual, columnClass);
 		if (this.reportDialog.getSelectedPrintingColumns().contains(columnName)) {
 			drb.addColumn(columnVirtual);
@@ -1905,7 +1905,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		cb.setTitle(ApplicationManager.getTranslation(columnName, this.reportDialog.getBundle()));
 		cb.setStyle(this.createColumnDataStyle(columnName, columnClass));
 
-		cb.setWidth(new Integer(70));
+		cb.setWidth(Integer.valueOf(70));
 		return cb;
 	}
 
@@ -1916,7 +1916,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	 */
 	public void keepOriginalColumnPositions(final int i) {
 		if (i < this.reportDialog.getSelectedPrintingColumns().size()) {
-			this.hColsPositions.put(this.reportDialog.getSelectedPrintingColumns().get(i).toString(), new Integer(i));
+			this.hColsPositions.put(this.reportDialog.getSelectedPrintingColumns().get(i).toString(), Integer.valueOf(i));
 		}
 	}
 
@@ -2137,7 +2137,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 			// Month
 			return ApplicationManager.getTranslation(DefaultReportDialog.GROUP_BY_MONTH_KEY,
 					this.reportDialog.getBundle()) + DynamicJasperEngine.dateNameSeparator
-					+ new Integer(calendar.get(Calendar.MONTH) + 1);
+					+ Integer.valueOf(calendar.get(Calendar.MONTH) + 1);
 		case 3:
 			// Month and year
 			return ApplicationManager.getTranslation(DefaultReportDialog.GROUP_BY_MONTH_KEY,
@@ -2442,7 +2442,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		gb1.setHeaderHeight(this.calculateRequiredGroupHeaderHeight());
 		// Indicates to group builder the column to group by
 		gb1.setCriteriaColumn((PropertyColumn) column);
-		gb1.setFooterHeight(new Integer(40));
+		gb1.setFooterHeight(Integer.valueOf(40));
 		// multigroup contains a different style where not border bottom line
 		// are showed in header (except the more internal)
 		// Fix the style for column showed in group header
@@ -2455,10 +2455,10 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		final Style style = new Style();
 		style.setFont(this.getDefaultHeaderForGroupFont());
 		style.setTextColor(DynamicJasperStyles.defaultHeaderForGroupFontColor);
-		style.setPaddingBottom(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
-		style.setPaddingTop(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
-		style.setPaddingLeft(new Integer(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
-		style.setPaddingRight(new Integer(offset + DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
+		style.setPaddingBottom(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingBottom));
+		style.setPaddingTop(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingTop));
+		style.setPaddingLeft(Integer.valueOf(DynamicJasperStyles.defaultHeaderForGroupPaddingLeft));
+		style.setPaddingRight(Integer.valueOf(offset + DynamicJasperStyles.defaultHeaderForGroupPaddingRight));
 		style.setHorizontalAlign(DynamicJasperStyles.defaultHeaderForGroupHorizontalAlignmentTitles);
 		style.setBorderBottom(DynamicJasperStyles.defaultHeaderForGroupBorderBottom);
 		style.setBorderTop(DynamicJasperStyles.defaultHeaderForGroupBorderTop);
@@ -2501,9 +2501,9 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 			}
 		}
 		if ((this.reportDialog.getSelectedPrintingColumns().size() > 4) && (columnNameSize > 12)) {
-			return new Integer(25);
+			return Integer.valueOf(25);
 		}
-		return new Integer(15);
+		return Integer.valueOf(15);
 	}
 
 	/**
@@ -2514,10 +2514,10 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	 */
 	public GroupBuilder configureMultiGroupBuilder(final GroupBuilder gb1, final AbstractColumn column,
 			final boolean multiGroupContainsSubgroups) {
-		gb1.setHeaderHeight(new Integer(15));
+		gb1.setHeaderHeight(Integer.valueOf(15));
 		// Indicates to group builder the column to group by
 		gb1.setCriteriaColumn((PropertyColumn) column);
-		gb1.setFooterHeight(new Integer(40));
+		gb1.setFooterHeight(Integer.valueOf(40));
 		gb1.addColumnHeaderStyle(column, this.defaultHeaderForMultiGroupStyle);
 		gb1.setGroupLayout(this.getGroupLayoutForMultiGroup(column, multiGroupContainsSubgroups));
 		gb1.setAllowFooterSplit(false);
@@ -2543,9 +2543,9 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 	public AbstractColumn configureMultiGroupColumn(AbstractColumn column, final String groupColumn, final Class groupClass,
 			final int groupIndex) {
 		// Fix the padding to show each group indented with previous
-		column.setPosX(new Integer(groupIndex * DynamicJasperEngine.paddingForGroups));
+		column.setPosX(Integer.valueOf(groupIndex * DynamicJasperEngine.paddingForGroups));
 		column.setBlankWhenNull(Boolean.TRUE);
-		column.setWidth(new Integer(DynamicJasperEngine.columnWidth
+		column.setWidth(Integer.valueOf(DynamicJasperEngine.columnWidth
 				- (this.reportDialog.getSelectedGroupColumns().size() * DynamicJasperEngine.paddingForGroups)));
 		column.setName(groupColumn);
 		column = this.setPatterns(column, groupClass);
@@ -2575,7 +2575,7 @@ public class DynamicJasperEngine implements ReportEngine, IGroupByDate, Internat
 		final int offset = groupIndex * DynamicJasperEngine.paddingForGroups;
 		column.setPosX(offset);
 		column.setBlankWhenNull(Boolean.TRUE);
-		// column.setWidth(new Integer(DynamicJasperEngine.columnWidth -
+		// column.setWidth(Integer.valueOf(DynamicJasperEngine.columnWidth -
 		// (this.reportDialog.getSelectedGroupItems().size() *
 		// DynamicJasperEngine.paddingForGroups)));
 		column.setWidth(DynamicJasperEngine.columnWidth);

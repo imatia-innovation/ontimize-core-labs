@@ -359,16 +359,16 @@ public class MouseHandler extends MouseAdapter implements MouseMotionListener {
 				final boolean bPrivate = ((Number) o).intValue() > 0;
 
 				if (bPrivate) {
-					av.put(Form.PRIVATE_ATTACHMENT, new Integer(0));
+					av.put(Form.PRIVATE_ATTACHMENT, Integer.valueOf(0));
 				} else {
-					av.put(Form.PRIVATE_ATTACHMENT, new Integer(1));
+					av.put(Form.PRIVATE_ATTACHMENT, Integer.valueOf(1));
 					if (changeAttachmentOwner) {
 						av.put(Form.USER, ((ClientReferenceLocator) locator).getUser());
 					}
 				}
 			}
 		} else {
-			av.put(Form.PRIVATE_ATTACHMENT, new Integer(1));
+			av.put(Form.PRIVATE_ATTACHMENT, Integer.valueOf(1));
 		}
 		kv.put(Form.ATTACHMENT_ID, hRecord.get(Form.ATTACHMENT_ID));
 

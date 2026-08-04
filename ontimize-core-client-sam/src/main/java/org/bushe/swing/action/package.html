@@ -829,15 +829,15 @@ myFrame.setJMenuBar(menuBar);</pre>
 <h3>Alternatives</h3>
 <h4>Creating Actions by Hand</h4>
 <p>A BasicAction can be instantiated and used directly instead: </p>
-<p> <code> Action newAction = new BasicAction("New", new Integer(KeyEvent.VK_N),
+<p> <code> Action newAction = new BasicAction("New", Integer.valueOf(KeyEvent.VK_N),
   KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), newIcon);</code>
   <br>
-  <code>Action openAction = new BasicAction("Open", new Integer(KeyEvent.VK_O),
+  <code>Action openAction = new BasicAction("Open", Integer.valueOf(KeyEvent.VK_O),
   KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK), openIcon);</code>
   <br>
-  <code>Action saveAction = new BasicAction("Save", new Integer(KeyEvent.VK_S),
+  <code>Action saveAction = new BasicAction("Save", Integer.valueOf(KeyEvent.VK_S),
   KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK), saveIcon);<br>
-  </code><code>Action exitAction = new BasicAction("Exit", new Integer(KeyEvent.VK_X),
+  </code><code>Action exitAction = new BasicAction("Exit", Integer.valueOf(KeyEvent.VK_X),
   KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK), exitIcon);</code>
 </p>
 <p>An ActionList can then created like a java.util.List:</p>
@@ -855,7 +855,7 @@ myFrame.setJMenuBar(menuBar);</pre>
    private static final ImageIcon ICON = ActionManager.resolveIcon("images/New.gif"));
 
    public NewAction() {
-      super(ID, new Integer(KeyEvent.VK_N), KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), ICON);
+      super(ID, Integer.valueOf(KeyEvent.VK_N), KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), ICON);
    }
 
    public void execute(ActionEvent evt) {

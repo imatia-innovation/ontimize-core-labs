@@ -387,7 +387,7 @@ public class QueryExpressionSelection extends EJDialog {
 			querySelection.pack();
 			querySelection.setVisible(true);
 			final Map h = new Hashtable();
-			h.put(QueryExpressionSelection.DEFINE, new Boolean(querySelection.definePressed));
+			h.put(QueryExpressionSelection.DEFINE, Boolean.valueOf(querySelection.definePressed));
 			if (!querySelection.textField.getText().equals("")) {
 				h.put(QueryExpressionSelection.NAME, querySelection.textField.getText());
 				if (querySelection.query != null) {

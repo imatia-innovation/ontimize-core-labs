@@ -353,7 +353,7 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 						kv.put(Form.TEMPLATE_WAREHOUSE, dataFile.getBytesBlock());
 						kv.put(Form.TEMPLATE_NAME, selectedFile.getName());
 						kv.put(Form.TEMPLATE_FORM, PopupPrintingTemplateList.this.form.getArchiveName());
-						kv.put(Form.TEMPLATE_PRIVATE, new Integer(0));
+						kv.put(Form.TEMPLATE_PRIVATE, Integer.valueOf(0));
 						final EntityResult res = templateEntity.insert(kv, locator.getSessionId());
 						if (res.getCode() == EntityResult.OPERATION_WRONG) {
 							PopupPrintingTemplateList.this.form.message(
@@ -463,7 +463,7 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 	protected void setTextLabelInfo(final ResourceBundle res, final ListModel model) {
 		final JLabel label = this.getInfoMessage();
 		label.setText(ApplicationManager.getTranslation(Form.messageInfoTemplate, res,
-				new Object[] { new Integer(this.getModel().getSize()) }));
+				new Object[] { Integer.valueOf(this.getModel().getSize()) }));
 		label.setFont(label.getFont().deriveFont(Font.BOLD));
 	}
 
@@ -512,12 +512,12 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 					final boolean bPrivate = ((Number) o).intValue() > 0;
 
 					if (bPrivate) {
-						av.put(Form.TEMPLATE_PRIVATE, new Integer(0));
+						av.put(Form.TEMPLATE_PRIVATE, Integer.valueOf(0));
 					} else {
 						final int value = this.form.message(PopupPrintingTemplateList.M_CHANGE_USER_TEMPLATE,
 								Form.QUESTION_MESSAGE);
 						if (value == Form.YES) {
-							av.put(Form.TEMPLATE_PRIVATE, new Integer(1));
+							av.put(Form.TEMPLATE_PRIVATE, Integer.valueOf(1));
 							av.put(Form.TEMPLATE_USER, ((ClientReferenceLocator) locator).getUser());
 						}
 					}
@@ -546,7 +546,7 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 				final Entity templateEntity = ((UtilReferenceLocator) locator)
 						.getPrintingTemplateEntity(locator.getSessionId());
 				final Map kv = new Hashtable();
-				kv.put(Form.TEMPLATE_DEFAULT, new Integer(1));
+				kv.put(Form.TEMPLATE_DEFAULT, Integer.valueOf(1));
 				final List av = new Vector();
 				av.add(Form.TEMPLATE_DEFAULT);
 				av.add(Form.TEMPLATE_ID);
@@ -560,7 +560,7 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 							final Map kvA = new Hashtable();
 							kvA.put(Form.TEMPLATE_ID, oPreviousKey);
 							final Map avA = new Hashtable();
-							avA.put(Form.TEMPLATE_DEFAULT, new Integer(0));
+							avA.put(Form.TEMPLATE_DEFAULT, Integer.valueOf(0));
 							final EntityResult result = templateEntity.update(avA, kvA, locator.getSessionId());
 							if (result.getCode() == EntityResult.OPERATION_WRONG) {
 								throw new Exception("ERROR TO ESTABLISH THE DEFAULT TEMPLATE");
@@ -578,7 +578,7 @@ public class PopupPrintingTemplateList extends PopupList implements Internationa
 						final Map kvA = new Hashtable();
 						kvA.put(Form.TEMPLATE_ID, key);
 						final Map avA = new Hashtable();
-						avA.put(Form.TEMPLATE_DEFAULT, new Integer(1));
+						avA.put(Form.TEMPLATE_DEFAULT, Integer.valueOf(1));
 						final EntityResult result = templateEntity.update(avA, kvA, locator.getSessionId());
 						if (result.getCode() == EntityResult.OPERATION_WRONG) {
 							throw new Exception("ERROR TO ESTABLISH THE DEFAULT TEMPLATE");

@@ -82,7 +82,7 @@ public class AttachmentListPopup extends JList implements Internationalization {
 					.getTranslation(AttachmentListPopup.FORM_NO_AVAILABLE_ATTACHMENT, this.res, null));
 			this.lInfo = new JLabel(
 					ApplicationManager.getTranslation(AttachmentListPopup.FORM_N_ATTACHMENT_FOUND, this.res,
-							new Object[] { new Integer(this.getModel().getSize()) }));
+							new Object[] { Integer.valueOf(this.getModel().getSize()) }));
 			this.lInfo.setFont(this.lInfo.getFont().deriveFont(Font.BOLD));
 			this.popup.add(this.lInfo, BorderLayout.NORTH);
 			this.popup.add(this.emptyLabel, BorderLayout.SOUTH);
@@ -99,7 +99,7 @@ public class AttachmentListPopup extends JList implements Internationalization {
 			this.lInfo.setVisible(true);
 			this.scroll.setVisible(true);
 			this.lInfo.setText(ApplicationManager.getTranslation(AttachmentListPopup.FORM_N_ATTACHMENT_FOUND, this.res,
-					new Object[] { new Integer(this.getModel().getSize()) }));
+					new Object[] { Integer.valueOf(this.getModel().getSize()) }));
 		} else {
 			this.lInfo.setVisible(false);
 			this.emptyLabel.setVisible(true);

@@ -34,7 +34,7 @@ public class PasteAction extends BasicEditAction {
     public PasteAction() {
         super(HTMLTextEditAction.i18n.str("HTMLShef.paste"));
         this.putValue("ID", "HTMLShef.paste");
-        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.paste")));
+        this.putValue(Action.MNEMONIC_KEY, Integer.valueOf(HTMLTextEditAction.i18n.mnem("HTMLShef.paste")));
         this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.PASTE));
         this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.PASTE));
         this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));

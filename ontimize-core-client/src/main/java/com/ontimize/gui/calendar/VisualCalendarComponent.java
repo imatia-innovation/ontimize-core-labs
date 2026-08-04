@@ -363,7 +363,7 @@ public class VisualCalendarComponent extends JPanel {
 		public Component getTableCellRendererComponent(final JTable t, Object v, final boolean sel, final boolean f, final int r, final int c) {
 			if (v instanceof Date) {
 				this.calendar.setTime((Date) v);
-				v = new Integer(this.calendar.get(Calendar.DAY_OF_MONTH));
+				v = Integer.valueOf(this.calendar.get(Calendar.DAY_OF_MONTH));
 			}
 			final Component comp = super.getTableCellRendererComponent(t, v, false, false, r, c);
 
@@ -834,7 +834,7 @@ public class VisualCalendarComponent extends JPanel {
 				auxCalendar.set(Calendar.HOUR, 0);
 				auxCalendar.set(prevYear, prevMonth, 1);
 				final int maxPrevMonthDay = auxCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-				// return new Integer(maxPrevMonthDay + offset + 1);
+				// return Integer.valueOf(maxPrevMonthDay + offset + 1);
 				auxCalendar.add(Calendar.DAY_OF_MONTH, maxPrevMonthDay + offset);
 				return auxCalendar.getTime();
 			} else if (offset >= maxMonthDay) {
@@ -852,7 +852,7 @@ public class VisualCalendarComponent extends JPanel {
 				return auxCalendar.getTime();
 			}
 			final int day = minMonthDay + offset;
-			return new Integer(day);
+			return Integer.valueOf(day);
 		}
 
 	}

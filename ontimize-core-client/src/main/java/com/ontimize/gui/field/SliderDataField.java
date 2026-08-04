@@ -184,9 +184,9 @@ public class SliderDataField extends DataField implements DataComponent, Advance
 	 */
 	public Number internal2ExternalValue(final int innerValue) {
 		if (Double.compare(this.scale, 1.0d) == 0) {
-			return new Integer(innerValue);
+			return Integer.valueOf(innerValue);
 		} else {
-			return new Double(this.scale * innerValue);
+			return Double.valueOf(this.scale * innerValue);
 		}
 	}
 
@@ -286,7 +286,7 @@ public class SliderDataField extends DataField implements DataComponent, Advance
 
 	@Override
 	public void deleteData() {
-		this.setValue(new Integer(this.defaultValue));
+		this.setValue(Integer.valueOf(this.defaultValue));
 	}
 
 	@Override

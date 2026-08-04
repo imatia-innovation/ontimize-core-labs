@@ -230,7 +230,7 @@ public class PercentDataField extends TextFieldDataField {
 			final PercentDocument document = (PercentDocument) ((JTextField) this.dataField).getDocument();
 			if (document.isLimit100()) {
 				if (((Number) value).doubleValue() > 1.0) {
-					value = new Double(0.0);
+					value = Double.valueOf(0.0);
 				}
 			}
 			document.setValue((Number) value);

@@ -191,7 +191,7 @@ public class CalculatedCurrencyDataField extends CurrencyDataField implements Va
 									CalculatedCurrencyDataField.logger.debug(this.getClass().toString()
 											+ " : Data field " + c.getAttribute() + " is empty");
 								}
-								hValues.put(c.getAttribute(), new Double(0.0));
+								hValues.put(c.getAttribute(), Double.valueOf(0.0));
 								continue;
 							} else {
 								hValues.put(c.getAttribute(), c.getValue());
@@ -228,7 +228,7 @@ public class CalculatedCurrencyDataField extends CurrencyDataField implements Va
 			final String sAttr = oAttribute.toString();
 			final Object oValue = entry.getValue();
 			if ((oValue != null) && (oValue instanceof Number)) {
-				this.parser.addVariableAsObject(sAttr, new Double(((Number) oValue).doubleValue()));
+				this.parser.addVariableAsObject(sAttr, Double.valueOf(((Number) oValue).doubleValue()));
 				if (ApplicationManager.DEBUG) {
 					CalculatedCurrencyDataField.logger.debug(this.getClass().toString() + " : " + this.getAttribute()
 					+ " AddVariableAsObject: " + sAttr + " -> " + oValue);
@@ -237,7 +237,7 @@ public class CalculatedCurrencyDataField extends CurrencyDataField implements Va
 				if ((oValue != null) && (oValue instanceof String)) {
 					try {
 						this.parser.addVariableAsObject(sAttr,
-								new Double(Integer.valueOf((String) oValue).doubleValue()));
+								Double.valueOf(Integer.valueOf((String) oValue).doubleValue()));
 					} catch (final Exception e) {
 						this.parser.addVariableAsObject(sAttr, oValue);
 						if (ApplicationManager.DEBUG) {
@@ -246,9 +246,9 @@ public class CalculatedCurrencyDataField extends CurrencyDataField implements Va
 					}
 				} else {
 					if (oValue == null) {
-						this.parser.addVariableAsObject(sAttr, new Double(0.0));
+						this.parser.addVariableAsObject(sAttr, Double.valueOf(0.0));
 					} else if (oValue instanceof SearchValue) {
-						this.parser.addVariableAsObject(sAttr, new Double(0.0));
+						this.parser.addVariableAsObject(sAttr, Double.valueOf(0.0));
 					} else {
 						this.parser.addVariableAsObject(sAttr, oValue);
 					}

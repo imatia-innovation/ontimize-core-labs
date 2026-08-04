@@ -173,7 +173,7 @@ public abstract class PdfFiller {
 			final List fields = pdfForm.getFields();
 			for (int k = 0; k < fields.size(); ++k) {
 				final PRAcroForm.FieldInformation field = (PRAcroForm.FieldInformation) fields.get(k);
-				retToField.put(new Integer(field.getRef().getNumber()), field);
+				retToField.put(Integer.valueOf(field.getRef().getNumber()), field);
 			}
 			for (int page = 1; page <= pdfReader.getNumberOfPages(); ++page) {
 				final PdfDictionary dPage = pdfReader.getPageN(page);
@@ -200,7 +200,7 @@ public abstract class PdfFiller {
 						}
 						if ((refObj.type() == PdfObject.INDIRECT) && (field == null)) {
 							ref = (PRIndirectReference) refObj;
-							field = (PRAcroForm.FieldInformation) retToField.get(new Integer(ref.getNumber()));
+							field = (PRAcroForm.FieldInformation) retToField.get(Integer.valueOf(ref.getNumber()));
 						}
 						refObj = an.get(PdfName.PARENT);
 						an = (PdfDictionary) PdfReader.getPdfObject(refObj);

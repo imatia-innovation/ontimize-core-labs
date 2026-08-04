@@ -135,7 +135,7 @@ public class ReportFrame extends JFrame implements com.ontimize.gui.Freeable {
 					try {
 						final Object[] oPageList = new Object[ReportFrame.this.pages.size()];
 						for (int i = 0; i < ReportFrame.this.pages.size(); i++) {
-							oPageList[i] = new Integer(i + 1);
+							oPageList[i] = Integer.valueOf(i + 1);
 						}
 						final Integer iSelectedPage = (Integer) JOptionPane.showInputDialog(ReportFrame.this, "Select page",
 								"Report", JOptionPane.QUESTION_MESSAGE, null, oPageList,

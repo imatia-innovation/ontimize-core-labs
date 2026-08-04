@@ -129,22 +129,22 @@ public class FormBundleButton extends FormHeaderButton implements InteractionMan
 		final String modes = ParseUtils.getString((String) parameters.get(FormBundleButton.ENABLED_MODES), null);
 		if (modes == null) {
 			this.enabledModes = new Vector(2);
-			this.enabledModes.add(new Integer(InteractionManager.QUERYINSERT));
-			this.enabledModes.add(new Integer(InteractionManager.UPDATE));
+			this.enabledModes.add(Integer.valueOf(InteractionManager.QUERYINSERT));
+			this.enabledModes.add(Integer.valueOf(InteractionManager.UPDATE));
 		} else {
 			this.enabledModes = new Vector(2);
 			final List v = ApplicationManager.getTokensAt(modes.toLowerCase(), ";");
 			if (v.contains("query")) {
-				this.enabledModes.add(new Integer(InteractionManager.QUERY));
+				this.enabledModes.add(Integer.valueOf(InteractionManager.QUERY));
 			}
 			if (v.contains("queryinsert")) {
-				this.enabledModes.add(new Integer(InteractionManager.QUERYINSERT));
+				this.enabledModes.add(Integer.valueOf(InteractionManager.QUERYINSERT));
 			}
 			if (v.contains("insert")) {
-				this.enabledModes.add(new Integer(InteractionManager.INSERT));
+				this.enabledModes.add(Integer.valueOf(InteractionManager.INSERT));
 			}
 			if (v.contains("update")) {
-				this.enabledModes.add(new Integer(InteractionManager.UPDATE));
+				this.enabledModes.add(Integer.valueOf(InteractionManager.UPDATE));
 			}
 		}
 
@@ -152,7 +152,7 @@ public class FormBundleButton extends FormHeaderButton implements InteractionMan
 
 	@Override
 	public void interactionManagerModeChanged(final InteractionManagerModeEvent e) {
-		if (this.enabledModes.contains(new Integer(e.getInteractionManagerMode()))) {
+		if (this.enabledModes.contains(Integer.valueOf(e.getInteractionManagerMode()))) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);

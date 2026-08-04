@@ -387,7 +387,7 @@ class ColumnCalculatorWindow extends EJDialog {
 		@Override
 		public Object getValueAt(final int rowIndex, final int columnIndex) {
 			if ((this.parser == null) && (columnIndex == 0)) {
-				return new Integer(rowIndex);
+				return Integer.valueOf(rowIndex);
 			}
 			if (this.parser == null) {
 				return null;
@@ -401,7 +401,7 @@ class ColumnCalculatorWindow extends EJDialog {
 				final Object col = this.tModel.getColumnName(i);
 				final Object oValue = this.tModel.getValueAt(rowIndex, i);
 				if ((oValue != null) && (oValue instanceof Number)) {
-					this.parser.addVariableAsObject(col.toString(), new Double(((Number) oValue).doubleValue()));
+					this.parser.addVariableAsObject(col.toString(), Double.valueOf(((Number) oValue).doubleValue()));
 				} else {
 					if (oValue != null) {
 						this.parser.addVariableAsObject(col.toString(), oValue);

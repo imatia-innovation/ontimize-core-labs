@@ -352,7 +352,7 @@ public class IntegerDataField extends TextFieldDataField implements OpenDialog, 
 					final int result = (int) IntegerDataField.this.calc.showCalculator(initialValue,
 							IntegerDataField.this.getLocationOnScreen().x,
 							IntegerDataField.this.getLocationOnScreen().y + IntegerDataField.this.getHeight());
-					IntegerDataField.this.setValue(new Integer(result));
+					IntegerDataField.this.setValue(Integer.valueOf(result));
 				}
 			});
 		}

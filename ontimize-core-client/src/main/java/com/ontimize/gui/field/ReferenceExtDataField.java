@@ -2326,7 +2326,7 @@ CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateF
 				if (codVisible.equals("yes")) {
 					this.visibleCodeField = true;
 				} else {
-					this.visibleCodeField = new Boolean(codVisible.toString()).booleanValue();
+					this.visibleCodeField = Boolean.valueOf(codVisible.toString()).booleanValue();
 					this.codeField.setVisible(this.visibleCodeField);
 				}
 			} catch (final Exception e) {
@@ -2351,7 +2351,7 @@ CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateF
 		final Object csize = parameters.get("csize");
 		if (csize != null) {
 			try {
-				this.codeField.setColumns(new Integer(csize.toString()).intValue());
+				this.codeField.setColumns(Integer.valueOf(csize.toString()).intValue());
 			} catch (final Exception e) {
 				if (com.ontimize.gui.ApplicationManager.DEBUG) {
 					ReferenceExtDataField.logger.debug("Error in parameter 'csize': ", e);
@@ -2427,7 +2427,7 @@ CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateF
 				if (codInteger.equals("yes")) {
 					this.integerValue = true;
 				} else {
-					this.integerValue = new Boolean(codInteger.toString()).booleanValue();
+					this.integerValue = Boolean.valueOf(codInteger.toString()).booleanValue();
 				}
 			} catch (final Exception e) {
 				if (com.ontimize.gui.ApplicationManager.DEBUG) {
@@ -2443,7 +2443,7 @@ CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateF
 					if (codInteger.equals("yes")) {
 						this.integerValue = true;
 					} else {
-						this.integerValue = new Boolean(codInteger.toString()).booleanValue();
+						this.integerValue = Boolean.valueOf(codInteger.toString()).booleanValue();
 					}
 				} catch (final Exception e) {
 					if (com.ontimize.gui.ApplicationManager.DEBUG) {
@@ -2770,7 +2770,7 @@ CreateForms, CachedComponent, IFilterElement, ReferenceDataComponent, ITemplateF
 			if (this.integerValue) {
 				Object oIntValue = null;
 				try {
-					oIntValue = new Integer(s.toString());
+					oIntValue = Integer.valueOf(s.toString());
 				} catch (final Exception e) {
 					ReferenceExtDataField.logger.trace(null, e);
 					return s;

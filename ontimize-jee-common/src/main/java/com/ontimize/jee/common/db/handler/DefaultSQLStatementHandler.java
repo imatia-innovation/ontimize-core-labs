@@ -948,47 +948,45 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     /**
-     * This class provides a implementation of the <code>SQLConditionValuesProcessor</code> interface.
-     * <p>
-     * This class extends
-     * <code>DefaultSQLConditionValuesProcessor<code> and permits process complex conditions
-     *   where condition key doesn't have to be the column of a table in a database.
-     *   <code>EXPRESSION_KEY</code> is used as condition key to indicate which is a complex condition
-     * <p>
-     * Using classes that implements <code>Expression, Field, Operator </code> interfaces is necessary
-     * to define a complex condition. Each class that implements the <code>Expression</code> interface
-     * has three important parts. The left operand that can only be another expression or a class that
-     * implements <code>Field</code> interface The right operand that can be another expression or a
-     * value The operator that has to be a class that implement <code>Operator<code> interface
-     * <p>
-     * In the next examples the basic implementations have been used:
-     *
-     * <pre>
-     *  Example for a simple expression:
-     *
-     *  	Operator equalOperator=BasicOperator.EQUAL_OP;
-     *  	Field field = new BasicField("columnName1");
-     *
-     * </pre>
-     *
-     * <pre>
-     *  Example for a complex expression:
-     *  	Operator equalOperator=BasicOperator.EQUAL_OP;
-     *  	Field field1 = new BasicField("columnName1");
-     *  	Expression expression1 = new BasicExpression(field1,equalOperator,"filterValue");
-     *
-     *  	Field field2 = new BasicField("columnName2");
-     *  	Expression expression2 = new BasicExpression(field2,BasicOperator.LESS,new Integer(10));
-     *
-     *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
-     *
-     *  	Map conditions=new HashMap();
-     *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
-     * </pre>
-     *
-     * @see SQLStatementBuilder.Expression
-     * @author Imatia Innovation S.L.
-     */
+	 * This class provides a implementation of the <code>SQLConditionValuesProcessor</code> interface.
+	 * <p>
+	 * This class extends <code>DefaultSQLConditionValuesProcessor<code> and permits process complex conditions
+	 *   where condition key doesn't have to be the column of a table in a database.
+	 *   <code>EXPRESSION_KEY</code> is used as condition key to indicate which is a complex condition
+	 * <p>
+	 * Using classes that implements <code>Expression, Field, Operator </code> interfaces is necessary to define a
+	 * complex condition. Each class that implements the <code>Expression</code> interface has three important parts.
+	 * The left operand that can only be another expression or a class that implements <code>Field</code> interface The
+	 * right operand that can be another expression or a value The operator that has to be a class that implement
+	 * <code>Operator<code> interface
+	 * <p>
+	 * In the next examples the basic implementations have been used:
+	 *
+	 * <pre>
+	 *  Example for a simple expression:
+	 *
+	 *  	Operator equalOperator=BasicOperator.EQUAL_OP;
+	 *  	Field field = new BasicField("columnName1");
+	 * </pre>
+	 *
+	 * <pre>
+	 *  Example for a complex expression:
+	 *  	Operator equalOperator=BasicOperator.EQUAL_OP;
+	 *  	Field field1 = new BasicField("columnName1");
+	 *  	Expression expression1 = new BasicExpression(field1,equalOperator,"filterValue");
+	 *
+	 *  	Field field2 = new BasicField("columnName2");
+	 *  	Expression expression2 = new BasicExpression(field2,BasicOperator.LESS,Integer.valueOf(10));
+	 *
+	 *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
+	 *
+	 *  	Map conditions=new HashMap();
+	 *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
+	 * </pre>
+	 *
+	 * @see SQLStatementBuilder.Expression
+	 * @author Imatia Innovation S.L.
+	 */
 
     @Override
     public SQLStatementBuilder.SQLStatement createJoinSelectQuery(final String principalTable, final String secondaryTable,
@@ -1514,7 +1512,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             final Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
-                    hColumnTypesAux.put(sColumnLabels[i], new Integer(columnTypes[i]));
+					hColumnTypesAux.put(sColumnLabels[i], Integer.valueOf(columnTypes[i]));
                 }
             }
             entityResult.setColumnSQLTypes(hColumnTypesAux);
@@ -1593,7 +1591,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             final Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
-                    hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
+					hColumnTypesAux.put(sColumnNames[i], Integer.valueOf(columnTypes[i]));
                 }
             }
             entityResult.setColumnSQLTypes(hColumnTypesAux);

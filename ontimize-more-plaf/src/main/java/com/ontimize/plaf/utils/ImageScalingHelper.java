@@ -4,6 +4,7 @@ package com.ontimize.plaf.utils;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 
 public class ImageScalingHelper {
@@ -82,9 +83,9 @@ public class ImageScalingHelper {
      *        other regions specified will not be painted, for example PAINT_ALL | PAINT_CENTER paints
      *        everything but the center.
      */
-    public static void paint(Graphics g, int x, int y, int w, int h,
-            Image image, Insets sInsets,
-            Insets dInsets, PaintType paintType, int mask) {
+    public static void paint(final Graphics g, final int x, final int y, final int w, final int h,
+            final Image image, Insets sInsets,
+            Insets dInsets, final PaintType paintType, int mask) {
         if (image == null || image.getWidth(null) <= 0 || image.getHeight(null) <= 0) {
             return;
         }
@@ -94,8 +95,8 @@ public class ImageScalingHelper {
         if (dInsets == null) {
             dInsets = EMPTY_INSETS;
         }
-        int iw = image.getWidth(null);
-        int ih = image.getHeight(null);
+        final int iw = image.getWidth(null);
+        final int ih = image.getHeight(null);
 
         if (paintType == PaintType.CENTER) {
             // Center the image
@@ -107,8 +108,8 @@ public class ImageScalingHelper {
             for (int yCounter = y, maxY = y + h; yCounter < maxY; yCounter += (ih - lastIY), lastIY = 0) {
                 int lastIX = 0;
                 for (int xCounter = x, maxX = x + w; xCounter < maxX; xCounter += (iw - lastIX), lastIX = 0) {
-                    int dx2 = Math.min(maxX, xCounter + iw - lastIX);
-                    int dy2 = Math.min(maxY, yCounter + ih - lastIY);
+                    final int dx2 = Math.min(maxX, xCounter + iw - lastIX);
+                    final int dy2 = Math.min(maxY, yCounter + ih - lastIY);
                     g.drawImage(image, xCounter, yCounter, dx2, dy2,
                             lastIX, lastIY, lastIX + dx2 - xCounter,
                             lastIY + dy2 - yCounter, null);
@@ -142,7 +143,7 @@ public class ImageScalingHelper {
                 dl = dr = Math.max(0, w / 2 - 1);
             }
 
-            boolean stretch = (paintType == PaintType.PAINT9_STRETCH);
+            final boolean stretch = (paintType == PaintType.PAINT9_STRETCH);
             if ((mask & PAINT_ALL) != 0) {
                 mask = (PAINT_ALL - 1) & ~mask;
             }
@@ -204,10 +205,10 @@ public class ImageScalingHelper {
      * @param xDirection Used if the image is not stretched. If true it indicates the image should be
      *        tiled along the x axis.
      */
-    protected static void drawChunk(Image image, Graphics g, boolean stretch,
-            int dx1, int dy1, int dx2, int dy2, int sx1,
-            int sy1, int sx2, int sy2,
-            boolean xDirection) {
+    protected static void drawChunk(final Image image, final Graphics g, final boolean stretch,
+            int dx1, int dy1, final int dx2, final int dy2, final int sx1,
+            final int sy1, final int sx2, final int sy2,
+            final boolean xDirection) {
         if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
                 sy2 - sy1 <= 0) {
             // Bogus location, nothing to paint
@@ -216,8 +217,8 @@ public class ImageScalingHelper {
         if (stretch) {
             g.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
         } else {
-            int xSize = sx2 - sx1;
-            int ySize = sy2 - sy1;
+            final int xSize = sx2 - sx1;
+            final int ySize = sy2 - sy1;
             int deltaX;
             int deltaY;
 
@@ -229,8 +230,8 @@ public class ImageScalingHelper {
                 deltaY = ySize;
             }
             while (dx1 < dx2 && dy1 < dy2) {
-                int newDX2 = Math.min(dx2, dx1 + xSize);
-                int newDY2 = Math.min(dy2, dy1 + ySize);
+                final int newDX2 = Math.min(dx2, dx1 + xSize);
+                final int newDY2 = Math.min(dy2, dy1 + ySize);
 
                 g.drawImage(image, dx1, dy1, newDX2, newDY2,
                         sx1, sy1, sx1 + newDX2 - dx1,
@@ -241,9 +242,9 @@ public class ImageScalingHelper {
         }
     }
 
-    protected static void drawImage(Image image, Graphics g,
-            int dx1, int dy1, int dx2, int dy2, int sx1,
-            int sy1, int sx2, int sy2) {
+    protected static void drawImage(final Image image, final Graphics g,
+            final int dx1, final int dy1, final int dx2, final int dy2, final int sx1,
+            final int sy1, final int sx2, final int sy2) {
         // PENDING: is this necessary, will G2D do it for me?
         if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
                 sy2 - sy1 <= 0) {
@@ -252,5 +253,27 @@ public class ImageScalingHelper {
         }
         g.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
     }
+
+	public static Image getScaledIconImage(final List<Image> icons, final int width, final int height) {
+
+		if (icons == null || icons.isEmpty()) {
+			return null;
+		}
+
+		Image best = icons.get(0);
+
+		for (final Image image : icons) {
+			if (image.getWidth(null) >= width &&
+					image.getHeight(null) >= height) {
+				best = image;
+				break;
+			}
+		}
+
+		return best.getScaledInstance(
+				width,
+				height,
+				Image.SCALE_SMOOTH);
+	}
 
 }

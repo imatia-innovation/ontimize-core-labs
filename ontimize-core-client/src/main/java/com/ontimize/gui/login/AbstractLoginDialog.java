@@ -204,7 +204,7 @@ public abstract class AbstractLoginDialog extends JDialog implements ILoginDialo
 			final boolean rememberLastLogin = ApplicationManager
 					.parseStringValue((String) parameters.get(ILoginDialog.REMEMBER_LAST_LOGIN));
 			if (rememberLastLogin) {
-				this.rememberLogin.setValue(new Boolean(true));
+				this.rememberLogin.setValue(Boolean.TRUE);
 			}
 		}
 

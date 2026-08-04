@@ -820,35 +820,35 @@ public class PivotTableUtils extends JPanel {
 
 		public Number getCountN() {
 			if (this.countN == null) {
-				this.countN = new Integer(this.count);
+				this.countN = Integer.valueOf(this.count);
 			}
 			return this.countN;
 		}
 
 		public Number getSumN() {
 			if (this.sumN == null) {
-				this.sumN = new Double(this.sum);
+				this.sumN = Double.valueOf(this.sum);
 			}
 			return this.sumN;
 		}
 
 		public Number getAvgN() {
 			if (this.avgN == null) {
-				this.avgN = new Double(this.sum / this.count);
+				this.avgN = Double.valueOf(this.sum / this.count);
 			}
 			return this.avgN;
 		}
 
 		public Number getMaxN() {
 			if (this.maxN == null) {
-				this.maxN = new Double(this.max);
+				this.maxN = Double.valueOf(this.max);
 			}
 			return this.maxN;
 		}
 
 		public Number getMinN() {
 			if (this.minN == null) {
-				this.minN = new Double(this.min);
+				this.minN = Double.valueOf(this.min);
 			}
 			return this.minN;
 		}
@@ -1426,7 +1426,7 @@ public class PivotTableUtils extends JPanel {
 						}
 					}
 
-					value = new Double((((Number) value).doubleValue() / total) * 100);
+					value = Double.valueOf((((Number) value).doubleValue() / total) * 100);
 				}
 			}
 			return value;
@@ -1526,7 +1526,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res);
+				return Double.valueOf(res);
 			case AVG:
 				res = 0.0;
 				int count = 0;
@@ -1541,7 +1541,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res / count);
+				return Double.valueOf(res / count);
 			case MAX:
 				res = Double.MIN_VALUE;
 				for (int i = 0; i < v.length; i++) {
@@ -1556,7 +1556,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res);
+				return Double.valueOf(res);
 			case MIN:
 				res = Double.MAX_VALUE;
 				for (int i = 0; i < v.length; i++) {
@@ -1571,7 +1571,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res);
+				return Double.valueOf(res);
 			case COUNT:
 				res = 0;
 				for (int i = 0; i < v.length; i++) {
@@ -1584,7 +1584,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res);
+				return Double.valueOf(res);
 			default:
 				res = 0.0;
 				for (int i = 0; i < v.length; i++) {
@@ -1597,7 +1597,7 @@ public class PivotTableUtils extends JPanel {
 				if (!data) {
 					return null;
 				}
-				return new Double(res);
+				return Double.valueOf(res);
 			}
 		}
 
@@ -1631,7 +1631,7 @@ public class PivotTableUtils extends JPanel {
 							t = t + ((Number) o).doubleValue();
 						}
 					}
-					return new Double(t);
+					return Double.valueOf(t);
 				} else {
 					return null;
 				}

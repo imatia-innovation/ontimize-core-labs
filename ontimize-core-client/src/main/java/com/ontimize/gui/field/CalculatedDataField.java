@@ -266,7 +266,7 @@ public class CalculatedDataField extends RealDataField implements ValueChangeLis
 									.debug(this.getClass().toString() + " attribute: " + this.getAttribute()
 									+ " : Field " + c.getAttribute() + " is empty");
 								}
-								hValues.put(c.getAttribute(), new Double(0.0));
+								hValues.put(c.getAttribute(), Double.valueOf(0.0));
 								continue;
 							} else {
 								hValues.put(c.getAttribute(), c.getValue());
@@ -304,12 +304,12 @@ public class CalculatedDataField extends RealDataField implements ValueChangeLis
 			final String sAttr = oAttribute.toString();
 			final Object oValue = entry.getValue();
 			if ((oValue != null) && (oValue instanceof Number)) {
-				this.parser.addVariableAsObject(sAttr, new Double(((Number) oValue).doubleValue()));
+				this.parser.addVariableAsObject(sAttr, Double.valueOf(((Number) oValue).doubleValue()));
 			} else {
 				if ((oValue != null) && (oValue instanceof String)) {
 					try {
 						this.parser.addVariableAsObject(sAttr,
-								new Double(Integer.valueOf((String) oValue).doubleValue()));
+								Double.valueOf(Integer.valueOf((String) oValue).doubleValue()));
 					} catch (final Exception e) {
 						this.parser.addVariableAsObject(sAttr, oValue);
 						if (ApplicationManager.DEBUG) {
@@ -318,9 +318,9 @@ public class CalculatedDataField extends RealDataField implements ValueChangeLis
 					}
 				} else {
 					if (oValue == null) {
-						this.parser.addVariableAsObject(sAttr, new Double(0.0));
+						this.parser.addVariableAsObject(sAttr, Double.valueOf(0.0));
 					} else if (oValue instanceof SearchValue) {
-						this.parser.addVariableAsObject(sAttr, new Double(0.0));
+						this.parser.addVariableAsObject(sAttr, Double.valueOf(0.0));
 					} else {
 						this.parser.addVariableAsObject(sAttr, oValue);
 					}

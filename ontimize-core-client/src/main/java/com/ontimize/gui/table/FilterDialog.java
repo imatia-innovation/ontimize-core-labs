@@ -1089,7 +1089,7 @@ public class FilterDialog extends EJDialog implements Internationalization, Acti
 
 		if (oValue instanceof DateFilter) {
 			final DateFilter dateFilter = (DateFilter) oValue;
-			this.fieldInteger.setValue(new Integer(dateFilter.getAmount()));
+			this.fieldInteger.setValue(Integer.valueOf(dateFilter.getAmount()));
 			this.conditions.setSelectedItem(this.last);
 			final int type = dateFilter.getType();
 			switch (type) {

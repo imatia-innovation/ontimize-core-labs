@@ -464,7 +464,7 @@ implements AdvancedDataComponent, ITemplateField, ActionPerformedListener {
 	protected void createFontSizeCombo() {
 		final Vector vData = new Vector();
 		for (int i = this.minFontSize; i <= this.maxFontSize; i = i + this.fontSizeStep) {
-			vData.add(new Integer(i));
+			vData.add(Integer.valueOf(i));
 		}
 
 		this.fontSizeCombo = new JComboBox(vData) {
@@ -1144,7 +1144,7 @@ implements AdvancedDataComponent, ITemplateField, ActionPerformedListener {
 			final Font fontTextSelected = this.getSelectedTextFont(e.getMark(), e.getDot());
 			if (e.getMark() == e.getDot()) {
 				if (fontTextSelected.getSize() != this.lastSelectedFontSize) {
-					this.fontSizeCombo.setSelectedItem(new Integer(fontTextSelected.getSize()));
+					this.fontSizeCombo.setSelectedItem(Integer.valueOf(fontTextSelected.getSize()));
 					this.lastSelectedFontSize = fontTextSelected.getSize();
 				}
 			}

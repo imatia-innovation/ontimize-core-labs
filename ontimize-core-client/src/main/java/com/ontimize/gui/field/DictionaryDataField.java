@@ -225,7 +225,7 @@ public class DictionaryDataField extends DataField implements MouseListener, Act
 							if (DictionaryDataField.DEBUG_DICTIONARY) {
 								DictionaryDataField.logger.debug("Word not found: " + word);
 							}
-							indexes.add(indexes.size(), new Integer(i - word.length()));
+							indexes.add(indexes.size(), Integer.valueOf(i - word.length()));
 							vWords.add(vWords.size(), word.toString());
 						}
 						word.delete(0, word.length());

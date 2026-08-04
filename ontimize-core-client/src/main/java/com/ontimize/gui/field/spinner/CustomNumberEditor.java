@@ -128,7 +128,7 @@ public class CustomNumberEditor extends NumberEditor implements Internationaliza
     // this.setUserValue(((SearchValue)value).getValue());
     // } else if (value instanceof Number) {
     // Number n = (Number) value;
-    // this.setUserValue(new Double(n.doubleValue()));
+    // this.setUserValue(Double.valueOf(n.doubleValue()));
     // // Here no event is fired because this method calls itself
     // } else {
     // // If it is not a number then clear the field

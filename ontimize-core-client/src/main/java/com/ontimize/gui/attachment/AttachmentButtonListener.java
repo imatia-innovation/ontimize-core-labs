@@ -95,9 +95,9 @@ public class AttachmentButtonListener implements ActionListener {
 				}
 
 				if (this.fileChooser.getPanel().getPrivate()) {
-					kv.put(Form.PRIVATE_ATTACHMENT, new Integer(1));
+					kv.put(Form.PRIVATE_ATTACHMENT, Integer.valueOf(1));
 				} else {
-					kv.put(Form.PRIVATE_ATTACHMENT, new Integer(0));
+					kv.put(Form.PRIVATE_ATTACHMENT, Integer.valueOf(0));
 				}
 				kv.put(Form.ATTACHMENT_ENTITY_NAME, this.form.getEntityName());
 				for (int i = 0; i < files.length; i++) {

@@ -23,9 +23,9 @@ public class PercentDocument extends RealDocument {
     public Number getValue() {
         Number n = super.getValue();
         if (n != null) {
-            return new Double(n.doubleValue() / 100.0);
+            return Double.valueOf(n.doubleValue() / 100.0);
         }
-        return new Double(0.0);
+        return Double.valueOf(0.0);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PercentDocument extends RealDocument {
             return;
         }
         double v = value.doubleValue() * 100.0;
-        super.setValue(new Double(v));
+        super.setValue(Double.valueOf(v));
         this.format();
     }
 

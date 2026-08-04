@@ -17,16 +17,16 @@ public class CustomSpinnerNumberModel extends SpinnerNumberModel implements Seri
 	protected int numberClass;
 
 	public CustomSpinnerNumberModel() {
-		this(ParseTools.INTEGER_, new Integer(0), null, null, new Integer(1));
+		this(ParseTools.INTEGER_, Integer.valueOf(0), null, null, Integer.valueOf(1));
 	}
 
 	public CustomSpinnerNumberModel(final double value, final double minimum, final double maximum, final double stepSize) {
-		this(ParseTools.DOUBLE_, new Double(value), new Double(minimum), new Double(maximum), new Double(stepSize));
+		this(ParseTools.DOUBLE_, Double.valueOf(value), Double.valueOf(minimum), Double.valueOf(maximum), Double.valueOf(stepSize));
 	}
 
 	public CustomSpinnerNumberModel(final int value, final int minimum, final int maximum, final int stepSize) {
-		this(ParseTools.INTEGER_, new Integer(value), new Integer(minimum), new Integer(maximum),
-				new Integer(stepSize));
+		this(ParseTools.INTEGER_, Integer.valueOf(value), Integer.valueOf(minimum), Integer.valueOf(maximum),
+				Integer.valueOf(stepSize));
 	}
 
 	/**
@@ -149,13 +149,13 @@ public class CustomSpinnerNumberModel extends SpinnerNumberModel implements Seri
 				if (this.minimum instanceof Number) {
 					this.value = (Number) this.minimum;
 				} else {
-					this.value = new Integer(0);
+					this.value = Integer.valueOf(0);
 				}
 			} else {
 				if (this.maximum instanceof Number) {
 					this.value = (Number) this.maximum;
 				} else {
-					this.value = new Integer(0);
+					this.value = Integer.valueOf(0);
 				}
 			}
 		}
@@ -164,9 +164,9 @@ public class CustomSpinnerNumberModel extends SpinnerNumberModel implements Seri
 		if ((this.value instanceof Float) || (this.value instanceof Double)) {
 			final double v = this.value.doubleValue() + (this.stepSize.doubleValue() * dir);
 			if (this.value instanceof Double) {
-				newValue = new Double(v);
+				newValue = Double.valueOf(v);
 			} else {
-				newValue = new Float(v);
+				newValue = Float.valueOf((float) v);
 			}
 		} else {
 			final long v = this.value.longValue() + (this.stepSize.longValue() * dir);
@@ -174,7 +174,7 @@ public class CustomSpinnerNumberModel extends SpinnerNumberModel implements Seri
 			if (this.value instanceof Long) {
 				newValue = new Long(v);
 			} else if (this.value instanceof Integer) {
-				newValue = new Integer((int) v);
+				newValue = Integer.valueOf((int) v);
 			} else if (this.value instanceof Short) {
 				newValue = new Short((short) v);
 			} else {

@@ -382,7 +382,7 @@ public class HTMLDataField extends MemoDataField implements AdvancedDataComponen
 	protected void createFontSizeCombo() {
 		final Vector vData = new Vector();
 		for (int i = this.minFontSize; i <= this.maxFontSize; i = i + this.fontSizeStep) {
-			vData.add(new Integer(i));
+			vData.add(Integer.valueOf(i));
 		}
 
 		this.fontsizeCombo = new JComboBox(vData) {
@@ -655,7 +655,7 @@ public class HTMLDataField extends MemoDataField implements AdvancedDataComponen
 				final Font fontTextSelected = HTMLDataField.this.getSelectedTextFont(e.getMark(), e.getDot());
 				if (e.getMark() == e.getDot()) {
 					if (fontTextSelected.getSize() != HTMLDataField.this.lastSelectedFontSize) {
-						HTMLDataField.this.fontsizeCombo.setSelectedItem(new Integer(fontTextSelected.getSize()));
+						HTMLDataField.this.fontsizeCombo.setSelectedItem(Integer.valueOf(fontTextSelected.getSize()));
 						HTMLDataField.this.lastSelectedFontSize = fontTextSelected.getSize();
 					}
 				}

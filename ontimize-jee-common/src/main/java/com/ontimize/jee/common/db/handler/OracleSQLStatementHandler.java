@@ -102,7 +102,7 @@ public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
             Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
-                    hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
+                    hColumnTypesAux.put(sColumnNames[i], Integer.valueOf(columnTypes[i]));
                 }
             }
             entityResult.setColumnSQLTypes(hColumnTypesAux);

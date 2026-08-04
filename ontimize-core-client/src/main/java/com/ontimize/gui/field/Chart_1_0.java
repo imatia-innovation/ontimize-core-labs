@@ -1026,9 +1026,9 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 						vectorYDefData.add(vectorYDefData.size(), vectorYData.get(i));
 					} else {
 						if (Chart_1_0.COUNT_COLUMN.equals(colY)) {
-							vectorYDefData.add(vectorYDefData.size(), new Double(1));
+							vectorYDefData.add(vectorYDefData.size(), Double.valueOf(1));
 						} else {
-							vectorYDefData.add(vectorYDefData.size(), new Double(0.0));
+							vectorYDefData.add(vectorYDefData.size(), Double.valueOf(0.0));
 						}
 					}
 				} else {
@@ -1039,7 +1039,7 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 
 					if (Chart_1_0.COUNT_COLUMN.equals(colY)) {
 						final double newValue = previousYValue.doubleValue() + 1;
-						final Double dNewValue = new Double(newValue);
+						final Double dNewValue = Double.valueOf(newValue);
 						vectorYDefData.remove(index);
 						vectorYDefData.add(index, dNewValue);
 					} else {
@@ -1065,7 +1065,7 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 							newValue = newValue + toSumm;
 							break;
 						}
-						final Double dNewValue = new Double(newValue);
+						final Double dNewValue = Double.valueOf(newValue);
 						vectorYDefData.remove(index);
 						vectorYDefData.add(index, dNewValue);
 					}
@@ -1170,7 +1170,7 @@ public class Chart_1_0 extends JPanel implements DataComponent, IChartComponent,
 				}
 			}
 			if (someValueNotNull) {
-				yAxisValues.add(i, new Double(resY));
+				yAxisValues.add(i, Double.valueOf(resY));
 			} else {
 				yAxisValues.add(i, null);
 			}

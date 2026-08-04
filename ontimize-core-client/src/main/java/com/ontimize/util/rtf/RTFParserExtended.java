@@ -124,7 +124,7 @@ public class RTFParserExtended {
             } else if (text.charAt(1) == '\'') {
                 String character = text.substring(2, 4);
 
-                node.setAttribute("length", new Integer(2));
+                node.setAttribute("length", Integer.valueOf(2));
                 node.setAttribute("name", text.substring(0, 4));
 
                 if (text.length() > 4) {
@@ -133,7 +133,7 @@ public class RTFParserExtended {
                 }
 
             } else if (length != -1) {
-                node.setAttribute("length", new Integer(length));
+                node.setAttribute("length", Integer.valueOf(length));
                 node.setAttribute("name", text.substring(0, index));
             } else {
                 node.setAttribute("name", text);
