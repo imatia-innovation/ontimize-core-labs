@@ -11,7 +11,7 @@
 
 
 	<properties>
-		<utilmize.version>5.0.0-SNAPSHOT</utilmize.version>
+		<utilmize.version>5.0.2-SNAPSHOT</utilmize.version>
 		
 		<!--scanner support-->
 		<twain.version>1.0</twain.version> 
